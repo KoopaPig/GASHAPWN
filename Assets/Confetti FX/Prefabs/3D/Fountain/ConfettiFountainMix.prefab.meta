@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 08abdc5d49d191f4580bb4c00a82d6fb
+timeCreated: 1486486025
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 82497
+  packageName: Confetti FX
+  packageVersion: 1.2
+  assetPath: Assets/Confetti FX/Prefabs/3D/Fountain/ConfettiFountainMix.prefab
+  uploadId: 692068

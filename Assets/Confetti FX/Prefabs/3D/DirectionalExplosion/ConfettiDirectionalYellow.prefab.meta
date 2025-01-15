@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 58ba1576c9f04b342889957eb734c3cc
+timeCreated: 1486485740
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 82497
+  packageName: Confetti FX
+  packageVersion: 1.2
+  assetPath: Assets/Confetti FX/Prefabs/3D/DirectionalExplosion/ConfettiDirectionalYellow.prefab
+  uploadId: 692068

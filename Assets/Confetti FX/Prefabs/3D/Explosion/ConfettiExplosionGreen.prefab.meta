@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7411fc9f1ee9c3f44ab0420fd6af47c3
+timeCreated: 1486478460
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 82497
+  packageName: Confetti FX
+  packageVersion: 1.2
+  assetPath: Assets/Confetti FX/Prefabs/3D/Explosion/ConfettiExplosionGreen.prefab
+  uploadId: 692068

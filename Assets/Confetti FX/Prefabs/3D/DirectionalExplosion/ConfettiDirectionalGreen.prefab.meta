@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 269c295108dad5d49a9743ba4b27efd1
+timeCreated: 1486485731
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 82497
+  packageName: Confetti FX
+  packageVersion: 1.2
+  assetPath: Assets/Confetti FX/Prefabs/3D/DirectionalExplosion/ConfettiDirectionalGreen.prefab
+  uploadId: 692068

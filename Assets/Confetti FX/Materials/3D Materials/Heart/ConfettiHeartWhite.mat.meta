@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 37c498be5bd6aac4ea69607ef83dc51e
+timeCreated: 1486436997
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 82497
+  packageName: Confetti FX
+  packageVersion: 1.2
+  assetPath: Assets/Confetti FX/Materials/3D Materials/Heart/ConfettiHeartWhite.mat
+  uploadId: 692068

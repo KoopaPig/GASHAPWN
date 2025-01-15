@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 915aa58c5c555a34cac55b62d48b2b56
+timeCreated: 1486485302
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 82497
+  packageName: Confetti FX
+  packageVersion: 1.2
+  assetPath: Assets/Confetti FX/Prefabs/2D/Directional/ConfettiDirectionalMagic.prefab
+  uploadId: 692068

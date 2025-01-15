@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ffd79c729d40c664daad1472c2aac2c3
+timeCreated: 1486440089
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 82497
+  packageName: Confetti FX
+  packageVersion: 1.2
+  assetPath: Assets/Confetti FX/Prefabs/3D/Fountain/ConfettiFountainYellow.prefab
+  uploadId: 692068

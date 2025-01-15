@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 359f622bcdd546943bbb367da63504da
+timeCreated: 1486484851
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 82497
+  packageName: Confetti FX
+  packageVersion: 1.2
+  assetPath: Assets/Confetti FX/Prefabs/2D/Fountain/ConfettiFountainGreen.prefab
+  uploadId: 692068

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a771f1d639b6be34ab98afe5e21afd63
+timeCreated: 1486478461
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 82497
+  packageName: Confetti FX
+  packageVersion: 1.2
+  assetPath: Assets/Confetti FX/Prefabs/3D/Explosion/ConfettiExplosionBlue.prefab
+  uploadId: 692068

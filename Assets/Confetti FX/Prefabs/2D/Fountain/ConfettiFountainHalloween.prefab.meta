@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e270e57c287a50c468bec717c669e8ab
+timeCreated: 1486484789
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 82497
+  packageName: Confetti FX
+  packageVersion: 1.2
+  assetPath: Assets/Confetti FX/Prefabs/2D/Fountain/ConfettiFountainHalloween.prefab
+  uploadId: 692068

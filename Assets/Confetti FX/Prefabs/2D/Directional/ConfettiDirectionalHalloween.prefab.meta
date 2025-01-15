@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d87a945341f350e43bbe1f25441ecd2e
+timeCreated: 1486484963
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 82497
+  packageName: Confetti FX
+  packageVersion: 1.2
+  assetPath: Assets/Confetti FX/Prefabs/2D/Directional/ConfettiDirectionalHalloween.prefab
+  uploadId: 692068

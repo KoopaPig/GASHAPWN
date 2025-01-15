@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a0f4fded26a3315409eb5b5899942dee
+timeCreated: 1486485734
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 82497
+  packageName: Confetti FX
+  packageVersion: 1.2
+  assetPath: Assets/Confetti FX/Prefabs/3D/DirectionalExplosion/ConfettiDirectionalOrange.prefab
+  uploadId: 692068

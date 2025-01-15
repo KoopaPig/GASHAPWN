@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b90d7a265f19c644c8bf6281c0174872
+timeCreated: 1486485729
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 82497
+  packageName: Confetti FX
+  packageVersion: 1.2
+  assetPath: Assets/Confetti FX/Prefabs/3D/DirectionalExplosion/ConfettiDirectionalBlue.prefab
+  uploadId: 692068

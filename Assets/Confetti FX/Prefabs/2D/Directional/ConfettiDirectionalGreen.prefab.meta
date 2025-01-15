@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4911af1be9cbbfc438366e8996fb60c5
+timeCreated: 1486485368
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 82497
+  packageName: Confetti FX
+  packageVersion: 1.2
+  assetPath: Assets/Confetti FX/Prefabs/2D/Directional/ConfettiDirectionalGreen.prefab
+  uploadId: 692068

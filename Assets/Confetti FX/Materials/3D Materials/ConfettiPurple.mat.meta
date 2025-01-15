@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: db804af7e674ce245b740d49a1920972
+timeCreated: 1486436997
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 82497
+  packageName: Confetti FX
+  packageVersion: 1.2
+  assetPath: Assets/Confetti FX/Materials/3D Materials/ConfettiPurple.mat
+  uploadId: 692068
