@@ -19,13 +19,23 @@ namespace GASHAPWN {
         private float remainingTime;
         private float totalTime;
 
-        // Set Total Time from BattleManager
+        private bool isTimerActive = true;
+        [Header("Timer Animator")]
+        [SerializeField] private Animator timerAnimator;
+
+        /// <summary>
+        /// Set Total Time from BattleManager
+        /// </summary>
+        /// <param name="time"></param>
         public void SetTotalTime(float time)
         {
             totalTime = time;
         }
 
-        // Set Remaining Time from BattleManager
+        /// <summary>
+        /// Set Remaining Time from BattleManager
+        /// </summary>
+        /// <param name="time"></param>
 
         public void SetRemainingTime(float time)
         {
@@ -35,22 +45,61 @@ namespace GASHAPWN {
         private void Start()
         {
             timerCircle.fillAmount = 1f;
-            //remainingTime = 28;
+            isTimerActive = true;
+            // TEMP DEBUG
+            //remainingTime = 30;
             //totalTime = 180f;
         }
 
         private void Update()
         {
+
+            // TEMP DEBUG
+            //if (isTimerActive)
+            //{
+            //    if (remainingTime >= 0)
+            //    {
+            //        remainingTime -= Time.deltaTime;
+            //    }
+            //    else if (remainingTime < 0)
+            //    {
+            //        remainingTime = 0;
+            //    }
+            //}   
+            // END TEMP DEBUG
+
             int minutes = Mathf.FloorToInt(remainingTime / 60);
             int seconds = Mathf.FloorToInt(remainingTime % 60);
             timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
 
-            // text turns red if remaining time is less than some threshold
-            if (remainingTime < redThreshold) timerText.color = redColor;
-            else timerText.color = baseColor;
+            // text and circle turns red if remaining time is less than some threshold
+            if (remainingTime < redThreshold)
+            {
+                timerText.color = redColor;
+                timerCircle.color = redColor;
+            }
+            else { 
+                timerText.color = baseColor; 
+                timerCircle.color = baseColor; 
+            }
+
+            if (remainingTime < redThreshold && remainingTime > 0)
+            {
+                timerAnimator.SetBool("isWarningEffect", true); // Start the warning effect
+            }
+            else
+            {
+                timerAnimator.SetBool("isWarningEffect", false); // Stop the warning effect
+            }
 
             // proportionally fill the timer circle
-            timerCircle.fillAmount = (totalTime - remainingTime) / totalTime;
+            timerCircle.fillAmount = remainingTime / totalTime;
+
+            if (remainingTime <= 0)
+            {
+                timerText.text = "Time Up!";
+                isTimerActive = false;
+            }
         }
     }
 }
