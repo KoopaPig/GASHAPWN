@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Data;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -14,7 +15,12 @@ public class GameManager : MonoBehaviour
     public GameState State { get; private set; }
 
     // Tracks when game states change
-    public UnityEvent GameStateChanged;
+    // public UnityEvent GameStateChanged;
+    public UnityEvent<GameState> ChangetoTitle = new UnityEvent<GameState>();
+    public UnityEvent<GameState> ChangetoLevelSelect = new UnityEvent<GameState>();
+    public UnityEvent<GameState> ChangetoBattle = new UnityEvent<GameState>();
+   
+    
 
     private void Awake()
     {
@@ -31,38 +37,44 @@ public class GameManager : MonoBehaviour
 
         // Persistant Singleton
         DontDestroyOnLoad(this);
+
+        ChangeStateLevelSelect();
+        ChangeStateBattle();
     }
 
     // Changes the game state to Title
     // Works if the current game state is LevelSelect
     public void ChangeStateTitle()
     {
-        if(State == GameState.LevelSelect)
+        if (State == GameState.LevelSelect)
         {
             State = GameState.Title;
-            GameStateChanged.Invoke();
+            ChangetoTitle.Invoke(State);
         }
+        else Debug.Log("Can not change game state to title");
     }
 
     // Changes the game state to LevelSelect
     public void ChangeStateLevelSelect()
     {
-        if(State == GameState.Title || State == GameState.Battle)
+        if (State == GameState.Title || State == GameState.Battle)
         {
             State = GameState.LevelSelect;
-            GameStateChanged.Invoke();
+            ChangetoLevelSelect.Invoke(State);
         }
+        else Debug.Log("Can not change game state to level select");
     }
 
     // Changes the game state to Battle
     // Works if the current game state is LevelSelect
     public void ChangeStateBattle()
     {
-        if(State == GameState.LevelSelect)
+        if (State == GameState.LevelSelect)
         {
             State = GameState.Battle;
-            GameStateChanged.Invoke();
+            ChangetoBattle.Invoke(State);
         }
+        else Debug.Log("Can not change game state to battle");
     }
 
 }

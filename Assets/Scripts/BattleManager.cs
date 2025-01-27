@@ -1,3 +1,6 @@
+using JetBrains.Annotations;
+using System.Diagnostics.Tracing;
+using System.Timers;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -5,12 +8,17 @@ public class BattleManager : MonoBehaviour
 {
     public static BattleManager Instance { get; private set; }
 
-    public enum BattleState { CountDown, Battle, VictoryScreen }
+    public enum BattleState { Sleep, CountDown, Battle, VictoryScreen }
 
     public BattleState State { get; private set; }
 
+    
+
     // Tracks if the battle state has changed
-    public UnityEvent BattleStateChanged;
+    // public UnityEvent BattleStateChanged;
+    public UnityEvent<BattleState> ChangetoCountdown = new UnityEvent<BattleState>();
+    public UnityEvent<BattleState> ChangetoBattle = new UnityEvent<BattleState>();
+    public UnityEvent<BattleState> ChangetoVictory = new UnityEvent<BattleState>();
 
     private void Awake()
     {
@@ -22,8 +30,23 @@ public class BattleManager : MonoBehaviour
         }
         Instance = this;
 
-        // Initial state
-        State = BattleState.CountDown;
+        State = BattleState.Sleep;
+
+        ChangeStateCountdown();
+        ChangeStateBattle();
+        ChangeStateVictoryScreen();
+    }
+
+    
+
+    public void ChangeStateCountdown()
+    {
+        if (State == BattleState.Sleep)
+        {
+            State = BattleState.CountDown;
+            ChangetoCountdown.Invoke(State);
+        }
+        else Debug.Log("Can not change battle state to countdown");
     }
 
     // Changes battle state to Battle
@@ -33,8 +56,10 @@ public class BattleManager : MonoBehaviour
         if (State == BattleState.CountDown)
         {
             State = BattleState.Battle;
-            BattleStateChanged.Invoke();
+            ChangetoBattle.Invoke(State);
+            BattleStartActions();
         }
+        else Debug.Log("Can not change battle state to battle");
     }
 
     // Changes battle state to VictoryScreen
@@ -44,7 +69,18 @@ public class BattleManager : MonoBehaviour
         if (State == BattleState.Battle)
         {
             State = BattleState.VictoryScreen;
-            BattleStateChanged.Invoke();
+            ChangetoVictory.Invoke(State);
         }
+        else Debug.Log("Can not change battle state to victory");
+    }
+
+    private void BattleStartActions()
+    {
+        
+    }
+
+    public void BattleEndActions()
+    {
+        
     }
 }
