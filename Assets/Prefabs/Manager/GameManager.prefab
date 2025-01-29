@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6300831990156478701
+--- !u!1 &8742051140272999064
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,52 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7191094007014755794}
-  - component: {fileID: 7334785689820610125}
+  - component: {fileID: 961047200786928648}
+  - component: {fileID: 4538234627174203540}
   m_Layer: 0
-  m_Name: BattleManager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7191094007014755794
+--- !u!4 &961047200786928648
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6300831990156478701}
+  m_GameObject: {fileID: 8742051140272999064}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -16.789257, y: 5.1659927, z: -5.9531503}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7334785689820610125
+--- !u!114 &4538234627174203540
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6300831990156478701}
+  m_GameObject: {fileID: 8742051140272999064}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c8543d12fea27f4ab44b07ad15b098a, type: 3}
+  m_Script: {fileID: 11500000, guid: d79d26b6b68693245a590b107fc72a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleTime: 0
-  ChangetoCountdown:
+  State: 0
+  ChangeToTitle:
     m_PersistentCalls:
       m_Calls: []
-  ChangetoBattle:
+  ChangeToLevelSelect:
     m_PersistentCalls:
       m_Calls: []
-  ChangetoVictory:
+  ChangeToBattle:
+    m_PersistentCalls:
+      m_Calls: []
+  ChangeToCollection:
     m_PersistentCalls:
       m_Calls: []

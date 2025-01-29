@@ -69,29 +69,37 @@ namespace GASHAPWN {
         }
 
         // Take Damage (GUI)
-        public void HealthChangeGUI(float value)
+        public void TakeDamageGUI(float damage)
         {
-            float targetHealth = currHealth + value;
-
+            float targetHealth = currHealth - damage;
             if (targetHealth < currHealth)
             {
                 animator.SetBool("isDamageShake", true);
                 StartCoroutine(FlashGUI(damageColor, 0.1f));
             }
 
+            SetHealthGUI(targetHealth);
+            if (healthChangeCoroutine != null)
+            {
+                StopCoroutine(healthChangeCoroutine);
+            }
+            healthChangeCoroutine = StartCoroutine(AnimateHealthChange(currHealth, targetHealth, 0.2f));
+        }
+
+        // Heal (GUI)
+        public void HealGUI(float value)
+        {
+            float targetHealth = currHealth + value;
             if (targetHealth > currHealth)
             {
                 StartCoroutine(FlashGUI(healColor, 0.1f));
             }
-
-            //if (targetHealth >= 0 && targetHealth <= maxHealth) {
-                SetHealthGUI(targetHealth);
-                if (healthChangeCoroutine != null)
-                {
-                    StopCoroutine(healthChangeCoroutine);
-                }
-                healthChangeCoroutine = StartCoroutine(AnimateHealthChange(currHealth, targetHealth, 0.2f));
-            //}
+            SetHealthGUI(targetHealth);
+            if (healthChangeCoroutine != null)
+            {
+                StopCoroutine(healthChangeCoroutine);
+            }
+            healthChangeCoroutine = StartCoroutine(AnimateHealthChange(currHealth, targetHealth, 0.2f));
         }
 
         ////// PRIVATE METHODS /////
@@ -186,8 +194,8 @@ namespace GASHAPWN {
 
         private void Start()
         {
-            // TEMP DEBUG
-            SetMaxHealthGUI(5);
+            // temp
+            //SetMaxHealthGUI(5);
         }
 
         private void Update()
