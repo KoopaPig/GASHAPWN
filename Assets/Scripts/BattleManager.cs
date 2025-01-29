@@ -9,15 +9,17 @@ public class BattleManager : MonoBehaviour
     public static BattleManager Instance { get; private set; }
 
     public enum BattleState { Sleep, CountDown, Battle, VictoryScreen }
-
     public BattleState State { get; private set; }
 
     
 
-    // Tracks if the battle state has changed
-    // public UnityEvent BattleStateChanged;
+    // Triggers when countdown initiates
     public UnityEvent<BattleState> ChangetoCountdown = new UnityEvent<BattleState>();
+
+    // Triggers after the countdown has finished
     public UnityEvent<BattleState> ChangetoBattle = new UnityEvent<BattleState>();
+
+    // Triggers when the battle has concluded
     public UnityEvent<BattleState> ChangetoVictory = new UnityEvent<BattleState>();
 
     private void Awake()
@@ -30,15 +32,14 @@ public class BattleManager : MonoBehaviour
         }
         Instance = this;
 
+        // Starts dorment and awakes when a battle is initiated
         State = BattleState.Sleep;
 
-        ChangeStateCountdown();
-        ChangeStateBattle();
-        ChangeStateVictoryScreen();
     }
 
     
-
+    // Changes the battle state to countdown
+    // Only works when the last state was sleep
     public void ChangeStateCountdown()
     {
         if (State == BattleState.Sleep)
@@ -49,7 +50,7 @@ public class BattleManager : MonoBehaviour
         else Debug.Log("Can not change battle state to countdown");
     }
 
-    // Changes battle state to Battle
+    // Changes the battle state to Battle
     // Works if the current battle state is CountDown
     public void ChangeStateBattle()
     {
@@ -62,7 +63,7 @@ public class BattleManager : MonoBehaviour
         else Debug.Log("Can not change battle state to battle");
     }
 
-    // Changes battle state to VictoryScreen
+    // Changes the battle state to VictoryScreen
     // Works if the current battle state is Battle
     public void ChangeStateVictoryScreen()
     {
@@ -74,11 +75,13 @@ public class BattleManager : MonoBehaviour
         else Debug.Log("Can not change battle state to victory");
     }
 
+    // Performs actions required when the battle begins
     private void BattleStartActions()
     {
         
     }
 
+    // Performs actions required when the battle ends
     public void BattleEndActions()
     {
         

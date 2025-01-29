@@ -14,13 +14,20 @@ public class GameManager : MonoBehaviour
 
     public GameState State { get; private set; }
 
-    // Tracks when game states change
-    // public UnityEvent GameStateChanged;
+    // Triggers when the player switches to the title screen
     public UnityEvent<GameState> ChangetoTitle = new UnityEvent<GameState>();
+
+    // Triggers when the player switches to the level select screen
     public UnityEvent<GameState> ChangetoLevelSelect = new UnityEvent<GameState>();
+
+    // Triggers when the player initiates a battle
     public UnityEvent<GameState> ChangetoBattle = new UnityEvent<GameState>();
-   
-    
+
+    // Tracks the time until the battle begins
+    float countdownTime;
+
+    // Tracks how long the battle has lasted
+    float battleTime = 0;
 
     private void Awake()
     {
@@ -38,8 +45,6 @@ public class GameManager : MonoBehaviour
         // Persistant Singleton
         DontDestroyOnLoad(this);
 
-        ChangeStateLevelSelect();
-        ChangeStateBattle();
     }
 
     // Changes the game state to Title
