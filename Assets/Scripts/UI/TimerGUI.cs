@@ -19,54 +19,25 @@ namespace GASHAPWN {
         private float remainingTime;
         private float totalTime;
 
-        private bool isTimerActive = true;
         [Header("Timer Animator")]
         [SerializeField] private Animator timerAnimator;
 
-        /// <summary>
-        /// Set Total Time from BattleManager
-        /// </summary>
-        /// <param name="time"></param>
-        public void SetTotalTime(float time)
-        {
-            totalTime = time;
-        }
-
-        /// <summary>
-        /// Set Remaining Time from BattleManager
-        /// </summary>
-        /// <param name="time"></param>
-
-        public void SetRemainingTime(float time)
-        {
-            remainingTime = time;
-        }
-
+        private BattleManager battleManager;
         private void Start()
         {
+            remainingTime = battleManager.battleTime;
+            totalTime = remainingTime;
             timerCircle.fillAmount = 1f;
-            isTimerActive = true;
-            // TEMP DEBUG
-            //remainingTime = 30;
-            //totalTime = 180f;
+        }
+
+        private void Awake()
+        {
+            battleManager = FindFirstObjectByType<BattleManager>();
         }
 
         private void Update()
         {
-
-            // TEMP DEBUG
-            //if (isTimerActive)
-            //{
-            //    if (remainingTime >= 0)
-            //    {
-            //        remainingTime -= Time.deltaTime;
-            //    }
-            //    else if (remainingTime < 0)
-            //    {
-            //        remainingTime = 0;
-            //    }
-            //}   
-            // END TEMP DEBUG
+            remainingTime = battleManager.battleTime;
 
             int minutes = Mathf.FloorToInt(remainingTime / 60);
             int seconds = Mathf.FloorToInt(remainingTime % 60);
@@ -98,7 +69,6 @@ namespace GASHAPWN {
             if (remainingTime <= 0)
             {
                 timerText.text = "Time Up!";
-                isTimerActive = false;
             }
         }
     }
