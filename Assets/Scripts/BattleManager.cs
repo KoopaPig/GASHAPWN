@@ -87,8 +87,9 @@ public class BattleManager : MonoBehaviour
     {
         if (trackTime)
         {
-            battleTime += Time.deltaTime;
+            battleTime -= Time.deltaTime;
         }
+        if (battleTime <= 0) ChangeStateVictoryScreen();
     }
 
     // Performs actions required when the battle ends

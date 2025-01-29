@@ -23,12 +23,6 @@ public class GameManager : MonoBehaviour
     // Triggers when the player initiates a battle
     public UnityEvent<GameState> ChangetoBattle = new UnityEvent<GameState>();
 
-    // Tracks the time until the battle begins
-    float countdownTime;
-
-    // Tracks how long the battle has lasted
-    float battleTime = 0;
-
     private void Awake()
     {
         // Check if there are other instances
