@@ -192,16 +192,16 @@ namespace GASHAPWN {
 
         private void Update()
         {
-            // TEMP DEBUG
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                HealthChangeGUI(-1);
-            }
+            // DEBUG
+            //if (Input.GetKeyDown(KeyCode.E))
+            //{
+            //    HealthChangeGUI(-1);
+            //}
 
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                HealthChangeGUI(1);
-            }
+            //if (Input.GetKeyDown(KeyCode.R))
+            //{
+            //    HealthChangeGUI(1);
+            //}
         }
 
         
