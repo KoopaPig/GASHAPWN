@@ -11,16 +11,17 @@ public class BattleManager : MonoBehaviour
     public enum BattleState { Sleep, CountDown, Battle, VictoryScreen }
     public BattleState State { get; private set; }
 
-    
+    bool trackTime = false;
+    public float battleTime = 0;
 
     // Triggers when countdown initiates
-    public UnityEvent<BattleState> ChangetoCountdown = new UnityEvent<BattleState>();
+    public UnityEvent<BattleState> ChangetoCountdown = new();
 
     // Triggers after the countdown has finished
-    public UnityEvent<BattleState> ChangetoBattle = new UnityEvent<BattleState>();
+    public UnityEvent<BattleState> ChangetoBattle = new();
 
     // Triggers when the battle has concluded
-    public UnityEvent<BattleState> ChangetoVictory = new UnityEvent<BattleState>();
+    public UnityEvent<BattleState> ChangetoVictory = new();
 
     private void Awake()
     {
@@ -69,6 +70,7 @@ public class BattleManager : MonoBehaviour
     {
         if (State == BattleState.Battle)
         {
+            BattleEndActions();
             State = BattleState.VictoryScreen;
             ChangetoVictory.Invoke(State);
         }
@@ -78,12 +80,20 @@ public class BattleManager : MonoBehaviour
     // Performs actions required when the battle begins
     private void BattleStartActions()
     {
-        
+        trackTime = true;
+    }
+
+    private void Update()
+    {
+        if (trackTime)
+        {
+            battleTime += Time.deltaTime;
+        }
     }
 
     // Performs actions required when the battle ends
     public void BattleEndActions()
     {
-        
+        trackTime = false;
     }
 }
