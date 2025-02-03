@@ -4,6 +4,7 @@ using System.Diagnostics.Tracing;
 using System.Timers;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 namespace GASHAPWN
 {
@@ -11,6 +12,14 @@ namespace GASHAPWN
     {
         public static BattleManager Instance { get; private set; }
         public BattleState State { get; private set; }
+
+        InputActionMap battleControls;
+
+        InputActionMap navigationControls;
+
+        // New figure to add to collection or
+        // Figure is already in collection
+        public bool newFigure = false;
 
         // Time limit of battle (seconds)
         public float battleTime = 0;
@@ -65,6 +74,8 @@ namespace GASHAPWN
             if (State == BattleState.Sleep)
             {
                 State = BattleState.CountDown;
+                battleControls.Disable();
+                Debug.Log("Inputs disabled");
                 ChangeToCountdown.Invoke(State);
                 Debug.Log("Countdown from " + countDownTime + " begins");
             }
@@ -81,6 +92,7 @@ namespace GASHAPWN
                 State = BattleState.Battle;
                 ChangeToBattle.Invoke(State);
                 BattleStartActions();
+                
             }
             else Debug.Log("Can not change battle state to battle");
         }
@@ -102,6 +114,8 @@ namespace GASHAPWN
         private void BattleStartActions()
         {
             trackTime = true;
+            battleControls.Enable();
+            Debug.Log("Inputs enabled");
             Debug.Log("Battle Start!");
         }
         private void Update()
@@ -119,15 +133,33 @@ namespace GASHAPWN
             {
                 battleTime -= Time.deltaTime;
             }
-            if (State == BattleState.Battle && battleTime <= 0) ChangeStateVictoryScreen();
 
+            // TODO: Add end condition for either players' deaths
+            if (State == BattleState.Battle && battleTime <= 0) ChangeStateVictoryScreen();
+            
             // TODO: Checks to exit victory screen, and checks if "new figure screen" should pop up
+            /*
+             
+            If an input from Navigation action map is detected
+              Exit the victory screen
+              If the chosen figure is a new figure,
+                Display new figure screen
+             
+            */
+            if(State == BattleState.VictoryScreen) // && Navigation input detected
+            {
+                // Exit victory screen
+                if (newFigure) ;// Display figure screen
+            }
+            
         }
 
         // Performs actions required when the battle ends
         public void BattleEndActions()
         {
             trackTime = false;
+            // Disable battle controls
+            battleControls.Disable();
             Debug.Log("Battle End!");
         }
     }

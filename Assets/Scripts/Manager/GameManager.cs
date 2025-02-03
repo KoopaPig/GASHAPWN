@@ -4,6 +4,8 @@ using System.Data;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 namespace GASHAPWN
 {
@@ -11,6 +13,7 @@ namespace GASHAPWN
     {
         public static GameManager Instance { get; private set; }
 
+        // Tracks the current game state
         public GameState State;
 
         public static event Action<GameState> OnGameStateChanged;
@@ -67,6 +70,26 @@ namespace GASHAPWN
         {
             // Initial state
             UpdateGameState(GameState.Title);
+            InputUser.onChange += UpdateControlScheme;
+        }
+
+        private void Update()
+        {
+            
+            if(State == GameState.LevelSelect)
+            {
+
+            }
+        }
+
+        public void UpdateControlScheme(InputAction.CallbackContext context)
+        {
+
+        }
+
+        private void OnDestroy()
+        {
+            InputUser.onChange -=
         }
 
         public enum GameState
