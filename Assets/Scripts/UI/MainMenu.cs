@@ -7,6 +7,7 @@ using EasyTransition;
 using System;
 using GASHAPWN;
 using static GASHAPWN.GameManager;
+using UnityEngine.InputSystem;
 
 public class MainMenu : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class MainMenu : MonoBehaviour
 
 
     // Get reference to buttons that open and close submenus
-    public GameObject controlsFirstButton, controlsClosedButton, optionsFirstButton, optionsClosedButton;
+    public GameObject controlsFirstButton, controlsClosedButton, optionsFirstButton, optionsClosedButton, creditsFirstButton, creditsClosedButton;
 
     //public GameObject optionsFirstButton, optionsClosedButton;
     Animator animator;
@@ -43,16 +44,42 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    private InputAction cancelAction;
+
     private void Awake()
     {
-        OnGameStateChanged += StateChanged;
         animator = GetComponent<Animator>();
+    }
+
+    private void OnEnable()
+    {
+        OnGameStateChanged += StateChanged;
+
+        var inputActionAsset = GetComponent<PlayerInput>().actions;
+        cancelAction = inputActionAsset["Cancel"];
+
+        cancelAction.performed += HandleCancel;
+        cancelAction.Enable();
     }
 
     public void PressStart()
     {
         IsMenuTransition = true;
 
+    }
+
+    private void HandleCancel(InputAction.CallbackContext context)
+    {
+        if (optionsScreen.activeSelf)
+        {
+            CloseOptions();
+        } else if (controlsScreen.activeSelf)
+        {
+            CloseControls();
+        } else if (creditsScreen.activeSelf)
+        {
+            CloseCredits();
+        }
     }
 
     public void StartGame()
@@ -97,7 +124,21 @@ public class MainMenu : MonoBehaviour
             // set new selected object
             EventSystem.current.SetSelectedGameObject(optionsFirstButton);
         }
-    } 
+    }
+
+    public void CloseOptions()
+    {
+        if (!IsMenuTransition)
+        {
+            optionsScreen.SetActive(false);
+
+            // clear selected object
+            EventSystem.current.SetSelectedGameObject(null);
+            // set new selected object
+            EventSystem.current.SetSelectedGameObject(optionsClosedButton);
+        }
+    }
+
     public void OpenCredits()
     {
         if (!IsMenuTransition)
@@ -119,20 +160,7 @@ public class MainMenu : MonoBehaviour
             // clear selected object
             EventSystem.current.SetSelectedGameObject(null);
             // set new selected object
-            //EventSystem.current.SetSelectedGameObject(creditsFirstButton);
-        }
-    }
-
-    public void CloseOptions()
-    {
-        if (!IsMenuTransition)
-        {
-            optionsScreen.SetActive(false);
-
-            // clear selected object
-            EventSystem.current.SetSelectedGameObject(null);
-            // set new selected object
-            EventSystem.current.SetSelectedGameObject(optionsClosedButton);
+            EventSystem.current.SetSelectedGameObject(creditsFirstButton);
         }
     }
 
@@ -145,13 +173,15 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    public void OnDestroy()
+    public void OnDisable()
     {
         OnGameStateChanged -= StateChanged;
+        cancelAction.performed -= HandleCancel;
+        cancelAction.Disable();
     }
     private void StateChanged(GameState state)
     {
-        throw new NotImplementedException();
+        Debug.Log(state.ToString());
     }
 
 }

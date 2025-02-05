@@ -17,11 +17,11 @@ public class OptionsScreenAudio : MonoBehaviour
     {
         float vol;
 
-        vol = PlayerPrefs.GetFloat("MasterVol");
+        theMixer.GetFloat("MasterVol", out vol);
         masterSlider.value = vol;
-        vol = PlayerPrefs.GetFloat("MusicVol");
+        theMixer.GetFloat("MusicVol", out vol);
         musicSlider.value = vol;
-        vol = PlayerPrefs.GetFloat("NoteSoundVol");
+        theMixer.GetFloat("SoundVol", out vol);
         soundSlider.value = vol;
 
         masterLabel.text = Mathf.RoundToInt(masterSlider.value + 80).ToString();
@@ -29,6 +29,7 @@ public class OptionsScreenAudio : MonoBehaviour
         soundLabel.text = Mathf.RoundToInt(soundSlider.value + 80).ToString();
 
     }
+
     public void SetMasterVol()
     {
         masterLabel.text = Mathf.RoundToInt(masterSlider.value + 80).ToString();
@@ -43,7 +44,7 @@ public class OptionsScreenAudio : MonoBehaviour
         PlayerPrefs.SetFloat("MusicVol", musicSlider.value);
     }
 
-    public void SetNoteVol()
+    public void SetSoundVol()
     {
         soundLabel.text = Mathf.RoundToInt(soundSlider.value + 80).ToString();
         theMixer.SetFloat("SoundVol", soundSlider.value);

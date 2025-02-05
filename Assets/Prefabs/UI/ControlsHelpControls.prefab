@@ -215,7 +215,6 @@ GameObject:
   - component: {fileID: 4332536976387823394}
   - component: {fileID: 4292308857720049666}
   - component: {fileID: 2607455647740376824}
-  - component: {fileID: 8270850537610760804}
   m_Layer: 5
   m_Name: ControlsHelpControlsKeyboard
   m_TagString: Untagged
@@ -308,21 +307,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &8270850537610760804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7469777363572387167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b14b425c59e2c24cad2bde2ac0f0e37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  xInputHelp: {fileID: 0}
-  KeyboardHelp: {fileID: 0}
-  controlScheme: 0
 --- !u!1 &7513560326107001128
 GameObject:
   m_ObjectHideFlags: 0

@@ -98,4 +98,6 @@ public class OptionsScreenGraphics : MonoBehaviour
         }
         Screen.SetResolution(resolutions[selectedResolution].horizontal, resolutions[selectedResolution].vertical, fullscreenTog.isOn);
     }
+
+    // TODO: Might have to disable settings for WebGL build
 }
