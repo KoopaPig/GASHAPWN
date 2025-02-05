@@ -203,12 +203,12 @@ namespace GASHAPWN {
             // DEBUG
             //if (Input.GetKeyDown(KeyCode.E))
             //{
-            //    HealthChangeGUI(-1);
+            //    TakeDamageGUI(1);
             //}
 
             //if (Input.GetKeyDown(KeyCode.R))
             //{
-            //    HealthChangeGUI(1);
+            //    HealGUI(1);
             //}
         }
 
