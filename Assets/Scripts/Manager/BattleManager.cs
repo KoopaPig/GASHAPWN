@@ -169,7 +169,7 @@ namespace GASHAPWN
         {
             trackTime = false;
             // Disable battle controls
-            battleControls.Disable();
+            //battleControls.Disable();
             Debug.Log("Battle End!");
         }
 
