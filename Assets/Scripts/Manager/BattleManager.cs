@@ -4,6 +4,7 @@ using System.Diagnostics.Tracing;
 using System.Timers;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 namespace GASHAPWN
 {
@@ -11,6 +12,22 @@ namespace GASHAPWN
     {
         public static BattleManager Instance { get; private set; }
         public BattleState State { get; private set; }
+
+        public InputActionAsset controls;
+
+        InputActionMap battleControls;
+
+        // New figure to add to collection or
+        // Figure is already in collection
+        public bool newFigure = false;
+
+        // New Figure screen
+        public bool showFigure = false;
+
+        // Victory screen
+        public bool showVictory = false;
+
+        public bool playerHasDied = false;
 
         // Time limit of battle (seconds)
         public float battleTime = 0;
@@ -54,6 +71,7 @@ namespace GASHAPWN
         {
             // Starts dorment and awakes when a battle is initiated
             State = BattleState.Sleep;
+            battleControls = controls.FindActionMap("Player");
             if (isCountDownOn) ChangeStateCountdown();
             else ChangeStateBattle();
         }
@@ -65,6 +83,8 @@ namespace GASHAPWN
             if (State == BattleState.Sleep)
             {
                 State = BattleState.CountDown;
+                battleControls.Disable();
+                Debug.Log("Inputs disabled");
                 ChangeToCountdown.Invoke(State);
                 Debug.Log("Countdown from " + countDownTime + " begins");
             }
@@ -81,6 +101,7 @@ namespace GASHAPWN
                 State = BattleState.Battle;
                 ChangeToBattle.Invoke(State);
                 BattleStartActions();
+                
             }
             else Debug.Log("Can not change battle state to battle");
         }
@@ -102,6 +123,8 @@ namespace GASHAPWN
         private void BattleStartActions()
         {
             trackTime = true;
+            battleControls.Enable();
+            Debug.Log("Inputs enabled");
             Debug.Log("Battle Start!");
         }
         private void Update()
@@ -119,17 +142,48 @@ namespace GASHAPWN
             {
                 battleTime -= Time.deltaTime;
             }
-            if (State == BattleState.Battle && battleTime <= 0) ChangeStateVictoryScreen();
 
-            // TODO: Checks to exit victory screen, and checks if "new figure screen" should pop up
+            // TODO: Add end condition for either players' deaths
+            if (State == BattleState.Battle) 
+                if(battleTime <= 0 || playerHasDied) ChangeStateVictoryScreen();
+
+            // Check to exit victory screen
+            if (State == BattleState.VictoryScreen && !showVictory) 
+            {
+                // Show the victory screen
+                showVictory = true;
+
+                // Check for inputs from the UI actionmap
+                controls.FindActionMap("UI").actionTriggered += End;
+            }
+            
+        }
+
+        public void OnPlayerDeath()
+        {
+            playerHasDied = true;
         }
 
         // Performs actions required when the battle ends
         public void BattleEndActions()
         {
             trackTime = false;
+            // Disable battle controls
+            battleControls.Disable();
             Debug.Log("Battle End!");
         }
+
+        public void End(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                showVictory = false;
+                // Determine if new figure screen should pop up
+                if (newFigure) showFigure = true;
+                controls.FindActionMap("UI").actionTriggered -= End;
+            }
+        }
+
     }
 
     public enum BattleState
