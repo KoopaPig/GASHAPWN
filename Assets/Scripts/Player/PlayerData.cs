@@ -14,6 +14,7 @@ public class PlayerData : MonoBehaviour
 
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
+    public float jumpForce = 5f;
 
     [Header("Physics Floatiness")]
     public float drag = 0f;
@@ -21,6 +22,9 @@ public class PlayerData : MonoBehaviour
 
     [Header("Physic Material (optional)")]
     public PhysicsMaterial sphereMaterial; 
+
+    [Header("Air Control Settings")]
+    public float airTorque = 5f;
 
     private void Start()
     {
