@@ -13,13 +13,21 @@ namespace GASHAPWN
         public static BattleManager Instance { get; private set; }
         public BattleState State { get; private set; }
 
-        InputActionMap battleControls;
+        public InputActionAsset controls;
 
-        InputActionMap navigationControls;
+        InputActionMap battleControls;
 
         // New figure to add to collection or
         // Figure is already in collection
         public bool newFigure = false;
+
+        // New Figure screen
+        public bool showFigure = false;
+
+        // Victory screen
+        public bool showVictory = false;
+
+        public bool playerHasDied = false;
 
         // Time limit of battle (seconds)
         public float battleTime = 0;
@@ -63,6 +71,7 @@ namespace GASHAPWN
         {
             // Starts dorment and awakes when a battle is initiated
             State = BattleState.Sleep;
+            battleControls = controls.FindActionMap("Player");
             if (isCountDownOn) ChangeStateCountdown();
             else ChangeStateBattle();
         }
@@ -135,23 +144,24 @@ namespace GASHAPWN
             }
 
             // TODO: Add end condition for either players' deaths
-            if (State == BattleState.Battle && battleTime <= 0) ChangeStateVictoryScreen();
-            
-            // TODO: Checks to exit victory screen, and checks if "new figure screen" should pop up
-            /*
-             
-            If an input from Navigation action map is detected
-              Exit the victory screen
-              If the chosen figure is a new figure,
-                Display new figure screen
-             
-            */
-            if(State == BattleState.VictoryScreen) // && Navigation input detected
+            if (State == BattleState.Battle) 
+                if(battleTime <= 0 || playerHasDied) ChangeStateVictoryScreen();
+
+            // Check to exit victory screen
+            if (State == BattleState.VictoryScreen && !showVictory) 
             {
-                // Exit victory screen
-                if (newFigure) ;// Display figure screen
+                // Show the victory screen
+                showVictory = true;
+
+                // Check for inputs from the UI actionmap
+                controls.FindActionMap("UI").actionTriggered += End;
             }
             
+        }
+
+        public void OnPlayerDeath()
+        {
+            playerHasDied = true;
         }
 
         // Performs actions required when the battle ends
@@ -162,6 +172,18 @@ namespace GASHAPWN
             battleControls.Disable();
             Debug.Log("Battle End!");
         }
+
+        public void End(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                showVictory = false;
+                // Determine if new figure screen should pop up
+                if (newFigure) showFigure = true;
+                controls.FindActionMap("UI").actionTriggered -= End;
+            }
+        }
+
     }
 
     public enum BattleState

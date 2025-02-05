@@ -31,6 +31,7 @@ namespace GASHAPWN
 
         // Triggers when the Collection scene is entered
         public UnityEvent<GameState> ChangeToCollection = new UnityEvent<GameState>();
+        
         public void UpdateGameState(GameState newState)
         {
             switch (newState)
@@ -51,12 +52,12 @@ namespace GASHAPWN
                     throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
             }
 
+            // Control Scheme Detection at level selection
             if (newState == GameState.LevelSelect) InputSystem.onDeviceChange += DeviceChange;
             else InputSystem.onDeviceChange -= DeviceChange;
 
             OnGameStateChanged?.Invoke(newState);
         }
-
         public void DeviceChange(InputDevice device, InputDeviceChange change)
         {
             switch (change)
