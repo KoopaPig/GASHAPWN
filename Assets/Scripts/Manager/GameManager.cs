@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using NUnit.Framework.Interfaces;
 using System;
 using System.Data;
 using System.Runtime.CompilerServices;
@@ -50,7 +51,25 @@ namespace GASHAPWN
                     throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
             }
 
+            if (newState == GameState.LevelSelect) InputSystem.onDeviceChange += DeviceChange;
+            else InputSystem.onDeviceChange -= DeviceChange;
+
             OnGameStateChanged?.Invoke(newState);
+        }
+
+        public void DeviceChange(InputDevice device, InputDeviceChange change)
+        {
+            switch (change)
+            {
+                case InputDeviceChange.Added:
+                    Debug.Log(device.layout + " added");
+                    break;
+                case InputDeviceChange.ConfigurationChanged:
+                    Debug.Log(device.layout + " config changed");
+                    break;
+                default:
+                    break;
+            }
         }
 
 
@@ -70,27 +89,10 @@ namespace GASHAPWN
         {
             // Initial state
             UpdateGameState(GameState.Title);
-            InputUser.onChange += UpdateControlScheme;
+          
         }
 
-        private void Update()
-        {
-            
-            if(State == GameState.LevelSelect)
-            {
-
-            }
-        }
-
-        public void UpdateControlScheme(InputAction.CallbackContext context)
-        {
-
-        }
-
-        private void OnDestroy()
-        {
-            InputUser.onChange -=
-        }
+        
 
         public enum GameState
         {
