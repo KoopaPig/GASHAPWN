@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b3173f8c085b50a46866ccf46c75523b
+timeCreated: 1491454528
+licenseType: Store
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 87317
+  packageName: Untitled
+  packageVersion: 1.0
+  assetPath: Assets/Gumball_Machine/Documentation/Gumball_Machine_Documentation.txt
+  uploadId: 172023

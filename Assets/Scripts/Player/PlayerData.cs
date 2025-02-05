@@ -1,4 +1,7 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
+using static GASHAPWN.GameManager;
 
 public class PlayerData : MonoBehaviour
 {
@@ -6,6 +9,8 @@ public class PlayerData : MonoBehaviour
     private int currentHealth;
 
     public UnityEvent<int> OnDamage; // Broadcasts current health after taking damage
+
+    public UnityEvent<int> SetMaxHealth; // Broadcasts max health
 
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
@@ -20,13 +25,14 @@ public class PlayerData : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
+        SetMaxHealth.Invoke(maxHealth);
     }
 
-    public void TakeDamage()
+    public void TakeDamage(int damageAmt)
     {
-        currentHealth--;
+        currentHealth -= damageAmt;
 
-        OnDamage.Invoke(currentHealth);
+        OnDamage.Invoke(damageAmt);
 
         if (currentHealth <= 0)
         {

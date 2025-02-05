@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c1bc9d5ef128b1a41898d146059a174f
+timeCreated: 1491294786
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 87317
+  packageName: Untitled
+  packageVersion: 1.0
+  assetPath: Assets/Gumball_Machine/Prefabs/gumball_machine_lod1.prefab
+  uploadId: 172023
