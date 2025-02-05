@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 4356999469589046345}
   - component: {fileID: 4588204384990150514}
   - component: {fileID: 2996944616590473687}
+  - component: {fileID: 2758796683949401221}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -162,10 +163,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea0fb6476b0d29a43ace2be153a5871b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 5
+  OnDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  SetMaxHealth:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
   moveSpeed: 35
+  jumpForce: 5
   drag: 1
   angularDrag: 1
   sphereMaterial: {fileID: 0}
+  airTorque: 5
 --- !u!114 &4356999469589046345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 305000694798145197}
+  playerStates: {fileID: 2758796683949401221}
 --- !u!114 &4588204384990150514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +250,54 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 0bf9da07-c3b9-4888-a316-5718d177ca7f
     m_ActionName: 'Player2/Movement[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 68075eca-632d-4d38-a35d-aaab1c2f4109
+    m_ActionName: 'Player1/Jump[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7d36f235-1ab8-4a17-a2bd-1494d8007998
+    m_ActionName: 'Player2/Jump[/Keyboard/backspace]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7a93c17f-1918-475b-9157-dd39d5b9bc44
+    m_ActionName: 'UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fc9818a0-ccc4-45b5-a582-8c0c6045deb7
+    m_ActionName: 'UI/Submit[/Keyboard/enter]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7689e941-c813-43d9-81c8-a1dcbc6cf0fa
+    m_ActionName: 'UI/Cancel[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 33a0162c-62a5-4b72-b90b-920b7a8ab658
+    m_ActionName: 'UI/Point[/Mouse/position]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 25da4932-ce7e-4a98-871a-aa48966f4bd1
+    m_ActionName: 'UI/Click[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7c1ef12c-ba60-4a9c-ac10-5ef3361fb159
+    m_ActionName: 'UI/RightClick[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 42e102cf-639a-4712-8232-d54b4d7aaa36
+    m_ActionName: 'UI/MiddleClick[/Mouse/middleButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f2006933-9c03-4146-8842-2946e967ebab
+    m_ActionName: 'UI/ScrollWheel[/Mouse/scroll]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9625082c-38c3-4458-a3e6-d88df7c82ea0
+    m_ActionName: UI/TrackedDevicePosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7193efd9-1d90-4926-b086-6de57c8404fd
+    m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player1
@@ -262,3 +324,17 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2758796683949401221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5882098010476316545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da59f188e9d2ea447adb0129d7551e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGrounded: 0
+  controlsEnabled: 1
