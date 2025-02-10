@@ -1,9 +1,12 @@
 using JetBrains.Annotations;
+using NUnit.Framework.Interfaces;
 using System;
 using System.Data;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 namespace GASHAPWN
 {
@@ -11,6 +14,7 @@ namespace GASHAPWN
     {
         public static GameManager Instance { get; private set; }
 
+        // Tracks the current game state
         public GameState State;
 
         public static event Action<GameState> OnGameStateChanged;
@@ -27,6 +31,7 @@ namespace GASHAPWN
 
         // Triggers when the Collection scene is entered
         public UnityEvent<GameState> ChangeToCollection = new UnityEvent<GameState>();
+        
         public void UpdateGameState(GameState newState)
         {
             switch (newState)
@@ -47,7 +52,25 @@ namespace GASHAPWN
                     throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
             }
 
+            // Control Scheme Detection at level selection
+            if (newState == GameState.LevelSelect) InputSystem.onDeviceChange += DeviceChange;
+            else InputSystem.onDeviceChange -= DeviceChange;
+
             OnGameStateChanged?.Invoke(newState);
+        }
+        public void DeviceChange(InputDevice device, InputDeviceChange change)
+        {
+            switch (change)
+            {
+                case InputDeviceChange.Added:
+                    Debug.Log(device.layout + " added");
+                    break;
+                case InputDeviceChange.ConfigurationChanged:
+                    Debug.Log(device.layout + " config changed");
+                    break;
+                default:
+                    break;
+            }
         }
 
 
@@ -67,7 +90,10 @@ namespace GASHAPWN
         {
             // Initial state
             UpdateGameState(GameState.Title);
+          
         }
+
+        
 
         public enum GameState
         {

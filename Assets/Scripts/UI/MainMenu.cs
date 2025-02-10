@@ -1,0 +1,187 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using EasyTransition;
+using System;
+using GASHAPWN;
+using static GASHAPWN.GameManager;
+using UnityEngine.InputSystem;
+
+public class MainMenu : MonoBehaviour
+{
+    public string initScene;
+    public GameObject titleScreen; // Get reference to Title Screen object
+    public GameObject controlsScreen; // Get reference to Controls Screen object
+    public GameObject optionsScreen; // Get refeence to Options Screen object
+    public GameObject creditsScreen; // Get reference to Credits Screen object
+
+    private bool isTitleScreen = true;
+    private bool isCreditsScreen = false;
+    private bool isOptionsScreen = false;
+    private bool isControlsScreen = false;
+
+
+    // Get reference to buttons that open and close submenus
+    public GameObject controlsFirstButton, controlsClosedButton, optionsFirstButton, optionsClosedButton, creditsFirstButton, creditsClosedButton;
+
+    //public GameObject optionsFirstButton, optionsClosedButton;
+    Animator animator;
+
+    [SerializeField] public TransitionSettings menuTransition;
+
+    // IsMenuTransition bool
+    [SerializeField]
+    private bool _isMenuTransition = false;
+    public bool IsMenuTransition
+    {
+        get { return _isMenuTransition; }
+        private set
+        {
+            _isMenuTransition = value;
+            animator.SetBool(AnimationStrings.isMenuTransition, value);
+        }
+    }
+
+    private InputAction cancelAction;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
+    private void OnEnable()
+    {
+        OnGameStateChanged += StateChanged;
+
+        var inputActionAsset = GetComponent<PlayerInput>().actions;
+        cancelAction = inputActionAsset["Cancel"];
+
+        cancelAction.performed += HandleCancel;
+        cancelAction.Enable();
+    }
+
+    public void PressStart()
+    {
+        IsMenuTransition = true;
+
+    }
+
+    private void HandleCancel(InputAction.CallbackContext context)
+    {
+        if (optionsScreen.activeSelf)
+        {
+            CloseOptions();
+        } else if (controlsScreen.activeSelf)
+        {
+            CloseControls();
+        } else if (creditsScreen.activeSelf)
+        {
+            CloseCredits();
+        }
+    }
+
+    public void StartGame()
+    {
+        TransitionManager.Instance().Transition("LevelSelect", menuTransition, 0);
+    }
+
+    public void OpenControls()
+    {
+        if (!IsMenuTransition)
+        {
+            controlsScreen.SetActive(true);
+
+            // clear selected object
+            EventSystem.current.SetSelectedGameObject(null);
+            // set new selected object
+            EventSystem.current.SetSelectedGameObject(controlsFirstButton);
+        }
+    }
+
+    public void CloseControls()
+    {
+        if (!IsMenuTransition)
+        {
+            controlsScreen.SetActive(false);
+
+            // clear selected object
+            EventSystem.current.SetSelectedGameObject(null);
+            // set new selected object
+            EventSystem.current.SetSelectedGameObject(controlsClosedButton);
+        }
+    }
+
+    public void OpenOptions()
+    {
+        if (!IsMenuTransition)
+        {
+            optionsScreen.SetActive(true);
+
+            // clear selected object
+            EventSystem.current.SetSelectedGameObject(null);
+            // set new selected object
+            EventSystem.current.SetSelectedGameObject(optionsFirstButton);
+        }
+    }
+
+    public void CloseOptions()
+    {
+        if (!IsMenuTransition)
+        {
+            optionsScreen.SetActive(false);
+
+            // clear selected object
+            EventSystem.current.SetSelectedGameObject(null);
+            // set new selected object
+            EventSystem.current.SetSelectedGameObject(optionsClosedButton);
+        }
+    }
+
+    public void OpenCredits()
+    {
+        if (!IsMenuTransition)
+        {
+            creditsScreen.SetActive(true);
+
+            // clear selected object
+            EventSystem.current.SetSelectedGameObject(null);
+            // set new selected object
+            //EventSystem.current.SetSelectedGameObject(creditsFirstButton);
+        }
+    }
+    public void CloseCredits()
+    {
+        if (!IsMenuTransition)
+        {
+            creditsScreen.SetActive(false);
+
+            // clear selected object
+            EventSystem.current.SetSelectedGameObject(null);
+            // set new selected object
+            EventSystem.current.SetSelectedGameObject(creditsFirstButton);
+        }
+    }
+
+    public void QuitGame()
+    {
+        if (!IsMenuTransition)
+        {
+            Application.Quit();
+            Debug.Log("Quit game");
+        }
+    }
+
+    public void OnDisable()
+    {
+        OnGameStateChanged -= StateChanged;
+        cancelAction.performed -= HandleCancel;
+        cancelAction.Disable();
+    }
+    private void StateChanged(GameState state)
+    {
+        Debug.Log(state.ToString());
+    }
+
+}

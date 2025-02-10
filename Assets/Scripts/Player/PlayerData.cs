@@ -6,14 +6,17 @@ public class PlayerData : MonoBehaviour
 {
     public int maxHealth = 5;
     private int currentHealth;
-
     private Rigidbody rb;
+
+    [Header("Events")]
 
     public UnityEvent<int> OnDamage; // Broadcasts current health after taking damage
     public UnityEvent<int> SetMaxHealth; // Broadcasts max health
+    public UnityEvent<GameObject> OnDeath;
 
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
+    public float jumpForce = 5f;
     public float minHitSpeed = 3f; // Speed threshold for valid hits
     public float deflectKnockbackMultiplier = 1.5f; // Knockback applied during deflection
 
@@ -23,6 +26,9 @@ public class PlayerData : MonoBehaviour
 
     [Header("Physic Material (optional)")]
     public PhysicsMaterial sphereMaterial;
+
+    [Header("Air Control Settings")]
+    public float airTorque = 5f;
 
     private void Start()
     {
@@ -97,6 +103,7 @@ public class PlayerData : MonoBehaviour
     private void Die()
     {
         Debug.Log(gameObject.name + " has been eliminated!");
+        OnDeath.Invoke(this.gameObject);
         gameObject.SetActive(false); // Disables the player
     }
 }
