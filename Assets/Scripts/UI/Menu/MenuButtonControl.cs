@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using TMPro;
 using Febucci.UI;
 
-// adapted from x4000 on Unity Forum
 
 [RequireComponent(typeof(Button))]
 public class MenuButtonControl : GeneralButtonControl

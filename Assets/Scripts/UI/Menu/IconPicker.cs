@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GASHAPWN {
+namespace GASHAPWN.UI {
     public class IconPicker : MonoBehaviour
     {
         [SerializeField] private GameObject xInputHelp;
@@ -37,5 +37,3 @@ namespace GASHAPWN {
         KEYBOARD
     }
 }
-
-
