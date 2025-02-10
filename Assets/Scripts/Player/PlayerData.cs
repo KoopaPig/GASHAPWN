@@ -16,6 +16,11 @@ public class PlayerData : MonoBehaviour
 
     public UnityEvent<GameObject> OnDeath;
 
+    [Header("Player State Flags")]
+    public bool isGrounded = false;
+    public bool controlsEnabled = true;
+    public bool hasSlammed = false;
+
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
@@ -29,6 +34,10 @@ public class PlayerData : MonoBehaviour
 
     [Header("Air Control Settings")]
     public float airTorque = 5f;
+
+    [Header("Slam Settings")]
+    public float slamForce = 80f;
+    public float slamDelay = .4f;
 
     private void Start()
     {

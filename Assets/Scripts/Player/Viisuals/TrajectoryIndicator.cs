@@ -9,7 +9,7 @@ public class TrajectoryIndicator : MonoBehaviour
 
     [Header("Player Settings")]
     public Rigidbody playerRb;
-    public PlayerStates playerStates;
+    public PlayerData playerData;
     public LineRenderer trajectoryLineRenderer;
 
     private void Start()
@@ -21,7 +21,7 @@ public class TrajectoryIndicator : MonoBehaviour
     private void Update()
     {
         // Only show the trajectory indicator when the player is airborne.
-        if (!playerStates.isGrounded)
+        if (!playerData.isGrounded)
         {
             trajectoryLineRenderer.enabled = true;
             RenderTrajectory();
