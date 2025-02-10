@@ -5,14 +5,14 @@ public class Figure : ScriptableObject
 {
     [Header("Attributes")]
 
-    public string ID;
-    public string Name;
-    public string Description;
-    // Image
-    // Rarity
+    public string ID = "Undefined";
+    public string Name = "Undefined";
+    public string Description = "Undefined";
+    public Sprite Icon = null;
+    public float Rarity = 0;
 
     [Header("Prefabs")]
 
-    public GameObject capsuleModelPrefab;
-    public GameObject collectionModelPrefab;
+    public GameObject capsuleModelPrefab = null;
+    public GameObject collectionModelPrefab = null;
 }
