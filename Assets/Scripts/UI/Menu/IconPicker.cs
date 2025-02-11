@@ -30,10 +30,4 @@ namespace GASHAPWN.UI {
             // TODO: Update buttons automatically according to control scheme
         }
     }
-
-    public enum ControlScheme
-    {
-        XINPUT,
-        KEYBOARD
-    }
 }

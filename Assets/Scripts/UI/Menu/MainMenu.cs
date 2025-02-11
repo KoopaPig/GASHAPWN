@@ -12,7 +12,8 @@ using UnityEngine.UI;
 namespace GASHAPWN.UI {
     public class MainMenu : MonoBehaviour
     {
-        public string initScene;
+        public string initSceneName;
+        public string playSceneName;
         public GameObject titleScreen; // Get reference to Title Screen object
         public GameObject controlsScreen; // Get reference to Controls Screen object
         public GameObject optionsScreen; // Get refeence to Options Screen object
@@ -60,13 +61,7 @@ namespace GASHAPWN.UI {
             cancelAction = inputActionAsset["Cancel"];
 
             cancelAction.performed += HandleCancel;
-            cancelAction.Enable();
-        }
-
-        public void PressStart()
-        {
-            IsMenuTransition = true;
-
+            if (!cancelAction.enabled) { cancelAction.Enable(); }
         }
 
         private void HandleCancel(InputAction.CallbackContext context)
@@ -85,9 +80,10 @@ namespace GASHAPWN.UI {
             }
         }
 
-        public void StartGame()
+        public void PlayButton()
         {
-            TransitionManager.Instance().Transition("LevelSelect", menuTransition, 0);
+            TransitionManager.Instance().Transition(playSceneName, menuTransition, 0);
+            GameManager.Instance.UpdateGameState(GameState.LevelSelect);
         }
 
         public void OpenControls()
