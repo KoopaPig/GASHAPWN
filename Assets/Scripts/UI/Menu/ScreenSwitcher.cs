@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ namespace GASHAPWN.UI {
         [SerializeField] private RectTransform controlsBindScreen;
         [SerializeField] private RectTransform levelSelectScreen;
         [SerializeField] private float slideDuration = 0.3f;
+        [SerializeField] private float offsetInPixels = 300;
 
         [Header("Buttons Selected On Transition")]
         [SerializeField] private GameObject controlsBindFirstButton;
@@ -24,8 +26,8 @@ namespace GASHAPWN.UI {
         {
             var parentWidth = controlsBindScreen.parent.GetComponent<RectTransform>().rect.width;
             onscreenPosition = controlsBindScreen.anchoredPosition;
-            offscreenRight = new Vector2(parentWidth + 100, levelSelectScreen.anchoredPosition.y);
-            offscreenLeft = new Vector2(-parentWidth - 100, levelSelectScreen.anchoredPosition.y);
+            offscreenRight = new Vector2(parentWidth + offsetInPixels, levelSelectScreen.anchoredPosition.y);
+            offscreenLeft = new Vector2(-parentWidth - offsetInPixels, levelSelectScreen.anchoredPosition.y);
             
             levelSelectScreen.anchoredPosition = offscreenRight; // Start levelSelectScreen off-screen
         }
