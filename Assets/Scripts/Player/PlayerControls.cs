@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,13 +7,13 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
     private Vector2 moveInput;
-
+    
     [SerializeField] private PlayerData playerData;
-    [SerializeField] private PlayerStates playerStates;
 
     private void Awake()
     {
-            Physics.gravity = new Vector3(0, -9.81f * 3f, 0);
+        // Increase gravity strength if needed.
+        Physics.gravity = new Vector3(0, -9.81f * 3f, 0);
 
         rb = GetComponent<Rigidbody>();
 
@@ -31,71 +32,101 @@ public class PlayerController : MonoBehaviour
 
     public void OnMovement(InputAction.CallbackContext context)
     {
+        // Process movement only if input is enabled.
         moveInput = context.ReadValue<Vector2>();
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        // Only process jump if controls are enabled.
-        if (playerStates != null && !playerStates.controlsEnabled)
+        if (playerData != null && !playerData.controlsEnabled)
             return;
 
-        // Check that the action is performed and the player is grounded.
-        if (context.performed && playerStates != null && playerStates.isGrounded)
+        if (context.performed && playerData != null && playerData.isGrounded)
         {
-            if (playerData != null)
-            {
-                rb.AddForce(Vector3.up * playerData.jumpForce, ForceMode.Impulse);
-            }
+            rb.AddForce(Vector3.up * playerData.jumpForce, ForceMode.Impulse);
         }
+    }
+
+    public void OnSlam(InputAction.CallbackContext context)
+    {
+        if (playerData == null || !playerData.controlsEnabled)
+            return;
+
+        if (context.performed && !playerData.isGrounded && !playerData.hasSlammed)
+        {
+            // Start the slam routine that makes the player float for 1 second before slamming.
+            StartCoroutine(SlamCoroutine());
+        }
+    }
+
+    private IEnumerator SlamCoroutine()
+    {
+        // Disable controls so no other actions interrupt the slam.
+        playerData.controlsEnabled = false;
+
+        // Cancel any current momentum.
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        
+        // Turn off gravity so the player floats in place.
+        rb.useGravity = false;
+        
+        // Wait for 1 second.
+        yield return new WaitForSeconds(playerData.slamDelay);
+        
+        // Re-enable gravity.
+        rb.useGravity = true;
+        
+        // Apply a strong downward slam force.
+        rb.AddForce(Vector3.down * playerData.slamForce, ForceMode.Impulse);
+        
+        // Mark that the slam has been executed so it can’t be used again mid-air.
+        playerData.hasSlammed = true;
     }
 
     private void FixedUpdate()
     {
-        if (playerData == null && playerStates != null && !playerStates.controlsEnabled) return;
-
-        if (playerStates != null && playerStates.isGrounded)
+        // Ensure proper damping values based on whether the player is grounded.
+        if (playerData != null && playerData.isGrounded)
         {
-            // When on the ground, use the defined damping values.
             rb.linearDamping = playerData.drag;
             rb.angularDamping = playerData.angularDrag;
+            
+            // Reset the slam flag upon landing.
+            playerData.hasSlammed = false;
         }
         else
         {
-            // When airborne, remove air resistance.
             rb.linearDamping = 0f;
             rb.angularDamping = 0f;
         }
 
-        if (playerStates.isGrounded)
+        // If the player is grounded, re-enable controls and apply movement force.
+        if (playerData != null && playerData.isGrounded)
         {
+            playerData.controlsEnabled = true;
             Vector3 force = new Vector3(moveInput.x, 0f, moveInput.y) * playerData.moveSpeed;
             rb.AddForce(force);
         }
 
+        // Always apply torque for air control.
         Vector3 torque = new Vector3(moveInput.y, 0f, -moveInput.x) * playerData.airTorque;
         rb.AddTorque(torque);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") && playerData != null)
         {
-            if (playerStates != null)
-            {
-                playerStates.isGrounded = true;
-            }
+            playerData.isGrounded = true;
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") && playerData != null)
         {
-            if (playerStates != null)
-            {
-                playerStates.isGrounded = false;
-            }
+            playerData.isGrounded = false;
         }
     }
 }

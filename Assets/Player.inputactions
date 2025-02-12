@@ -22,6 +22,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Slam",
+                    "type": "Button",
+                    "id": "f165090b-0470-429c-ae14-6d4d5f618ee7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -145,6 +154,17 @@
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1260d292-dbdc-408f-a338-5a5a6bcf1ec1",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Slam",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -165,6 +185,15 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "7d36f235-1ab8-4a17-a2bd-1494d8007998",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Slam",
+                    "type": "Button",
+                    "id": "f7962fd5-28b9-4366-95c2-7b917a14104d",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -290,6 +319,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c138eede-d2f0-46a1-9abb-f012b1e4ae0b",
+                    "path": "<Keyboard>/backspace",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Slam",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
