@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AirborneIndicator : MonoBehaviour
 {
-    public PlayerStates playerStates;
+    public PlayerData playerData;
     public LineRenderer airborneLineRenderer;
     public float maxRayDistance = 100f;
 
@@ -14,7 +14,7 @@ public class AirborneIndicator : MonoBehaviour
 
     private void Update()
     {
-        if (!playerStates.isGrounded)
+        if (!playerData.isGrounded)
         {
             airborneLineRenderer.enabled = true;
 

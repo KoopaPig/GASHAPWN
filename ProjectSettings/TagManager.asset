@@ -4,6 +4,12 @@
 TagManager:
   serializedVersion: 3
   tags:
+  - Player1
+  - Player2
+  - P1Glass
+  - P1Metal
+  - P2Glass
+  - P2Metal
   - Ground
   layers:
   - Default
@@ -41,9 +47,6 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: BattleGUI
-    uniqueID: 3169380297
     locked: 0
   m_RenderingLayers:
   - Default
