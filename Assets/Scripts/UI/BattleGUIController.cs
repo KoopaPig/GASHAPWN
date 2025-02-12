@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Collections;
 using static UnityEngine.Rendering.DebugUI;
 
-namespace GASHAPWN {
+namespace GASHAPWN.UI {
     public class BattleGUIController : MonoBehaviour
     {
         [Header("Healthbar GUI Elements")]
@@ -203,12 +203,12 @@ namespace GASHAPWN {
             // DEBUG
             //if (Input.GetKeyDown(KeyCode.E))
             //{
-            //    HealthChangeGUI(-1);
+            //    TakeDamageGUI(1);
             //}
 
             //if (Input.GetKeyDown(KeyCode.R))
             //{
-            //    HealthChangeGUI(1);
+            //    HealGUI(1);
             //}
         }
 

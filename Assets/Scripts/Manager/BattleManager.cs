@@ -71,7 +71,7 @@ namespace GASHAPWN
         {
             // Starts dorment and awakes when a battle is initiated
             State = BattleState.Sleep;
-            battleControls = controls.FindActionMap("Player");
+            //battleControls = controls.FindActionMap("Player");
             if (isCountDownOn) ChangeStateCountdown();
             else ChangeStateBattle();
         }
@@ -83,7 +83,7 @@ namespace GASHAPWN
             if (State == BattleState.Sleep)
             {
                 State = BattleState.CountDown;
-                battleControls.Disable();
+                //battleControls.Disable();
                 Debug.Log("Inputs disabled");
                 ChangeToCountdown.Invoke(State);
                 Debug.Log("Countdown from " + countDownTime + " begins");
@@ -123,7 +123,7 @@ namespace GASHAPWN
         private void BattleStartActions()
         {
             trackTime = true;
-            battleControls.Enable();
+            //battleControls.Enable();
             Debug.Log("Inputs enabled");
             Debug.Log("Battle Start!");
         }
@@ -169,7 +169,7 @@ namespace GASHAPWN
         {
             trackTime = false;
             // Disable battle controls
-            battleControls.Disable();
+            //battleControls.Disable();
             Debug.Log("Battle End!");
         }
 

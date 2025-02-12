@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace GASHAPWN {
+namespace GASHAPWN.UI {
     public class TimerGUI : MonoBehaviour
     {
         [Header("Timer GUI Elements")]
