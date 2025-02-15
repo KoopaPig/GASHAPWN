@@ -31,8 +31,8 @@ namespace GASHAPWN.UI {
         private InputAction cancelAction;
 
         [Header("Level Settings")]
-        [SerializeField] private List<Level> levels;
-
+        public List<Level> levels;
+        public Level selectedLevel;
 
 
         private void OnEnable()
@@ -61,11 +61,6 @@ namespace GASHAPWN.UI {
                 // nothing here for now
             }
             else Debug.LogError("levels list is empty!");
-        }
-
-        void FixedUpdate()
-        {
-            
         }
 
         public void OnDisable()
@@ -134,6 +129,10 @@ namespace GASHAPWN.UI {
             Debug.Log(state.ToString());
         }
 
+        public void PureDebug()
+        {
+            Debug.Log("Button was clicked!");
+        }
     }
 
 }

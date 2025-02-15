@@ -22,14 +22,20 @@ namespace GASHAPWN.UI {
         private Vector2 onscreenPosition;
         private Coroutine transitionCoroutine;
 
+        [SerializeField] private bool isLevelSelectDisplayDebug = false;
+
         private void Start()
         {
             var parentWidth = controlsBindScreen.parent.GetComponent<RectTransform>().rect.width;
             onscreenPosition = controlsBindScreen.anchoredPosition;
             offscreenRight = new Vector2(parentWidth + offsetInPixels, levelSelectScreen.anchoredPosition.y);
             offscreenLeft = new Vector2(-parentWidth - offsetInPixels, levelSelectScreen.anchoredPosition.y);
+            if (!isLevelSelectDisplayDebug)
+            {
+                levelSelectScreen.anchoredPosition = offscreenRight; // Start levelSelectScreen off-screen
+                //levelSelectScreen.GetComponent<CanvasGroup>().interactable = false;
+            }
             
-            levelSelectScreen.anchoredPosition = offscreenRight; // Start levelSelectScreen off-screen
         }
 
         public void ShowLevelSelectScreen()
@@ -50,6 +56,7 @@ namespace GASHAPWN.UI {
         private IEnumerator SlideInLevelSelectScreen()
         {
             float elapsedTime = 0f;
+            //controlsBindScreen.GetComponent<CanvasGroup>().interactable = false;
 
             while (elapsedTime < slideDuration)
             {
@@ -61,15 +68,16 @@ namespace GASHAPWN.UI {
 
             levelSelectScreen.anchoredPosition = onscreenPosition;
             EventSystem.current.SetSelectedGameObject(levelSelectFirstButton); // Set new button here
-
             transitionCoroutine = null; // reset
+            //levelSelectScreen.GetComponent<CanvasGroup>().interactable = true;
         }
 
-        // Slides in ControlsBindScreen, sets new selected button
 
+        // Slides in ControlsBindScreen, sets new selected button
         private IEnumerator SlideInControlsBindScreen()
         {
             float elapsedTime = 0f;
+            //levelSelectScreen.GetComponent<CanvasGroup>().interactable = false;
 
             while (elapsedTime < slideDuration)
             {
@@ -81,8 +89,8 @@ namespace GASHAPWN.UI {
 
             controlsBindScreen.anchoredPosition = onscreenPosition;
             EventSystem.current.SetSelectedGameObject(controlsBindFirstButton); // Set new button here
-
             transitionCoroutine = null; // reset
+            //controlsBindScreen.GetComponent<CanvasGroup>().interactable = true;
         }
     }
 }
