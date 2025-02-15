@@ -65,6 +65,7 @@ namespace GASHAPWN
             }
             Instance = this;
 
+            battleTime = GameManager.Instance.currentBattleTime;
         }
 
         private void Start()

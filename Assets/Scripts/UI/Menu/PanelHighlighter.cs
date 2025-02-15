@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace GASHAPWN.UI {
     [RequireComponent(typeof(Image))]
-    public class OptionsPanelHighlighter : MonoBehaviour
+    public class PanelHighlighter : MonoBehaviour
     {
         [SerializeField] private Color defaultColor = Color.white;
         [SerializeField] private Color highlightedColor = Color.cyan;
