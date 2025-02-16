@@ -32,8 +32,8 @@ namespace GASHAPWN
         // Time limit of battle (seconds)
         public float battleTime = 0;
 
-        // Seconds of countdown (should be 5)
-        [NonSerialized] public float countDownTime = 5;
+        // Seconds of countdown (should be 6, 1 buffer + 5 countdown)
+        [NonSerialized] public float countDownTime = 6;
 
         // Used so timer starts only when countdown ends
         private bool trackTime = false;
