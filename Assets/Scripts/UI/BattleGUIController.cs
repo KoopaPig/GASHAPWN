@@ -192,26 +192,5 @@ namespace GASHAPWN.UI {
             // unsub from damage event here
         }
 
-        private void Start()
-        {
-            // temp
-            //SetMaxHealthGUI(5);
-        }
-
-        private void Update()
-        {
-            // DEBUG
-            //if (Input.GetKeyDown(KeyCode.E))
-            //{
-            //    TakeDamageGUI(1);
-            //}
-
-            //if (Input.GetKeyDown(KeyCode.R))
-            //{
-            //    HealGUI(1);
-            //}
-        }
-
-        
     }
 }

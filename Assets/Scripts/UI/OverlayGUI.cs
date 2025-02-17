@@ -7,12 +7,14 @@ namespace GASHAPWN.UI {
     {
         [SerializeField] private GameObject countdownGUI;
         //[SerializeField] private GameObject victoryOverlayGUI;
-        //[SerializeField] private GameObject battleEndGUI;
+        [SerializeField] private GameObject battleEndGUI;
 
         private void Awake()
         {
             countdownGUI.SetActive(false);
             countdownGUI.GetComponent<Animator>().enabled = false;
+            battleEndGUI.SetActive(false);
+            battleEndGUI.GetComponent<Animator>().enabled = false;
         }
 
         public void StartCountdownGUI()
@@ -31,6 +33,12 @@ namespace GASHAPWN.UI {
             yield return new WaitForSeconds(2f);
             countdownGUI.SetActive(false);
             countdownGUI.GetComponent<Animator>().enabled = false;
+        }
+
+        public void BattleEndGUI()
+        {
+            battleEndGUI.SetActive(true);
+            battleEndGUI.GetComponent<Animator>().enabled = true;
         }
     }
 }
