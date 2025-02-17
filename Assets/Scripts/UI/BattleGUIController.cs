@@ -102,6 +102,19 @@ namespace GASHAPWN.UI {
             healthChangeCoroutine = StartCoroutine(AnimateHealthChange(currHealth, targetHealth, 0.2f));
         }
 
+        // SetHealthSuddenDeath (GUI)
+        public void SetHealthSuddenDeathGUI(float value)
+        {
+            SetHealthGUI(value);
+            if (healthChangeCoroutine != null)
+            {
+                StopCoroutine(healthChangeCoroutine);
+            }
+            if (currHealth != value)
+            {
+                healthChangeCoroutine = StartCoroutine(AnimateHealthChange(currHealth, value, 0.2f));
+            }
+        }
         ////// PRIVATE METHODS /////
         
         private void OnEnable()

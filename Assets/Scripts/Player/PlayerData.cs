@@ -109,6 +109,12 @@ public class PlayerData : MonoBehaviour
         }
     }
 
+    public void SetHP(int value)
+    {
+        if (value > 0 && value <= maxHealth) { currentHealth = value; }
+        else Debug.LogError("Value must be set between 0 and maxHealth.");
+    }
+
     private void Die()
     {
         Debug.Log(gameObject.name + " has been eliminated!");

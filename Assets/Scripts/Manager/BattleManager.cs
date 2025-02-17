@@ -25,8 +25,9 @@ namespace GASHAPWN
         public bool showFigure = false;
 
         // Victory screen
-        public bool showVictory = false;
+        private bool showVictory = false;
 
+        // Controls battle end
         public bool playerHasDied = false;
 
         // Time limit of battle (seconds)
@@ -48,6 +49,9 @@ namespace GASHAPWN
 
         // Triggers after the countdown has finished
         public UnityEvent<BattleState> ChangeToBattle = new();
+
+        // Triggers when Sudden Death entered
+        public UnityEvent<BattleState> ChangeToSuddenDeath = new();
 
         // Triggers when the battle has concluded
         public UnityEvent<BattleState> ChangeToVictory = new();
@@ -107,11 +111,22 @@ namespace GASHAPWN
             else Debug.Log("Can not change battle state to battle");
         }
 
-        // Changes the battle state to VictoryScreen
-        // Works if the current battle state is Battle
-        public void ChangeStateVictoryScreen()
+        public void ChangeStateSuddenDeath()
         {
             if (State == BattleState.Battle)
+            {
+                State = BattleState.SuddenDeath;
+                ChangeToSuddenDeath.Invoke(State);
+                SuddenDeathActions();
+            }
+            else Debug.Log("Can not change battle state to sudden death");
+        }
+
+        // Changes the battle state to VictoryScreen
+        // Works if the current battle state is Battle or SuddenDeath
+        public void ChangeStateVictoryScreen()
+        {
+            if (State == BattleState.Battle || State == BattleState.SuddenDeath)
             {
                 BattleEndActions();
                 State = BattleState.VictoryScreen;
@@ -124,10 +139,18 @@ namespace GASHAPWN
         private void BattleStartActions()
         {
             trackTime = true;
+            // Enable controls here
             //battleControls.Enable();
-            Debug.Log("Inputs enabled");
+            //Debug.Log("Inputs enabled");
             Debug.Log("Battle Start!");
         }
+
+        private void SuddenDeathActions()
+        {
+            // timer should be disabled
+            Debug.Log("Entered Sudden Death!");
+        }
+
         private void Update()
         {
             if (State == BattleState.CountDown)
@@ -135,18 +158,29 @@ namespace GASHAPWN
                 countDownTime -= Time.deltaTime;
                 if (countDownTime <= 0)
                 {
-                    // TODO: Enable controls here
+                    
                     ChangeStateBattle();
                 }
             }
+
             if (trackTime)
             {
                 battleTime -= Time.deltaTime;
             }
 
-            // TODO: Add end condition for either players' deaths
-            if (State == BattleState.Battle) 
-                if(battleTime <= 0 || playerHasDied) ChangeStateVictoryScreen();
+            if (State == BattleState.Battle)
+                // display victory screen if player died during battle
+                if (playerHasDied) { ChangeStateVictoryScreen(); }
+                else if (battleTime <= 0)
+                {
+                    ChangeStateSuddenDeath();
+                }
+            
+            if (State == BattleState.SuddenDeath)
+            {
+                // display victory screen if player died during sudden death
+                if (playerHasDied) { ChangeStateVictoryScreen(); }
+            }
 
             // Check to exit victory screen
             if (State == BattleState.VictoryScreen && !showVictory) 
@@ -192,6 +226,7 @@ namespace GASHAPWN
         Sleep,
         CountDown,
         Battle,
+        SuddenDeath,
         VictoryScreen,
         NewFigureScreen
     }
