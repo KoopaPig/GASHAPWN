@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Collections;
 using static UnityEngine.Rendering.DebugUI;
 
-namespace GASHAPWN {
+namespace GASHAPWN.UI {
     public class BattleGUIController : MonoBehaviour
     {
         [Header("Healthbar GUI Elements")]
