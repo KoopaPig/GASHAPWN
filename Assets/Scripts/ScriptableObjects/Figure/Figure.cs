@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Figure", menuName = "Scriptable Objects/Figure")]
+[CreateAssetMenu(fileName = "Figure", menuName = "Scriptable Objects/Figure/Figure")]
 public class Figure : ScriptableObject
 {
     [Header("Attributes")]
