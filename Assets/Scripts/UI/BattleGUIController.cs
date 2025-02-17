@@ -8,6 +8,12 @@ using static UnityEngine.Rendering.DebugUI;
 namespace GASHAPWN.UI {
     public class BattleGUIController : MonoBehaviour
     {
+        [Header("Player Reference")]
+        // Set corresponding tag here: "Player1" or "Player2"
+        [SerializeField] private string playerTag; 
+        // Reference to the specific player's data
+        private PlayerData playerData;
+
         [Header("Healthbar GUI Elements")]
         // Healthbar
         [SerializeField] private Slider healthSlider;
@@ -56,7 +62,7 @@ namespace GASHAPWN.UI {
         }
 
         // Set MaxHealth (GUI)
-        public void SetMaxHealthGUI(float health)
+        public void SetMaxHealthGUI(int health)
         {
             healthSlider.maxValue = health;
             healthSliderBG.maxValue = health;
@@ -69,7 +75,7 @@ namespace GASHAPWN.UI {
         }
 
         // Take Damage (GUI)
-        public void TakeDamageGUI(float damage)
+        public void TakeDamageGUI(int damage)
         {
             float targetHealth = currHealth - damage;
             if (targetHealth < currHealth)
@@ -87,7 +93,7 @@ namespace GASHAPWN.UI {
         }
 
         // Heal (GUI)
-        public void HealGUI(float value)
+        public void HealGUI(int value)
         {
             float targetHealth = currHealth + value;
             if (targetHealth > currHealth)
@@ -102,11 +108,65 @@ namespace GASHAPWN.UI {
             healthChangeCoroutine = StartCoroutine(AnimateHealthChange(currHealth, targetHealth, 0.2f));
         }
 
-        ////// PRIVATE METHODS /////
-        
-        private void OnEnable()
+        // SetHealthSuddenDeath (GUI)
+        public void SetHealthSuddenDeathGUI(int value)
         {
-            // sub to damage event here
+            SetHealthGUI(value);
+            if (healthChangeCoroutine != null)
+            {
+                StopCoroutine(healthChangeCoroutine);
+            }
+            if (currHealth != value)
+            {
+                healthChangeCoroutine = StartCoroutine(AnimateHealthChange(currHealth, value, 0.2f));
+            }
+        }
+
+        ////// PRIVATE METHODS /////
+
+        private void Awake()
+        {
+            // Find the player object with the given tag
+            GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
+
+            if (playerObj != null)
+            {
+                PlayerData player = playerObj.GetComponent<PlayerData>();
+                if (player != null)
+                {
+                    Initialize(player);
+                }
+                else
+                {
+                    Debug.LogError($"BattleGUIController: No PlayerData found on object with tag {playerTag}");
+                }
+            }
+            else
+            {
+                Debug.LogError($"BattleGUIController: No GameObject found with tag {playerTag}");
+            }
+        }
+
+        // Initialize event listeners for PlayerData
+        private void Initialize(PlayerData player)
+        {
+            if (playerData != null)
+            {
+                // Unsubscribe from previous player events
+                playerData.OnDamage.RemoveListener(TakeDamageGUI);
+                playerData.SetMaxHealth.RemoveListener(SetMaxHealthGUI);
+                playerData.SetHealth.RemoveListener(SetHealthSuddenDeathGUI);
+            }
+
+            playerData = player;
+
+            if (playerData != null)
+            {
+                // Subscribe to the new player's events
+                playerData.OnDamage.AddListener(TakeDamageGUI);
+                playerData.SetMaxHealth.AddListener(SetMaxHealthGUI);
+                playerData.SetHealth.AddListener(SetHealthSuddenDeathGUI);
+            }
         }
 
         // Set Current Health (GUI)
@@ -189,29 +249,14 @@ namespace GASHAPWN.UI {
 
         private void OnDisable()
         {
-            // unsub from damage event here
+            // unsub from damage and health events here
+            if (playerData != null)
+            {
+                playerData.OnDamage.RemoveListener(TakeDamageGUI);
+                playerData.SetMaxHealth.RemoveListener(SetMaxHealthGUI);
+                playerData.SetHealth.RemoveListener(SetHealthSuddenDeathGUI);
+            }
         }
 
-        private void Start()
-        {
-            // temp
-            //SetMaxHealthGUI(5);
-        }
-
-        private void Update()
-        {
-            // DEBUG
-            //if (Input.GetKeyDown(KeyCode.E))
-            //{
-            //    TakeDamageGUI(1);
-            //}
-
-            //if (Input.GetKeyDown(KeyCode.R))
-            //{
-            //    HealGUI(1);
-            //}
-        }
-
-        
     }
 }

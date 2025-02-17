@@ -14,6 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestEnvironments/TestEnvironmentWeek5.unity
     guid: 8dcac0f0016a2a447a961c967feb5098
+  - enabled: 1
+    path: Assets/Scenes/TestEnvironments/TestEnvironmentWeek5_CopyW6.unity
+    guid: f63f04d8eee95214d905a3b0c1f7f226
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 2a44af11d2126c247abd4f2ddde34b06, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
