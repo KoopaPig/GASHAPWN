@@ -727,6 +727,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e1983bdb279d841865b4d197353044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTag: Player2
   healthSlider: {fileID: 911552541753315936}
   healthSliderBG: {fileID: 1489522056353625833}
   healthGradient:
@@ -1749,6 +1750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e1983bdb279d841865b4d197353044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTag: Player1
   healthSlider: {fileID: 6068027160146909153}
   healthSliderBG: {fileID: 5468855283910400256}
   healthGradient:

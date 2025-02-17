@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 6406650500916842082}
   m_Layer: 0
   m_Name: Player2
-  m_TagString: Untagged
+  m_TagString: Player2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -356,6 +356,8 @@ MonoBehaviour:
   hasSlammed: 0
   moveSpeed: 35
   jumpForce: 30
+  minHitSpeed: 3
+  deflectKnockbackMultiplier: 1.5
   drag: 1
   angularDrag: 1
   sphereMaterial: {fileID: 0}

@@ -1947,6 +1947,14 @@ PrefabInstance:
       value: Player2
       objectReference: {fileID: 0}
     - target: {fileID: 3906117202403509763, guid: e8c6ce60769ca2a45955e3aebecbeafe, type: 3}
+      propertyPath: OnDamage.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3906117202403509763, guid: e8c6ce60769ca2a45955e3aebecbeafe, type: 3}
+      propertyPath: SetMaxHealth.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3906117202403509763, guid: e8c6ce60769ca2a45955e3aebecbeafe, type: 3}
       propertyPath: OnDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 4
       objectReference: {fileID: 0}
@@ -3618,7 +3626,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.size
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToBattle.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -3678,11 +3686,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
@@ -3715,11 +3723,11 @@ PrefabInstance:
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 2045683653}
+      objectReference: {fileID: 9144335579593991278}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
-      objectReference: {fileID: 2045683654}
+      objectReference: {fileID: 9144335579593991278}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[4].m_Target
       value: 
@@ -3770,11 +3778,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: SetHealthSuddenDeathGUI
+      value: SuddenDeathGUI
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
-      value: SetHealthSuddenDeathGUI
+      value: SuddenDeathGUI
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
@@ -3810,11 +3818,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: GASHAPWN.UI.BattleGUIController, Assembly-CSharp
+      value: GASHAPWN.UI.OverlayGUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
-      value: GASHAPWN.UI.BattleGUIController, Assembly-CSharp
+      value: GASHAPWN.UI.OverlayGUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
@@ -3950,6 +3958,18 @@ PrefabInstance:
       value: Player1
       objectReference: {fileID: 0}
     - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+      propertyPath: OnDamage.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+      propertyPath: SetHealth.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+      propertyPath: SetMaxHealth.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
       propertyPath: SetCurrentHealth.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -3958,7 +3978,15 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+      propertyPath: SetHealth.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
       propertyPath: OnDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2045683653}
+    - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+      propertyPath: SetHealth.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2045683653}
     - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
@@ -3966,9 +3994,17 @@ PrefabInstance:
       value: TakeDamageGUI
       objectReference: {fileID: 0}
     - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+      propertyPath: SetHealth.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
       propertyPath: SetMaxHealth.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2045683653}
+    - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+      propertyPath: SetHealth.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetHealthSuddenDeathGUI
+      objectReference: {fileID: 0}
     - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
       propertyPath: SetCurrentHealth.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 4
@@ -3994,12 +4030,24 @@ PrefabInstance:
       value: GASHAPWN.UI.BattleGUIController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+      propertyPath: SetHealth.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GASHAPWN.UI.BattleGUIController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+      propertyPath: SetHealth.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
       propertyPath: SetMaxHealth.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: GASHAPWN.UI.BattleGUIController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
       propertyPath: SetCurrentHealth.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: GASHAPWN.UI.BattleGUIController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+      propertyPath: SetHealth.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2353342533486014850, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
       propertyPath: SetCurrentHealth.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -7583,6 +7631,10 @@ PrefabInstance:
     - target: {fileID: 4876535533019076886, guid: bdf66f4460a14434692991e66e709581, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944007809824591109, guid: bdf66f4460a14434692991e66e709581, type: 3}
+      propertyPath: playerTag
+      value: Player1
       objectReference: {fileID: 0}
     - target: {fileID: 5561488855294521751, guid: bdf66f4460a14434692991e66e709581, type: 3}
       propertyPath: m_AnchorMax.x
