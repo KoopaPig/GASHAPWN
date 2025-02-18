@@ -32,7 +32,6 @@ RectTransform:
   - {fileID: 4584295094366391114}
   - {fileID: 4070782714373193575}
   - {fileID: 7496440582798107296}
-  - {fileID: 3654035366957338939}
   m_Father: {fileID: 2597747052436606114}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -74,7 +73,7 @@ GameObject:
   - component: {fileID: 854433522395548694}
   - component: {fileID: 7302029651266878943}
   m_Layer: 5
-  m_Name: p1-num-icon
+  m_Name: p2-favicon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,7 +91,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7424995314685987861}
+  m_Father: {fileID: 2597747052436606114}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -708,6 +707,7 @@ RectTransform:
   - {fileID: 3459559567050386415}
   - {fileID: 7212065049536871593}
   - {fileID: 7424995314685987861}
+  - {fileID: 3654035366957338939}
   m_Father: {fileID: 4471261171789601354}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
@@ -1408,7 +1408,7 @@ GameObject:
   - component: {fileID: 7758463938991269159}
   - component: {fileID: 7419796887576749544}
   m_Layer: 5
-  m_Name: p1-num-icon
+  m_Name: p1-favicon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
