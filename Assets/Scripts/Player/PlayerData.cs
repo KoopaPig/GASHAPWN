@@ -40,6 +40,9 @@ public class PlayerData : MonoBehaviour
     public float slamForce = 80f;
     public float slamDelay = .4f;
 
+    [Header("Quick Break Settings")]
+    public float quickBreakDuration = 0.2f;
+
     private void Start()
     {
         currentHealth = maxHealth;
