@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
+using UnityEngine.Events;
 
 namespace GASHAPWN.UI {
     public class VictoryScreenGUI : MonoBehaviour
@@ -13,6 +15,10 @@ namespace GASHAPWN.UI {
         private Vector2 offscreenRight;
         private Vector2 onscreenPosition;
         private RectTransform rectTransform;
+
+        private TextMeshProUGUI winnerText;
+
+        private bool isResultsPopulated = false;
 
         private void Awake()
         {
@@ -28,9 +34,40 @@ namespace GASHAPWN.UI {
             rectTransform.anchoredPosition = offscreenRight;
         }
 
-        public void SetWinner()
+        public void SetWinner(string playerTag, Figure figure)
         {
+            GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
+            if (playerObj != null)
+            {
+                winnerText.text = figure.Name;
+            }
+            else
+            {
+                Debug.LogError($"VictoryScreenGUI: Cannot set winner. No GameObject found with tag {playerTag}");
+            }
+        }
 
+        public void PopulateResultsGivenPlayer(string playerTag, Figure figure)
+        {
+            if (!isResultsPopulated)
+            {
+                ResultsContainer[] resultsContainers = FindObjectsByType<ResultsContainer>(FindObjectsSortMode.None);
+
+                foreach (var container in resultsContainers)
+                {
+                    // find container with matching playerTag
+                    if (container.playerTag == playerTag)
+                    {
+                        container.playerIcon.sprite = figure.Icon;
+                        container.playerText.text = figure.Name;
+                        return;
+                    }
+                }
+                Debug.LogWarning($"VictoryScreenGUI: No ResultsContainer found for playerTag: {playerTag}");
+            }
+            else { Debug.Log("VictoryScreenGUI: Results have already been set."); return; }
+
+            
         }
 
         // Slide In Victory Screen given waitDuration
