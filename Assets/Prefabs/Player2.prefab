@@ -348,6 +348,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  SetHealth:
+    m_PersistentCalls:
+      m_Calls: []
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -364,6 +367,7 @@ MonoBehaviour:
   airTorque: 40
   slamForce: 80
   slamDelay: 0.4
+  quickBreakDuration: 0.2
 --- !u!114 &8129853449011347689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,6 +541,26 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f7962fd5-28b9-4366-95c2-7b917a14104d
     m_ActionName: 'Player2/Slam[/Keyboard/backspace]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 64f6db61-be43-4927-aff9-d828fcf6c6a0
+    m_ActionName: 'Player1/QuickBreak[/Keyboard/f]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3346647609557314154}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnQuickBreak
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2669859a-0eeb-46f9-abc2-185dbf7b399c
+    m_ActionName: 'Player2/QuickBreak[/Keyboard/enter]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player2
