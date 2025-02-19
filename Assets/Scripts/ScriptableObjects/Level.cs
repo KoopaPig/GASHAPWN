@@ -10,6 +10,6 @@ namespace GASHAPWN
         [Header("Atrributes")]
         public string levelName = null;
         public string levelSceneName = null;
-        public Image levelPreviewImage = null;
+        public Sprite levelPreviewIcon = null;
     }
 }

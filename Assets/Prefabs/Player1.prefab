@@ -651,7 +651,7 @@ GameObject:
   - component: {fileID: 8910377567317957572}
   m_Layer: 0
   m_Name: Player1
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -745,6 +745,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  SetHealth:
+    m_PersistentCalls:
+      m_Calls: []
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -753,12 +756,15 @@ MonoBehaviour:
   hasSlammed: 0
   moveSpeed: 35
   jumpForce: 30
+  minHitSpeed: 3
+  deflectKnockbackMultiplier: 1.5
   drag: 1
   angularDrag: 1
   sphereMaterial: {fileID: 0}
   airTorque: 40
   slamForce: 80
   slamDelay: 0.4
+  quickBreakDuration: 0.2
 --- !u!114 &2905451329273328058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -928,6 +934,26 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f165090b-0470-429c-ae14-6d4d5f618ee7
     m_ActionName: 'Player1/Slam[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 738757646059745529}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnQuickBreak
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 64f6db61-be43-4927-aff9-d828fcf6c6a0
+    m_ActionName: 'Player1/QuickBreak[/Keyboard/f]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f7962fd5-28b9-4366-95c2-7b917a14104d
+    m_ActionName: 'Player2/Slam[/Keyboard/backspace]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player1

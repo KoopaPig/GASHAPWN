@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "QuickBreak",
+                    "type": "Button",
+                    "id": "64f6db61-be43-4927-aff9-d828fcf6c6a0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -165,6 +174,17 @@
                     "action": "Slam",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c04bf6d1-2239-42bd-9695-b344a4f20e4e",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QuickBreak",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -194,6 +214,15 @@
                     "name": "Slam",
                     "type": "Button",
                     "id": "f7962fd5-28b9-4366-95c2-7b917a14104d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "QuickBreak",
+                    "type": "Button",
+                    "id": "2669859a-0eeb-46f9-abc2-185dbf7b399c",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -310,6 +339,17 @@
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "f46a9d4e-8ba6-49ff-a5b1-5b282456c452",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QuickBreak",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
