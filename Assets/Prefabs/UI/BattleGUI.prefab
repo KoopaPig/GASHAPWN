@@ -727,6 +727,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e1983bdb279d841865b4d197353044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTag: Player2
   healthSlider: {fileID: 911552541753315936}
   healthSliderBG: {fileID: 1489522056353625833}
   healthGradient:
@@ -1749,6 +1750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e1983bdb279d841865b4d197353044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTag: Player1
   healthSlider: {fileID: 6068027160146909153}
   healthSliderBG: {fileID: 5468855283910400256}
   healthGradient:
@@ -1802,6 +1804,7 @@ GameObject:
   - component: {fileID: 515875274871502418}
   - component: {fileID: 2136479416447030017}
   - component: {fileID: 7972780213714569020}
+  - component: {fileID: 7354983520723823701}
   m_Layer: 5
   m_Name: BattleGUI
   m_TagString: Untagged
@@ -1894,6 +1897,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &7354983520723823701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8195566975873360959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a7c2ecddf5c8334ea74e53078e8ce0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8336599201282922943
 GameObject:
   m_ObjectHideFlags: 0

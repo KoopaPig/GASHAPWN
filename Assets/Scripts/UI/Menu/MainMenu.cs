@@ -12,6 +12,8 @@ using UnityEngine.UI;
 namespace GASHAPWN.UI {
     public class MainMenu : MonoBehaviour
     {
+        public static MainMenu Instance;
+
         public string initSceneName;
         public string playSceneName;
         public GameObject titleScreen; // Get reference to Title Screen object
@@ -51,6 +53,12 @@ namespace GASHAPWN.UI {
         private void Awake()
         {
             animator = GetComponent<Animator>();
+            if (Instance != null && Instance != this)
+            {
+                Destroy(this);
+                return;
+            }
+            Instance = this;
         }
 
         private void OnEnable()

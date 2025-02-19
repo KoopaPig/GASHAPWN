@@ -10,9 +10,10 @@ public class PlayerData : MonoBehaviour
 
     [Header("Events")]
 
-    public UnityEvent<int> OnDamage; // Broadcasts current health after taking damage
-    public UnityEvent<int> SetMaxHealth; // Broadcasts max health
-    public UnityEvent<GameObject> OnDeath;
+    public UnityEvent<int> OnDamage = new UnityEvent<int>(); // Broadcasts current health after taking damage
+    public UnityEvent<int> SetMaxHealth = new UnityEvent<int>(); // Broadcasts max health
+    public UnityEvent<int> SetHealth = new UnityEvent<int>(); // Set health
+    public UnityEvent<GameObject> OnDeath = new UnityEvent<GameObject>();
 
     [Header("Player State Flags")]
     public bool isGrounded = false;
@@ -107,6 +108,13 @@ public class PlayerData : MonoBehaviour
         {
             Die();
         }
+    }
+
+    public void SetHP(int value)
+    {
+        if (value > 0 && value <= maxHealth) { currentHealth = value; }
+        else Debug.LogError("Value must be set between 0 and maxHealth.");
+        SetHealth.Invoke(currentHealth);
     }
 
     private void Die()
