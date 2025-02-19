@@ -6,9 +6,9 @@ namespace GASHAPWN.UI {
     public class OverlayGUI : MonoBehaviour
     {
         [SerializeField] private GameObject countdownGUI;
-        //[SerializeField] private GameObject victoryOverlayGUI;
         [SerializeField] private GameObject battleEndGUI;
         [SerializeField] private GameObject suddenDeathGUI;
+        [SerializeField] private VictoryScreenGUI victoryScreenGUI;
 
         private void Awake()
         {
@@ -18,6 +18,7 @@ namespace GASHAPWN.UI {
             battleEndGUI.GetComponent<Animator>().enabled = false;
             suddenDeathGUI.SetActive(false);
             suddenDeathGUI.GetComponent<Animator>().enabled = false;
+            victoryScreenGUI.gameObject.SetActive(false);
         }
 
         public void StartCountdownGUI()
@@ -42,6 +43,8 @@ namespace GASHAPWN.UI {
         {
             battleEndGUI.SetActive(true);
             battleEndGUI.GetComponent<Animator>().enabled = true;
+            victoryScreenGUI.gameObject.SetActive(true);
+            StartCoroutine(victoryScreenGUI.SlideInVictoryScreen(3f));
         }
 
         public void SuddenDeathGUI()
