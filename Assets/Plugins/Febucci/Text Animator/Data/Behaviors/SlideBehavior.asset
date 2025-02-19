@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: SlideBehavior
   m_EditorClassIdentifier: 
   tagID: slide
-  baseAmplitude: 5
-  baseFrequency: 3
+  baseAmplitude: 1.5
+  baseFrequency: 2
   baseWaveSize: 0

@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 8642548568229093885}
   - component: {fileID: 4934671046706063707}
   - component: {fileID: 8454259499441394598}
-  - component: {fileID: 4611865749010678044}
+  - component: {fileID: 1214342993304099449}
   m_Layer: 5
   m_Name: MenuButton
   m_TagString: Untagged
@@ -406,10 +406,9 @@ MonoBehaviour:
   textDisabledColor: {r: 0.6509804, g: 0.52156866, b: 0.62352943, a: 1}
   textPressedColor: {r: 0.2901961, g: 0.1882353, b: 0.32156864, a: 1}
   textHighlightedColor: {r: 0.2901961, g: 0.1882353, b: 0.32156864, a: 1}
-  textSelectedColor: {r: 0.2901961, g: 0.1882353, b: 0.32156864, a: 1}
   textAnimator: {fileID: 2664507059222627493}
   buttonOutline: {fileID: 4299250851160596939}
---- !u!114 &4611865749010678044
+--- !u!114 &1214342993304099449
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -421,8 +420,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3bfff5d14e075e4887f7b5f80496e8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shadowColor: {r: 0, g: 0, b: 0, a: 0.5}
-  shadowDistance: {x: 5, y: -16}
+  shadowColor: {r: 0.12156863, g: 0.06666667, b: 0.16470589, a: 0.49411765}
+  shadowDistance: {x: 1, y: -16}
   m_UseGraphicAlpha: 1
   iterations: 12
   shadowSpread: {x: 1, y: 1}

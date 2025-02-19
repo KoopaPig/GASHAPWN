@@ -31,7 +31,10 @@ namespace GASHAPWN
 
         // Triggers when the Collection scene is entered
         public UnityEvent<GameState> ChangeToCollection = new UnityEvent<GameState>();
-        
+
+        // GameManager stores currentBattleTime so LevelSelect can set it
+        public float currentBattleTime = 180;
+
         public void UpdateGameState(GameState newState)
         {
             switch (newState)
@@ -73,7 +76,6 @@ namespace GASHAPWN
             }
         }
 
-
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -92,8 +94,6 @@ namespace GASHAPWN
             UpdateGameState(GameState.Title);
           
         }
-
-        
 
         public enum GameState
         {

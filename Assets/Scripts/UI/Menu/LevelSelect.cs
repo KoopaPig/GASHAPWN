@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,6 +17,8 @@ namespace GASHAPWN.UI {
     [RequireComponent(typeof(ScreenSwitcher))]
     public class LevelSelect : MonoBehaviour
     {
+        public static LevelSelect Instance;
+
         // Get list of controlsBindBoxes
         [Header("Controls Bind Boxes")]
         public List<ControlsBindBox> controlsBindBoxes;
@@ -26,14 +29,27 @@ namespace GASHAPWN.UI {
 
         [Header("Transition Settings")]
         [SerializeField] public TransitionSettings menuTransition;
-        [SerializeField] private string mainMenuSceneName;
+        [SerializeField] public TransitionSettings toLevelTransition;
+        [SerializeField] private string mainMenuSceneName; // name of mainMenu scene
 
         private InputAction cancelAction;
 
         [Header("Level Settings")]
-        [SerializeField] private List<Level> levels;
+        // List of all selectable levels (should match number of stageButtons)
+        public List<Level> levels;
+        // currently selected level (defaults to levels[0])
+        public Level selectedLevel;
+
+        [Header("Battle Time")]
+
+        // list of battle times (in seconds)
+        public List<float> battleTimes = new List<float>();
+        private float selectedTime;
+        private int selectedTimeIndex;
+        [SerializeField] private TMP_Text timeLabel;
 
 
+        //[SerializeField] private GameObject beginButton;
 
         private void OnEnable()
         {
@@ -46,6 +62,15 @@ namespace GASHAPWN.UI {
             if (!cancelAction.enabled) { cancelAction.Enable(); }
         }
 
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(this);
+                return;
+            }
+            Instance = this;
+        }
         void Start()
         {
             if (controlsBindBoxes != null)
@@ -61,11 +86,14 @@ namespace GASHAPWN.UI {
                 // nothing here for now
             }
             else Debug.LogError("levels list is empty!");
-        }
 
-        void FixedUpdate()
-        {
-            
+            if (battleTimes.Count > 0)
+            {
+                // automatically set to whatever time is at index 0
+                selectedTimeIndex = 0;
+                UpdateTimeLabel();
+            }
+            else Debug.LogError("battleTimes in LevelSelect are not populated.");
         }
 
         public void OnDisable()
@@ -134,6 +162,36 @@ namespace GASHAPWN.UI {
             Debug.Log(state.ToString());
         }
 
+        public void TimeLeft()
+        {
+            selectedTimeIndex--;
+            if (selectedTimeIndex < 0)
+            {
+                selectedTimeIndex = battleTimes.Count - 1;
+            }        
+            UpdateTimeLabel();
+        }
+
+        public void TimeRight()
+        {
+            selectedTimeIndex = (selectedTimeIndex + 1) % battleTimes.Count;
+            UpdateTimeLabel();
+        }
+
+        public void UpdateTimeLabel()
+        {
+            selectedTime = battleTimes[selectedTimeIndex];
+            int minutes = Mathf.FloorToInt(selectedTime / 60);
+            int seconds = Mathf.FloorToInt(selectedTime % 60);
+            timeLabel.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        }
+
+        public void GameStart()
+        {
+            TransitionManager.Instance().Transition(selectedLevel.levelSceneName, toLevelTransition, 0);
+            // somehow need to pass the time to the battle manager
+            GameManager.Instance.currentBattleTime = selectedTime;
+        }
     }
 
 }

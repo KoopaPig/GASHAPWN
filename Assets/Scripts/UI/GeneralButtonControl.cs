@@ -62,33 +62,33 @@ public class GeneralButtonControl : MonoBehaviour, IPointerEnterHandler, IPointe
         }
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public virtual void OnPointerEnter(PointerEventData eventData)
     {
-        isHighlightDesired = true;
+        if (btn.interactable) isHighlightDesired = true;
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public virtual void OnPointerDown(PointerEventData eventData)
     {
-        isPressedDesired = true;
+        if (btn.interactable) isPressedDesired = true;
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public virtual void OnPointerUp(PointerEventData eventData)
     {
-        isPressedDesired = false;
+        if (btn.interactable) isPressedDesired = false;
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public virtual void OnPointerExit(PointerEventData eventData)
     {
-        isHighlightDesired = false;
+        if (btn.interactable) isHighlightDesired = false;
     }
 
-    public void OnSelect(BaseEventData eventData)
+    public virtual void OnSelect(BaseEventData eventData)
     {
         ((ISelectHandler)btn).OnSelect(eventData);
-        isHighlightDesired = true;
+        if (btn.interactable) isHighlightDesired = true;
     }
 
-    public void OnDeselect(BaseEventData eventData)
+    public virtual void OnDeselect(BaseEventData eventData)
     {
         ((IDeselectHandler)btn).OnDeselect(eventData);
         isHighlightDesired = false;
