@@ -1,3 +1,4 @@
+using GASHAPWN.UI;
 using JetBrains.Annotations;
 using System;
 using System.Diagnostics.Tracing;
@@ -42,6 +43,11 @@ namespace GASHAPWN
         // Note: only checked in Start()
         public bool isCountDownOn = true;
 
+        // Player figures generated before battle
+        public Figure player1Figure, player2Figure;
+
+        public BattleGUIController player1BattleGUI, player2BattleGUI;
+
         [Header("Events to Trigger")]
         // Triggers when countdown initiates
         public UnityEvent<BattleState> ChangeToCountdown = new();
@@ -65,12 +71,29 @@ namespace GASHAPWN
             }
             Instance = this;
 
+            // Generate Figures
+            player1Figure = FigureManager.instance.GetRandomFigure();
+            player2Figure = FigureManager.instance.GetRandomFigure();
+
+            // Check for null figures
+            if(player1Figure == null || player2Figure == null)
+            {
+                Debug.Log($"Figures failed to generated: 1) {player1Figure.name}, 2) {player2Figure.name}");
+                return;
+            }
         }
 
         private void Start()
         {
             // Starts dorment and awakes when a battle is initiated
             State = BattleState.Sleep;
+
+            // Link generated figures to BattleGUI
+            player1BattleGUI.SetFigureName(player1Figure.name);
+            player1BattleGUI.SetFigureIcon(player1Figure.Icon);
+            player2BattleGUI.SetFigureName(player2Figure.name);
+            player2BattleGUI.SetFigureIcon(player2Figure.Icon);
+
             //battleControls = controls.FindActionMap("Player");
             if (isCountDownOn) ChangeStateCountdown();
             else ChangeStateBattle();
@@ -144,15 +167,20 @@ namespace GASHAPWN
             }
 
             // TODO: Add end condition for either players' deaths
-            if (State == BattleState.Battle) 
-                if(battleTime <= 0 || playerHasDied) ChangeStateVictoryScreen();
+            if (State == BattleState.Battle)
+            {
+                if (battleTime <= 0 || playerHasDied)
+                {
+                    ChangeStateVictoryScreen();
+                    showVictory = true;
+
+                }
+                
+            }
 
             // Check to exit victory screen
-            if (State == BattleState.VictoryScreen && !showVictory) 
+            if (State == BattleState.VictoryScreen && showVictory) 
             {
-                // Show the victory screen
-                showVictory = true;
-
                 // Check for inputs from the UI actionmap
                 controls.FindActionMap("UI").actionTriggered += End;
             }

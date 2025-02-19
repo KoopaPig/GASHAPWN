@@ -73,7 +73,6 @@ namespace GASHAPWN
             }
         }
 
-
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -92,8 +91,6 @@ namespace GASHAPWN
             UpdateGameState(GameState.Title);
           
         }
-
-        
 
         public enum GameState
         {
