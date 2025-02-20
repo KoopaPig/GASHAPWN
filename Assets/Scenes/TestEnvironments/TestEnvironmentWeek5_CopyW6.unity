@@ -1034,6 +1034,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e81558923fae5584cb6350dfa10b6c11, type: 3}
   m_PrefabInstance: {fileID: 437556905}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &496981850 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4944007809824591109, guid: bdf66f4460a14434692991e66e709581, type: 3}
+  m_PrefabInstance: {fileID: 1818147865}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52e1983bdb279d841865b4d197353044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &515153229
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7102,6 +7113,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5501285401476464756, guid: bdf66f4460a14434692991e66e709581, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501285401476464756, guid: bdf66f4460a14434692991e66e709581, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5561488855294521751, guid: bdf66f4460a14434692991e66e709581, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -7142,6 +7161,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7007577573737843039, guid: bdf66f4460a14434692991e66e709581, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7029267726147894018, guid: bdf66f4460a14434692991e66e709581, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -7164,6 +7187,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7070152306871664913, guid: bdf66f4460a14434692991e66e709581, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7718797193862871160, guid: bdf66f4460a14434692991e66e709581, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7718797193862871160, guid: bdf66f4460a14434692991e66e709581, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8165160965718350405, guid: bdf66f4460a14434692991e66e709581, type: 3}
@@ -7771,6 +7802,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e1399bde5b229d743b01d04d4228ea80, type: 3}
   m_PrefabInstance: {fileID: 2005211283}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2026820250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2026820252}
+  - component: {fileID: 2026820251}
+  m_Layer: 0
+  m_Name: DebugStamina
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &2026820251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026820250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3049d3c80bbbc2d41bce0124f50e6319, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleControllerP1: {fileID: 496981850}
+--- !u!4 &2026820252
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026820250}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2112826106
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10623,3 +10699,4 @@ SceneRoots:
   - {fileID: 1863303265}
   - {fileID: 1389691564}
   - {fileID: 1424769588}
+  - {fileID: 2026820252}
