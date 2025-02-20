@@ -4,15 +4,24 @@ using UnityEngine.Events;
 
 public class PlayerData : MonoBehaviour
 {
+    private Rigidbody rb;
+
+    [Header("Health & Stamina")]
     public int maxHealth = 5;
     private int currentHealth;
-    private Rigidbody rb;
+    public float maxStamina = 300;
+    private float currentStamina;
 
     [Header("Events")]
 
     public UnityEvent<int> OnDamage = new UnityEvent<int>(); // Broadcasts current health after taking damage
     public UnityEvent<int> SetMaxHealth = new UnityEvent<int>(); // Broadcasts max health
     public UnityEvent<int> SetHealth = new UnityEvent<int>(); // Set health
+
+    public UnityEvent<float> OnStaminaChanged = new UnityEvent<float>(); // Broadcast stamina value when changed
+    public UnityEvent<float> SetMaxStamina = new UnityEvent<float>(); // Broadcasts maximum stamina
+    public UnityEvent<float> OnStaminaHardDecrease = new UnityEvent<float>(); // Broadcast when some action instantly depletes stamina
+    public UnityEvent<float> OnStaminaHardIncrease = new UnityEvent<float>(); // Broadcast when some action instantly refills stamina
     public UnityEvent<GameObject> OnDeath = new UnityEvent<GameObject>();
 
     [Header("Player State Flags")]
@@ -46,7 +55,9 @@ public class PlayerData : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
+        currentStamina = maxStamina;
         SetMaxHealth.Invoke(maxHealth);
+        SetMaxStamina.Invoke(maxStamina);
         rb = GetComponent<Rigidbody>();
     }
 
@@ -126,4 +137,5 @@ public class PlayerData : MonoBehaviour
         OnDeath.Invoke(this.gameObject);
         gameObject.SetActive(false); // Disables the player
     }
+
 }

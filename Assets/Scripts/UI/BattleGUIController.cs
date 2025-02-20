@@ -24,6 +24,19 @@ namespace GASHAPWN.UI {
         // Healthbar Fill
         [SerializeField] private Image healthFill;
 
+        [Header("Staminabar GUI Elements")]
+        // Staminabar
+        [SerializeField] private Slider staminaSlider;
+        // Staminabar Gradient
+        [SerializeField] private Gradient staminaGradient;
+        // Staminabar Fill
+        [SerializeField] private Image staminaFill;
+        // Staminabar Animator
+        [SerializeField] private Animator staminaAnimator;
+        // Staminabar sections
+        [SerializeField] private int staminaBarSections = 6;
+
+
         [Header("Other GUI Elements")]
         // Icon for Figure
         [SerializeField] private Image charIcon;
@@ -34,10 +47,8 @@ namespace GASHAPWN.UI {
         // Reference to capsule group GUI
         [SerializeField] private GameObject capsuleGroup;
 
-        //public enum PlayerID { P1, P2 };
-
         [Header("Animator for Capsule Group")]
-        [SerializeField] private Animator animator;
+        [SerializeField] private Animator capsuleAnimator;
 
         [SerializeField] private Color grayColor = Color.gray;
         [SerializeField] private Color damageColor = Color.red;
@@ -46,6 +57,12 @@ namespace GASHAPWN.UI {
         private Coroutine healthChangeCoroutine;
         private float currHealth;
         private float maxHealth;
+
+        private Coroutine staminaChangeCoroutine;
+        private float currStamina;
+        private float maxStamina;
+        private float staminaInterval;
+        private int lastIntervalIndex = -1;
 
         ////// PUBLIC METHODS /////
 
@@ -80,7 +97,7 @@ namespace GASHAPWN.UI {
             float targetHealth = currHealth - damage;
             if (targetHealth < currHealth)
             {
-                animator.SetBool("isDamageShake", true);
+                capsuleAnimator.SetBool("isDamageShake", true);
                 StartCoroutine(FlashGUI(damageColor, 0.1f));
             }
 
@@ -122,6 +139,53 @@ namespace GASHAPWN.UI {
             }
         }
 
+        // SetMaxStamina (GUI)
+        public void SetMaxStaminaGUI(float value)
+        {
+            staminaSlider.maxValue = value;
+            maxStamina = value;
+            currStamina = maxStamina;
+
+            staminaSlider.value = value;
+            staminaFill.color = staminaGradient.Evaluate(1f);
+
+            staminaInterval = maxStamina / staminaBarSections;
+        }
+
+        // LoseStamina (GUI)
+        public void LoseStaminaGUI(float newValue)
+        {
+            if (newValue < currStamina)
+            {
+                staminaAnimator.SetBool("isIntervalEffect", true);
+            }
+
+            SetStaminaGUI(newValue);
+
+            if (staminaChangeCoroutine != null)
+            {
+                StopCoroutine(staminaChangeCoroutine);
+            }
+            staminaChangeCoroutine = StartCoroutine(AnimateStaminaChange(currStamina, newValue, 0.15f));
+        }
+
+        // RecoverStamina (GUI)
+        public void RecoverStaminaGUI(float newValue)
+        {
+            if (newValue > currStamina)
+            {
+                staminaAnimator.SetBool("isIntervalEffect", true);
+            }
+            SetStaminaGUI(newValue);
+
+            if (staminaChangeCoroutine != null)
+            {
+                StopCoroutine(staminaChangeCoroutine);
+            }
+            staminaChangeCoroutine = StartCoroutine(AnimateStaminaChange(currStamina, newValue, 0.15f));
+        }
+
+
         ////// PRIVATE METHODS /////
 
         private void Awake()
@@ -147,25 +211,47 @@ namespace GASHAPWN.UI {
             }
         }
 
+        private void Start()
+        {
+            staminaInterval = maxStamina / staminaBarSections;
+        }
+
+        private void Update()
+        {
+            // need to increase stamina value in here
+        }
+
         // Initialize event listeners for PlayerData
         private void Initialize(PlayerData player)
         {
             if (playerData != null)
             {
-                // Unsubscribe from previous player events
+                // Unsubscribe from previous player's health-based events
                 playerData.OnDamage.RemoveListener(TakeDamageGUI);
                 playerData.SetMaxHealth.RemoveListener(SetMaxHealthGUI);
                 playerData.SetHealth.RemoveListener(SetHealthSuddenDeathGUI);
+
+                // TODO: Stamina-based Listeners
+                playerData.OnStaminaChanged.RemoveListener(SetStaminaGUI_Wrapper);
+                playerData.SetMaxStamina.RemoveListener(SetMaxStaminaGUI);
+                playerData.OnStaminaHardDecrease.RemoveListener(LoseStaminaGUI);
+                playerData.OnStaminaHardIncrease.RemoveListener(RecoverStaminaGUI);
             }
 
             playerData = player;
 
             if (playerData != null)
             {
-                // Subscribe to the new player's events
+                // Subscribe to the new player's health-based events
                 playerData.OnDamage.AddListener(TakeDamageGUI);
                 playerData.SetMaxHealth.AddListener(SetMaxHealthGUI);
                 playerData.SetHealth.AddListener(SetHealthSuddenDeathGUI);
+
+                // Stamina-based Listeners
+                playerData.OnStaminaChanged.AddListener(SetStaminaGUI_Wrapper);
+                playerData.SetMaxStamina.AddListener(SetMaxStaminaGUI);
+                playerData.OnStaminaHardDecrease.AddListener(LoseStaminaGUI);
+                playerData.OnStaminaHardIncrease.AddListener(RecoverStaminaGUI);
             }
         }
 
@@ -203,8 +289,32 @@ namespace GASHAPWN.UI {
             SetHealthBG_GUI(currHealth);
             UpdateGUIColor(currHealth);
 
-            animator.SetBool("isDamageShake", false);
+            capsuleAnimator.SetBool("isDamageShake", false);
             healthChangeCoroutine = null;
+        }
+
+        // IEnumerator for controlling animation during stamina change
+        private IEnumerator AnimateStaminaChange(float startValue, float targetValue, float duration)
+        {
+            float elapsedTime = 0f;
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+
+                // Linearly interpolate between start and target stamina values
+                currStamina = Mathf.Lerp(startValue, targetValue, elapsedTime / duration);
+
+                // Update the GUI
+                SetStaminaGUI(currStamina);
+
+                yield return null;
+            }
+
+            currStamina = targetValue;
+            SetStaminaGUI(currStamina);
+
+            staminaAnimator.SetBool("isIntervalEffect", false);
+            staminaChangeCoroutine = null;
         }
 
         // IEnumerator for controlling color flash during health change
@@ -247,14 +357,46 @@ namespace GASHAPWN.UI {
             }
         }
 
+        private void SetStaminaGUI(float value)
+        {
+            staminaSlider.value = value;
+            staminaFill.color = staminaGradient.Evaluate(staminaSlider.normalizedValue);
+        }
+
+        private void SetStaminaGUI_Wrapper(float value)
+        {
+            SetStaminaGUI(value);
+            int currentIntervalIndex = Mathf.FloorToInt(value / staminaInterval);
+            if (currentIntervalIndex != lastIntervalIndex)
+            {
+                staminaAnimator.SetBool("isIntervalEffect", true);
+                lastIntervalIndex = currentIntervalIndex;
+
+                StartCoroutine(ResetIntervalEffect());
+            }
+        }
+
+        private IEnumerator ResetIntervalEffect()
+        {
+            yield return new WaitForSeconds(0.3f);
+            staminaAnimator.SetBool("isIntervalEffect", false);
+        }
+
         private void OnDisable()
         {
-            // unsub from damage and health events here
+            // unsub from health and stamina events here
             if (playerData != null)
             {
+                // Health-based listeners
                 playerData.OnDamage.RemoveListener(TakeDamageGUI);
                 playerData.SetMaxHealth.RemoveListener(SetMaxHealthGUI);
                 playerData.SetHealth.RemoveListener(SetHealthSuddenDeathGUI);
+
+                // Stamina-based Listeners
+                playerData.OnStaminaChanged.RemoveListener(SetStaminaGUI_Wrapper);
+                playerData.SetMaxStamina.RemoveListener(SetMaxStaminaGUI);
+                playerData.OnStaminaHardDecrease.RemoveListener(LoseStaminaGUI);
+                playerData.OnStaminaHardIncrease.RemoveListener(RecoverStaminaGUI);
             }
         }
 
