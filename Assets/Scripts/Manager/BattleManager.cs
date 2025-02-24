@@ -77,16 +77,18 @@ namespace GASHAPWN
             
             battleTime = GameManager.Instance.currentBattleTime;
 
+            //Remember to DISCARD CHANGES
+
             // Generate Figures
-            player1Figure = FigureManager.instance.GetRandomFigure();
-            player2Figure = FigureManager.instance.GetRandomFigure();
+            //player1Figure = FigureManager.instance.GetRandomFigure();
+            //player2Figure = FigureManager.instance.GetRandomFigure();
 
             // Check for null figures
-            if(player1Figure == null || player2Figure == null)
-            {
-                Debug.Log($"Figures failed to generated: 1) {player1Figure.name}, 2) {player2Figure.name}");
-                return;
-            }
+            //if(player1Figure == null || player2Figure == null)
+            //{
+            //    Debug.Log($"Figures failed to generated: 1) {player1Figure.name}, 2) {player2Figure.name}");
+            //    return;
+            //}
             
         }
 
@@ -96,10 +98,10 @@ namespace GASHAPWN
             State = BattleState.Sleep;
 
             // Link generated figures to BattleGUI
-            player1BattleGUI.SetFigureName(player1Figure.name);
-            player1BattleGUI.SetFigureIcon(player1Figure.Icon);
-            player2BattleGUI.SetFigureName(player2Figure.name);
-            player2BattleGUI.SetFigureIcon(player2Figure.Icon);
+            //player1BattleGUI.SetFigureName(player1Figure.name);
+            //player1BattleGUI.SetFigureIcon(player1Figure.Icon);
+            //player2BattleGUI.SetFigureName(player2Figure.name);
+            //player2BattleGUI.SetFigureIcon(player2Figure.Icon);
 
             //battleControls = controls.FindActionMap("Player");
             if (isCountDownOn) ChangeStateCountdown();

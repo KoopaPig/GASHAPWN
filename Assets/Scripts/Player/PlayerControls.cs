@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
 
     public void OnMovement(InputAction.CallbackContext context)
     {
-        // Process movement only if input is enabled.
         moveInput = context.ReadValue<Vector2>();
     }
 
@@ -54,46 +53,97 @@ public class PlayerController : MonoBehaviour
 
         if (context.performed && !playerData.isGrounded && !playerData.hasSlammed)
         {
-            // Start the slam routine that makes the player float for 1 second before slamming.
             StartCoroutine(SlamCoroutine());
         }
     }
 
     private IEnumerator SlamCoroutine()
     {
-        // Disable controls so no other actions interrupt the slam.
+        // Disable controls during the slam.
         playerData.controlsEnabled = false;
-
-        // Cancel any current momentum.
+        
+        // Cancel momentum.
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         
-        // Turn off gravity so the player floats in place.
+        // Float by disabling gravity.
         rb.useGravity = false;
         
-        // Wait for 1 second.
-        yield return new WaitForSeconds(playerData.slamDelay);
+        // Wait for 1 second (player floats).
+        yield return new WaitForSeconds(1f);
         
-        // Re-enable gravity.
+        // Re-enable gravity and apply a strong downward force.
         rb.useGravity = true;
-        
-        // Apply a strong downward slam force.
         rb.AddForce(Vector3.down * playerData.slamForce, ForceMode.Impulse);
         
-        // Mark that the slam has been executed so it can’t be used again mid-air.
         playerData.hasSlammed = true;
+    }
+
+    // Quick Break mechanic: only available on the ground.
+    public void OnQuickBreak(InputAction.CallbackContext context)
+    {
+        if (playerData == null || !playerData.controlsEnabled || !playerData.isGrounded)
+            return;
+
+        if (context.performed)
+        {
+            StartCoroutine(QuickBreakCoroutine());
+        }
+    }
+
+    private IEnumerator QuickBreakCoroutine()
+    {
+        // Disable controls so that no other input interferes.
+        playerData.controlsEnabled = false;
+
+        // Capture the current momentum.
+        Vector3 initialVelocity = rb.linearVelocity;
+        Vector3 initialAngularVelocity = rb.angularVelocity;
+
+        // Capture the current rotation and calculate the target rotation.
+        // The target rotation makes the sphere's bottom (transform.down) face upward (Vector3.up).
+        Quaternion initialRotation = transform.rotation;
+        Quaternion targetRotation = Quaternion.FromToRotation(-transform.up, Vector3.up) * transform.rotation;
+
+        float elapsed = 0f;
+        while (elapsed < playerData.quickBreakDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / playerData.quickBreakDuration);
+
+            // Gradually decelerate momentum.
+            rb.linearVelocity = Vector3.Lerp(initialVelocity, Vector3.zero, t);
+            rb.angularVelocity = Vector3.Lerp(initialAngularVelocity, Vector3.zero, t);
+
+            // Smoothly rotate the sphere to the target orientation.
+            transform.rotation = Quaternion.Slerp(initialRotation, targetRotation, t);
+
+            yield return null;
+        }
+
+        // Ensure the final state is completely stopped and correctly rotated.
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        transform.rotation = targetRotation;
+
+        // Re-enable controls after the quick break.
+        playerData.controlsEnabled = true;
     }
 
     private void FixedUpdate()
     {
-        // Ensure proper damping values based on whether the player is grounded.
-        if (playerData != null && playerData.isGrounded)
+        if (playerData == null)
+            return;
+
+        if (playerData.isGrounded)
         {
             rb.linearDamping = playerData.drag;
             rb.angularDamping = playerData.angularDrag;
-            
-            // Reset the slam flag upon landing.
+            // Optionally re-enable controls if no other mechanic is in play.
+            playerData.controlsEnabled = true;
             playerData.hasSlammed = false;
+            Vector3 force = new Vector3(moveInput.x, 0f, moveInput.y) * playerData.moveSpeed;
+            rb.AddForce(force);
         }
         else
         {
@@ -101,15 +151,6 @@ public class PlayerController : MonoBehaviour
             rb.angularDamping = 0f;
         }
 
-        // If the player is grounded, re-enable controls and apply movement force.
-        if (playerData != null && playerData.isGrounded)
-        {
-            playerData.controlsEnabled = true;
-            Vector3 force = new Vector3(moveInput.x, 0f, moveInput.y) * playerData.moveSpeed;
-            rb.AddForce(force);
-        }
-
-        // Always apply torque for air control.
         Vector3 torque = new Vector3(moveInput.y, 0f, -moveInput.x) * playerData.airTorque;
         rb.AddTorque(torque);
     }
