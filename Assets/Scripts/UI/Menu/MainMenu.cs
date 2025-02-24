@@ -8,6 +8,7 @@ using System;
 using static GASHAPWN.GameManager;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 namespace GASHAPWN.UI {
     public class MainMenu : MonoBehaviour
