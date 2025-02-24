@@ -9,6 +9,7 @@ using static GASHAPWN.GameManager;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using GASHAPWN.Audio;
 
 namespace GASHAPWN.UI {
     public class MainMenu : MonoBehaviour
@@ -93,6 +94,8 @@ namespace GASHAPWN.UI {
         {
             TransitionManager.Instance().Transition(playSceneName, menuTransition, 0);
             GameManager.Instance.UpdateGameState(GameState.LevelSelect);
+            //UI_SFXManager.Instance.
+            
         }
 
         public void OpenControls()

@@ -37,5 +37,8 @@ namespace GASHAPWN.Audio {
             }
             Instance = this;
         }
+
+        // Add something here for persistence if that ends up being an issue
+        // Consider another helper script other than playSoundSimple that has persistence
     }
 }
