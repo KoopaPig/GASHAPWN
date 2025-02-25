@@ -1420,6 +1420,35 @@ RectTransform:
   m_AnchoredPosition: {x: 25, y: 2}
   m_SizeDelta: {x: 50, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &383434118
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1960727443088980383, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1960727443088980383, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1960727443088980383, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7845520108786276317, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
+      propertyPath: m_Name
+      value: SoundManagers
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
 --- !u!1 &390660073
 GameObject:
   m_ObjectHideFlags: 0
@@ -1801,6 +1830,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 452878199}
   m_CullTransparentMesh: 1
+--- !u!1001 &455910297
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6836929803851992506, guid: 27deb406ed229a24ea93dc2a1d29dac6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836929803851992506, guid: 27deb406ed229a24ea93dc2a1d29dac6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836929803851992506, guid: 27deb406ed229a24ea93dc2a1d29dac6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7840640615853638271, guid: 27deb406ed229a24ea93dc2a1d29dac6, type: 3}
+      propertyPath: m_Name
+      value: AudioSourcePool
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 27deb406ed229a24ea93dc2a1d29dac6, type: 3}
 --- !u!1001 &467830847
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7599,6 +7657,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1937917737}
   m_CullTransparentMesh: 1
+--- !u!1001 &1968173312
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2895869848885540492, guid: 8386a2c2a16e02441b913329e35e8d6a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895869848885540492, guid: 8386a2c2a16e02441b913329e35e8d6a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895869848885540492, guid: 8386a2c2a16e02441b913329e35e8d6a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800027908605975111, guid: 8386a2c2a16e02441b913329e35e8d6a, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8386a2c2a16e02441b913329e35e8d6a, type: 3}
 --- !u!1 &2018598662
 GameObject:
   m_ObjectHideFlags: 0
@@ -10014,7 +10101,10 @@ SceneRoots:
   - {fileID: 705807543}
   - {fileID: 1698588218}
   - {fileID: 777749591}
-  - {fileID: 641739569}
   - {fileID: 304409390}
   - {fileID: 604533382}
   - {fileID: 1861201888}
+  - {fileID: 641739569}
+  - {fileID: 1968173312}
+  - {fileID: 455910297}
+  - {fileID: 383434118}

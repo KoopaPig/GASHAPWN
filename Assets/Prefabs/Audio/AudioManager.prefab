@@ -45,3 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   theMixer: {fileID: 24100000, guid: 24482206668284144b552dc371529507, type: 2}
+  SFXMixer: {fileID: 7613267758212777161, guid: 24482206668284144b552dc371529507, type: 2}
+  MusicMixer: {fileID: 525982394217688346, guid: 24482206668284144b552dc371529507, type: 2}
+  testSFXGroup:
+    groupTag: TestGroup
+    addressableKeys:
+    - SFX_Damage_Metal_22
+    - SFX_Damage_Metal_18
+    - SFX_Damage_Metal_19
+    - SFX_Damage_Metal_20
