@@ -31,7 +31,7 @@ public class FileManager : MonoBehaviour
         if (!File.Exists(fileName))
         {
             Debug.Log("File not found; Returning Default...");
-            return default(T);
+            return default;
         }
         string filePath = Path.Combine(Application.persistentDataPath, fileName);
         string dataAsJson = File.ReadAllText(filePath);

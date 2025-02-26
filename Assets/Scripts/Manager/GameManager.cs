@@ -24,7 +24,8 @@ namespace GASHAPWN
 
         public static event Action<GameState> OnGameStateChanged;
 
-        public List<Figure> Collection = new();
+        public List<Figure> Player1Collection = new();
+        public List<Figure> Player2Collection = new();
 
         [Header("Events to Trigger")]
         // Triggers when the player switches to the title screen
@@ -103,15 +104,15 @@ namespace GASHAPWN
         }
 
         // Save the collection to a specific player
-        public void Save(string playerName)
+        public void Save(string playerName, List<Figure> Collection)
         {
-            FileManager.Save<List<Figure>>(playerName, Collection);
+            FileManager.Save(playerName + ".json", Collection);
         }
 
         // Load the collection from a specific player
-        public void Load(string playerName) 
+        public void Load(string playerName, List<Figure> Collection) 
         {
-            Collection = FileManager.Load<List<Figure>>(playerName);
+            Collection = FileManager.Load<List<Figure>>(playerName + ".json");
         }
 
         public enum GameState
