@@ -100,6 +100,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b1475246f3c8ad4ba47477ac2054a3b
+    m_Address: MUSIC_Cool_Attitude_Loop_TEMP
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3b5beaa0df038374e8a270a52342eb66
     m_Address: SFX_Basketball_4
     m_ReadOnly: 0
@@ -195,6 +200,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7f0fda16e36f8ac428e25cb860843927
+    m_Address: MUSIC_SMB2_Boiling_Pot_Edit_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 88eb3227031e90348b8bfa2d4c59ed1d
     m_Address: SFX_Hammer_Hit_2
     m_ReadOnly: 0
@@ -272,6 +282,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c15b10c817faa9049b1533720a3d9cb6
     m_Address: SFX_Interact_Pop_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c84c818b44661c043bec9b7a517d12de
+    m_Address: MUSIC_Give_A_Hand_Loop_TEMP
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

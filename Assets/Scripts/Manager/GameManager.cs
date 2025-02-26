@@ -37,6 +37,7 @@ namespace GASHAPWN
 
         public void UpdateGameState(GameState newState)
         {
+            State = newState;
             switch (newState)
             {
                 case GameState.Title:
@@ -91,16 +92,16 @@ namespace GASHAPWN
         private void Start()
         {
             // Initial state
-            UpdateGameState(GameState.Title);
-          
-        }
+            //UpdateGameState(GameState.Title);
 
-        public enum GameState
-        {
-            Title,
-            LevelSelect,
-            Battle,
-            Collection
+            // Commented out, because state should be able to be serialized if need be
         }
+    }
+    public enum GameState
+    {
+        Title,
+        LevelSelect,
+        Battle,
+        Collection
     }
 }

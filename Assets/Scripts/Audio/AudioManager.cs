@@ -63,9 +63,6 @@ namespace GASHAPWN.Audio {
         public AudioMixerGroup SFXMixer;
         public AudioMixerGroup MusicMixer;
 
-        [Header("SFXGroups")]
-        [SerializeField] private SFXGroup testSFXGroup;
-
         private void Awake()
         {
             // Check for other instances
@@ -204,19 +201,6 @@ namespace GASHAPWN.Audio {
         public void PlaySoundDynamicTriad(SFXGroup sfxGroup, Transform transform)
         {
 
-        }
-
-        private void Update()
-        {
-            // DEBUG FUNCTIONS
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                PlaySound("SFX_UI_Click_Generic_Cute");
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                PlayRandomSound(testSFXGroup);
-            }
         }
 
         private void OnDisable()

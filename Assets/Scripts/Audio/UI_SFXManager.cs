@@ -1,10 +1,13 @@
 using GASHAPWN.UI;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace GASHAPWN.Audio {
     public class UI_SFXManager : MonoBehaviour
     {
         public static UI_SFXManager Instance { get; private set; }
+
+        [SerializeField] private AudioMixerGroup soundMixer;
 
         [SerializeField] private SFXGroup buttonSelectionGroup;
 

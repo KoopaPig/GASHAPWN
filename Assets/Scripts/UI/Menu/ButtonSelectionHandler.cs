@@ -21,11 +21,11 @@ namespace GASHAPWN.UI {
             if (currentSelected != lastSelected && currentSelected != null)
             {
                 // Ignore automatic selections triggered by menu opening
-                //if (!Input.anyKeyDown && !Input.GetMouseButtonDown(0))
-                //{
-                //    lastSelected = currentSelected;
-                //    return;
-                //}
+                if (!Input.anyKeyDown && !Input.GetMouseButtonDown(0))
+                {
+                    lastSelected = currentSelected;
+                    return;
+                }
 
                 // Invoke for menu buttons
                 if (currentSelected != null && currentSelected.GetComponent<MenuButtonControl>() != null)
