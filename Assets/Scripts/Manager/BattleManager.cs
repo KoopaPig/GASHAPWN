@@ -1,11 +1,13 @@
 using GASHAPWN.UI;
 using JetBrains.Annotations;
+using NUnit.Framework;
 using System;
 using System.Diagnostics.Tracing;
 using System.Timers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 namespace GASHAPWN
 {
@@ -30,6 +32,8 @@ namespace GASHAPWN
 
         // Controls battle end
         public bool playerHasDied = false;
+
+        GameObject playerThatDied = null;
 
         // Time limit of battle (seconds)
         public float battleTime = 0;
@@ -77,19 +81,17 @@ namespace GASHAPWN
             
             battleTime = GameManager.Instance.currentBattleTime;
 
-            //Remember to DISCARD CHANGES
-
             // Generate Figures
             player1Figure = FigureManager.instance.GetRandomFigure();
             player2Figure = FigureManager.instance.GetRandomFigure();
 
             // Check for null figures
+            if(player1Figure == null || player2Figure == null)
             if (player1Figure == null || player2Figure == null)
             {
                 Debug.Log($"Figures failed to generated: 1) {player1Figure.name}, 2) {player2Figure.name}");
                 return;
             }
-
         }
 
         private void Start()
@@ -219,9 +221,10 @@ namespace GASHAPWN
             
         }
 
-        public void OnPlayerDeath()
+        public void OnPlayerDeath(GameObject player)
         {
             playerHasDied = true;
+            playerThatDied = player;
         }
 
         // Performs actions required when the battle ends
@@ -233,12 +236,30 @@ namespace GASHAPWN
             Debug.Log("Battle End!");
         }
 
+        public void FigureCheck(List<Figure> Collection, Figure PlayerFigure)
+        {
+            if (!Collection.Contains(PlayerFigure))
+            {
+                Collection.Add(PlayerFigure);
+                newFigure = true;
+            }
+            else newFigure = false;
+        }
+
         public void End(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
                 showVictory = false;
                 // Determine if new figure screen should pop up
+
+                if (playerThatDied.CompareTag("Player1")) FigureCheck(GameManager.Instance.Player1Collection, player2Figure);
+                else if (playerThatDied.CompareTag("Player2")) FigureCheck(GameManager.Instance.Player2Collection, player1Figure);
+                else
+                {
+                    Debug.LogError("End executed without player that died");
+                }
+
                 if (newFigure) showFigure = true;
                 controls.FindActionMap("UI").actionTriggered -= End;
             }
