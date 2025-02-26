@@ -15,6 +15,8 @@ public class FileManager : MonoBehaviour
 
         DontDestroyOnLoad(this);
     }
+
+    // Save content to a file
     public static void Save<T>(string fileName, T content)
     {
         string filePath = Path.Combine(Application.persistentDataPath, fileName);
@@ -25,6 +27,12 @@ public class FileManager : MonoBehaviour
 
     public static T Load<T>(string fileName)
     {
+        // If the file does not exist, return a default value
+        if (!File.Exists(fileName))
+        {
+            Debug.Log("File not found; Returning Default...");
+            return default(T);
+        }
         string filePath = Path.Combine(Application.persistentDataPath, fileName);
         string dataAsJson = File.ReadAllText(filePath);
 

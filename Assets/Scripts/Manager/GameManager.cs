@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using System;
 using System.Data;
@@ -8,6 +9,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using System.IO;
 
 namespace GASHAPWN
 {
@@ -19,6 +23,8 @@ namespace GASHAPWN
         public GameState State;
 
         public static event Action<GameState> OnGameStateChanged;
+
+        public List<Figure> Collection = new();
 
         [Header("Events to Trigger")]
         // Triggers when the player switches to the title screen
@@ -94,6 +100,18 @@ namespace GASHAPWN
             // Initial state
             UpdateGameState(GameState.Title);
           
+        }
+
+        // Save the collection to a specific player
+        public void Save(string playerName)
+        {
+            FileManager.Save<List<Figure>>(playerName, Collection);
+        }
+
+        // Load the collection from a specific player
+        public void Load(string playerName) 
+        {
+            Collection = FileManager.Load<List<Figure>>(playerName);
         }
 
         public enum GameState
