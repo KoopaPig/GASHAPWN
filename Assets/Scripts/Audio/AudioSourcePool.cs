@@ -28,8 +28,8 @@ namespace GASHAPWN.Audio
             {
                 Destroy(gameObject);
             }
-            // Persistance?
-            //DontDestroyOnLoad(gameObject);  
+            // Persistance
+            DontDestroyOnLoad(gameObject);  
         }
 
         // Initialize AudioSources, fill queue with them
