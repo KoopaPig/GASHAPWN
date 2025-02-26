@@ -28,6 +28,8 @@ public class PlayerData : MonoBehaviour
     public bool isGrounded = false;
     public bool controlsEnabled = true;
     public bool hasSlammed = false;
+    public bool isCharging = false;
+    public bool hasCharged = false;
 
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
@@ -51,6 +53,12 @@ public class PlayerData : MonoBehaviour
 
     [Header("Quick Break Settings")]
     public float quickBreakDuration = 0.2f;
+
+    [Header("Charge Roll Settings")]
+    public float chargeRollMinForce = 15f;
+    public float chargeRollMaxForce = 45f;
+    public float chargeRollMaxDuration = 2f;
+    public float chargeRollSpinSpeed = 1000f;
 
     private void Start()
     {
