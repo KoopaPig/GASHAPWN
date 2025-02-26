@@ -45,6 +45,7 @@ namespace GASHAPWN
 
         public void UpdateGameState(GameState newState)
         {
+            State = newState;
             switch (newState)
             {
                 case GameState.Title:
@@ -99,9 +100,7 @@ namespace GASHAPWN
         private void Start()
         {
             // Initial state
-            UpdateGameState(GameState.Title);
-          
-        }
+            //UpdateGameState(GameState.Title);
 
         // Save the collection to a specific player
         public void Save(string playerName, List<Figure> Collection)
@@ -114,14 +113,12 @@ namespace GASHAPWN
         {
             Collection = FileManager.Load<List<Figure>>(playerName + ".json");
         }
-
-        public enum GameState
-        {
-            Title,
-            LevelSelect,
-            Battle,
-            Collection
-        }
-
+    }
+    public enum GameState
+    {
+        Title,
+        LevelSelect,
+        Battle,
+        Collection
     }
 }

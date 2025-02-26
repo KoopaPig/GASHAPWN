@@ -87,11 +87,11 @@ namespace GASHAPWN
 
             // Check for null figures
             if(player1Figure == null || player2Figure == null)
+            if (player1Figure == null || player2Figure == null)
             {
                 Debug.Log($"Figures failed to generated: 1) {player1Figure.name}, 2) {player2Figure.name}");
                 return;
             }
-            
         }
 
         private void Start()
