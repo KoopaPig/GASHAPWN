@@ -69,6 +69,8 @@ namespace GASHAPWN
         // TODO: Triggers if new figure wins
         public UnityEvent<BattleState> ChangeToNewFigure = new();
 
+        public UnityEvent<string, Figure> OnWinningFigure = new();
+
         private void Awake()
         {
             // Check for other instances
@@ -235,6 +237,8 @@ namespace GASHAPWN
         {
             playerHasDied = true;
             playerThatDied = player;
+            if (player.CompareTag("Player1")) OnWinningFigure.Invoke(player.tag, player2Figure);
+            else OnWinningFigure.Invoke(player.tag, player1Figure);
         }
 
         // Performs actions required when the battle ends
@@ -246,14 +250,45 @@ namespace GASHAPWN
             Debug.Log("Battle End!");
         }
 
-        public void FigureCheck(List<Figure> Collection, Figure PlayerFigure)
+        public void FigureCheck(string WinningTag, Figure PlayerFigure)
         {
-            if (!Collection.Contains(PlayerFigure))
+            //if (!Collection.Contains(PlayerFigure))
+            //{
+            //    Collection.Add(PlayerFigure);
+            //    newFigure = true;
+            //}
+            //else newFigure = false;
+
+            GameManager.CollectedFigure potentialNewFigure = new(PlayerFigure);
+
+            if(WinningTag == "Player1")
             {
-                Collection.Add(PlayerFigure);
-                newFigure = true;
+                if (!GameManager.Instance.Player1Collection.Contains(potentialNewFigure))
+                {
+                    GameManager.Instance.Player1Collection.Add(potentialNewFigure);
+                    newFigure = true;
+                }
+                else
+                {
+                    int index = GameManager.Instance.Player1Collection.FindIndex(x => x == potentialNewFigure);
+                    GameManager.Instance.Player1Collection[index].amount += 1;
+                    newFigure = false;
+                }
             }
-            else newFigure = false;
+            else
+            {
+                if (!GameManager.Instance.Player2Collection.Contains(potentialNewFigure))
+                {
+                    GameManager.Instance.Player2Collection.Add(potentialNewFigure);
+                    newFigure = true;
+                }
+                else
+                {
+                    int index = GameManager.Instance.Player2Collection.FindIndex(x => x == potentialNewFigure);
+                    GameManager.Instance.Player2Collection[index].amount += 1;
+                    newFigure = false;
+                }
+            }
         }
 
         public void End(InputAction.CallbackContext context)
@@ -263,12 +298,12 @@ namespace GASHAPWN
                 showVictory = false;
                 // Determine if new figure screen should pop up
 
-                if (playerThatDied.CompareTag("Player1")) FigureCheck(GameManager.Instance.Player1Collection, player2Figure);
-                else if (playerThatDied.CompareTag("Player2")) FigureCheck(GameManager.Instance.Player2Collection, player1Figure);
-                else
-                {
-                    Debug.LogError("End executed without player that died");
-                }
+                //if (playerThatDied.CompareTag("Player1")) FigureCheck(GameManager.Instance.Player1Collection, player2Figure);
+                //else if (playerThatDied.CompareTag("Player2")) FigureCheck(GameManager.Instance.Player2Collection, player1Figure);
+                //else
+                //{
+                //    Debug.LogError("End executed without player that died");
+                //}
 
                 if (newFigure) showFigure = true;
                 controls.FindActionMap("UI").actionTriggered -= End;
