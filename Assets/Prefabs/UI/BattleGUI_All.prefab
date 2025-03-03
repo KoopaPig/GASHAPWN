@@ -148,7 +148,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2695971243832806392}
-  - component: {fileID: 1965133005947355633}
+  - component: {fileID: 1512367952783400628}
+  - component: {fileID: 6299863695979179259}
   m_Layer: 0
   m_Name: BattleGUI_Sub
   m_TagString: Untagged
@@ -175,7 +176,19 @@ Transform:
   - {fileID: 1068293308139722973}
   m_Father: {fileID: 4471261171789601354}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1965133005947355633
+--- !u!225 &1512367952783400628
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93580756949727813}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &6299863695979179259
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -184,11 +197,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 93580756949727813}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a7c2ecddf5c8334ea74e53078e8ce0f, type: 3}
+  m_Script: {fileID: 11500000, guid: ebc6f5b2d9df735479d054fd4c9e7974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fadeInDuration: 0.5
-  fadeInWaitDuration: 0
+  fadeInWaitDuration: 4
   fadeOutDuration: 0.15
   fadeOutWaitDuration: 3
 --- !u!1 &174922653850427260
@@ -1118,6 +1131,7 @@ GameObject:
   - component: {fileID: 5907417252974877923}
   - component: {fileID: 8447800454279609865}
   - component: {fileID: 3543755917624300089}
+  - component: {fileID: 5748835786556130517}
   m_Layer: 5
   m_Name: VictoryScreen
   m_TagString: Untagged
@@ -1174,12 +1188,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4538a245ba476774e8b1d391a08c93c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  victoryScreenFirstButton: {fileID: 0}
+  victoryScreenFirstButton: {fileID: 4944629414115335179}
   slideDuration: 0.3
   offsetInPixels: 200
   winnerText: {fileID: 7649310004880618355}
   winnerCrownGUI: {fileID: 3615043769597843951}
   debugFigure: {fileID: 11400000, guid: 01c15c1dd85a56146854f1070c19ee87, type: 2}
+--- !u!114 &5748835786556130517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461076754654248601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebc6f5b2d9df735479d054fd4c9e7974, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeInDuration: 0.5
+  fadeInWaitDuration: 0
+  fadeOutDuration: 0.5
+  fadeOutWaitDuration: 0.25
 --- !u!1 &1478043292194606162
 GameObject:
   m_ObjectHideFlags: 0
@@ -2230,7 +2260,7 @@ MonoBehaviour:
   charName: {fileID: 1774413177261284908}
   healthBarBorder: {fileID: 2235471556580025685}
   capsuleGroup: {fileID: 444297324343676522}
-  capsuleAnimator: {fileID: 0}
+  capsuleAnimator: {fileID: 7711050048885452350}
   grayColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
   damageColor: {r: 0.8039216, g: 0.25882354, b: 0.37254903, a: 1}
   healColor: {r: 0.6745098, g: 0.8235294, b: 0.4, a: 1}
@@ -3174,12 +3204,12 @@ GameObject:
   - component: {fileID: 3489173737862184675}
   - component: {fileID: 1876946851648993104}
   m_Layer: 5
-  m_Name: GeneralButton
+  m_Name: ContinueButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8429595335930654302
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3196,11 +3226,11 @@ RectTransform:
   - {fileID: 1018053648456037987}
   m_Father: {fileID: 5907417252974877923}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -450}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -175, y: 50}
   m_SizeDelta: {x: 405.5, y: 118}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 0}
 --- !u!222 &1856911825414505346
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3282,7 +3312,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5407478139113676692}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3543755917624300089}
+        m_TargetAssemblyTypeName: GASHAPWN.UI.VictoryScreenGUI, Assembly-CSharp
+        m_MethodName: GoToNewFigure
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3489173737862184675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5920,7 +5962,7 @@ MonoBehaviour:
   charName: {fileID: 4024884699204122889}
   healthBarBorder: {fileID: 745077931155051779}
   capsuleGroup: {fileID: 8336599201282922943}
-  capsuleAnimator: {fileID: 0}
+  capsuleAnimator: {fileID: 7450027346116191956}
   grayColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
   damageColor: {r: 0.8039216, g: 0.25882354, b: 0.37254903, a: 1}
   healColor: {r: 0.6745098, g: 0.8235294, b: 0.4, a: 1}
