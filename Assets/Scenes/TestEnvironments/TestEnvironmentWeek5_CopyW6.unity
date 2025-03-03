@@ -3906,7 +3906,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GASHAPWN.UI.BattleGUIParent, Assembly-CSharp
+      value: GASHAPWN.UI.GraphicsFaderCanvas, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -7628,13 +7628,13 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: bdf66f4460a14434692991e66e709581, type: 3}
 --- !u!114 &1818147866 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1965133005947355633, guid: bdf66f4460a14434692991e66e709581, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6299863695979179259, guid: bdf66f4460a14434692991e66e709581, type: 3}
   m_PrefabInstance: {fileID: 1818147865}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a7c2ecddf5c8334ea74e53078e8ce0f, type: 3}
+  m_Script: {fileID: 11500000, guid: ebc6f5b2d9df735479d054fd4c9e7974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1818147867 stripped

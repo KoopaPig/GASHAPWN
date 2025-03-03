@@ -18,6 +18,7 @@ namespace GASHAPWN.UI {
 
         public string initSceneName;
         public string playSceneName;
+        public string collectionSceneName;
         public GameObject titleScreen; // Get reference to Title Screen object
         public GameObject controlsScreen; // Get reference to Controls Screen object
         public GameObject optionsScreen; // Get refeence to Options Screen object
@@ -94,8 +95,12 @@ namespace GASHAPWN.UI {
         {
             TransitionManager.Instance().Transition(playSceneName, menuTransition, 0);
             GameManager.Instance.UpdateGameState(GameState.LevelSelect);
-            //UI_SFXManager.Instance.
-            
+        }
+
+        public void ToCollection()
+        {
+            TransitionManager.Instance().Transition(collectionSceneName, menuTransition, 0);
+            GameManager.Instance.UpdateGameState(GameState.Collection);
         }
 
         public void OpenControls()

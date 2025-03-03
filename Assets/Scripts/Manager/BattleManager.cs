@@ -157,11 +157,21 @@ namespace GASHAPWN
         {
             if (State == BattleState.Battle || State == BattleState.SuddenDeath)
             {
-                BattleEndActions();
                 State = BattleState.VictoryScreen;
                 ChangeToVictory.Invoke(State);
+                BattleEndActions();
             }
             else Debug.Log("Can not change battle state to victory");
+        }
+
+        public void ChangeStateNewFigureScreen()
+        {
+            if (State == BattleState.VictoryScreen)
+            {
+                State = BattleState.NewFigureScreen;
+                ChangeToNewFigure.Invoke(State);
+            }
+            else Debug.Log("BattleManager: Can not change battle state to newFigureScreen");
         }
 
         // Performs actions required when the battle begins
