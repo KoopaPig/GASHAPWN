@@ -33,6 +33,9 @@ namespace GASHAPWN
         // Controls battle end
         public bool playerHasDied = false;
 
+        // Temporary debug bool: if toggled, ignore playerData calling playerDeath
+        [SerializeField] private bool isDebug = false;
+
         GameObject playerThatDied = null;
 
         // Time limit of battle (seconds)
@@ -211,7 +214,10 @@ namespace GASHAPWN
 
             if (State == BattleState.Battle)
                 // display victory screen if player died during battle
-                if (playerHasDied) { ChangeStateVictoryScreen(); }
+                if (playerHasDied) { 
+                    ChangeStateVictoryScreen();
+                    if (isDebug) OnPlayerDeathDebug();
+                }
                 else if (battleTime <= 0)
                 {
                     ChangeStateSuddenDeath();
@@ -220,7 +226,11 @@ namespace GASHAPWN
             if (State == BattleState.SuddenDeath)
             {
                 // display victory screen if player died during sudden death
-                if (playerHasDied) { ChangeStateVictoryScreen(); }
+                if (playerHasDied) { 
+                    ChangeStateVictoryScreen();
+                    if (isDebug) OnPlayerDeathDebug();
+
+                }
 
             }
 
@@ -230,7 +240,12 @@ namespace GASHAPWN
                 // Check for inputs from the UI actionmap
                 controls.FindActionMap("UI").actionTriggered += End;
             }
-            
+
+        }
+
+        private void OnPlayerDeathDebug()
+        {
+            OnWinningFigure.Invoke("Player1", player1Figure);
         }
 
         public void OnPlayerDeath(GameObject player)

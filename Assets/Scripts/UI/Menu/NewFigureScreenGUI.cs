@@ -74,6 +74,7 @@ namespace GASHAPWN.UI
         private void Start()
         {
             BattleManager.Instance.ChangeToNewFigure.AddListener(OnNewFigureScreen);
+            BattleManager.Instance.OnWinningFigure.AddListener(SetWinningFigure);
         }
 
         private void OnNewFigureScreen(BattleState state)
@@ -84,7 +85,6 @@ namespace GASHAPWN.UI
             figureScreen_FG.GetComponent<GraphicsFaderCanvas>().FadeTurnOn();
 
             // TODO: Get winning figure from BattleManager
-            //winningFigure = BattleManager.Instance.
             figureName.text = winningFigure.Name;
             starsGUI.SetStars(winningFigure);
 
@@ -102,6 +102,7 @@ namespace GASHAPWN.UI
         private void OnDisable()
         {
             BattleManager.Instance.ChangeToNewFigure.RemoveListener(OnNewFigureScreen);
+            BattleManager.Instance.OnWinningFigure.RemoveListener(SetWinningFigure);
         }
 
         // Use as a buffer before activating buttons
@@ -130,6 +131,11 @@ namespace GASHAPWN.UI
             // Note: for capsule opening animation to play again, "isCapsuleEnter" must be set to true.
             capsuleAnimator.SetBool("isCapsuleOpen", false);
 
+        }
+
+        private void SetWinningFigure(string tag, Figure figure)
+        {
+            winningFigure = figure;
         }
     }
 }
