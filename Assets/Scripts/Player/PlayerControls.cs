@@ -49,7 +49,16 @@ public class PlayerController : MonoBehaviour
 
         if (context.performed && playerData != null && playerData.isGrounded)
         {
-            rb.AddForce(Vector3.up * playerData.jumpForce, ForceMode.Impulse);
+            if (playerData.currentStamina >= 1f)
+            {
+                rb.AddForce(Vector3.up * playerData.jumpForce, ForceMode.Impulse);
+                playerData.currentStamina -= 1f;
+                playerData.OnStaminaChanged.Invoke(playerData.currentStamina);
+            }
+            else
+            {
+                Debug.Log("Not enough stamina to jump");
+            }
         }
     }
 
@@ -60,7 +69,16 @@ public class PlayerController : MonoBehaviour
 
         if (context.performed && !playerData.isGrounded && !playerData.hasSlammed)
         {
-            StartCoroutine(SlamCoroutine());
+            if (playerData.currentStamina >= 1f)
+            {
+                StartCoroutine(SlamCoroutine());
+                playerData.currentStamina -= 1f;
+                playerData.OnStaminaChanged.Invoke(playerData.currentStamina);
+            }
+            else
+            {
+                Debug.Log("Not enough stamina to slam");
+            }
         }
     }
 
@@ -94,7 +112,16 @@ public class PlayerController : MonoBehaviour
 
         if (context.performed)
         {
-            StartCoroutine(QuickBreakCoroutine());
+            if (playerData.currentStamina >= 2f)
+            {
+                StartCoroutine(QuickBreakCoroutine());
+                playerData.currentStamina -= 2f;
+                playerData.OnStaminaChanged.Invoke(playerData.currentStamina);
+            }
+            else
+            {
+                Debug.Log("Not enough stamina for quick break");
+            }
         }
     }
 
@@ -145,11 +172,18 @@ public class PlayerController : MonoBehaviour
 
     public void OnChargeRoll(InputAction.CallbackContext context)
     {
-        // if (playerData == null || !playerData.controlsEnabled) return;
-
         if (context.started && !playerData.isCharging && !playerData.hasCharged)
         {
-            StartCoroutine(ChargeRollCoroutine());
+            if (playerData.currentStamina >= 4f)
+            {
+                playerData.currentStamina -= 4f;
+                playerData.OnStaminaChanged.Invoke(playerData.currentStamina);
+                StartCoroutine(ChargeRollCoroutine());
+            }
+            else
+            {
+                Debug.Log("Not enough stamina to charge");
+            }
         }
         else if (context.canceled && playerData.isCharging)
         {
@@ -239,6 +273,64 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(chargeRotation * Vector3.forward * forceMagnitude, ForceMode.Impulse);
     }
 
+    public void OnBurst(InputAction.CallbackContext context)
+    {
+        if (playerData == null || !playerData.controlsEnabled)
+            return;
+
+        if (context.performed)
+        {
+            if (playerData.currentStamina >= 6f)
+            {
+                StartCoroutine(BurstCoroutine());
+                playerData.currentStamina -= 6f;
+                playerData.OnStaminaChanged.Invoke(playerData.currentStamina);
+            }
+            else
+            {
+                Debug.Log("Not enough stamina for burst");
+            }
+        }
+    }
+
+    private IEnumerator BurstCoroutine()
+    {
+        // Disable controls
+        playerData.controlsEnabled = false;
+
+        // Stop the player
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        // Lift up slightly
+        rb.AddForce(Vector3.up * 5f, ForceMode.Impulse); // Adjust force as needed
+
+        // Wait briefly for the lift
+        yield return new WaitForSeconds(0.2f);
+
+        // Send out shockwave
+        float shockwaveRadius = 5f; // Radius of effect
+        float knockbackForce = 10f; // Force applied to others
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, shockwaveRadius);
+        foreach (Collider col in colliders)
+        {
+            if (col.CompareTag("Player") && col.gameObject != gameObject) // Exclude self
+            {
+                Rigidbody otherRb = col.GetComponent<Rigidbody>();
+                if (otherRb != null)
+                {
+                    Vector3 direction = (otherRb.position - transform.position).normalized;
+                    otherRb.AddForce(direction * knockbackForce, ForceMode.Impulse);
+                }
+            }
+        }
+
+        // Re-enable controls after effect
+        yield return new WaitForSeconds(0.5f);
+        playerData.controlsEnabled = true;
+    }
+
     private void FixedUpdate()
     {
         if (playerData == null)
@@ -254,6 +346,13 @@ public class PlayerController : MonoBehaviour
             playerData.hasCharged = false;
             Vector3 force = new Vector3(moveInput.x, 0f, moveInput.y) * playerData.moveSpeed;
             rb.AddForce(force);
+
+            if (moveInput.sqrMagnitude > 0.01f) // Avoid floating-point precision issues
+            {
+                playerData.currentStamina += playerData.staminaRegenRate * Time.fixedDeltaTime;
+                playerData.currentStamina = Mathf.Clamp(playerData.currentStamina, 0f, playerData.maxStamina);
+                playerData.OnStaminaChanged.Invoke(playerData.currentStamina);
+            }
         }
         else
         {

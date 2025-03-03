@@ -8,9 +8,10 @@ public class PlayerData : MonoBehaviour
 
     [Header("Health & Stamina")]
     public int maxHealth = 5;
-    private int currentHealth;
-    public float maxStamina = 300;
-    private float currentStamina;
+    public int currentHealth;
+    public float maxStamina = 6f;
+    public float currentStamina;
+    public float staminaRegenRate = .5f;
 
     [Header("Events")]
 
@@ -63,7 +64,7 @@ public class PlayerData : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
-        currentStamina = maxStamina;
+        currentStamina = 2f;
         SetMaxHealth.Invoke(maxHealth);
         SetMaxStamina.Invoke(maxStamina);
         rb = GetComponent<Rigidbody>();

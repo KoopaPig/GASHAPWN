@@ -8,7 +8,6 @@ public class ChargeRollIndicator : MonoBehaviour
     public float maxLineLength = 10f;
 
     private Vector3 chargeDirection;
-    private float currentCharge;
 
     private void Start()
     {
