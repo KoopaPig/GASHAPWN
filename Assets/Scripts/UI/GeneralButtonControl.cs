@@ -23,7 +23,7 @@ public class GeneralButtonControl : MonoBehaviour, IPointerEnterHandler, IPointe
         btn = gameObject.GetComponent<Button>();
     }
 
-    private ButtonStatus lastButtonStatus = ButtonStatus.Normal;
+    protected ButtonStatus lastButtonStatus = ButtonStatus.Normal;
     
     protected bool isHighlightDesired = false;
     protected bool isPressedDesired = false;

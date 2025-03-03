@@ -20,7 +20,8 @@ public class MenuButtonControl : GeneralButtonControl
     protected override void Update()
     {
         base.Update();
-        if (isHighlightDesired)
+
+        if (isHighlightDesired && GetComponent<Button>().enabled)
         {
             //buttonOutline.GetComponent<Animator>().enabled = true;
             buttonOutline.enabled = true;
