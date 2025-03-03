@@ -102,6 +102,8 @@ namespace GASHAPWN
             // Initial state
             //UpdateGameState(GameState.Title);
 
+        }
+
         // Save the collection to a specific player
         public void Save(string playerName, List<Figure> Collection)
         {
