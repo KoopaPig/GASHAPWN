@@ -8,9 +8,10 @@ public class PlayerData : MonoBehaviour
 
     [Header("Health & Stamina")]
     public int maxHealth = 5;
-    private int currentHealth;
-    public float maxStamina = 300;
-    private float currentStamina;
+    public int currentHealth;
+    public float maxStamina = 6f;
+    public float currentStamina;
+    public float staminaRegenRate = .5f;
 
     [Header("Events")]
 
@@ -28,6 +29,8 @@ public class PlayerData : MonoBehaviour
     public bool isGrounded = false;
     public bool controlsEnabled = true;
     public bool hasSlammed = false;
+    public bool isCharging = false;
+    public bool hasCharged = false;
 
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
@@ -52,10 +55,16 @@ public class PlayerData : MonoBehaviour
     [Header("Quick Break Settings")]
     public float quickBreakDuration = 0.2f;
 
+    [Header("Charge Roll Settings")]
+    public float chargeRollMinForce = 15f;
+    public float chargeRollMaxForce = 45f;
+    public float chargeRollMaxDuration = 2f;
+    public float chargeRollSpinSpeed = 1000f;
+
     private void Start()
     {
         currentHealth = maxHealth;
-        currentStamina = maxStamina;
+        currentStamina = 2f;
         SetMaxHealth.Invoke(maxHealth);
         SetMaxStamina.Invoke(maxStamina);
         rb = GetComponent<Rigidbody>();

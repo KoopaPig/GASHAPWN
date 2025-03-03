@@ -35,7 +35,7 @@ namespace GASHAPWN.UI {
             if (GetComponentInParent<CanvasGroup>() != null) 
             {
                 GetComponentInParent<CanvasGroup>().interactable = false;
-            } else Debug.LogError("Parent Canvas of Victory Screen requires a CanvasGroup Component");
+            } else Debug.LogError("VictoryScreenGUI: Parent Canvas of Victory Screen requires a CanvasGroup Component");
 
             // Screen starts offscreen
             float screenWidth = rectTransform.rect.width; 
@@ -52,8 +52,9 @@ namespace GASHAPWN.UI {
 
             // Disable winnerText
             winnerText.gameObject.SetActive(false);
-
         }
+
+        // need to subscribe to OnWinningFigure event from BattleManager
 
         /// <summary>
         /// Set winner given playerTag + figure, very important that this is called after victory screen activated
@@ -125,8 +126,7 @@ namespace GASHAPWN.UI {
             }
 
             GetComponent<RectTransform>().anchoredPosition = onscreenPosition;
-            EventSystem.current.SetSelectedGameObject(victoryScreenFirstButton); // Set new button here
-            GetComponentInParent<CanvasGroup>().interactable = true;
+            StartCoroutine(WaitTurnOnButton(1.5f));
         }
 
         public void StaggerFadeInResultsContainers()
@@ -144,6 +144,14 @@ namespace GASHAPWN.UI {
             }
         }
 
+        public void GoToNewFigure()
+        {
+            BattleManager.Instance.ChangeStateNewFigureScreen();
+            // deactivate this stuff
+            GetComponent<GraphicsFaderCanvas>().FadeTurnOff();
+        }
+
+
         // TEMPORARY DEBUG
         public void SimulatePlayer2WinningDebug()
         {
@@ -151,6 +159,8 @@ namespace GASHAPWN.UI {
             PopulateResultsGivenPlayer("Player2", debugFigure);
             PopulateResultsGivenPlayer("Player1", debugFigure);
             StaggerFadeInResultsContainers();
+
+            // will have to figure out how to populate results for players with only one event call
         }
 
         /// PRIVATE METHODS ///
@@ -170,6 +180,18 @@ namespace GASHAPWN.UI {
             }
 
             transform.anchoredPosition = targetPos;
+        }
+
+        private IEnumerator WaitTurnOnButton(float waitDuration)
+        {
+            if (GetComponentInParent<CanvasGroup>() == null)
+            {
+                Debug.LogError("VictoryScreenGUI: CanvasGroup is missing.");
+                yield break;
+            }
+            yield return new WaitForSeconds(waitDuration);
+            EventSystem.current.SetSelectedGameObject(victoryScreenFirstButton); // Set new button here
+            GetComponentInParent<CanvasGroup>().interactable = true;
         }
     }
 }

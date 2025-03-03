@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 3
   Name: Dog
   Description: Test Description
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 61b1bb52dbc09e840bfa3ea9f41b7adb, type: 3}
   Rarity: 0.5
   capsuleModelPrefab: {fileID: 1596840441843810, guid: 3bd24c2fcb09b394498adb9df0dc835d, type: 3}
   collectionModelPrefab: {fileID: 1596840441843810, guid: 71e4dd9d518163d40bf9de3e3253cf3f, type: 3}

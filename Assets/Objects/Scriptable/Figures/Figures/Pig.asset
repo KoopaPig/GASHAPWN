@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 4
   Name: Pig
   Description: Test Description
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 9e696090bfd8d8d46ae99610c9d7d66e, type: 3}
   Rarity: 0.75
   capsuleModelPrefab: {fileID: 3917653514081341178, guid: 12fa38096c041a446a122f858152b05f, type: 3}
   collectionModelPrefab: {fileID: 3917653514081341178, guid: be1048efcd127514ca0f31591ddf3976, type: 3}

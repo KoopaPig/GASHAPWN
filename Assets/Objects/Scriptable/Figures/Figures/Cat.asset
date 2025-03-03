@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 1
   Name: Cat
   Description: Test Description
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 1ef52ccb873d436409ba6fcee219614f, type: 3}
   Rarity: 0.25
   capsuleModelPrefab: {fileID: 9017807211574330043, guid: 95fd08174cbbfab40a039a485ca40655, type: 3}
   collectionModelPrefab: {fileID: 9017807211574330043, guid: e7352e73bdc6731498f2bbcf3324f2d2, type: 3}
