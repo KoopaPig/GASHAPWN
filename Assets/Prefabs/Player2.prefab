@@ -272,10 +272,10 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2796485288062580360}
   - {fileID: 7483671449522736143}
   - {fileID: 6171905508888224146}
   - {fileID: 1612953007304507493}
-  - {fileID: 2796485288062580360}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &6059896123608856993
@@ -318,6 +318,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 5
+  currentHealth: 0
+  maxStamina: 6
+  currentStamina: 0
+  staminaRegenRate: 0.5
   OnDamage:
     m_PersistentCalls:
       m_Calls:
@@ -351,12 +355,26 @@ MonoBehaviour:
   SetHealth:
     m_PersistentCalls:
       m_Calls: []
+  OnStaminaChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  SetMaxStamina:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStaminaHardDecrease:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStaminaHardIncrease:
+    m_PersistentCalls:
+      m_Calls: []
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
   isGrounded: 0
   controlsEnabled: 1
   hasSlammed: 0
+  isCharging: 0
+  hasCharged: 0
   moveSpeed: 35
   jumpForce: 30
   minHitSpeed: 3
@@ -368,6 +386,10 @@ MonoBehaviour:
   slamForce: 80
   slamDelay: 0.4
   quickBreakDuration: 0.2
+  chargeRollMinForce: 15
+  chargeRollMaxForce: 45
+  chargeRollMaxDuration: 2
+  chargeRollSpinSpeed: 1000
 --- !u!114 &8129853449011347689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,6 +583,18 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 2669859a-0eeb-46f9-abc2-185dbf7b399c
     m_ActionName: 'Player2/QuickBreak[/Keyboard/enter]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2abb32f5-18d2-4bfc-bc32-7209a71485c5
+    m_ActionName: 'Player1/RotateChargeDirection[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 94d17b14-b038-4544-9824-2e6c916c883f
+    m_ActionName: 'Player1/ChargeRoll[/Keyboard/leftShift]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 286c366a-68eb-4f98-99cd-6f4c4445effd
+    m_ActionName: 'Player1/Burst[/Keyboard/b]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player2
@@ -735,12 +769,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7483671449522736143}
-  - component: {fileID: 8354346647614018516}
-  - component: {fileID: 8671729442969987467}
   m_Layer: 0
-  m_Name: Ball
+  m_Name: FigurePos
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -759,59 +791,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6525822001250450065}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &8354346647614018516
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4614500710092489658}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &8671729442969987467
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4614500710092489658}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: f98d3c6d8c5a2144a8d5c8ad766cf88a, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &5863375057456254084
 GameObject:
   m_ObjectHideFlags: 0
