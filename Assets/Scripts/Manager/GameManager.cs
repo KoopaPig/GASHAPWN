@@ -1,12 +1,17 @@
 using JetBrains.Annotations;
+using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using System;
 using System.Data;
 using System.Runtime.CompilerServices;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using System.IO;
 
 namespace GASHAPWN
 {
@@ -18,6 +23,19 @@ namespace GASHAPWN
         public GameState State;
 
         public static event Action<GameState> OnGameStateChanged;
+
+        [System.Serializable]
+        public class CollectedFigure
+        {
+            public Figure figure;
+            public int amount;
+
+            public CollectedFigure() { figure = null; amount = 0; }
+            public CollectedFigure(Figure _figure) { figure = _figure; amount = 1; }
+        };
+
+        public List<CollectedFigure> Player1Collection = new();
+        public List<CollectedFigure> Player2Collection = new();
 
         [Header("Events to Trigger")]
         // Triggers when the player switches to the title screen
@@ -37,6 +55,7 @@ namespace GASHAPWN
 
         public void UpdateGameState(GameState newState)
         {
+            State = newState;
             switch (newState)
             {
                 case GameState.Title:
@@ -91,16 +110,27 @@ namespace GASHAPWN
         private void Start()
         {
             // Initial state
-            UpdateGameState(GameState.Title);
-          
+            //UpdateGameState(GameState.Title);
+
+        }
+        // Save the collection to a specific player
+        public void Save(string playerName, List<CollectedFigure> Collection)
+        {
+            FileManager.Save(playerName + ".json", Collection);
         }
 
-        public enum GameState
+        // Load the collection from a specific player
+        public List<CollectedFigure> Load(string playerName, List<CollectedFigure> Collection) 
         {
-            Title,
-            LevelSelect,
-            Battle,
-            Collection
+            Collection = FileManager.Load<List<CollectedFigure>>(playerName + ".json");
+            return Collection;
         }
+    }
+    public enum GameState
+    {
+        Title,
+        LevelSelect,
+        Battle,
+        Collection
     }
 }

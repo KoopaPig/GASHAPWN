@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1797370821631881209}
+  - component: {fileID: 8337677881196263548}
+  - component: {fileID: 3225273884732686099}
   m_Layer: 0
   m_Name: FigureManager
   m_TagString: Untagged
@@ -31,3 +33,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3225273884732686099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8920462249093259636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 412dab74ce5ea854482830699496bdbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  figureDatabase: {fileID: 11400000, guid: 41ceb5b773a7f184ea0268efcb45c709, type: 2}
