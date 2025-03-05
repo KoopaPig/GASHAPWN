@@ -64,8 +64,8 @@ public class PlayerData : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
-        currentStamina = 2f;
         SetMaxHealth.Invoke(maxHealth);
+        currentStamina = 6f;
         SetMaxStamina.Invoke(maxStamina);
         rb = GetComponent<Rigidbody>();
     }
