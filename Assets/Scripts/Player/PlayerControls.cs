@@ -196,36 +196,29 @@ public class PlayerController : MonoBehaviour
         playerData.isCharging = true;
         playerData.controlsEnabled = false;
 
-        // **Set Base Charge Direction to Player's X/Z Forward Direction**
         Vector3 baseDirection = new Vector3(transform.forward.x, 0, transform.forward.z).normalized;
-        chargeRotation = Quaternion.LookRotation(baseDirection); // Face forward direction
+        chargeRotation = Quaternion.LookRotation(baseDirection);
 
-        // Store original physics values
         bool originalGravity = rb.useGravity;
         float originalDrag = rb.linearDamping;
         float originalAngularDrag = rb.angularDamping;
 
-        // Smoothly decelerate before charging
         float stopDuration = 0.3f;
         float elapsed = 0f;
         Vector3 initialVelocity = rb.linearVelocity;
         Vector3 initialAngularVelocity = rb.angularVelocity;
-
         while (elapsed < stopDuration)
         {
             elapsed += Time.deltaTime;
             float t = elapsed / stopDuration;
-
             rb.linearVelocity = Vector3.Lerp(initialVelocity, Vector3.zero, t);
             rb.angularVelocity = Vector3.Lerp(initialAngularVelocity, Vector3.zero, t);
-
             yield return null;
         }
 
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        // Prepare for charge
         rb.useGravity = false;
         rb.linearDamping = 5f;
         rb.angularDamping = 5f;
@@ -236,21 +229,18 @@ public class PlayerController : MonoBehaviour
             float chargeTime = Time.time - chargeStartTime;
             float chargePercent = Mathf.Clamp01(chargeTime / playerData.chargeRollMaxDuration);
 
-            // Spin player during charge
-            rb.AddTorque(transform.up * playerData.chargeRollSpinSpeed * chargePercent);
-
-            // **Adjust Charge Rotation (Player Always Faces Charge Direction)**
-            float yRotation = rotationInput.x * 100f * Time.deltaTime; // A/D → Y-Axis
-            float xzRotation = rotationInput.y * 100f * Time.deltaTime; // W/S → X/Z-Axis
+            float yRotation = rotationInput.x * 100f * Time.deltaTime;
+            float xzRotation = rotationInput.y * 100f * Time.deltaTime;
             chargeRotation *= Quaternion.Euler(xzRotation, yRotation, 0f);
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, chargeRotation, Time.deltaTime * 10f);
+            Vector3 targetDirection = chargeRotation * Vector3.forward;
+            Vector3 torqueDirection = Vector3.Cross(transform.forward, targetDirection);
+            rb.AddTorque(torqueDirection * playerData.chargeRollSpinSpeed * chargePercent);
 
-            chargeIndicator.UpdateIndicator(chargePercent, chargeRotation * Vector3.forward);
+            chargeIndicator.UpdateIndicator(chargePercent, targetDirection);
             yield return null;
         }
 
-        // Restore original physics values
         rb.useGravity = originalGravity;
         rb.linearDamping = originalDrag;
         rb.angularDamping = originalAngularDrag;
@@ -265,12 +255,11 @@ public class PlayerController : MonoBehaviour
         float chargeDuration = Time.time - chargeStartTime;
         float chargePercent = Mathf.Clamp01(chargeDuration / playerData.chargeRollMaxDuration);
 
-        // Apply force based on charge
-        float forceMagnitude = Mathf.Lerp(playerData.chargeRollMinForce,
-                                          playerData.chargeRollMaxForce,
-                                          chargePercent);
+        transform.rotation = chargeRotation;
 
-        rb.AddForce(chargeRotation * Vector3.forward * forceMagnitude, ForceMode.Impulse);
+        float forceMagnitude = Mathf.Lerp(playerData.chargeRollMinForce, playerData.chargeRollMaxForce, chargePercent);
+
+        rb.AddForce(transform.forward * forceMagnitude, ForceMode.Impulse);
     }
 
     public void OnBurst(InputAction.CallbackContext context)
@@ -295,27 +284,37 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator BurstCoroutine()
     {
-        // Disable controls
+        // Assuming rb is the player's Rigidbody and playerData manages control states
         playerData.controlsEnabled = false;
 
-        // Stop the player
+        // Stop current movement
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        // Lift up slightly
-        rb.AddForce(Vector3.up * 5f, ForceMode.Impulse); // Adjust force as needed
+        // Apply stronger upward force for higher float
+        rb.AddForce(Vector3.up * 20f, ForceMode.Impulse);
 
-        // Wait briefly for the lift
+        // Reorient player so top is up
+        Quaternion targetRotation = Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation;
+        float rotationDuration = 0.5f;
+        float elapsed = 0f;
+        while (elapsed < rotationDuration)
+        {
+            elapsed += Time.deltaTime;
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, elapsed / rotationDuration);
+            yield return null;
+        }
+
+        // Wait briefly after reorientation
         yield return new WaitForSeconds(0.2f);
 
-        // Send out shockwave
-        float shockwaveRadius = 5f; // Radius of effect
-        float knockbackForce = 10f; // Force applied to others
-
+        // Trigger shockwave (knockback code from above goes here)
+        float shockwaveRadius = 20f;
+        float knockbackForce = 80f;
         Collider[] colliders = Physics.OverlapSphere(transform.position, shockwaveRadius);
         foreach (Collider col in colliders)
         {
-            if (col.CompareTag("Player") && col.gameObject != gameObject) // Exclude self
+            if ((col.CompareTag("Player1") || col.CompareTag("Player2")) && col.gameObject != gameObject)
             {
                 Rigidbody otherRb = col.GetComponent<Rigidbody>();
                 if (otherRb != null)
@@ -326,7 +325,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // Re-enable controls after effect
+        // Re-enable controls
         yield return new WaitForSeconds(0.5f);
         playerData.controlsEnabled = true;
     }
