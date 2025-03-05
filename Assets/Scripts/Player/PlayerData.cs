@@ -125,7 +125,7 @@ public class PlayerData : MonoBehaviour
     public void TakeDamage(int damageAmt)
     {
         currentHealth -= damageAmt;
-        OnDamage.Invoke(currentHealth);
+        OnDamage.Invoke(damageAmt);
 
         if (currentHealth <= 0)
         {
