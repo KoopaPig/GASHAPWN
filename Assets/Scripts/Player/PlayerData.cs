@@ -4,21 +4,33 @@ using UnityEngine.Events;
 
 public class PlayerData : MonoBehaviour
 {
-    public int maxHealth = 5;
-    private int currentHealth;
     private Rigidbody rb;
+
+    [Header("Health & Stamina")]
+    public int maxHealth = 5;
+    public int currentHealth;
+    public float maxStamina = 6f;
+    public float currentStamina;
+    public float staminaRegenRate = .5f;
 
     [Header("Events")]
 
     public UnityEvent<int> OnDamage = new UnityEvent<int>(); // Broadcasts current health after taking damage
     public UnityEvent<int> SetMaxHealth = new UnityEvent<int>(); // Broadcasts max health
     public UnityEvent<int> SetHealth = new UnityEvent<int>(); // Set health
+
+    public UnityEvent<float> OnStaminaChanged = new UnityEvent<float>(); // Broadcast stamina value when changed
+    public UnityEvent<float> SetMaxStamina = new UnityEvent<float>(); // Broadcasts maximum stamina
+    public UnityEvent<float> OnStaminaHardDecrease = new UnityEvent<float>(); // Broadcast when some action instantly depletes stamina
+    public UnityEvent<float> OnStaminaHardIncrease = new UnityEvent<float>(); // Broadcast when some action instantly refills stamina
     public UnityEvent<GameObject> OnDeath = new UnityEvent<GameObject>();
 
     [Header("Player State Flags")]
     public bool isGrounded = false;
     public bool controlsEnabled = true;
     public bool hasSlammed = false;
+    public bool isCharging = false;
+    public bool hasCharged = false;
 
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
@@ -43,16 +55,24 @@ public class PlayerData : MonoBehaviour
     [Header("Quick Break Settings")]
     public float quickBreakDuration = 0.2f;
 
+    [Header("Charge Roll Settings")]
+    public float chargeRollMinForce = 15f;
+    public float chargeRollMaxForce = 45f;
+    public float chargeRollMaxDuration = 2f;
+    public float chargeRollSpinSpeed = 1000f;
+
     private void Start()
     {
         currentHealth = maxHealth;
         SetMaxHealth.Invoke(maxHealth);
+        currentStamina = 6f;
+        SetMaxStamina.Invoke(maxStamina);
         rb = GetComponent<Rigidbody>();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player")) // Assuming both players have the "Player" tag
+        if (collision.gameObject.CompareTag("Player1") || collision.gameObject.CompareTag("Player2"))
         {
             Rigidbody otherRb = collision.rigidbody;
             if (otherRb == null) return;
@@ -88,12 +108,12 @@ public class PlayerData : MonoBehaviour
 
     private bool IsMetalEnd(Vector3 hitPoint)
     {
-        return hitPoint.y < transform.position.y; // Example: Metal end is lower
+        return hitPoint.y < transform.position.y;
     }
 
     private bool IsDeflecting(Vector3 hitNormal)
     {
-        return Vector3.Dot(hitNormal, transform.forward) > 0.5f; // Example deflection logic
+        return Vector3.Dot(hitNormal, transform.forward) > 0.5f; // deflection logic
     }
 
     private void ApplyKnockback(Rigidbody otherRb, float multiplier)
@@ -105,7 +125,7 @@ public class PlayerData : MonoBehaviour
     public void TakeDamage(int damageAmt)
     {
         currentHealth -= damageAmt;
-        OnDamage.Invoke(currentHealth);
+        OnDamage.Invoke(damageAmt);
 
         if (currentHealth <= 0)
         {
@@ -126,4 +146,5 @@ public class PlayerData : MonoBehaviour
         OnDeath.Invoke(this.gameObject);
         gameObject.SetActive(false); // Disables the player
     }
+
 }

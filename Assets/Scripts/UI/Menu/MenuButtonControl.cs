@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using Febucci.UI;
-
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Button))]
 public class MenuButtonControl : GeneralButtonControl
@@ -20,12 +20,12 @@ public class MenuButtonControl : GeneralButtonControl
     protected override void Update()
     {
         base.Update();
-        if (isHighlightDesired)
+
+        if (isHighlightDesired && GetComponent<Button>().enabled)
         {
             //buttonOutline.GetComponent<Animator>().enabled = true;
             buttonOutline.enabled = true;
             textAnimator.SetBehaviorsActive(true);
-            //txt.fontMaterial
         }
         else
         {

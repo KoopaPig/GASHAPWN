@@ -1,11 +1,13 @@
 using GASHAPWN.UI;
 using JetBrains.Annotations;
+using NUnit.Framework;
 using System;
 using System.Diagnostics.Tracing;
 using System.Timers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 namespace GASHAPWN
 {
@@ -22,14 +24,16 @@ namespace GASHAPWN
         // Figure is already in collection
         public bool newFigure = false;
 
-        // New Figure screen
-        public bool showFigure = false;
-
         // Victory screen
         private bool showVictory = false;
 
         // Controls battle end
         public bool playerHasDied = false;
+
+        // Temporary debug bool: if toggled, ignore playerData calling playerDeath
+        [SerializeField] private bool isDebug = false;
+
+        GameObject playerThatDied = null;
 
         // Time limit of battle (seconds)
         public float battleTime = 0;
@@ -62,8 +66,11 @@ namespace GASHAPWN
         // Triggers when the battle has concluded
         public UnityEvent<BattleState> ChangeToVictory = new();
 
-        // TODO: Triggers if new figure wins
         public UnityEvent<BattleState> ChangeToNewFigure = new();
+
+        public UnityEvent<string, Figure> OnWinningFigure = new();
+
+        public UnityEvent<string, Figure> OnLosingFigure = new();
 
         private void Awake()
         {
@@ -83,11 +90,11 @@ namespace GASHAPWN
 
             // Check for null figures
             if(player1Figure == null || player2Figure == null)
+            if (player1Figure == null || player2Figure == null)
             {
                 Debug.Log($"Figures failed to generated: 1) {player1Figure.name}, 2) {player2Figure.name}");
                 return;
             }
-            
         }
 
         private void Start()
@@ -153,11 +160,21 @@ namespace GASHAPWN
         {
             if (State == BattleState.Battle || State == BattleState.SuddenDeath)
             {
-                BattleEndActions();
                 State = BattleState.VictoryScreen;
                 ChangeToVictory.Invoke(State);
+                BattleEndActions();
             }
             else Debug.Log("Can not change battle state to victory");
+        }
+
+        public void ChangeStateNewFigureScreen()
+        {
+            if (State == BattleState.VictoryScreen)
+            {
+                State = BattleState.NewFigureScreen;
+                ChangeToNewFigure.Invoke(State);
+            }
+            else Debug.Log("BattleManager: Can not change battle state to newFigureScreen");
         }
 
         // Performs actions required when the battle begins
@@ -195,7 +212,10 @@ namespace GASHAPWN
 
             if (State == BattleState.Battle)
                 // display victory screen if player died during battle
-                if (playerHasDied) { ChangeStateVictoryScreen(); }
+                if (playerHasDied) { 
+                    ChangeStateVictoryScreen();
+                    if (isDebug) OnPlayerDeathDebug();
+                }
                 else if (battleTime <= 0)
                 {
                     ChangeStateSuddenDeath();
@@ -204,7 +224,11 @@ namespace GASHAPWN
             if (State == BattleState.SuddenDeath)
             {
                 // display victory screen if player died during sudden death
-                if (playerHasDied) { ChangeStateVictoryScreen(); }
+                if (playerHasDied) { 
+                    ChangeStateVictoryScreen();
+                    if (isDebug) OnPlayerDeathDebug();
+
+                }
 
             }
 
@@ -214,21 +238,80 @@ namespace GASHAPWN
                 // Check for inputs from the UI actionmap
                 controls.FindActionMap("UI").actionTriggered += End;
             }
-            
+
         }
 
-        public void OnPlayerDeath()
+        private void OnPlayerDeathDebug()
+        {
+            OnWinningFigure.Invoke("Player2", player2Figure);
+            OnLosingFigure.Invoke("Player1", player1Figure);
+        }
+
+        public void OnPlayerDeath(GameObject player)
         {
             playerHasDied = true;
+            playerThatDied = player;
+            if (player.CompareTag("Player1"))
+            {
+                OnWinningFigure.Invoke("Player2", player2Figure);
+                OnLosingFigure.Invoke("Player1", player1Figure);
+            }
+            else
+            {
+                OnWinningFigure.Invoke("Player1", player1Figure);
+                OnLosingFigure.Invoke("Player2", player2Figure);
+
+            }
         }
 
-        // Performs actions required when the battle ends
-        public void BattleEndActions()
+            // Performs actions required when the battle ends
+            public void BattleEndActions()
         {
             trackTime = false;
             // Disable battle controls
             //battleControls.Disable();
             Debug.Log("Battle End!");
+        }
+
+        public void FigureCheck(string WinningTag, Figure PlayerFigure)
+        {
+            //if (!Collection.Contains(PlayerFigure))
+            //{
+            //    Collection.Add(PlayerFigure);
+            //    newFigure = true;
+            //}
+            //else newFigure = false;
+
+            GameManager.CollectedFigure potentialNewFigure = new(PlayerFigure);
+
+            if(WinningTag == "Player1")
+            {
+                if (!GameManager.Instance.Player1Collection.Contains(potentialNewFigure))
+                {
+                    GameManager.Instance.Player1Collection.Add(potentialNewFigure);
+                    newFigure = true;
+                }
+                else
+                {
+                    int index = GameManager.Instance.Player1Collection.FindIndex(x => x == potentialNewFigure);
+                    GameManager.Instance.Player1Collection[index].amount += 1;
+                    newFigure = false;
+                }
+            }
+            else
+            {
+                if (!GameManager.Instance.Player2Collection.Contains(potentialNewFigure))
+                {
+                    GameManager.Instance.Player2Collection.Add(potentialNewFigure);
+                    newFigure = true;
+                }
+                else
+                {
+                    int index = GameManager.Instance.Player2Collection.FindIndex(x => x == potentialNewFigure);
+                    GameManager.Instance.Player2Collection[index].amount += 1;
+                    newFigure = false;
+                }
+            }
         }
 
         public void End(InputAction.CallbackContext context)
@@ -237,7 +320,14 @@ namespace GASHAPWN
             {
                 showVictory = false;
                 // Determine if new figure screen should pop up
-                if (newFigure) showFigure = true;
+
+                //if (playerThatDied.CompareTag("Player1")) FigureCheck(GameManager.Instance.Player1Collection, player2Figure);
+                //else if (playerThatDied.CompareTag("Player2")) FigureCheck(GameManager.Instance.Player2Collection, player1Figure);
+                //else
+                //{
+                //    Debug.LogError("End executed without player that died");
+                //}
+
                 controls.FindActionMap("UI").actionTriggered -= End;
             }
         }
