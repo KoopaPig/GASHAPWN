@@ -24,9 +24,6 @@ namespace GASHAPWN
         // Figure is already in collection
         public bool newFigure = false;
 
-        // New Figure screen
-        public bool showFigure = false;
-
         // Victory screen
         private bool showVictory = false;
 
@@ -69,10 +66,11 @@ namespace GASHAPWN
         // Triggers when the battle has concluded
         public UnityEvent<BattleState> ChangeToVictory = new();
 
-        // TODO: Triggers if new figure wins
         public UnityEvent<BattleState> ChangeToNewFigure = new();
 
         public UnityEvent<string, Figure> OnWinningFigure = new();
+
+        public UnityEvent<string, Figure> OnLosingFigure = new();
 
         private void Awake()
         {
@@ -245,19 +243,29 @@ namespace GASHAPWN
 
         private void OnPlayerDeathDebug()
         {
-            OnWinningFigure.Invoke("Player1", player1Figure);
+            OnWinningFigure.Invoke("Player2", player2Figure);
+            OnLosingFigure.Invoke("Player1", player1Figure);
         }
 
         public void OnPlayerDeath(GameObject player)
         {
             playerHasDied = true;
             playerThatDied = player;
-            if (player.CompareTag("Player1")) OnWinningFigure.Invoke(player.tag, player2Figure);
-            else OnWinningFigure.Invoke(player.tag, player1Figure);
+            if (player.CompareTag("Player1"))
+            {
+                OnWinningFigure.Invoke("Player2", player2Figure);
+                OnLosingFigure.Invoke("Player1", player1Figure);
+            }
+            else
+            {
+                OnWinningFigure.Invoke("Player1", player1Figure);
+                OnLosingFigure.Invoke("Player2", player2Figure);
+
+            }
         }
 
-        // Performs actions required when the battle ends
-        public void BattleEndActions()
+            // Performs actions required when the battle ends
+            public void BattleEndActions()
         {
             trackTime = false;
             // Disable battle controls
@@ -320,7 +328,6 @@ namespace GASHAPWN
                 //    Debug.LogError("End executed without player that died");
                 //}
 
-                if (newFigure) showFigure = true;
                 controls.FindActionMap("UI").actionTriggered -= End;
             }
         }

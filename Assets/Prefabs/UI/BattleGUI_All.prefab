@@ -1193,7 +1193,6 @@ MonoBehaviour:
   offsetInPixels: 200
   winnerText: {fileID: 7649310004880618355}
   winnerCrownGUI: {fileID: 3615043769597843951}
-  debugFigure: {fileID: 11400000, guid: 01c15c1dd85a56146854f1070c19ee87, type: 2}
 --- !u!114 &5748835786556130517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1808,7 +1807,8 @@ GameObject:
   - component: {fileID: 6476058893647612061}
   - component: {fileID: 3129029576949516637}
   - component: {fileID: 4511941831993673556}
-  - component: {fileID: 216560575481265715}
+  - component: {fileID: 2911197549361753178}
+  - component: {fileID: 2141281092131448562}
   m_Layer: 5
   m_Name: P2_ResultsContainer
   m_TagString: Untagged
@@ -1906,7 +1906,19 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &216560575481265715
+--- !u!225 &2911197549361753178
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2455674896788145221}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!114 &2141281092131448562
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1915,7 +1927,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2455674896788145221}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a7c2ecddf5c8334ea74e53078e8ce0f, type: 3}
+  m_Script: {fileID: 11500000, guid: ebc6f5b2d9df735479d054fd4c9e7974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fadeInDuration: 0.5
@@ -2449,6 +2461,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4038954384175223481}
   - component: {fileID: 9208050061160723441}
+  - component: {fileID: 7262351582408229891}
+  - component: {fileID: 667530863452349566}
   m_Layer: 5
   m_Name: WinnerCrownGUI
   m_TagString: Untagged
@@ -2499,6 +2513,34 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!225 &7262351582408229891
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3615043769597843951}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!114 &667530863452349566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3615043769597843951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebc6f5b2d9df735479d054fd4c9e7974, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeInDuration: 0.5
+  fadeInWaitDuration: 4.5
+  fadeOutDuration: 0.5
+  fadeOutWaitDuration: 0
 --- !u!1 &3752877515997316171
 GameObject:
   m_ObjectHideFlags: 0
@@ -5043,7 +5085,8 @@ GameObject:
   - component: {fileID: 4577021860400493128}
   - component: {fileID: 216350228074250027}
   - component: {fileID: 6500491304662231428}
-  - component: {fileID: 5924082036723118553}
+  - component: {fileID: 8969630360644386913}
+  - component: {fileID: 9077879235880558899}
   m_Layer: 5
   m_Name: P1_ResultsContainer
   m_TagString: Untagged
@@ -5141,7 +5184,19 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &5924082036723118553
+--- !u!225 &8969630360644386913
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6619479984850463582}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!114 &9077879235880558899
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5150,7 +5205,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6619479984850463582}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a7c2ecddf5c8334ea74e53078e8ce0f, type: 3}
+  m_Script: {fileID: 11500000, guid: ebc6f5b2d9df735479d054fd4c9e7974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fadeInDuration: 0.5
