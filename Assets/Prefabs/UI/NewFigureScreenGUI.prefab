@@ -522,9 +522,8 @@ GameObject:
   - component: {fileID: 2325754091226765931}
   - component: {fileID: 2714765285729791107}
   - component: {fileID: 5604540650792494870}
-  - component: {fileID: 6382485975937864392}
   m_Layer: 5
-  m_Name: Newicon
+  m_Name: New_Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -602,23 +601,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0.2901961, g: 0.1882353, b: 0.32156864, a: 0.27450982}
   m_EffectDistance: {x: 1, y: -5}
   m_UseGraphicAlpha: 1
---- !u!111 &6382485975937864392
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1957296854827121745}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Animation: {fileID: 0}
-  m_Animations:
-  - {fileID: 7400000, guid: 45859fac1d46aba47833375e96d5e29d, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_UpdateMode: 0
-  m_CullingType: 0
 --- !u!1 &2014844872693115936
 GameObject:
   m_ObjectHideFlags: 0

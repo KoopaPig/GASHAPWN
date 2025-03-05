@@ -44,6 +44,9 @@ namespace GASHAPWN.UI
             capsuleAnimator.SetBool("isCapsuleEnter", false);
             capsuleAnimator.SetBool("isCapsuleOpen", true);
             StartCoroutine(ResetCapsuleBool());
+            // Handle whether newIcon should appear
+            if (BattleManager.Instance.newFigure) { newIcon.SetActive(true); }
+            else { newIcon.SetActive(false); }
         }
 
         public void OnCapsuleOpenAnimationComplete()
@@ -63,7 +66,6 @@ namespace GASHAPWN.UI
             }
 
             capsule.SetActive(false);
-            newIcon.SetActive(false);
             backgroundParticles.SetActive(false);
             figureScreen_BG.SetActive(false);
             figureScreen_FG.SetActive(false);
