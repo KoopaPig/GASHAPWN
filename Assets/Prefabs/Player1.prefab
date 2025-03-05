@@ -730,10 +730,10 @@ GameObject:
   - component: {fileID: 2353342533486014850}
   - component: {fileID: 2905451329273328058}
   - component: {fileID: 9209613135761091648}
+  - component: {fileID: 9128004418399533077}
   - component: {fileID: 738757646059745529}
   - component: {fileID: 4306642885239329398}
   - component: {fileID: 8910377567317957572}
-  - component: {fileID: 9128004418399533077}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Player1
@@ -908,6 +908,21 @@ MonoBehaviour:
   playerData: {fileID: 2353342533486014850}
   airborneLineRenderer: {fileID: 2776206804501688863}
   maxRayDistance: 100
+--- !u!114 &9128004418399533077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652500208214954744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc5e1cdba4aee5f4e911b34ca9a1f1c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 2353342533486014850}
+  chargeLineRenderer: {fileID: 7681624290867235483}
+  maxLineLength: 10
 --- !u!114 &738757646059745529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1095,19 +1110,6 @@ MonoBehaviour:
     m_ActionId: 94d17b14-b038-4544-9824-2e6c916c883f
     m_ActionName: 'Player1/ChargeRoll[/Keyboard/leftShift]'
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 738757646059745529}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnBurst
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       m_Calls: []
     m_ActionId: 2abb32f5-18d2-4bfc-bc32-7209a71485c5
     m_ActionName: 'Player1/RotateChargeDirection[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
@@ -1116,7 +1118,19 @@ MonoBehaviour:
     m_ActionId: 94d17b14-b038-4544-9824-2e6c916c883f
     m_ActionName: 'Player1/ChargeRoll[/Keyboard/leftShift]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 286c366a-68eb-4f98-99cd-6f4c4445effd
     m_ActionName: 'Player1/Burst[/Keyboard/b]'
   - m_PersistentCalls:
@@ -1135,8 +1149,6 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: fd217ed0-8862-45a1-9f69-bceaa1ddd26d
     m_ActionName: 'Player2/Burst[/Keyboard/l]'
-    m_ActionId: 2669859a-0eeb-46f9-abc2-185dbf7b399c
-    m_ActionName: 'Player2/QuickBreak[/Keyboard/enter]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player1
@@ -1163,18 +1175,3 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &9128004418399533077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8652500208214954744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc5e1cdba4aee5f4e911b34ca9a1f1c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerData: {fileID: 2353342533486014850}
-  chargeLineRenderer: {fileID: 7681624290867235483}
-  maxLineLength: 10
