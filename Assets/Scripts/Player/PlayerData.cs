@@ -64,15 +64,15 @@ public class PlayerData : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
-        currentStamina = 2f;
         SetMaxHealth.Invoke(maxHealth);
+        currentStamina = 6f;
         SetMaxStamina.Invoke(maxStamina);
         rb = GetComponent<Rigidbody>();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player")) // Assuming both players have the "Player" tag
+        if (collision.gameObject.CompareTag("Player1") || collision.gameObject.CompareTag("Player2"))
         {
             Rigidbody otherRb = collision.rigidbody;
             if (otherRb == null) return;
@@ -108,12 +108,12 @@ public class PlayerData : MonoBehaviour
 
     private bool IsMetalEnd(Vector3 hitPoint)
     {
-        return hitPoint.y < transform.position.y; // Example: Metal end is lower
+        return hitPoint.y < transform.position.y;
     }
 
     private bool IsDeflecting(Vector3 hitNormal)
     {
-        return Vector3.Dot(hitNormal, transform.forward) > 0.5f; // Example deflection logic
+        return Vector3.Dot(hitNormal, transform.forward) > 0.5f; // deflection logic
     }
 
     private void ApplyKnockback(Rigidbody otherRb, float multiplier)
