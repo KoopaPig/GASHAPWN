@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using GASHAPWN;
 
 public class PlayerData : MonoBehaviour
 {
@@ -144,7 +145,10 @@ public class PlayerData : MonoBehaviour
     {
         Debug.Log(gameObject.name + " has been eliminated!");
         OnDeath.Invoke(this.gameObject);
-        gameObject.SetActive(false); // Disables the player
+        BattleManager.Instance.OnPlayerDeath(this.gameObject);
+        
+        // We don't want to turn off the player because things break
+        //gameObject.SetActive(false);
     }
 
 }
