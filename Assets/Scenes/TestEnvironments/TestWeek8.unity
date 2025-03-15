@@ -6429,6 +6429,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1310973646201629819, guid: 39b45f9723ca8da428b036a9d9c09c4e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3948680477319845902}
     - target: {fileID: 4325755013303569412, guid: 39b45f9723ca8da428b036a9d9c09c4e, type: 3}
       propertyPath: m_Camera
       value: 
@@ -6511,6 +6515,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39b45f9723ca8da428b036a9d9c09c4e, type: 3}
+--- !u!114 &3948680477319845902 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2803992135818664477, guid: 39b45f9723ca8da428b036a9d9c09c4e, type: 3}
+  m_PrefabInstance: {fileID: 3948680477319845901}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1592dcf135c1994b9266a689c93b469, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4714959210390170395
 MonoBehaviour:
   m_ObjectHideFlags: 0
