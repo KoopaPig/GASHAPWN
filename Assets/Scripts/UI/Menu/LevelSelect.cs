@@ -189,8 +189,8 @@ namespace GASHAPWN.UI {
         public void GameStart()
         {
             TransitionManager.Instance().Transition(selectedLevel.levelSceneName, toLevelTransition, 0);
-            // somehow need to pass the time to the battle manager
             GameManager.Instance.currentBattleTime = selectedTime;
+            GameManager.Instance.currentLevel = selectedLevel;
             GameManager.Instance.UpdateGameState(GameState.Battle);
         }
     }

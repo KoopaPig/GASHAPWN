@@ -53,6 +53,9 @@ namespace GASHAPWN
         // GameManager stores currentBattleTime so LevelSelect can set it
         public float currentBattleTime = 180;
 
+        // Whenever a level is selected, this field should be populated
+        public Level currentLevel = null;
+
         public void UpdateGameState(GameState newState)
         {
             State = newState;
