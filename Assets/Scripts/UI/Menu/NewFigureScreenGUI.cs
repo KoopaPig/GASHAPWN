@@ -54,6 +54,18 @@ namespace GASHAPWN.UI
             capsuleAnimator.SetBool("isCapsuleOpen", false);
         }
 
+        //public void ToCollection()
+        //{
+        //    TransitionManager.Instance().Transition(collectionSceneName, menuTransition, 0);
+        //    GameManager.Instance.UpdateGameState(GameState.Collection);
+        //}
+
+        public void ToLevelSelect()
+        {
+            TransitionManager.Instance().Transition(levelSelectSceneName, fromNewFigureTransition, 0);
+            GameManager.Instance.UpdateGameState(GameState.LevelSelect);
+        }
+
         ///// PRIVATE METHODS /////
 
         private void Awake()
