@@ -14,10 +14,17 @@ public class CameraManager : MonoBehaviour
 
     public bool PathingEnabled;
 
+    float time;
     private void Awake()
     {
+        
         Maincam.transform.position = StartingPosition.position;
         Maincam.transform.rotation = StartingPosition.rotation;
+    }
+
+    private void Start()
+    {
+        
     }
 
     public void StartPath()
@@ -49,12 +56,23 @@ public class CameraManager : MonoBehaviour
         Maincam.enabled = true;
     }
 
+    private float Timefunc(float time)
+    {
+        if(time < 0.75f)
+        {
+            time += 0.3f * Time.deltaTime;
+        }
+        else time += 0.1f * Time.deltaTime;
+        return time;
+    }
+
     private void Update()
     {
         if (PathingEnabled && BattleManager.Instance.countDownTime > 0)
         {
-            Maincam.transform.position = Vector3.Lerp(StartingPosition.position, EndingPosition.position, 1/BattleManager.Instance.countDownTime);
-            Maincam.transform.rotation = Quaternion.Lerp(StartingPosition.rotation, EndingPosition.rotation, 1/BattleManager.Instance.countDownTime);
+            Maincam.transform.position = Vector3.Lerp(StartingPosition.position, EndingPosition.position, time);
+            Maincam.transform.rotation = Quaternion.Lerp(StartingPosition.rotation, EndingPosition.rotation, time);
+            time = Timefunc(time);
         }
         else PathingEnabled = false;
 

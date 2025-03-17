@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &2745344 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2520351315225119760, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+  m_PrefabInstance: {fileID: 1408102597}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &12206697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -192,6 +197,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e81558923fae5584cb6350dfa10b6c11, type: 3}
   m_PrefabInstance: {fileID: 12206697}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &15993895 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7483671449522736143, guid: e8c6ce60769ca2a45955e3aebecbeafe, type: 3}
+  m_PrefabInstance: {fileID: 693589793}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &49194219 stripped
 Transform:
@@ -3497,6 +3507,14 @@ PrefabInstance:
       propertyPath: isCountDownOn
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
+      propertyPath: player1CapsPos
+      value: 
+      objectReference: {fileID: 2745344}
+    - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
+      propertyPath: player2CapsPos
+      value: 
+      objectReference: {fileID: 15993895}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: player1BattleGUI
       value: 

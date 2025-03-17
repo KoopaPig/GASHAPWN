@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 namespace GASHAPWN
 {
@@ -50,6 +51,8 @@ namespace GASHAPWN
 
         // Player figures generated before battle
         public Figure player1Figure, player2Figure;
+
+        public Transform player1CapsPos, player2CapsPos;
 
         public BattleGUIController player1BattleGUI, player2BattleGUI;
 
@@ -95,6 +98,9 @@ namespace GASHAPWN
                 Debug.Log($"Figures failed to generated: 1) {player1Figure.name}, 2) {player2Figure.name}");
                 return;
             }
+
+            Instantiate(player1Figure.capsuleModelPrefab, player1CapsPos.position, player1CapsPos.rotation, player1CapsPos.parent.transform);
+            Instantiate(player2Figure.capsuleModelPrefab, player2CapsPos.position, player2CapsPos.rotation, player2CapsPos.parent.transform);
         }
 
         private void Start()
