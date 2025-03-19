@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Stage2
   m_EditorClassIdentifier: 
   levelName: Stage2
-  levelSceneName: TestWeek8
+  levelSceneName: TestWeek8_Camera
   levelPreviewIcon: {fileID: 21300000, guid: 084d2b7e2eafa054988db2317920bc7f, type: 3}
