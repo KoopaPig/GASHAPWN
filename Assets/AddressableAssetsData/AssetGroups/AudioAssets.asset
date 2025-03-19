@@ -395,6 +395,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f7202a3f434097440be1f819b0c34736
+    m_Address: SFX_UI_Countdown_Clock_Tick
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f864d8af1b996f34c9630680b65156d7
     m_Address: SFX_Guard_1
     m_ReadOnly: 0
