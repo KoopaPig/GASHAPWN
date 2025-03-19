@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 rotationInput;
     
     [SerializeField] private PlayerData playerData;
+    [SerializeField] private float groundCheckDistance = 0.6f; // Slightly more than sphere radius
+    [SerializeField] private LayerMask groundLayer; // Set this in inspector to your ground layer
 
     private ChargeRollIndicator chargeIndicator;
     private float chargeStartTime;
@@ -17,7 +19,6 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        // Increase gravity strength if needed.
         Physics.gravity = new Vector3(0, -9.81f * 3f, 0);
 
         rb = GetComponent<Rigidbody>();
@@ -44,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (playerData != null && !playerData.controlsEnabled)
+        if (playerData != null && (!playerData.controlsEnabled || playerData.isCharging))
             return;
 
         if (context.performed && playerData != null && playerData.isGrounded)
@@ -64,7 +65,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnSlam(InputAction.CallbackContext context)
     {
-        if (playerData == null || !playerData.controlsEnabled)
+        if (playerData == null || !playerData.controlsEnabled || playerData.isCharging)
             return;
 
         if (context.performed && !playerData.isGrounded && !playerData.hasSlammed)
@@ -84,30 +85,24 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator SlamCoroutine()
     {
-        // Disable controls during the slam.
         playerData.controlsEnabled = false;
         
-        // Cancel momentum.
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         
-        // Float by disabling gravity.
         rb.useGravity = false;
         
-        // Wait for 1 second (player floats).
         yield return new WaitForSeconds(1f);
         
-        // Re-enable gravity and apply a strong downward force.
         rb.useGravity = true;
         rb.AddForce(Vector3.down * playerData.slamForce, ForceMode.Impulse);
         
         playerData.hasSlammed = true;
     }
 
-    // Quick Break mechanic: only available on the ground.
     public void OnQuickBreak(InputAction.CallbackContext context)
     {
-        if (playerData == null || !playerData.controlsEnabled || !playerData.isGrounded)
+        if (playerData == null || !playerData.controlsEnabled || playerData.isCharging || !playerData.isGrounded)
             return;
 
         if (context.performed)
@@ -127,15 +122,11 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator QuickBreakCoroutine()
     {
-        // Disable controls so that no other input interferes.
         playerData.controlsEnabled = false;
 
-        // Capture the current momentum.
         Vector3 initialVelocity = rb.linearVelocity;
         Vector3 initialAngularVelocity = rb.angularVelocity;
 
-        // Capture the current rotation and calculate the target rotation.
-        // The target rotation makes the sphere's bottom (transform.down) face upward (Vector3.up).
         Quaternion initialRotation = transform.rotation;
         Quaternion targetRotation = Quaternion.FromToRotation(-transform.up, Vector3.up) * transform.rotation;
 
@@ -145,34 +136,30 @@ public class PlayerController : MonoBehaviour
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / playerData.quickBreakDuration);
 
-            // Gradually decelerate momentum.
             rb.linearVelocity = Vector3.Lerp(initialVelocity, Vector3.zero, t);
             rb.angularVelocity = Vector3.Lerp(initialAngularVelocity, Vector3.zero, t);
 
-            // Smoothly rotate the sphere to the target orientation.
             transform.rotation = Quaternion.Slerp(initialRotation, targetRotation, t);
 
             yield return null;
         }
 
-        // Ensure the final state is completely stopped and correctly rotated.
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         transform.rotation = targetRotation;
 
-        // Re-enable controls after the quick break.
         playerData.controlsEnabled = true;
     }
 
     public void OnRotateChargeDirection(InputAction.CallbackContext context)
     {
-        if (playerData.isCharging) // Allow charge direction adjustments
+        if (playerData.isCharging)
             rotationInput = context.ReadValue<Vector2>();
     }
 
     public void OnChargeRoll(InputAction.CallbackContext context)
     {
-        if (context.started && !playerData.isCharging && !playerData.hasCharged)
+        if (context.started && !playerData.isCharging && !playerData.hasCharged && playerData.controlsEnabled)
         {
             if (playerData.currentStamina >= 4f)
             {
@@ -264,7 +251,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnBurst(InputAction.CallbackContext context)
     {
-        if (playerData == null || !playerData.controlsEnabled)
+        if (playerData == null || !playerData.controlsEnabled || playerData.isCharging)
             return;
 
         if (context.performed)
@@ -284,17 +271,13 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator BurstCoroutine()
     {
-        // Assuming rb is the player's Rigidbody and playerData manages control states
         playerData.controlsEnabled = false;
 
-        // Stop current movement
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        // Apply stronger upward force for higher float
         rb.AddForce(Vector3.up * 20f, ForceMode.Impulse);
 
-        // Reorient player so top is up
         Quaternion targetRotation = Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation;
         float rotationDuration = 0.5f;
         float elapsed = 0f;
@@ -305,10 +288,8 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-        // Wait briefly after reorientation
         yield return new WaitForSeconds(0.2f);
 
-        // Trigger shockwave (knockback code from above goes here)
         float shockwaveRadius = 20f;
         float knockbackForce = 80f;
         Collider[] colliders = Physics.OverlapSphere(transform.position, shockwaveRadius);
@@ -325,7 +306,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // Re-enable controls
         yield return new WaitForSeconds(0.5f);
         playerData.controlsEnabled = true;
     }
@@ -335,18 +315,19 @@ public class PlayerController : MonoBehaviour
         if (playerData == null)
             return;
 
-        if (playerData.isGrounded)
+        playerData.isGrounded = IsGrounded();
+
+        if (playerData.isGrounded && !playerData.isCharging)
         {
             rb.linearDamping = playerData.drag;
             rb.angularDamping = playerData.angularDrag;
-            // Optionally re-enable controls if no other mechanic is in play.
             playerData.controlsEnabled = true;
             playerData.hasSlammed = false;
             playerData.hasCharged = false;
             Vector3 force = new Vector3(moveInput.x, 0f, moveInput.y) * playerData.moveSpeed;
             rb.AddForce(force);
 
-            if (moveInput.sqrMagnitude > 0.01f) // Avoid floating-point precision issues
+            if (moveInput.sqrMagnitude > 0.01f)
             {
                 playerData.currentStamina += playerData.staminaRegenRate * Time.fixedDeltaTime;
                 playerData.currentStamina = Mathf.Clamp(playerData.currentStamina, 0f, playerData.maxStamina);
@@ -363,19 +344,10 @@ public class PlayerController : MonoBehaviour
         rb.AddTorque(torque);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private bool IsGrounded()
     {
-        if (collision.gameObject.CompareTag("Ground") && playerData != null)
-        {
-            playerData.isGrounded = true;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground") && playerData != null)
-        {
-            playerData.isGrounded = false;
-        }
+        Ray ray = new Ray(transform.position, Vector3.down);
+        Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, Color.red);
+        return Physics.Raycast(ray, groundCheckDistance, groundLayer);
     }
 }

@@ -12,6 +12,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArcadeCabinet (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100050, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100052, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100054, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100056, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100058, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100060, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100062, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100064, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -106,6 +146,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArcadeCabinet (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100050, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100052, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100054, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100056, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100058, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100060, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100062, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100064, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -199,6 +279,46 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
       propertyPath: m_Name
       value: ArcadeCabinet
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100050, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100052, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100054, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100056, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100058, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100060, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100062, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100064, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
       propertyPath: m_LocalScale.x
@@ -315,6 +435,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArcadeCabinet (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100050, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100052, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100054, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100056, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100058, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100060, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100062, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100064, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -408,6 +568,46 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
       propertyPath: m_Name
       value: ArcadeCabinet (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100050, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100052, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100054, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100056, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100058, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100060, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100062, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100064, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
       propertyPath: m_LocalScale.x
@@ -503,6 +703,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArcadeCabinet (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100050, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100052, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100054, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100056, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100058, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100060, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100062, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100064, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -597,6 +837,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArcadeCabinet (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100050, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100052, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100054, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100056, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100058, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100060, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100062, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100064, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -690,6 +970,46 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
       propertyPath: m_Name
       value: ArcadeCabinet (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100050, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100052, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100054, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100056, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100058, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100060, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100062, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100064, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1f48ffec443b1ed448207d1db234fe97, type: 3}
       propertyPath: m_LocalScale.x

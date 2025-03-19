@@ -1065,6 +1065,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 2353342533486014850}
+  groundCheckDistance: 3.1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &4306642885239329398
 MonoBehaviour:
   m_ObjectHideFlags: 0
