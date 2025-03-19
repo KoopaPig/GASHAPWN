@@ -87,8 +87,11 @@ namespace GASHAPWN.UI
 
         private void Start()
         {
-            BattleManager.Instance.ChangeToNewFigure.AddListener(OnNewFigureScreen);
-            BattleManager.Instance.OnWinningFigure.AddListener(SetWinningFigure);
+            if (BattleManager.Instance != null)
+            {
+                BattleManager.Instance.ChangeToNewFigure.AddListener(OnNewFigureScreen);
+                BattleManager.Instance.OnWinningFigure.AddListener(SetWinningFigure);
+            }
         }
 
         private void OnNewFigureScreen(BattleState state)
@@ -115,8 +118,11 @@ namespace GASHAPWN.UI
 
         private void OnDisable()
         {
-            BattleManager.Instance.ChangeToNewFigure.RemoveListener(OnNewFigureScreen);
-            BattleManager.Instance.OnWinningFigure.RemoveListener(SetWinningFigure);
+            if (BattleManager.Instance != null)
+            {
+                BattleManager.Instance.ChangeToNewFigure.RemoveListener(OnNewFigureScreen);
+                BattleManager.Instance.OnWinningFigure.RemoveListener(SetWinningFigure);
+            }
         }
 
         // Use as a buffer before activating buttons

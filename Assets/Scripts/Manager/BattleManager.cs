@@ -14,15 +14,27 @@ namespace GASHAPWN
 {
     public class BattleManager : MonoBehaviour
     {
-        public static BattleManager Instance { get; private set; }
+        public static BattleManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = FindFirstObjectByType<BattleManager>();
+                }
+                return _instance;
+            }
+        }
+
+        private static BattleManager _instance;
+
+        // Tracks the current game state
         public BattleState State { get; private set; }
 
-        public InputActionAsset controls;
+        public static event Action<BattleState> OnBattleStateChanged;
 
-        InputActionMap battleControls;
-
-        // New figure to add to collection or
-        // Figure is already in collection
+        [Header("Booleans")]
+        // New figure to add to collection or figure is already in collection
         public bool newFigure = false;
 
         // Victory screen
@@ -36,6 +48,7 @@ namespace GASHAPWN
 
         GameObject playerThatDied = null;
 
+        [Header("Time")]
         // Time limit of battle (seconds)
         public float battleTime = 0;
 
@@ -49,12 +62,20 @@ namespace GASHAPWN
         // Note: only checked in Start()
         public bool isCountDownOn = true;
 
+        [Header("Player Reference")]
+
         // Player figures generated before battle
-        public Figure player1Figure, player2Figure;
+        public Figure player1Figure;
+        public Figure player2Figure;
 
         public Transform player1CapsPos, player2CapsPos;
 
         public BattleGUIController player1BattleGUI, player2BattleGUI;
+
+        [Header("Controls Reference")]
+        public InputActionAsset controls;
+
+        InputActionMap battleControls;
 
         [Header("Events to Trigger")]
         // Triggers when countdown initiates
@@ -75,6 +96,9 @@ namespace GASHAPWN
 
         public UnityEvent<string, Figure> OnLosingFigure = new();
 
+        
+        /// PRIVATE METHODS ///
+        
         private void Awake()
         {
             // Check for other instances
@@ -83,7 +107,7 @@ namespace GASHAPWN
                 Destroy(this);
                 return;
             }
-            Instance = this;
+            _instance = this;
             
             battleTime = GameManager.Instance.currentBattleTime;
 
@@ -119,68 +143,79 @@ namespace GASHAPWN
             else ChangeStateBattle();
         }
 
-        // Changes the battle state to countdown
-        // Only works when the last state was sleep
-        public void ChangeStateCountdown()
+        private void Update()
         {
-            if (State == BattleState.Sleep)
+            if (State == BattleState.CountDown)
             {
-                State = BattleState.CountDown;
-                //battleControls.Disable();
-                Debug.Log("Inputs disabled");
-                ChangeToCountdown.Invoke(State);
-                Debug.Log("Countdown from " + countDownTime + " begins");
-            }
-            else Debug.Log("Can not change battle state to countdown");
-        }
+                countDownTime -= Time.deltaTime;
+                if (countDownTime <= 0)
+                {
 
-        // Changes the battle state to Battle
-        // Works if the current battle state is CountDown
-        public void ChangeStateBattle()
-        {
-            if (State == BattleState.CountDown || 
-                ((State == BattleState.Sleep) && !isCountDownOn))
+                    ChangeStateBattle();
+                }
+            }
+
+            if (trackTime)
             {
-                State = BattleState.Battle;
-                ChangeToBattle.Invoke(State);
-                BattleStartActions();
-                
+                battleTime -= Time.deltaTime;
             }
-            else Debug.Log("Can not change battle state to battle");
-        }
 
-        public void ChangeStateSuddenDeath()
-        {
             if (State == BattleState.Battle)
+                // display victory screen if player died during battle
+                if (playerHasDied)
+                {
+                    ChangeStateVictoryScreen();
+                    if (isDebug) OnPlayerDeathDebug();
+                }
+                else if (battleTime <= 0)
+                {
+                    ChangeStateSuddenDeath();
+                }
+
+            if (State == BattleState.SuddenDeath)
             {
-                State = BattleState.SuddenDeath;
-                ChangeToSuddenDeath.Invoke(State);
-                SuddenDeathActions();
+                // display victory screen if player died during sudden death
+                if (playerHasDied)
+                {
+                    ChangeStateVictoryScreen();
+                    if (isDebug) OnPlayerDeathDebug();
+
+                }
+
             }
-            else Debug.Log("Can not change battle state to sudden death");
+
+            // Check to exit victory screen
+            if (State == BattleState.VictoryScreen && showVictory)
+            {
+                // Check for inputs from the UI actionmap
+                controls.FindActionMap("UI").actionTriggered += End;
+            }
+
         }
 
-        // Changes the battle state to VictoryScreen
-        // Works if the current battle state is Battle or SuddenDeath
-        public void ChangeStateVictoryScreen()
+        private void OnDisable()
         {
-            if (State == BattleState.Battle || State == BattleState.SuddenDeath)
-            {
-                State = BattleState.VictoryScreen;
-                ChangeToVictory.Invoke(State);
-                BattleEndActions();
-            }
-            else Debug.Log("Can not change battle state to victory");
+            RemoveAllListeners();
         }
 
-        public void ChangeStateNewFigureScreen()
+        private void OnDestroy()
         {
-            if (State == BattleState.VictoryScreen)
+            if (_instance == this)
             {
-                State = BattleState.NewFigureScreen;
-                ChangeToNewFigure.Invoke(State);
+                _instance = null;
             }
-            else Debug.Log("BattleManager: Can not change battle state to newFigureScreen");
+        }
+
+        private void RemoveAllListeners()
+        {
+            // Check if there are any listeners before removing
+            if (OnBattleStateChanged != null)
+            {
+                foreach (var d in OnBattleStateChanged.GetInvocationList())
+                {
+                    OnBattleStateChanged -= (Action<BattleState>)d;
+                }
+            }
         }
 
         // Performs actions required when the battle begins
@@ -199,58 +234,88 @@ namespace GASHAPWN
             Debug.Log("Entered Sudden Death!");
         }
 
-        private void Update()
-        {
-            if (State == BattleState.CountDown)
-            {
-                countDownTime -= Time.deltaTime;
-                if (countDownTime <= 0)
-                {
-                    
-                    ChangeStateBattle();
-                }
-            }
-
-            if (trackTime)
-            {
-                battleTime -= Time.deltaTime;
-            }
-
-            if (State == BattleState.Battle)
-                // display victory screen if player died during battle
-                if (playerHasDied) { 
-                    ChangeStateVictoryScreen();
-                    if (isDebug) OnPlayerDeathDebug();
-                }
-                else if (battleTime <= 0)
-                {
-                    ChangeStateSuddenDeath();
-                }
-            
-            if (State == BattleState.SuddenDeath)
-            {
-                // display victory screen if player died during sudden death
-                if (playerHasDied) { 
-                    ChangeStateVictoryScreen();
-                    if (isDebug) OnPlayerDeathDebug();
-
-                }
-
-            }
-
-            // Check to exit victory screen
-            if (State == BattleState.VictoryScreen && showVictory) 
-            {
-                // Check for inputs from the UI actionmap
-                controls.FindActionMap("UI").actionTriggered += End;
-            }
-
-        }
-
         private void OnPlayerDeathDebug()
         {
             OnWinningFigure.Invoke("Player2", player2Figure);
             OnLosingFigure.Invoke("Player1", player1Figure);
+        }
+
+        /// PUBLIC METHODS ///
+
+        // Changes the battle state to countdown
+        // Only works when the last state was sleep
+        public void ChangeStateCountdown()
+        {
+            if (State == BattleState.Sleep)
+            {
+                State = BattleState.CountDown;
+                //battleControls.Disable();
+                //Debug.Log("Inputs disabled");
+                ChangeToCountdown.Invoke(State);
+                OnBattleStateChanged?.Invoke(State);
+                Debug.Log($"BattleManager: BattleState: {State.ToString()}");
+                Debug.Log("Countdown from " + countDownTime + " begins");
+            }
+            else Debug.Log("Can not change battle state to countdown");
+        }
+
+        // Changes the battle state to Battle
+        // Works if the current battle state is CountDown
+        public void ChangeStateBattle()
+        {
+            if (State == BattleState.CountDown || 
+                ((State == BattleState.Sleep) && !isCountDownOn))
+            {
+                State = BattleState.Battle;
+                ChangeToBattle.Invoke(State);
+                OnBattleStateChanged?.Invoke(State);
+                BattleStartActions();
+                Debug.Log($"BattleManager: BattleState: {State.ToString()}");
+            }
+            else Debug.Log("Can not change battle state to battle");
+        }
+
+        public void ChangeStateSuddenDeath()
+        {
+            if (State == BattleState.Battle)
+            {
+                State = BattleState.SuddenDeath;
+                ChangeToSuddenDeath.Invoke(State);
+                SuddenDeathActions();
+                OnBattleStateChanged?.Invoke(State);
+                Debug.Log($"BattleManager: BattleState: {State.ToString()}");
+            }
+            else Debug.Log("Can not change battle state to sudden death");
+        }
+
+        // Changes the BattleState to VictoryScreen
+        // Works if the current battle state is Battle or SuddenDeath
+        public void ChangeStateVictoryScreen()
+        {
+            if (State == BattleState.Battle || State == BattleState.SuddenDeath)
+            {
+                State = BattleState.VictoryScreen;
+                ChangeToVictory.Invoke(State);
+                BattleEndActions();
+                OnBattleStateChanged?.Invoke(State);
+                Debug.Log($"BattleManager: BattleState: {State.ToString()}");
+            }
+            else Debug.Log("Can not change battle state to victory");
+        }
+
+        // Changes the BattleState to NewFigureScreen
+        // Works if current BattleState is VictoryScreen
+
+        public void ChangeStateNewFigureScreen()
+        {
+            if (State == BattleState.VictoryScreen)
+            {
+                State = BattleState.NewFigureScreen;
+                ChangeToNewFigure.Invoke(State);
+                OnBattleStateChanged?.Invoke(State);
+                Debug.Log($"BattleManager: BattleState: {State.ToString()}");
+            }
+            else Debug.Log("BattleManager: Can not change battle state to newFigureScreen");
         }
 
         public void OnPlayerDeath(GameObject player)
@@ -270,8 +335,8 @@ namespace GASHAPWN
             }
         }
 
-            // Performs actions required when the battle ends
-            public void BattleEndActions()
+        // Performs actions required when the battle ends
+        public void BattleEndActions()
         {
             trackTime = false;
             // Disable battle controls

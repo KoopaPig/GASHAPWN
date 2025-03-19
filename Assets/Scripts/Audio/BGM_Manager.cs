@@ -12,7 +12,6 @@ namespace GASHAPWN.Audio {
     {
         public static BGM_Manager Instance { get; private set; }
 
-
         [SerializeField] private AudioMixerGroup musicMixer;
 
         [Header("Addressable Keys for Music")]
@@ -24,6 +23,8 @@ namespace GASHAPWN.Audio {
         private AudioSource mainAudioSource;
 
         private AsyncOperationHandle<AudioClip> currentHandle;
+
+        private BattleManager _previousBattleManager = null;
 
         private void Awake()
         {
@@ -43,28 +44,72 @@ namespace GASHAPWN.Audio {
         private void OnEnable()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
+            // Wait until BattleManager is present to subscribe
+            StartCoroutine(WaitForBattleManagerAndSubscribe());
         }
-
         private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
             FindOrCreateAudioSource();
             // Can only set music based on GameState/BattleState when scene is loaded
-            SetMusicState();
+            SetMusicStates();
+            if (BattleManager.Instance != _previousBattleManager)
+            {
+                Debug.Log("BGM_Manager: BattleManager has changed! Updating subscription.");
+                UnsubscribeFromBattleManager();
+                SubscribeToBattleManager(BattleManager.Instance);
+            }
+        }
+
+        private void OnSceneUnloaded(Scene arg0)
+        {
+            UnsubscribeFromBattleManager();
         }
 
         private void OnDisable()
         {
-           SceneManager.sceneLoaded -= OnSceneLoaded;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            UnsubscribeFromBattleManager();
         }
-        private void SetMusicState()
-        {
-            GameState currentGameState = GameManager.Instance.State;
-            BattleState currentBattleState;
 
+        private void SubscribeToBattleManager(BattleManager battleManager)
+        {
+            // Keep track of previous BattleManager
+            _previousBattleManager = battleManager;
+
+            BattleManager.OnBattleStateChanged += SetMusicBattleState;
+        }
+        
+        private void UnsubscribeFromBattleManager()
+        {
+            // Unsubscribe from the previous BattleManager if it's not null
+            if (_previousBattleManager != null)
+            {
+                BattleManager.OnBattleStateChanged -= SetMusicBattleState;
+            }
+        }
+
+        private IEnumerator WaitForBattleManagerAndSubscribe()
+        {
+            yield return new WaitUntil(() => BattleManager.Instance != null);
+            Debug.Log("BGM_Manager: BattleManager instance found, subscribing to events");
+            SubscribeToBattleManager(BattleManager.Instance);
+        }
+
+
+
+        private void SetMusicStates()
+        {
+            SetMusicGameState(GameManager.Instance.State);
+        }
+
+        private void SetMusicGameState(GameState state)
+        {
             string audioKey = "";
 
             // Set the addressable key based on the game state
-            switch (currentGameState)
+            switch (state)
             {
                 case GameState.Battle:
                     audioKey = battleMusicKey;
@@ -83,14 +128,21 @@ namespace GASHAPWN.Audio {
                     return;
             }
 
+            LoadAndPlayMusic(audioKey);
+        }
+
+        private void SetMusicBattleState(BattleState state)
+        {
+            Debug.Log("here in SetMusicBattleState");
+            string audioKey = "";
+
             // Set the addressable key based on the battle state
             if (BattleManager.Instance != null)
             {
-                currentBattleState = BattleManager.Instance.State;
-                switch (currentBattleState)
+                switch (state)
                 {
                     case BattleState.Sleep:
-                        // no music
+                        //StopCurrentMusic();
                         break;
                     case BattleState.Battle:
                         break;
@@ -98,7 +150,9 @@ namespace GASHAPWN.Audio {
                         // battle music should start playing during countdown
                         break;
                     case BattleState.VictoryScreen:
-                        // switch to victory music
+                        StopCurrentMusic();
+                        // switch to victory music (maybe)
+                        // will have to start after a delay
                         break;
                     case BattleState.NewFigureScreen:
                         // no music
@@ -107,14 +161,10 @@ namespace GASHAPWN.Audio {
                         Debug.LogWarning("BGM_Manager: No music key set for current BattleState.");
                         return;
                 }
-            }
 
                 LoadAndPlayMusic(audioKey);
-        }
 
-        private void SetMusicBattleState()
-        {
-            BattleState currentState = BattleManager.Instance.State;
+            }
 
         }
 
@@ -199,7 +249,7 @@ namespace GASHAPWN.Audio {
 
         }
 
-        // TODO: Consider support for stings, and then afterwards the normal music continues.
+        // CONSIDER: support for stings, and then afterwards the normal music continues.
 
         // This function tries to find an audioSource to use in the scene (attached to the main camera)
         // If not, it creates a new one.

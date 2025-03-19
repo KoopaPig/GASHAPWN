@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: AudioAssets
   m_GUID: 37fc074d652e67a47ab33d945fb9f5f4
   m_SerializeEntries:
+  - m_GUID: 088a016fd0d136746aa40cf3d4a667fb
+    m_Address: SFX_Ref_Whistle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0942e9914080caa46a8a15223ae0bb8f
     m_Address: SFX_UI_Click_Generic_Cute
     m_ReadOnly: 0
@@ -110,6 +115,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3c77b59f385629c458f2f62a64ebaa46
+    m_Address: SFX_Pot_Smash_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3ce7f67c5b5a2ac4183a44a7be506435
     m_Address: SFX_UI_Swipe_Screen_3
     m_ReadOnly: 0
@@ -180,6 +190,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 70092a436cb113a4b8559735662eedf4
+    m_Address: SFX_Pot_Smash_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7360ab24142a51b48a5951c3008871a7
     m_Address: SFX_Firework_Sparkle_2
     m_ReadOnly: 0
@@ -190,8 +205,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 787e091819a93e24f9112cd3002b7cec
+    m_Address: SFX_UI_Bubblecork_Select_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 795634383ffe48b488978821de79fd7a
     m_Address: SFX_Guard_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7a03ac2d4f57d5745973afbfc685922b
+    m_Address: SFX_UI_Bubblecork_Select_1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -217,6 +242,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8b3eb85152e09d44eab2de5e41806bd0
     m_Address: SFX_Firework_Sparkle_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8c4cc1a29b018e540a4b6967c240dd0f
+    m_Address: SFX_Lightning_Instant_Cast_Spell_C
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -282,6 +312,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c15b10c817faa9049b1533720a3d9cb6
     m_Address: SFX_Interact_Pop_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c60a2968b86185549a5fa2263d61b7c6
+    m_Address: SFX_UI_Bubblecork_Select_2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -357,6 +392,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f0a753cd5e8f8ce48a8c878ffab05f9b
     m_Address: SFX_UI_Click_Close
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f7202a3f434097440be1f819b0c34736
+    m_Address: SFX_UI_Countdown_Clock_Tick
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

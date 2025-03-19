@@ -20,7 +20,7 @@ namespace GASHAPWN
         public static GameManager Instance { get; private set; }
 
         // Tracks the current game state
-        public GameState State;
+        [SerializeField] public GameState State { get; private set; }
 
         public static event Action<GameState> OnGameStateChanged;
 
@@ -82,7 +82,9 @@ namespace GASHAPWN
             else InputSystem.onDeviceChange -= DeviceChange;
 
             OnGameStateChanged?.Invoke(newState);
+            Debug.Log($"GameManager: GameState: {State.HumanName()}");
         }
+
         public void DeviceChange(InputDevice device, InputDeviceChange change)
         {
             switch (change)
@@ -113,7 +115,7 @@ namespace GASHAPWN
         private void Start()
         {
             // Initial state
-            //UpdateGameState(GameState.Title);
+            UpdateGameState(GameState.Title);
 
         }
         // Save the collection to a specific player
@@ -129,6 +131,7 @@ namespace GASHAPWN
             return Collection;
         }
     }
+
     public enum GameState
     {
         Title,
