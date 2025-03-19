@@ -6522,7 +6522,7 @@ MonoBehaviour:
   winningFigure: {fileID: 0}
   levelSelectSceneName: LevelSelect
   collectionSceneName: 
-  fromNewFigureTransition: {fileID: 11400000, guid: 2eec88d4ca6df24419aab2fd6b04c543, type: 2}
+  fromNewFigureTransition: {fileID: 11400000, guid: d96fcc160d565e54ea03d1334c21eb99, type: 2}
 --- !u!95 &8744309584837174496
 Animator:
   serializedVersion: 7
@@ -7756,8 +7756,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6748895967116253828}
     - target: {fileID: 5762643855179397336, guid: 6dc03ff295b125d4390e16fc7ddc9f4e, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2803992135818664477}
+    - target: {fileID: 5762643855179397336, guid: 6dc03ff295b125d4390e16fc7ddc9f4e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToLevelSelect
       objectReference: {fileID: 0}
     - target: {fileID: 6802039774079012055, guid: 6dc03ff295b125d4390e16fc7ddc9f4e, type: 3}
       propertyPath: m_Pivot.x

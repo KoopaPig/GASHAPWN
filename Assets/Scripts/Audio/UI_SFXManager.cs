@@ -42,5 +42,16 @@ namespace GASHAPWN.Audio {
             AudioManager.Instance.PlaySound("SFX_UI_Click_Open_Cute");
         }
 
+        public void Play_GameEnd()
+        {
+            AudioManager.Instance.PlaySound("SFX_Ref_Whistle");
+        }
+
+        public void Play_SuddenDeath()
+        {
+            AudioManager.Instance.PlaySound("SFX_Lightning_Instant_Cast_Spell_C");
+        }
+
+
     }
 }

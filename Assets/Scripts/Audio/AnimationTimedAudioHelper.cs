@@ -15,6 +15,11 @@ namespace GASHAPWN.Audio
         {
             AudioManager.Instance.PlaySound("SFX_STGR_Win_Reaction");
         }
+
+        public void Play_Countdown_Tick()
+        {
+            AudioManager.Instance.PlaySound("SFX_UI_Countdown_Clock_Tick"); 
+        }
     }
 }
 

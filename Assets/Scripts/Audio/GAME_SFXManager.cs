@@ -20,7 +20,6 @@ namespace GASHAPWN.Audio {
             Instance = this;
         }
 
-
     }
 }
 

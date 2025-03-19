@@ -8970,7 +8970,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4934671046706063707, guid: d6502254ad3b37744a9c984c3155b4fa, type: 3}
   m_PrefabInstance: {fileID: 1001974002}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1728501812}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
@@ -13605,11 +13605,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727623771}
   m_Enabled: 1
---- !u!1 &1728501812 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2793540370413783883, guid: d6502254ad3b37744a9c984c3155b4fa, type: 3}
-  m_PrefabInstance: {fileID: 1001974002}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1746372261
 GameObject:
   m_ObjectHideFlags: 0
@@ -14414,10 +14409,10 @@ MonoBehaviour:
   controlsFirstButton: {fileID: 232285643}
   controlsClosedButton: {fileID: 1375618639}
   optionsFirstButton: {fileID: 851971484}
-  optionsClosedButton: {fileID: 1728501812}
+  optionsClosedButton: {fileID: 2793540371583225633}
   creditsFirstButton: {fileID: 0}
   creditsClosedButton: {fileID: 2793540371583225633}
-  menuTransition: {fileID: 11400000, guid: 2eec88d4ca6df24419aab2fd6b04c543, type: 2}
+  menuTransition: {fileID: 11400000, guid: d96fcc160d565e54ea03d1334c21eb99, type: 2}
   _isMenuTransition: 0
 --- !u!114 &1858329486
 MonoBehaviour:

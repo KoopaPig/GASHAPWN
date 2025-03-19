@@ -53,8 +53,6 @@ namespace GASHAPWN.UI {
 
         private void OnEnable()
         {
-            OnGameStateChanged += StateChanged;
-
             var inputActionAsset = GetComponent<PlayerInput>().actions;
             cancelAction = inputActionAsset["Cancel"];
 
@@ -98,7 +96,6 @@ namespace GASHAPWN.UI {
 
         public void OnDisable()
         {
-            OnGameStateChanged -= StateChanged;
             cancelAction.performed -= HandleCancel;
             cancelAction.Disable();
         }
@@ -155,11 +152,6 @@ namespace GASHAPWN.UI {
             {
                 GetComponent<ScreenSwitcher>().ShowControlsBindScreen();
             }
-        }
-
-        private void StateChanged(GameState state)
-        {
-            Debug.Log(state.ToString());
         }
 
         public void TimeLeft()
