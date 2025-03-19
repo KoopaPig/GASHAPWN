@@ -105,8 +105,11 @@ namespace GASHAPWN.UI {
             winnerText.gameObject.SetActive(false);
 
             // Subscribe to OnWinningFigure and OnLosingFigure Events from BattleManager
-            BattleManager.Instance.OnWinningFigure.AddListener(SetWinner);
-            BattleManager.Instance.OnLosingFigure.AddListener(PopulateResultsGivenPlayer);
+            if (BattleManager.Instance != null)
+            {
+                BattleManager.Instance.OnWinningFigure.AddListener(SetWinner);
+                BattleManager.Instance.OnLosingFigure.AddListener(PopulateResultsGivenPlayer);
+            }
         }
 
         /// <summary>
@@ -205,8 +208,11 @@ namespace GASHAPWN.UI {
 
         private void OnDisable()
         {
-            BattleManager.Instance.OnWinningFigure.RemoveListener(SetWinner);
-            BattleManager.Instance.OnLosingFigure.RemoveListener(PopulateResultsGivenPlayer);
+            if (BattleManager.Instance != null)
+            {
+                BattleManager.Instance.OnWinningFigure.RemoveListener(SetWinner);
+                BattleManager.Instance.OnLosingFigure.RemoveListener(PopulateResultsGivenPlayer);
+            }
         }
     }
 }

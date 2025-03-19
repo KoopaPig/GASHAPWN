@@ -2045,6 +2045,11 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &425105678 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 602770967161004084, guid: 3055f3b9830eeec41995b443d8fd0675, type: 3}
+  m_PrefabInstance: {fileID: 821192036}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &429743564
 Mesh:
   m_ObjectHideFlags: 0
@@ -5458,7 +5463,7 @@ GameObject:
   - component: {fileID: 1139054858}
   - component: {fileID: 1139054857}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6735,7 +6740,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToCountdown.m_PersistentCalls.m_Calls.Array.size
@@ -6743,7 +6748,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToBattle.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -6759,6 +6764,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
+      propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
+      propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
@@ -6785,6 +6798,14 @@ PrefabInstance:
       propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1818147867}
+    - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
+      propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 1692113234}
+    - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
+      propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 425105678}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToBattle.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -6838,6 +6859,14 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
+      propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
+      propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1408102598}
@@ -6852,7 +6881,7 @@ PrefabInstance:
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1692113234}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[4].m_Target
       value: 
@@ -6864,6 +6893,14 @@ PrefabInstance:
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: BattleEndGUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
+      propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: Play_GameEnd
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
+      propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: Play_GameEnd
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToCountdown.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -6915,7 +6952,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
-      value: SuddenDeathGUI
+      value: Play_SuddenDeath
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[4].m_MethodName
@@ -6936,6 +6973,14 @@ PrefabInstance:
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: GASHAPWN.UI.OverlayGUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
+      propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
+      propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToCountdown.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -6959,7 +7004,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
-      value: GASHAPWN.UI.OverlayGUI, Assembly-CSharp
+      value: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToSuddenDeath.m_PersistentCalls.m_Calls.Array.data[4].m_TargetAssemblyTypeName
@@ -7011,6 +7056,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
+      propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
+      propertyPath: ChangeToVictory.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
@@ -8556,7 +8609,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7668600136944423758, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 882.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7668600136944423758, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8599,6 +8652,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
+--- !u!114 &1692113234 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6836412219076472514, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
+  m_PrefabInstance: {fileID: 1692113233}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db96cc20ec75044f9b3a5d7eb23da34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &1703788761
 Animator:
   serializedVersion: 7
@@ -15040,11 +15104,11 @@ SceneRoots:
   - {fileID: 1325727599689551414}
   - {fileID: 2132133042}
   - {fileID: 224854706786566426}
-  - {fileID: 1139054860}
   - {fileID: 1408102597}
   - {fileID: 693589793}
   - {fileID: 4961177979250832254}
   - {fileID: 115550824}
+  - {fileID: 1139054860}
   - {fileID: 580436457}
   - {fileID: 1784655253}
   - {fileID: 1818147865}
