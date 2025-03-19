@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TestEnvironments/TestEnvironmentWeek5.unity
     guid: 8dcac0f0016a2a447a961c967feb5098
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TestEnvironments/TestWeek8.unity
     guid: 803da5c067aef484d9bad5c44fddd0c9
   m_configObjects:
