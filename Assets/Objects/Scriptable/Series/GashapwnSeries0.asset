@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef39ddc1a757fa4e992c223a4074b82, type: 3}
+  m_Name: GashapwnSeries0
+  m_EditorClassIdentifier: 
+  SeriesName: Gashapwn Series 0
+  SeriesIcon: {fileID: 21300000, guid: 0473d1498d6bb0b49838dd2a7d30d42a, type: 3}
+  FiguresInSeries:
+  - {fileID: 11400000, guid: eb0cc01357dd72846823089ea0d25a02, type: 2}
+  - {fileID: 11400000, guid: d12a5db630100bc4b8a4db59c5b101f2, type: 2}
+  - {fileID: 11400000, guid: 1f815e74ce022c141a8d1c2d5a6232c7, type: 2}
+  - {fileID: 11400000, guid: 9c44d1d6ba2d8f2418812b1923945836, type: 2}
+  - {fileID: 11400000, guid: 089a8cb09b20c6c49940fcd679d80074, type: 2}

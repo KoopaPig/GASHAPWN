@@ -24,12 +24,12 @@ namespace GASHAPWN.UI
 
         public void FadeTurnOff()
         {
-            if (fadeCoroutine == null) fadeCoroutine = StartCoroutine(FadeOutElements(fadeOutDuration, fadeOutWaitDuration));
+            fadeCoroutine = StartCoroutine(FadeOutElements(fadeOutDuration, fadeOutWaitDuration));
         }
 
         public void FadeTurnOn()
         {
-            if (fadeCoroutine == null) fadeCoroutine = StartCoroutine(FadeInElements(fadeInDuration, fadeInWaitDuration));
+            fadeCoroutine = StartCoroutine(FadeInElements(fadeInDuration, fadeInWaitDuration));
         }
 
         private IEnumerator FadeInElements(float fadeDuration, float waitDuration)

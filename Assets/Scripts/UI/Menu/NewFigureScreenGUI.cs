@@ -4,23 +4,30 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using EasyTransition;
+using static UnityEngine.InputSystem.InputAction;
+using UnityEngine.InputSystem;
 
 namespace GASHAPWN.UI
 {
     public class NewFigureScreenGUI : MonoBehaviour
     {
-        // Debug: Toggle this to make New Figure Screen immediately appear
-        [SerializeField] private bool debugActive;
+
+        [SerializeField] private InputActionReference submitAction;
 
         [Header("Main Components")]
         [SerializeField] private GameObject figureScreen_BG;
         [SerializeField] private GameObject figureScreen_FG;
-        
+
         [Header("GUI")]
+        [SerializeField] private GameObject figureInfo;
         [SerializeField] private GameObject newIcon;
         [SerializeField] TextMeshProUGUI figureName;
         [SerializeField] private StarsGUI starsGUI;
         [SerializeField] private GameObject figureScreenFirstButton;
+        [SerializeField] private GameObject buttonPrompt;
+        private int numPresses = 5;
+        private int remainingPresses;
+
 
         [Header("Particles")]
         [SerializeField] private GameObject backgroundParticles;
@@ -39,19 +46,17 @@ namespace GASHAPWN.UI
         ///// PUBLIC METHODS /////
         public void StartCapsuleOpen()
         {
+            buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOff();
             capsule.SetActive(true);
             backgroundParticles.SetActive(true);
-            capsuleAnimator.SetBool("isCapsuleEnter", false);
+            figureInfo.SetActive(true);
             capsuleAnimator.SetBool("isCapsuleOpen", true);
-            StartCoroutine(ResetCapsuleBool());
             // Handle whether newIcon should appear
             if (BattleManager.Instance.newFigure) { newIcon.SetActive(true); }
             else { newIcon.SetActive(false); }
-        }
 
-        public void OnCapsuleOpenAnimationComplete()
-        {
-            capsuleAnimator.SetBool("isCapsuleOpen", false);
+            // Turn on button after a few seconds
+            StartCoroutine(WaitTurnOnButton(2f));
         }
 
         //public void ToCollection()
@@ -81,8 +86,10 @@ namespace GASHAPWN.UI
             backgroundParticles.SetActive(false);
             figureScreen_BG.SetActive(false);
             figureScreen_FG.SetActive(false);
+            figureInfo.SetActive(false);
 
-            if (debugActive) { OnNewFigureScreen(BattleState.NewFigureScreen); }
+            remainingPresses = numPresses;
+
         }
 
         private void Start()
@@ -100,8 +107,13 @@ namespace GASHAPWN.UI
             figureScreen_BG.GetComponent<GraphicsFaderCanvas>().FadeTurnOn();
             figureScreen_FG.SetActive(true);
             figureScreen_FG.GetComponent<GraphicsFaderCanvas>().FadeTurnOn();
+            figureScreen_FG.GetComponentInParent<CanvasGroup>().interactable = false;
 
-            // TODO: Get winning figure from BattleManager
+            // set up input action here
+            submitAction.action.performed += HandleCapsuleOpenInput;
+            submitAction.action.Enable();
+
+            // set winningFigure info
             figureName.text = winningFigure.Name;
             starsGUI.SetStars(winningFigure);
 
@@ -109,11 +121,12 @@ namespace GASHAPWN.UI
             Instantiate(winningFigure.capsuleModelPrefab, figureModel.transform);
 
             GetComponent<Animator>().SetBool("isOverlaySlide", true);
-            StartCoroutine(WaitTurnOnButton(4f));
 
             capsule.SetActive(true);
             // Capsule enters frame
-            capsuleAnimator.SetBool("isCapsuleEnter", true);
+            capsuleAnimator.SetBool("isCapsuleOpen", false);
+            capsuleAnimator.SetTrigger("capsuleEnter");
+            buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOn();
         }
 
         private void OnDisable()
@@ -123,9 +136,11 @@ namespace GASHAPWN.UI
                 BattleManager.Instance.ChangeToNewFigure.RemoveListener(OnNewFigureScreen);
                 BattleManager.Instance.OnWinningFigure.RemoveListener(SetWinningFigure);
             }
+            submitAction.action.performed -= HandleCapsuleOpenInput;
         }
 
         // Use as a buffer before activating buttons
+        // This should actually be called after Capsule is opened
         private IEnumerator WaitTurnOnButton(float waitDuration)
         {
             if (figureScreen_FG.GetComponentInParent<CanvasGroup>() == null)
@@ -139,23 +154,21 @@ namespace GASHAPWN.UI
             figureScreen_FG.GetComponentInParent<CanvasGroup>().interactable = true;
         }
 
-        // Resets Capsule After "isCapsuleOpen" animation
-        private IEnumerator ResetCapsuleBool()
-        {
-            yield return new WaitForEndOfFrame();
-            yield return new WaitUntil(() => capsuleAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0);
-
-            float animLength = capsuleAnimator.GetCurrentAnimatorStateInfo(0).length;
-            yield return new WaitForSeconds(animLength); // Wait for animation to complete
-            // Reset "isCapsuleOpen"
-            // Note: for capsule opening animation to play again, "isCapsuleEnter" must be set to true.
-            capsuleAnimator.SetBool("isCapsuleOpen", false);
-
-        }
-
         private void SetWinningFigure(string tag, Figure figure)
         {
             winningFigure = figure;
+        }
+
+        private void HandleCapsuleOpenInput(CallbackContext context)
+        {
+            if (remainingPresses > 0)
+            {
+                capsuleAnimator.Play("capsule-shake", 0, 0f);
+                remainingPresses -= 1;
+            } else
+            {
+                StartCapsuleOpen();
+            }
         }
     }
 }
