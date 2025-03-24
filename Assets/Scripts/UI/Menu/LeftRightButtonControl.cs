@@ -34,6 +34,7 @@ namespace GASHAPWN.UI
         {
             Vector2 input = context.ReadValue<Vector2>();
 
+            // maybe edit this here
             if (input.x < 0)
             {
                 if (this.gameObject == EventSystem.current.currentSelectedGameObject)
