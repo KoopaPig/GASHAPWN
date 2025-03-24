@@ -15,15 +15,13 @@ public class PlayerData : MonoBehaviour
     public float staminaRegenRate = .5f;
 
     [Header("Events")]
-
-    public UnityEvent<int> OnDamage = new UnityEvent<int>(); // Broadcasts current health after taking damage
-    public UnityEvent<int> SetMaxHealth = new UnityEvent<int>(); // Broadcasts max health
-    public UnityEvent<int> SetHealth = new UnityEvent<int>(); // Set health
-
-    public UnityEvent<float> OnStaminaChanged = new UnityEvent<float>(); // Broadcast stamina value when changed
-    public UnityEvent<float> SetMaxStamina = new UnityEvent<float>(); // Broadcasts maximum stamina
-    public UnityEvent<float> OnStaminaHardDecrease = new UnityEvent<float>(); // Broadcast when some action instantly depletes stamina
-    public UnityEvent<float> OnStaminaHardIncrease = new UnityEvent<float>(); // Broadcast when some action instantly refills stamina
+    public UnityEvent<int> OnDamage = new UnityEvent<int>();
+    public UnityEvent<int> SetMaxHealth = new UnityEvent<int>();
+    public UnityEvent<int> SetHealth = new UnityEvent<int>();
+    public UnityEvent<float> OnStaminaChanged = new UnityEvent<float>();
+    public UnityEvent<float> SetMaxStamina = new UnityEvent<float>();
+    public UnityEvent<float> OnStaminaHardDecrease = new UnityEvent<float>();
+    public UnityEvent<float> OnStaminaHardIncrease = new UnityEvent<float>();
     public UnityEvent<GameObject> OnDeath = new UnityEvent<GameObject>();
 
     [Header("Player State Flags")]
@@ -36,8 +34,8 @@ public class PlayerData : MonoBehaviour
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
-    public float minHitSpeed = 3f; // Speed threshold for valid hits
-    public float deflectKnockbackMultiplier = 1.5f; // Knockback applied during deflection
+    public float minHitSpeed = 3f;
+    public float deflectKnockbackMultiplier = 1.5f;
 
     [Header("Physics Floatiness")]
     public float drag = 0f;
@@ -114,7 +112,7 @@ public class PlayerData : MonoBehaviour
 
     private bool IsDeflecting(Vector3 hitNormal)
     {
-        return Vector3.Dot(hitNormal, transform.forward) > 0.5f; // deflection logic
+        return Vector3.Dot(hitNormal, transform.forward) > 0.5f;
     }
 
     private void ApplyKnockback(Rigidbody otherRb, float multiplier)
@@ -146,9 +144,5 @@ public class PlayerData : MonoBehaviour
         Debug.Log(gameObject.name + " has been eliminated!");
         OnDeath.Invoke(this.gameObject);
         BattleManager.Instance.OnPlayerDeath(this.gameObject);
-        
-        // We don't want to turn off the player because things break
-        //gameObject.SetActive(false);
     }
-
 }
