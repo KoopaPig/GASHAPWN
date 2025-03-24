@@ -2885,8 +2885,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -206.03146, y: 196.1, z: -166.03394}
-  m_LocalScale: {x: 400, y: 400, z: 400}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 360, y: 360, z: 360}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7974388265669843335}
   - {fileID: 6758188010584748464}
@@ -4311,6 +4311,7 @@ GameObject:
   - component: {fileID: 4815872184409718204}
   - component: {fileID: 2308093445539268125}
   - component: {fileID: 6965830107248068903}
+  - component: {fileID: 1392935319746860536}
   m_Layer: 0
   m_Name: Roof
   m_TagString: Untagged
@@ -4386,3 +4387,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!95 &1392935319746860536
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9193401164422077531}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5a4666c21cd4c8d4f9b83d762c5836d5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

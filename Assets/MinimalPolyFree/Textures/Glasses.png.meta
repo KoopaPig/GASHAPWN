@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: 0fda31b6599e74a90ab85fae97e45604
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308063
+  packageName: Minimal Poly Free
+  packageVersion: 1.0.0
+  assetPath: Assets/MinimalPolyFree/Textures/Glasses.png
+  uploadId: 729075
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -115,10 +122,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 308063
-  packageName: Minimal Poly Free
-  packageVersion: 1.0.0
-  assetPath: Assets/MinimalPolyFree/Textures/Glasses.png
-  uploadId: 729075
