@@ -14760,6 +14760,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GashaMachine
       objectReference: {fileID: 0}
+    - target: {fileID: 6512398497737692746, guid: d605d8c4c63336d478db86c98da75655, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1025307661546579354, guid: 7bfb8097e39fe4649acde3c0b59b6902, type: 3}
       propertyPath: m_Mesh
       value: 

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SeriesName: Gashapwn Series 0
   SeriesIcon: {fileID: 21300000, guid: 0473d1498d6bb0b49838dd2a7d30d42a, type: 3}
-  FiguresInSeries:
+  figuresInSeries:
   - {fileID: 11400000, guid: eb0cc01357dd72846823089ea0d25a02, type: 2}
   - {fileID: 11400000, guid: d12a5db630100bc4b8a4db59c5b101f2, type: 2}
   - {fileID: 11400000, guid: 1f815e74ce022c141a8d1c2d5a6232c7, type: 2}

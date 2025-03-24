@@ -1,4 +1,7 @@
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace GASHAPWN
 {
@@ -33,6 +36,9 @@ namespace GASHAPWN
             {
                 Debug.LogWarning($"{Name} already belongs to {series.SeriesName}. Clear Figure.series and add the Figure to Series.FiguresInSeries.");
             }
+            #if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+            #endif
         }
 
         public Series GetSeries()
@@ -40,7 +46,12 @@ namespace GASHAPWN
             return series;
         }
 
-        public void SetNumberInSeries(int n) { numberInSeries = n; }
+        public void SetNumberInSeries(int n) { 
+            numberInSeries = n;
+            #if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+            #endif
+        }
 
         public int GetNumberInSeries() { return numberInSeries; }
 
