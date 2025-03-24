@@ -24,7 +24,7 @@ namespace GASHAPWN.UI
         private RectTransform rectTransform;
 
         private bool isSliding = false;
-
+        private Coroutine slideCoroutine;
 
         private void Awake()
         {
@@ -53,27 +53,8 @@ namespace GASHAPWN.UI
             numberInSeriesText.text = string.Format("{0:000} / {1:000}", figure.GetNumberInSeries(), figure.GetSeries().Size());
         }
 
-        public void SlideCard()
-        {
-            if (!isSliding)
-            {
-                if (rectTransform.anchoredPosition != onscreenPosition)
-                {
-                    StartCoroutine(SlideCardIn());
-                }
-                else if (rectTransform.anchoredPosition != offscreenPosition)
-                {
-                    StartCoroutine(SlideCardOut());
-                }
-                else Debug.LogError("InfoCardGUI: Cannot slide Info Card. It is in an undefined position.");
-            }
-            else Debug.Log("InfoCardGUI: Cannot slide Info Card when it is currently sliding.");
-
-
-        }
-
         // Slide in card from offscreen position
-        private IEnumerator SlideCardIn()
+        public IEnumerator SlideCardIn()
         {
             isSliding = true;
             float elapsedTime = 0f;
@@ -86,23 +67,6 @@ namespace GASHAPWN.UI
             }
 
             GetComponent<RectTransform>().anchoredPosition = onscreenPosition;
-            isSliding = false;
-        }
-
-        // Slide out card from onscreen position
-        private IEnumerator SlideCardOut()
-        {
-            isSliding = true;
-            float elapsedTime = 0f;
-
-            while (elapsedTime < slideDuration)
-            {
-                elapsedTime += Time.deltaTime;
-                GetComponent<RectTransform>().anchoredPosition = Vector3.Lerp(onscreenPosition, offscreenPosition, elapsedTime / slideDuration);
-                yield return null;
-            }
-
-            GetComponent<RectTransform>().anchoredPosition = offscreenPosition;
             isSliding = false;
         }
 

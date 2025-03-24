@@ -46,7 +46,7 @@ namespace GASHAPWN.UI
         ///// PUBLIC METHODS /////
         public void StartCapsuleOpen()
         {
-            buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOff();
+            buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOff(true);
             capsule.SetActive(true);
             backgroundParticles.SetActive(true);
             figureInfo.SetActive(true);
@@ -104,9 +104,9 @@ namespace GASHAPWN.UI
         private void OnNewFigureScreen(BattleState state)
         {
             figureScreen_BG.SetActive(true);
-            figureScreen_BG.GetComponent<GraphicsFaderCanvas>().FadeTurnOn();
+            figureScreen_BG.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(true);
             figureScreen_FG.SetActive(true);
-            figureScreen_FG.GetComponent<GraphicsFaderCanvas>().FadeTurnOn();
+            figureScreen_FG.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(true);
             figureScreen_FG.GetComponentInParent<CanvasGroup>().interactable = false;
 
             // set up input action here
@@ -126,7 +126,7 @@ namespace GASHAPWN.UI
             // Capsule enters frame
             capsuleAnimator.SetBool("isCapsuleOpen", false);
             capsuleAnimator.SetTrigger("capsuleEnter");
-            buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOn();
+            buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(true);
         }
 
         private void OnDisable()

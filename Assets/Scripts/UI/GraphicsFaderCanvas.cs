@@ -22,17 +22,25 @@ namespace GASHAPWN.UI
             canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        public void FadeTurnOff()
+        /// <summary>
+        /// FadeTurnOff: Fade out CanvasGroup given fadeInWaitDuration and fadeInDuration
+        /// </summary>
+        /// <param name="isDisable">Set true if elements should be disabled after fadeout</param>
+        public void FadeTurnOff(bool isDisable)
         {
-            fadeCoroutine = StartCoroutine(FadeOutElements(fadeOutDuration, fadeOutWaitDuration));
+            fadeCoroutine = StartCoroutine(FadeOutElements(fadeOutDuration, fadeOutWaitDuration, isDisable));
         }
 
-        public void FadeTurnOn()
+        /// <summary>
+        /// FadeTurnOff: Fade in CanvasGroup given fadeInWaitDuration and fadeInDuration
+        /// </summary>
+        /// <param name="isDisable">Set true if elements should begin as disabled</param>
+        public void FadeTurnOn(bool isDisable)
         {
-            fadeCoroutine = StartCoroutine(FadeInElements(fadeInDuration, fadeInWaitDuration));
+            fadeCoroutine = StartCoroutine(FadeInElements(fadeInDuration, fadeInWaitDuration, isDisable));
         }
 
-        private IEnumerator FadeInElements(float fadeDuration, float waitDuration)
+        private IEnumerator FadeInElements(float fadeDuration, float waitDuration, bool isDisable)
         {
             if (canvasGroup == null)
             {
@@ -49,10 +57,13 @@ namespace GASHAPWN.UI
                 .Select(t => t.gameObject)
                 .ToArray();
 
-            // Disable all child objects initially
-            foreach (var child in childObjects)
+            if (isDisable)
             {
-                if (child != null) child.SetActive(false);
+                // Disable all child objects initially
+                foreach (var child in childObjects)
+                {
+                    if (child != null) child.SetActive(false);
+                }
             }
 
             canvasGroup.alpha = 0f;
@@ -76,7 +87,7 @@ namespace GASHAPWN.UI
             canvasGroup.alpha = 1f;
         }
 
-        private IEnumerator FadeOutElements(float fadeDuration, float waitDuration)
+        private IEnumerator FadeOutElements(float fadeDuration, float waitDuration, bool isDisable)
         {
             if (canvasGroup == null)
             {
@@ -103,10 +114,13 @@ namespace GASHAPWN.UI
 
             canvasGroup.alpha = 0f;
 
-            // Deactivate child objects after fade
-            foreach (var child in childObjects)
+            if (isDisable)
             {
-                if (child != null) child.SetActive(false);
+                // Deactivate child objects after fade
+                foreach (var child in childObjects)
+                {
+                    if (child != null) child.SetActive(false);
+                }
             }
         }
 
