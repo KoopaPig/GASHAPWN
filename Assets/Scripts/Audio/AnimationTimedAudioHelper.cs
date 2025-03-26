@@ -5,6 +5,7 @@ namespace GASHAPWN.Audio
 {
     public class AnimationTimedAudioHelper : MonoBehaviour
     {
+
         public void Play_CapsuleOpen()
         {
             AudioManager.Instance.PlaySound("SFX_Firework_Explosion_1");
@@ -19,6 +20,11 @@ namespace GASHAPWN.Audio
         public void Play_Countdown_Tick()
         {
             AudioManager.Instance.PlaySound("SFX_UI_Countdown_Clock_Tick"); 
+        }
+
+        public void Play_Capsule_Open() 
+        {
+            AudioManager.Instance.PlaySound("SFX_Capsule_Open"); 
         }
     }
 }

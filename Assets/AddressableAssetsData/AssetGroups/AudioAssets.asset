@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: AudioAssets
   m_GUID: 37fc074d652e67a47ab33d945fb9f5f4
   m_SerializeEntries:
+  - m_GUID: 07c0c089854174d2b9a43c721edf5aec
+    m_Address: SFX_UI_Dink_Select_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 088a016fd0d136746aa40cf3d4a667fb
     m_Address: SFX_Ref_Whistle
     m_ReadOnly: 0
@@ -75,6 +80,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2b8bb7471066e4f8b8fecbdd51a0342a
+    m_Address: SFX_UI_Dink_Select_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 33c3ba37ec746974aa31e10b994e3872
     m_Address: SFX_Damage_Metal_18
     m_ReadOnly: 0
@@ -125,6 +135,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3d3f3085e256047a08f6cced99b5d349
+    m_Address: SFX_UI_Dink_Select_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 420fefa3e9c7de243ba52939d7c9c562
     m_Address: SFX_Confetti_1
     m_ReadOnly: 0
@@ -162,6 +177,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4d3b22c9bf1066e42936952478e6ea3c
     m_Address: SFX_Remove_10
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ed04a4077def47faa855ba253562227
+    m_Address: SFX_Capsule_Open
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

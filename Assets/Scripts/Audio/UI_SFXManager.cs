@@ -11,6 +11,8 @@ namespace GASHAPWN.Audio {
 
         [SerializeField] private SFXGroup buttonSelectionGroup;
 
+        [SerializeField] private SFXGroup buttonDinkyGroup;
+
         private void Awake()
         {
             // Check for other instances
@@ -52,6 +54,10 @@ namespace GASHAPWN.Audio {
             AudioManager.Instance.PlaySound("SFX_Lightning_Instant_Cast_Spell_C");
         }
 
+        public void Play_LeftRightButtonSelection()
+        {
+            AudioManager.Instance.PlayRandomSound(buttonDinkyGroup);
+        }
 
     }
 }

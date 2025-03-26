@@ -130,3 +130,9 @@ MonoBehaviour:
     - SFX_Interact_Pop_2
     - SFX_Interact_Pop_3
     - SFX_Interact_Pop_4
+  buttonDinkyGroup:
+    groupTag: ButtonDinkyGroup
+    addressableKeys:
+    - SFX_UI_Dink_Select_1
+    - SFX_UI_Dink_Select_2
+    - SFX_UI_Dink_Select_3

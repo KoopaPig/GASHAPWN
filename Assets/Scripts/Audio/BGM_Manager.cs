@@ -133,7 +133,7 @@ namespace GASHAPWN.Audio {
 
         private void SetMusicBattleState(BattleState state)
         {
-            Debug.Log("here in SetMusicBattleState");
+            //Debug.Log("here in SetMusicBattleState");
             string audioKey = "";
 
             // Set the addressable key based on the battle state

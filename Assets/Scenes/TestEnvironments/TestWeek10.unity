@@ -9610,6 +9610,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundManagers
       objectReference: {fileID: 0}
+    - target: {fileID: 6836412219076472514, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
+      propertyPath: buttonDinkyGroup.groupTag
+      value: ButtonDinkyGroup
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836412219076472514, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
+      propertyPath: buttonDinkyGroup.addressableKeys.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836412219076472514, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
+      propertyPath: 'buttonDinkyGroup.addressableKeys.Array.data[0]'
+      value: SFX_UI_Dink_Select_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836412219076472514, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
+      propertyPath: 'buttonDinkyGroup.addressableKeys.Array.data[1]'
+      value: SFX_UI_Dink_Select_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836412219076472514, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
+      propertyPath: 'buttonDinkyGroup.addressableKeys.Array.data[2]'
+      value: SFX_UI_Dink_Select_3
+      objectReference: {fileID: 0}
     - target: {fileID: 7668600136944423758, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 882.25
