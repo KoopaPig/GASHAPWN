@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using GASHAPWN;
@@ -13,6 +14,10 @@ public class PlayerData : MonoBehaviour
     public float maxStamina = 6f;
     public float currentStamina;
     public float staminaRegenRate = .5f;
+
+    [Header("I-Frame Settings")]
+    public bool isInvincible = false;
+    public float invincibilityDuration = 1.0f; // 1 second of i-frames
 
     [Header("Events")]
     public UnityEvent<int> OnDamage = new UnityEvent<int>();
@@ -60,13 +65,25 @@ public class PlayerData : MonoBehaviour
     public float chargeRollMaxDuration = 2f;
     public float chargeRollSpinSpeed = 1000f;
 
+    private Renderer playerRenderer;
+    private Color originalColor;
+    public Color flashColor = Color.red; // Color to flash during i-frames
+    public float flashSpeed = 0.1f; // How fast to flash
+
     private void Start()
     {
         currentHealth = maxHealth;
         SetMaxHealth.Invoke(maxHealth);
-        currentStamina = 6f;
+        currentStamina = maxStamina;
         SetMaxStamina.Invoke(maxStamina);
         rb = GetComponent<Rigidbody>();
+
+        // Get the Renderer and store the original color
+        playerRenderer = GetComponent<Renderer>();
+        if (playerRenderer != null)
+        {
+            originalColor = playerRenderer.material.color;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -123,12 +140,56 @@ public class PlayerData : MonoBehaviour
 
     public void TakeDamage(int damageAmt)
     {
+        if (isInvincible) 
+        {
+            Debug.Log(gameObject.name + " is invincible! No damage taken.");
+            return;
+        }
+
         currentHealth -= damageAmt;
-        OnDamage.Invoke(damageAmt);
+        Debug.Log(gameObject.name + " took " + damageAmt + " damage! Current HP: " + currentHealth);
+        OnDamage.Invoke(currentHealth);
 
         if (currentHealth <= 0)
         {
             Die();
+        }
+        else
+        {
+            StartCoroutine(ActivateIFrames());
+        }
+    }
+
+    private IEnumerator ActivateIFrames()
+    {
+        isInvincible = true;
+        Debug.Log(gameObject.name + " entered I-Frames! No damage can be taken.");
+
+        if (playerRenderer != null)
+        {
+            StartCoroutine(FlashEffect());
+        }
+
+        yield return new WaitForSeconds(invincibilityDuration);
+
+        isInvincible = false;
+        Debug.Log(gameObject.name + " exited I-Frames! Can take damage again.");
+
+        // Reset color to original after i-frames end
+        if (playerRenderer != null)
+        {
+            playerRenderer.material.color = originalColor;
+        }
+    }
+
+    private IEnumerator FlashEffect()
+    {
+        while (isInvincible)
+        {
+            playerRenderer.material.color = flashColor;
+            yield return new WaitForSeconds(flashSpeed);
+            playerRenderer.material.color = originalColor;
+            yield return new WaitForSeconds(flashSpeed);
         }
     }
 
