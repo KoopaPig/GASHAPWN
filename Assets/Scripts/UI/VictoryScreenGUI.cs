@@ -74,7 +74,7 @@ namespace GASHAPWN.UI {
         {
             BattleManager.Instance.ChangeStateNewFigureScreen();
             // deactivate this stuff
-            GetComponent<GraphicsFaderCanvas>().FadeTurnOff();
+            GetComponent<GraphicsFaderCanvas>().FadeTurnOff(true);
         }
 
         /// PRIVATE METHODS ///
@@ -143,7 +143,7 @@ namespace GASHAPWN.UI {
                         winnerCrownGUI.transform.position = newPosition;
                         winnerCrownGUI.GetComponent<Animator>().enabled = true;
                         // fade in crown
-                        winnerCrownGUI.GetComponent<GraphicsFaderCanvas>().FadeTurnOn();
+                        winnerCrownGUI.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(true);
                     }
                     return;
                 }
@@ -187,7 +187,7 @@ namespace GASHAPWN.UI {
                 resultsContainers[i].gameObject.SetActive(true);
                 var graphicsFader = resultsContainers[i].gameObject.GetComponent<GraphicsFaderCanvas>();
                 graphicsFader.fadeInWaitDuration = durationPerFade * i;
-                graphicsFader.FadeTurnOn();
+                graphicsFader.FadeTurnOn(true);
                 StartCoroutine(SlideInResultsContainer(resultsContainers[i].gameObject.GetComponent<RectTransform>(),
                     offset, durationPerFade, durationPerFade * i));
             }

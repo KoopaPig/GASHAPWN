@@ -1,25 +1,28 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "FigureDatabase", menuName = "Scriptable Objects/Figure/FigureDatabase")]
-public class FigureDatabase : ScriptableObject
+namespace GASHAPWN
 {
-    public Dictionary<string, Figure> figureDictionary = new();
-
-    [SerializeField] private List<Figure> figureList = new();
-
-    private void OnEnable()
+    [CreateAssetMenu(fileName = "FigureDatabase", menuName = "Scriptable Objects/Figure/FigureDatabase")]
+    public class FigureDatabase : ScriptableObject
     {
-        figureDictionary.Clear();
-        foreach (Figure figure in figureList)
+        public Dictionary<string, Figure> figureDictionary = new();
+
+        [SerializeField] private List<Figure> figureList = new();
+
+        private void OnEnable()
         {
-            if (!figureDictionary.ContainsKey(figure.Name))
+            figureDictionary.Clear();
+            foreach (Figure figure in figureList)
             {
-                figureDictionary.Add(figure.Name, figure);
-            }
-            else
-            {
-                Debug.LogWarning($"Duplicate figure found: {figure.ID} , {figure.Name}.");
+                if (!figureDictionary.ContainsKey(figure.Name))
+                {
+                    figureDictionary.Add(figure.Name, figure);
+                }
+                else
+                {
+                    Debug.LogWarning($"Duplicate figure found: {figure.GetID()} , {figure.Name}.");
+                }
             }
         }
     }

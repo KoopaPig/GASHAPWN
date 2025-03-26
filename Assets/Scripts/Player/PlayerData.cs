@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using GASHAPWN;
@@ -14,16 +15,18 @@ public class PlayerData : MonoBehaviour
     public float currentStamina;
     public float staminaRegenRate = .5f;
 
+    [Header("I-Frame Settings")]
+    public bool isInvincible = false;
+    public float invincibilityDuration = 1.0f; // 1 second of i-frames
+
     [Header("Events")]
-
-    public UnityEvent<int> OnDamage = new UnityEvent<int>(); // Broadcasts current health after taking damage
-    public UnityEvent<int> SetMaxHealth = new UnityEvent<int>(); // Broadcasts max health
-    public UnityEvent<int> SetHealth = new UnityEvent<int>(); // Set health
-
-    public UnityEvent<float> OnStaminaChanged = new UnityEvent<float>(); // Broadcast stamina value when changed
-    public UnityEvent<float> SetMaxStamina = new UnityEvent<float>(); // Broadcasts maximum stamina
-    public UnityEvent<float> OnStaminaHardDecrease = new UnityEvent<float>(); // Broadcast when some action instantly depletes stamina
-    public UnityEvent<float> OnStaminaHardIncrease = new UnityEvent<float>(); // Broadcast when some action instantly refills stamina
+    public UnityEvent<int> OnDamage = new UnityEvent<int>();
+    public UnityEvent<int> SetMaxHealth = new UnityEvent<int>();
+    public UnityEvent<int> SetHealth = new UnityEvent<int>();
+    public UnityEvent<float> OnStaminaChanged = new UnityEvent<float>();
+    public UnityEvent<float> SetMaxStamina = new UnityEvent<float>();
+    public UnityEvent<float> OnStaminaHardDecrease = new UnityEvent<float>();
+    public UnityEvent<float> OnStaminaHardIncrease = new UnityEvent<float>();
     public UnityEvent<GameObject> OnDeath = new UnityEvent<GameObject>();
 
     [Header("Player State Flags")]
@@ -36,8 +39,8 @@ public class PlayerData : MonoBehaviour
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
-    public float minHitSpeed = 3f; // Speed threshold for valid hits
-    public float deflectKnockbackMultiplier = 1.5f; // Knockback applied during deflection
+    public float minHitSpeed = 3f;
+    public float deflectKnockbackMultiplier = 1.5f;
 
     [Header("Physics Floatiness")]
     public float drag = 0f;
@@ -62,13 +65,25 @@ public class PlayerData : MonoBehaviour
     public float chargeRollMaxDuration = 2f;
     public float chargeRollSpinSpeed = 1000f;
 
+    private Renderer playerRenderer;
+    private Color originalColor;
+    public Color flashColor = Color.red; // Color to flash during i-frames
+    public float flashSpeed = 0.1f; // How fast to flash
+
     private void Start()
     {
         currentHealth = maxHealth;
         SetMaxHealth.Invoke(maxHealth);
-        currentStamina = 6f;
+        currentStamina = maxStamina;
         SetMaxStamina.Invoke(maxStamina);
         rb = GetComponent<Rigidbody>();
+
+        // Get the Renderer and store the original color
+        playerRenderer = GetComponent<Renderer>();
+        if (playerRenderer != null)
+        {
+            originalColor = playerRenderer.material.color;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -114,7 +129,7 @@ public class PlayerData : MonoBehaviour
 
     private bool IsDeflecting(Vector3 hitNormal)
     {
-        return Vector3.Dot(hitNormal, transform.forward) > 0.5f; // deflection logic
+        return Vector3.Dot(hitNormal, transform.forward) > 0.5f;
     }
 
     private void ApplyKnockback(Rigidbody otherRb, float multiplier)
@@ -125,12 +140,56 @@ public class PlayerData : MonoBehaviour
 
     public void TakeDamage(int damageAmt)
     {
+        if (isInvincible) 
+        {
+            Debug.Log(gameObject.name + " is invincible! No damage taken.");
+            return;
+        }
+
         currentHealth -= damageAmt;
+        Debug.Log(gameObject.name + " took " + damageAmt + " damage! Current HP: " + currentHealth);
         OnDamage.Invoke(damageAmt);
 
         if (currentHealth <= 0)
         {
             Die();
+        }
+        else
+        {
+            StartCoroutine(ActivateIFrames());
+        }
+    }
+
+    private IEnumerator ActivateIFrames()
+    {
+        isInvincible = true;
+        Debug.Log(gameObject.name + " entered I-Frames! No damage can be taken.");
+
+        if (playerRenderer != null)
+        {
+            StartCoroutine(FlashEffect());
+        }
+
+        yield return new WaitForSeconds(invincibilityDuration);
+
+        isInvincible = false;
+        Debug.Log(gameObject.name + " exited I-Frames! Can take damage again.");
+
+        // Reset color to original after i-frames end
+        if (playerRenderer != null)
+        {
+            playerRenderer.material.color = originalColor;
+        }
+    }
+
+    private IEnumerator FlashEffect()
+    {
+        while (isInvincible)
+        {
+            playerRenderer.material.color = flashColor;
+            yield return new WaitForSeconds(flashSpeed);
+            playerRenderer.material.color = originalColor;
+            yield return new WaitForSeconds(flashSpeed);
         }
     }
 
@@ -146,9 +205,5 @@ public class PlayerData : MonoBehaviour
         Debug.Log(gameObject.name + " has been eliminated!");
         OnDeath.Invoke(this.gameObject);
         BattleManager.Instance.OnPlayerDeath(this.gameObject);
-        
-        // We don't want to turn off the player because things break
-        //gameObject.SetActive(false);
     }
-
 }

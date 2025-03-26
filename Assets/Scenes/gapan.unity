@@ -1222,6 +1222,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 738757646059745529, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 738757646059745529, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+      propertyPath: groundCheckDistance
+      value: 3.1
+      objectReference: {fileID: 0}
     - target: {fileID: 5109476824892967461, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -27.762577
@@ -1540,6 +1548,10 @@ PrefabInstance:
     - target: {fileID: 2356486932853013218, guid: e8c6ce60769ca2a45955e3aebecbeafe, type: 3}
       propertyPath: m_Name
       value: Player2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3906117202403509763, guid: e8c6ce60769ca2a45955e3aebecbeafe, type: 3}
+      propertyPath: isInvincible
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6525822001250450065, guid: e8c6ce60769ca2a45955e3aebecbeafe, type: 3}
       propertyPath: m_LocalPosition.x

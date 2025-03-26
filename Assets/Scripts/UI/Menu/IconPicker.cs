@@ -12,6 +12,21 @@ namespace GASHAPWN.UI {
 
         private void Start()
         {
+            UpdateControlScheme();
+        }
+
+        private void OnValidate()
+        {
+            UpdateControlScheme();
+        }
+
+        void Update()
+        {
+            // TODO: Update buttons automatically according to control scheme
+        }
+
+        private void UpdateControlScheme()
+        {
             switch (controlScheme)
             {
                 case ControlScheme.XINPUT:
@@ -25,9 +40,5 @@ namespace GASHAPWN.UI {
             }
         }
 
-        void Update()
-        {
-            // TODO: Update buttons automatically according to control scheme
-        }
     }
 }
