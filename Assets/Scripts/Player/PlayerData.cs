@@ -14,6 +14,12 @@ public class PlayerData : MonoBehaviour
     public float currentStamina;
     public float staminaRegenRate = .5f;
 
+    [Header("Move Damage Values")]
+    public int normalCollisionDamage = 1;
+    public int slamDamage = 2;
+    public int chargeRollDamage = 3;
+    public float damageReductionWhileDefending = 0.5f; // 50% damage reduction
+
     [Header("Events")]
     public UnityEvent<int> OnDamage = new UnityEvent<int>();
     public UnityEvent<int> SetMaxHealth = new UnityEvent<int>();
@@ -30,6 +36,7 @@ public class PlayerData : MonoBehaviour
     public bool hasSlammed = false;
     public bool isCharging = false;
     public bool hasCharged = false;
+    public bool isDefending = false; // New flag for defensive stance
 
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
@@ -50,6 +57,7 @@ public class PlayerData : MonoBehaviour
     [Header("Slam Settings")]
     public float slamForce = 80f;
     public float slamDelay = .4f;
+    public float slamDamageRadius = 3f; // Radius for slam damage
 
     [Header("Quick Break Settings")]
     public float quickBreakDuration = 0.2f;
@@ -93,8 +101,31 @@ public class PlayerData : MonoBehaviour
                     }
                     else
                     {
-                        TakeDamage(1);
-                        Debug.Log("Hit! Damage taken.");
+                        // Apply damage to the other player based on current move
+                        PlayerData otherPlayerData = collision.gameObject.GetComponent<PlayerData>();
+                        if (otherPlayerData != null)
+                        {
+                            int damageAmount = normalCollisionDamage;
+                            
+                            // Increase damage for special moves
+                            if (hasSlammed)
+                            {
+                                damageAmount = slamDamage;
+                            }
+                            else if (hasCharged)
+                            {
+                                damageAmount = chargeRollDamage;
+                            }
+                            
+                            // Apply damage to the other player
+                            otherPlayerData.TakeDamage(damageAmount);
+                            Debug.Log($"Hit! {damageAmount} damage dealt.");
+                        }
+                        else
+                        {
+                            TakeDamage(normalCollisionDamage);
+                            Debug.Log("Hit! Normal damage taken.");
+                        }
                     }
                 }
                 else
@@ -123,6 +154,13 @@ public class PlayerData : MonoBehaviour
 
     public void TakeDamage(int damageAmt)
     {
+        // Apply damage reduction if player is defending
+        if (isDefending)
+        {
+            damageAmt = Mathf.Max(1, Mathf.FloorToInt(damageAmt * damageReductionWhileDefending));
+            Debug.Log($"Damage reduced to {damageAmt} due to defensive stance.");
+        }
+        
         currentHealth -= damageAmt;
         OnDamage.Invoke(damageAmt);
 

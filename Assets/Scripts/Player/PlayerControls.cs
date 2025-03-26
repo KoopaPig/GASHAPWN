@@ -98,6 +98,32 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Vector3.down * playerData.slamForce, ForceMode.Impulse);
         
         playerData.hasSlammed = true;
+
+        // Wait for impact with ground
+        yield return new WaitForSeconds(0.2f);
+        
+        // Apply area damage on impact
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, playerData.slamDamageRadius);
+        foreach (var hitCollider in hitColliders)
+        {
+            if ((hitCollider.CompareTag("Player1") || hitCollider.CompareTag("Player2")) && hitCollider.gameObject != gameObject)
+            {
+                PlayerData otherPlayerData = hitCollider.GetComponent<PlayerData>();
+                if (otherPlayerData != null)
+                {
+                    otherPlayerData.TakeDamage(playerData.slamDamage);
+                    
+                    // Apply knockback to affected players
+                    Rigidbody otherRb = hitCollider.GetComponent<Rigidbody>();
+                    if (otherRb != null)
+                    {
+                        Vector3 direction = (otherRb.position - transform.position).normalized;
+                        direction.y = 0.5f; // Add some upward force
+                        otherRb.AddForce(direction * playerData.slamForce * 0.5f, ForceMode.Impulse);
+                    }
+                }
+            }
+        }
     }
 
     public void OnQuickBreak(InputAction.CallbackContext context)
@@ -123,6 +149,8 @@ public class PlayerController : MonoBehaviour
     private IEnumerator QuickBreakCoroutine()
     {
         playerData.controlsEnabled = false;
+        // Enable defensive stance
+        playerData.isDefending = true;
 
         Vector3 initialVelocity = rb.linearVelocity;
         Vector3 initialAngularVelocity = rb.angularVelocity;
@@ -148,6 +176,11 @@ public class PlayerController : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
         transform.rotation = targetRotation;
 
+        // Keep defensive stance active for a short period
+        yield return new WaitForSeconds(1.0f);
+        
+        // Disable defensive stance
+        playerData.isDefending = false;
         playerData.controlsEnabled = true;
     }
 
@@ -272,6 +305,8 @@ public class PlayerController : MonoBehaviour
     private IEnumerator BurstCoroutine()
     {
         playerData.controlsEnabled = false;
+        // Enable defensive stance during burst
+        playerData.isDefending = true;
 
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
@@ -307,6 +342,9 @@ public class PlayerController : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.5f);
+        
+        // Disable defensive stance
+        playerData.isDefending = false;
         playerData.controlsEnabled = true;
     }
 

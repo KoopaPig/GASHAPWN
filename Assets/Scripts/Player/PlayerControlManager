@@ -1,0 +1,257 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using GASHAPWN;
+
+public enum ControlScheme
+{
+    KeyboardOne,
+    KeyboardTwo,
+    ControllerOne,
+    ControllerTwo
+}
+
+public class PlayerControlManager : MonoBehaviour
+{
+    // Singleton pattern
+    public static PlayerControlManager Instance { get; private set; }
+
+    [SerializeField] private PlayerInput[] playerInputPrefabs;
+    
+    // Dictionary to track which control schemes are in use
+    private Dictionary<ControlScheme, bool> schemeInUse = new Dictionary<ControlScheme, bool>();
+    
+    // Dictionary to store player input instances
+    private Dictionary<int, PlayerInput> playerInputs = new Dictionary<int, PlayerInput>();
+    
+    // Dictionary to map player IDs to their control schemes
+    private Dictionary<int, ControlScheme> playerSchemes = new Dictionary<int, ControlScheme>();
+
+    private void Awake()
+    {
+        // Singleton setup
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        // Initialize control scheme usage tracker
+        schemeInUse[ControlScheme.KeyboardOne] = false;
+        schemeInUse[ControlScheme.KeyboardTwo] = false;
+        schemeInUse[ControlScheme.ControllerOne] = false;
+        schemeInUse[ControlScheme.ControllerTwo] = false;
+        
+        // Listen for game state changes
+        GameManager.OnGameStateChanged += OnGameStateChanged;
+    }
+    
+    private void OnDestroy()
+    {
+        // Remove listener
+        GameManager.OnGameStateChanged -= OnGameStateChanged;
+    }
+    
+    private void OnGameStateChanged(GameState newState)
+    {
+        // When entering battle, make sure player controls are set up
+        if (newState == GameState.Battle)
+        {
+            SetupPlayerInputsForBattle();
+        }
+    }
+
+    // Called by the player select UI to assign a control scheme to a player
+    public bool AssignControlScheme(int playerId, ControlScheme scheme)
+    {
+        // Check if the scheme is already in use
+        if (schemeInUse[scheme])
+        {
+            Debug.LogWarning($"Control scheme {scheme} is already in use!");
+            return false;
+        }
+
+        // If this player already has a scheme, free it up
+        if (playerSchemes.ContainsKey(playerId))
+        {
+            schemeInUse[playerSchemes[playerId]] = false;
+        }
+
+        // Assign the new scheme
+        playerSchemes[playerId] = scheme;
+        schemeInUse[scheme] = true;
+        
+        // If we already have a PlayerInput for this player, update it
+        if (playerInputs.ContainsKey(playerId))
+        {
+            UpdatePlayerInput(playerId);
+        }
+        
+        return true;
+    }
+    
+    // Creates or updates a player's input component
+    public void UpdatePlayerInput(int playerId)
+    {
+        if (!playerSchemes.ContainsKey(playerId))
+        {
+            Debug.LogError($"Player {playerId} has no control scheme assigned!");
+            return;
+        }
+        
+        ControlScheme scheme = playerSchemes[playerId];
+        
+        // If player already has an input component, update it
+        if (playerInputs.ContainsKey(playerId))
+        {
+            PlayerInput playerInput = playerInputs[playerId];
+            
+            // Switch to the appropriate control scheme
+            switch (scheme)
+            {
+                case ControlScheme.KeyboardOne:
+                    playerInput.SwitchCurrentControlScheme("KeyboardOne", Keyboard.current);
+                    break;
+                case ControlScheme.KeyboardTwo:
+                    playerInput.SwitchCurrentControlScheme("KeyboardTwo", Keyboard.current);
+                    break;
+                case ControlScheme.ControllerOne:
+                    if (Gamepad.all.Count > 0)
+                        playerInput.SwitchCurrentControlScheme("Gamepad", Gamepad.all[0]);
+                    break;
+                case ControlScheme.ControllerTwo:
+                    if (Gamepad.all.Count > 1)
+                        playerInput.SwitchCurrentControlScheme("Gamepad", Gamepad.all[1]);
+                    break;
+            }
+        }
+        else
+        {
+            // Create a new PlayerInput for this player
+            // This assumes you have set up your PlayerInput prefabs in the Inspector
+            PlayerInput prefab = playerInputPrefabs[playerId - 1]; // Adjust for 0-based indexing
+            
+            PlayerInput instance = Instantiate(prefab);
+            instance.gameObject.name = $"Player{playerId}Input";
+            
+            // Set the control scheme
+            switch (scheme)
+            {
+                case ControlScheme.KeyboardOne:
+                    instance.SwitchCurrentControlScheme("KeyboardOne", Keyboard.current);
+                    break;
+                case ControlScheme.KeyboardTwo:
+                    instance.SwitchCurrentControlScheme("KeyboardTwo", Keyboard.current);
+                    break;
+                case ControlScheme.ControllerOne:
+                    if (Gamepad.all.Count > 0)
+                        instance.SwitchCurrentControlScheme("Gamepad", Gamepad.all[0]);
+                    break;
+                case ControlScheme.ControllerTwo:
+                    if (Gamepad.all.Count > 1)
+                        instance.SwitchCurrentControlScheme("Gamepad", Gamepad.all[1]);
+                    break;
+            }
+            
+            // Store the reference
+            playerInputs[playerId] = instance;
+        }
+    }
+    
+    // Set up player inputs when entering battle
+    private void SetupPlayerInputsForBattle()
+    {
+        foreach (var playerEntry in playerSchemes)
+        {
+            int playerId = playerEntry.Key;
+            UpdatePlayerInput(playerId);
+            
+            // Find the player GameObject and connect the input
+            GameObject playerObj = GameObject.FindGameObjectWithTag($"Player{playerId}");
+            if (playerObj != null)
+            {
+                PlayerInput input = playerInputs[playerId];
+                if (input != null)
+                {
+                    input.transform.SetParent(playerObj.transform);
+                    
+                    // Connect input to player controller
+                    PlayerController controller = playerObj.GetComponent<PlayerController>();
+                    if (controller != null)
+                    {
+                        controller.SetupPlayerInput(input);
+                    }
+                }
+            }
+        }
+    }
+    
+    // Free up a control scheme when player disconnects/exits
+    public void ReleaseControlScheme(int playerId)
+    {
+        if (playerSchemes.ContainsKey(playerId))
+        {
+            schemeInUse[playerSchemes[playerId]] = false;
+            playerSchemes.Remove(playerId);
+        }
+        
+        if (playerInputs.ContainsKey(playerId))
+        {
+            Destroy(playerInputs[playerId].gameObject);
+            playerInputs.Remove(playerId);
+        }
+    }
+    
+    // Get a list of available control schemes for UI display
+    public List<ControlScheme> GetAvailableControlSchemes()
+    {
+        List<ControlScheme> available = new List<ControlScheme>();
+        
+        foreach (var scheme in schemeInUse.Keys)
+        {
+            if (!schemeInUse[scheme])
+            {
+                // For controller schemes, check if hardware is available
+                if (scheme == ControlScheme.ControllerOne)
+                {
+                    if (Gamepad.all.Count > 0)
+                        available.Add(scheme);
+                }
+                else if (scheme == ControlScheme.ControllerTwo)
+                {
+                    if (Gamepad.all.Count > 1)
+                        available.Add(scheme);
+                }
+                else
+                {
+                    available.Add(scheme);
+                }
+            }
+        }
+        
+        return available;
+    }
+    
+    // Gets the control scheme assigned to a player
+    public ControlScheme? GetPlayerControlScheme(int playerId)
+    {
+        if (playerSchemes.ContainsKey(playerId))
+            return playerSchemes[playerId];
+            
+        return null;
+    }
+    
+    // Gets the PlayerInput component for a player
+    public PlayerInput GetPlayerInput(int playerId)
+    {
+        if (playerInputs.ContainsKey(playerId))
+            return playerInputs[playerId];
+            
+        return null;
+    }
+}
