@@ -148,7 +148,7 @@ public class PlayerData : MonoBehaviour
 
         currentHealth -= damageAmt;
         Debug.Log(gameObject.name + " took " + damageAmt + " damage! Current HP: " + currentHealth);
-        OnDamage.Invoke(currentHealth);
+        OnDamage.Invoke(damageAmt);
 
         if (currentHealth <= 0)
         {
