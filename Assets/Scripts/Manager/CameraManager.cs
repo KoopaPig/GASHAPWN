@@ -6,6 +6,8 @@ public class CameraManager : MonoBehaviour
     [Header("Positions")]
     public Transform StartingPosition;
     public Transform EndingPosition;
+    public Transform FocusDoorPosition;
+    public Transform SpawnPosition;
 
     [Header("Cameras")]
     public Camera Maincam;
@@ -13,6 +15,12 @@ public class CameraManager : MonoBehaviour
     public Camera Player2Cam;
 
     public bool PathingEnabled;
+
+    public GameObject Player1Capsule;
+    public GameObject Player2Capsule;
+
+    Figure WinningFigure;
+    string WinningFigureTag;
 
     float time;
     private void Awake()
@@ -36,6 +44,8 @@ public class CameraManager : MonoBehaviour
 
     public void SwitchCamera(string Tag, Figure figure)
     {
+        WinningFigureTag = Tag;
+        WinningFigure = figure;
         if (Tag == "Player1")
         {
             Maincam.enabled = false;
@@ -51,8 +61,28 @@ public class CameraManager : MonoBehaviour
 
     public void SwitchToMain(BattleState state)
     {
+        // Turn off player cameras
         if (Player1Cam.enabled) Player1Cam.enabled = false;
         else Player2Cam.enabled = false;
+
+        // Translate main camera to focus on the door
+        Maincam.transform.SetPositionAndRotation(FocusDoorPosition.position, FocusDoorPosition.rotation);
+
+        // Spawn a player behind the door
+
+        GameObject PlayerCapsule = null;
+        if (WinningFigureTag == "Player1") PlayerCapsule = Player1Capsule;
+        else if (WinningFigureTag == "Player2") PlayerCapsule = Player2Capsule;
+        else Debug.Log("Unknown Tag");
+
+        GameObject SpawnedCapsule = Instantiate(PlayerCapsule, SpawnPosition);
+        Instantiate(WinningFigure.capsuleModelPrefab, SpawnedCapsule.transform);
+
+        SpawnedCapsule.transform.localScale = new Vector3(12.5f, 12.5f, 12.5f);
+        SpawnedCapsule.AddComponent<Rigidbody>();
+        SpawnedCapsule.AddComponent<SphereCollider>();
+
+        // Turn on main camera
         Maincam.enabled = true;
     }
 
