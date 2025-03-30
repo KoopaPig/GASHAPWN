@@ -19,6 +19,7 @@ namespace GASHAPWN.Audio {
         [SerializeField] private string menuMusicKey;
         [SerializeField] private string levelSelectMusicKey;
         [SerializeField] private string collectionMusicKey;
+        [SerializeField] private string resultsScreenMusicKey;
 
         private AudioSource mainAudioSource;
 
@@ -151,10 +152,12 @@ namespace GASHAPWN.Audio {
                         break;
                     case BattleState.VictoryScreen:
                         StopCurrentMusic();
+                        audioKey = resultsScreenMusicKey;
                         // switch to victory music (maybe)
                         // will have to start after a delay
                         break;
                     case BattleState.NewFigureScreen:
+                        StartCoroutine(FadeOutMusic(1.5f));
                         // no music
                         break;
                     default:

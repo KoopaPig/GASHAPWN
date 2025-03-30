@@ -46,13 +46,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54be83986cb53ac48ae224954f5c5569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CountDownTime: 0
-  StartingPosition: {fileID: 0}
-  EndingPosition: {fileID: 0}
+  StartingPosition: {fileID: 1562072091988821783}
+  EndingPosition: {fileID: 8689068923546916124}
+  FocusDoorPosition: {fileID: 0}
+  SpawnPosition: {fileID: 0}
   Maincam: {fileID: 0}
   Player1Cam: {fileID: 0}
   Player2Cam: {fileID: 0}
   PathingEnabled: 0
+  Player1Capsule: {fileID: 4122586926673862376, guid: a2b0c0d8dd3af4d5fa7bac724b3144f4, type: 3}
+  Player2Capsule: {fileID: 4122586926673862376, guid: 0ed019027fc924bd3ad29ebd26d15b48, type: 3}
 --- !u!1 &2218518169869870078
 GameObject:
   m_ObjectHideFlags: 0

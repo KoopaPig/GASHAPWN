@@ -6221,7 +6221,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5326172487111349557}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -764}
+  m_LocalPosition: {x: 0, y: 0, z: -1217}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6229,7 +6229,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -242, y: 212}
+  m_AnchoredPosition: {x: 0, y: 790}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!108 &4428149808164457196
@@ -6241,9 +6241,9 @@ Light:
   m_GameObject: {fileID: 5326172487111349557}
   m_Enabled: 1
   serializedVersion: 11
-  m_Type: 2
-  m_Color: {r: 0.76862746, g: 0.9098039, b: 0.96862745, a: 1}
-  m_Intensity: 70
+  m_Type: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
   m_Range: 30
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -7017,10 +7017,12 @@ MonoBehaviour:
   starsGUI: {fileID: 5853301239742484106}
   figureScreenFirstButton: {fileID: 6660863641247984139}
   buttonPrompt: {fileID: 9097705586970750833}
+  waitDuration: 3
   backgroundParticles: {fileID: 4734609768149081258}
   figureModel: {fileID: 635884638454106052}
   capsule: {fileID: 6260142304287328686}
   winningFigure: {fileID: 0}
+  directionalLight: {fileID: 4428149808164457196}
   levelSelectSceneName: LevelSelect
   collectionSceneName: 
   fromNewFigureTransition: {fileID: 11400000, guid: d96fcc160d565e54ea03d1334c21eb99, type: 2}

@@ -53,6 +53,21 @@ public class CameraManager : MonoBehaviour
     {
         if (Player1Cam.enabled) Player1Cam.enabled = false;
         else Player2Cam.enabled = false;
+
+        // Translate main camera to focus on the door
+        Maincam.transform.SetPositionAndRotation(FocusDoorPosition.position, FocusDoorPosition.rotation);
+
+        // Spawn a player behind the door
+
+        GameObject PlayerCapsule = null;
+        if (WinningFigureTag == "Player1") PlayerCapsule = Player1Capsule;
+        else if (WinningFigureTag == "Player2") PlayerCapsule = Player2Capsule;
+        else Debug.Log("Unknown Tag");
+
+        GameObject SpawnedCapsule = Instantiate(PlayerCapsule, SpawnPosition);
+        Instantiate(WinningFigure.capsuleModelPrefab, SpawnedCapsule.transform);
+
+        // Turn on main camera
         Maincam.enabled = true;
     }
 

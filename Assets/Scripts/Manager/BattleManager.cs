@@ -206,6 +206,7 @@ namespace GASHAPWN
             }
         }
 
+        // Removes all listeners from object before it is destroyed
         private void RemoveAllListeners()
         {
             // Check if there are any listeners before removing

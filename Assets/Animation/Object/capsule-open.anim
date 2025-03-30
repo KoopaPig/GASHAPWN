@@ -1540,7 +1540,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: Play_Capsule_Open
+    functionName: Play_Capsule_Stretch
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

@@ -25,6 +25,8 @@ namespace GASHAPWN.UI
         [SerializeField] private StarsGUI starsGUI;
         [SerializeField] private GameObject figureScreenFirstButton;
         [SerializeField] private GameObject buttonPrompt;
+
+        [SerializeField] private float waitDuration = 3f;
         private int numPresses = 5;
         private int remainingPresses;
 
@@ -37,6 +39,8 @@ namespace GASHAPWN.UI
         [SerializeField] private GameObject capsule;
         private Animator capsuleAnimator;
         [SerializeField] private Figure winningFigure;
+
+        [SerializeField] private Light directionalLight;
 
         [Header("Scene Info")]
         [SerializeField] private string levelSelectSceneName;
@@ -103,9 +107,28 @@ namespace GASHAPWN.UI
 
         private void OnNewFigureScreen(BattleState state)
         {
+            StartCoroutine(DelayedOnNewFigureScreen(waitDuration));
+        }
+
+        private void OnDisable()
+        {
+            if (BattleManager.Instance != null)
+            {
+                BattleManager.Instance.ChangeToNewFigure.RemoveListener(OnNewFigureScreen);
+                BattleManager.Instance.OnWinningFigure.RemoveListener(SetWinningFigure);
+            }
+            submitAction.action.performed -= HandleCapsuleOpenInput;
+        }
+
+        // Perform OnNewFigureScreen actions after some delay
+
+        private IEnumerator DelayedOnNewFigureScreen(float waitDuration) 
+        {
+            yield return new WaitForSeconds(waitDuration);
             figureScreen_BG.SetActive(true);
             figureScreen_BG.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(true);
             figureScreen_FG.SetActive(true);
+            StartCoroutine(LerpLightIntensity(directionalLight, 0, 1, 2.5f));
             figureScreen_FG.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(true);
             figureScreen_FG.GetComponentInParent<CanvasGroup>().interactable = false;
 
@@ -127,16 +150,6 @@ namespace GASHAPWN.UI
             capsuleAnimator.SetBool("isCapsuleOpen", false);
             capsuleAnimator.SetTrigger("capsuleEnter");
             buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(true);
-        }
-
-        private void OnDisable()
-        {
-            if (BattleManager.Instance != null)
-            {
-                BattleManager.Instance.ChangeToNewFigure.RemoveListener(OnNewFigureScreen);
-                BattleManager.Instance.OnWinningFigure.RemoveListener(SetWinningFigure);
-            }
-            submitAction.action.performed -= HandleCapsuleOpenInput;
         }
 
         // Use as a buffer before activating buttons
@@ -169,6 +182,25 @@ namespace GASHAPWN.UI
             {
                 StartCapsuleOpen();
             }
+        }
+
+        private IEnumerator LerpLightIntensity(Light light, float startIntensity, float targetIntensity, float duration)
+        {
+            if (light == null)
+            {
+                yield break;
+            }
+
+            float elapsedTime = 0f;
+
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+                light.intensity = Mathf.Lerp(startIntensity, targetIntensity, elapsedTime / duration);
+                yield return null;
+            }
+
+            light.intensity = targetIntensity;
         }
     }
 }

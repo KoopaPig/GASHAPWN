@@ -195,8 +195,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 57f37695be76441b8b2d7731cc3e1b92
+    m_Address: SFX_UI_Pwn_Start
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5dadd252310ada943a4991bfd4eaeec0
     m_Address: SFX_Boing_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5eae2903ad7a1437ba6cf75e1b59d7ef
+    m_Address: SFX_Capsule_Stretch
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -207,6 +217,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 688075f750854a242b799696a2cf72a5
     m_Address: SFX_Charge_Roll_Rep
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c36e662ba77a43c2b3a0dcd12f22e7e
+    m_Address: SFX_Orc_Hit_3
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -250,6 +265,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 86d5bee14bfc345d098b8c1570c0858d
+    m_Address: SFX_Orc_Hit_4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 88eb3227031e90348b8bfa2d4c59ed1d
     m_Address: SFX_Hammer_Hit_2
     m_ReadOnly: 0
@@ -285,8 +305,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 958112bb0d6c44031917616199645d34
+    m_Address: SFX_Orc_Hit_5
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 962b50da4213a824fa76af8efa1e4d46
     m_Address: SFX_Confetti_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 978fa75f511314c1f9bfe83554d5a08b
+    m_Address: MUSIC_Results_Screen
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -297,6 +327,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a20e743eeaa9d25488c44d18d29f16b4
     m_Address: SFX_Interact_Pop_4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a2849aa8a4e524665926e0f7052d10cf
+    m_Address: SFX_Orc_Hit_1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -315,8 +350,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aba58f9c511cd40829ee174bd9c38b7f
+    m_Address: SFX_Orc_Hit_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ad8719254eeed2849987117b9db220e8
     m_Address: SFX_Firework_Shoot_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: afa7e3312629440e0be60b72bf99b082
+    m_Address: SFX_Orc_Hit_6
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
