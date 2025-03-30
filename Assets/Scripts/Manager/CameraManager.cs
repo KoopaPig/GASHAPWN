@@ -61,6 +61,7 @@ public class CameraManager : MonoBehaviour
 
     public void SwitchToMain(BattleState state)
     {
+        // Turn off player cameras
         if (Player1Cam.enabled) Player1Cam.enabled = false;
         else Player2Cam.enabled = false;
 
@@ -76,7 +77,7 @@ public class CameraManager : MonoBehaviour
 
         GameObject SpawnedCapsule = Instantiate(PlayerCapsule, SpawnPosition);
         Instantiate(WinningFigure.capsuleModelPrefab, SpawnedCapsule.transform);
-
+        
         // Turn on main camera
         Maincam.enabled = true;
     }
