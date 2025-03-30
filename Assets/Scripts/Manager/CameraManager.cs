@@ -6,6 +6,8 @@ public class CameraManager : MonoBehaviour
     [Header("Positions")]
     public Transform StartingPosition;
     public Transform EndingPosition;
+    public Transform FocusDoorPosition;
+    public Transform SpawnPosition;
 
     [Header("Cameras")]
     public Camera Maincam;
@@ -13,6 +15,12 @@ public class CameraManager : MonoBehaviour
     public Camera Player2Cam;
 
     public bool PathingEnabled;
+
+    public GameObject Player1Capsule;
+    public GameObject Player2Capsule;
+
+    Figure WinningFigure;
+    string WinningFigureTag;
 
     float time;
     private void Awake()
@@ -36,6 +44,8 @@ public class CameraManager : MonoBehaviour
 
     public void SwitchCamera(string Tag, Figure figure)
     {
+        WinningFigureTag = Tag;
+        WinningFigure = figure;
         if (Tag == "Player1")
         {
             Maincam.enabled = false;
