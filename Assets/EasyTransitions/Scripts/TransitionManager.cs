@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace EasyTransition
 {
@@ -16,6 +17,9 @@ namespace EasyTransition
         public UnityAction onTransitionBegin;
         public UnityAction onTransitionCutPointReached;
         public UnityAction onTransitionEnd;
+
+        public Image Fillbar;
+        public GameObject LoadingScreen;
 
         private static TransitionManager instance;
 
@@ -113,7 +117,7 @@ namespace EasyTransition
 
 
             SceneManager.LoadScene(sceneName);
-
+            //StartCoroutine(LoadScene(sceneName));
             yield return new WaitForSecondsRealtime(transitionSettings.destroyTime);
 
             onTransitionEnd?.Invoke();
@@ -137,6 +141,7 @@ namespace EasyTransition
             onTransitionCutPointReached?.Invoke();
 
             SceneManager.LoadScene(sceneIndex);
+            //StartCoroutine(LoadScene(sceneIndex));
 
             yield return new WaitForSecondsRealtime(transitionSettings.destroyTime);
 
@@ -167,6 +172,38 @@ namespace EasyTransition
             onTransitionEnd?.Invoke();
 
             runningTransition = false;
+        }
+
+        public IEnumerator LoadScene(int sceneIndex)
+        {
+            //Instantiate(LoadingScreen);
+            LoadingScreen.SetActive(true);
+
+            AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
+
+            while (!operation.isDone)
+            {
+                float progress = Mathf.Clamp01(operation.progress / 0.9f);
+                Fillbar.fillAmount = progress;
+            }
+
+            yield return null;
+        }
+
+        public IEnumerator LoadScene(string sceneName)
+        {
+            //Instantiate(LoadingScreen);
+            LoadingScreen.SetActive(true);
+
+            AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+
+            while (!operation.isDone)
+            {
+                float progress = Mathf.Clamp01(operation.progress / 0.9f);
+                Fillbar.fillAmount = progress;
+            }
+
+            yield return null;
         }
 
         private IEnumerator Start()
