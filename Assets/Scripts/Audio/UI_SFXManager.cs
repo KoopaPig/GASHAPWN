@@ -13,6 +13,8 @@ namespace GASHAPWN.Audio {
 
         [SerializeField] private SFXGroup buttonDinkyGroup;
 
+        [SerializeField] private SFXGroup capsuleShakeGroup;
+
         private void Awake()
         {
             // Check for other instances
@@ -57,6 +59,10 @@ namespace GASHAPWN.Audio {
         public void Play_LeftRightButtonSelection()
         {
             AudioManager.Instance.PlayRandomSound(buttonDinkyGroup);
+        }
+
+        public void Play_CapsuleShake() {
+            AudioManager.Instance.PlayRandomSound(capsuleShakeGroup);
         }
 
     }

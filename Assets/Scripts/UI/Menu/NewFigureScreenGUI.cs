@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using EasyTransition;
 using static UnityEngine.InputSystem.InputAction;
 using UnityEngine.InputSystem;
+using GASHAPWN.Audio;
 
 namespace GASHAPWN.UI
 {
@@ -177,6 +178,7 @@ namespace GASHAPWN.UI
             if (remainingPresses > 0)
             {
                 capsuleAnimator.Play("capsule-shake", 0, 0f);
+                UI_SFXManager.Instance.Play_CapsuleShake();
                 remainingPresses -= 1;
             } else
             {

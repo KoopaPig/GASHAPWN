@@ -153,12 +153,11 @@ namespace GASHAPWN.Audio {
                     case BattleState.VictoryScreen:
                         StopCurrentMusic();
                         audioKey = resultsScreenMusicKey;
-                        // switch to victory music (maybe)
-                        // will have to start after a delay
                         break;
                     case BattleState.NewFigureScreen:
-                        StartCoroutine(FadeOutMusic(1.5f));
                         // no music
+                        //StartCoroutine(FadeOutMusic(1.5f));
+                        StopCurrentMusic();
                         break;
                     default:
                         Debug.LogWarning("BGM_Manager: No music key set for current BattleState.");
