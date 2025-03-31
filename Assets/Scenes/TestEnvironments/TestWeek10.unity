@@ -234,11 +234,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7483671449522736143, guid: e8c6ce60769ca2a45955e3aebecbeafe, type: 3}
   m_PrefabInstance: {fileID: 693589793}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &49194219 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8689068923546916124, guid: cfb9dad84e05d9b47956bc9faf932f46, type: 3}
-  m_PrefabInstance: {fileID: 6510447765495599916}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &52868187
 Mesh:
   m_ObjectHideFlags: 0
@@ -1423,11 +1418,6 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 8628162677278332196, guid: 087c658005d534e9d820022711ea696d, type: 3}
   m_PrefabInstance: {fileID: 1833627190}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &310223454 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1562072091988821783, guid: cfb9dad84e05d9b47956bc9faf932f46, type: 3}
-  m_PrefabInstance: {fileID: 6510447765495599916}
   m_PrefabAsset: {fileID: 0}
 --- !u!43 &368915974
 Mesh:
@@ -9694,6 +9684,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundManagers
       objectReference: {fileID: 0}
+    - target: {fileID: 6836412219076472514, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
+      propertyPath: buttonDinkyGroup.groupTag
+      value: ButtonDinkyGroup
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836412219076472514, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
+      propertyPath: buttonDinkyGroup.addressableKeys.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836412219076472514, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
+      propertyPath: 'buttonDinkyGroup.addressableKeys.Array.data[0]'
+      value: SFX_UI_Dink_Select_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836412219076472514, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
+      propertyPath: 'buttonDinkyGroup.addressableKeys.Array.data[1]'
+      value: SFX_UI_Dink_Select_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836412219076472514, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
+      propertyPath: 'buttonDinkyGroup.addressableKeys.Array.data[2]'
+      value: SFX_UI_Dink_Select_3
+      objectReference: {fileID: 0}
     - target: {fileID: 7668600136944423758, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 882.25
@@ -15156,6 +15166,16 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 944305322}
   m_SourcePrefab: {fileID: 100100000, guid: d605d8c4c63336d478db86c98da75655, type: 3}
+--- !u!4 &1877646138716557316 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6205226139683651879, guid: d605d8c4c63336d478db86c98da75655, type: 3}
+  m_PrefabInstance: {fileID: 1877646138716557315}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1877646138716557317 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4533448427477134034, guid: d605d8c4c63336d478db86c98da75655, type: 3}
+  m_PrefabInstance: {fileID: 1877646138716557315}
+  m_PrefabAsset: {fileID: 0}
 --- !u!33 &1885833201757689053
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -21245,13 +21265,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2066280912}
     - target: {fileID: 674933042723779274, guid: cfb9dad84e05d9b47956bc9faf932f46, type: 3}
-      propertyPath: EndingPosition
+      propertyPath: SpawnPosition
       value: 
-      objectReference: {fileID: 49194219}
+      objectReference: {fileID: 1877646138716557316}
     - target: {fileID: 674933042723779274, guid: cfb9dad84e05d9b47956bc9faf932f46, type: 3}
-      propertyPath: StartingPosition
+      propertyPath: FocusDoorPosition
       value: 
-      objectReference: {fileID: 310223454}
+      objectReference: {fileID: 1877646138716557317}
     - target: {fileID: 1562072091988821783, guid: cfb9dad84e05d9b47956bc9faf932f46, type: 3}
       propertyPath: m_LocalPosition.y
       value: 1000

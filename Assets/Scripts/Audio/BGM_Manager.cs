@@ -19,6 +19,7 @@ namespace GASHAPWN.Audio {
         [SerializeField] private string menuMusicKey;
         [SerializeField] private string levelSelectMusicKey;
         [SerializeField] private string collectionMusicKey;
+        [SerializeField] private string resultsScreenMusicKey;
 
         private AudioSource mainAudioSource;
 
@@ -133,7 +134,7 @@ namespace GASHAPWN.Audio {
 
         private void SetMusicBattleState(BattleState state)
         {
-            Debug.Log("here in SetMusicBattleState");
+            //Debug.Log("here in SetMusicBattleState");
             string audioKey = "";
 
             // Set the addressable key based on the battle state
@@ -151,11 +152,12 @@ namespace GASHAPWN.Audio {
                         break;
                     case BattleState.VictoryScreen:
                         StopCurrentMusic();
-                        // switch to victory music (maybe)
-                        // will have to start after a delay
+                        audioKey = resultsScreenMusicKey;
                         break;
                     case BattleState.NewFigureScreen:
                         // no music
+                        //StartCoroutine(FadeOutMusic(1.5f));
+                        StopCurrentMusic();
                         break;
                     default:
                         Debug.LogWarning("BGM_Manager: No music key set for current BattleState.");
