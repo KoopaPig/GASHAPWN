@@ -75,6 +75,9 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(SlamCoroutine());
                 playerData.currentStamina -= 1f;
                 playerData.OnStaminaChanged.Invoke(playerData.currentStamina);
+                
+                // Activate attack boost for slam
+                playerData.ActivateAttackBoost(1.0f, 1.5f); // 1 second of 50% damage boost
             }
             else
             {
@@ -112,6 +115,9 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(QuickBreakCoroutine());
                 playerData.currentStamina -= 2f;
                 playerData.OnStaminaChanged.Invoke(playerData.currentStamina);
+                
+                // Activate defensive buff after quick break
+                playerData.ActivateDefense(playerData.quickBreakDefenseDuration, 0.5f); // 50% damage reduction
             }
             else
             {
@@ -234,6 +240,10 @@ public class PlayerController : MonoBehaviour
         chargeIndicator.HideIndicator();
         playerData.controlsEnabled = true;
         playerData.hasCharged = true;
+        
+        // Activate attack boost after charge roll
+        float chargeBoost = Mathf.Lerp(1.2f, 2.0f, Mathf.Clamp01((Time.time - chargeStartTime) / playerData.chargeRollMaxDuration));
+        playerData.ActivateAttackBoost(playerData.chargeRollAttackBoostDuration, chargeBoost);
     }
 
     private void ReleaseCharge()
@@ -272,6 +282,9 @@ public class PlayerController : MonoBehaviour
     private IEnumerator BurstCoroutine()
     {
         playerData.controlsEnabled = false;
+        
+        // Activate invincibility for burst
+        playerData.ActivateBurstInvincibility();
 
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
