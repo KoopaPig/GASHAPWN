@@ -12,9 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16335f568224af047aa83c004550d894, type: 3}
   m_Name: FigureDatabase
   m_EditorClassIdentifier: 
-  figureList:
-  - {fileID: 11400000, guid: eb0cc01357dd72846823089ea0d25a02, type: 2}
-  - {fileID: 11400000, guid: 1f815e74ce022c141a8d1c2d5a6232c7, type: 2}
-  - {fileID: 11400000, guid: d12a5db630100bc4b8a4db59c5b101f2, type: 2}
-  - {fileID: 11400000, guid: 9c44d1d6ba2d8f2418812b1923945836, type: 2}
-  - {fileID: 11400000, guid: 089a8cb09b20c6c49940fcd679d80074, type: 2}
+  allSeries:
+  - {fileID: 11400000, guid: ade90ef3199282e4ea46741536d2d622, type: 2}
+  figureList: []

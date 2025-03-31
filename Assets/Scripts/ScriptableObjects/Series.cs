@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace GASHAPWN
 {
@@ -10,26 +13,52 @@ namespace GASHAPWN
         [Header("Atrributes")]
         public string SeriesName = "Default";
         public Sprite SeriesIcon = null;
-        [SerializeField] protected List<Figure> FiguresInSeries = new List<Figure>();
+        [SerializeField] private List<Figure> figuresInSeries = new List<Figure>();
 
-        // If figure in series, establish reference in figure.series.
+        // Returns true if series contains given figure
+        public bool ContainsFigure(Figure figure)
+        {
+            return figuresInSeries.Contains(figure);
+        }
+
         private void OnValidate()
         {
-            for (int i = 0; i < FiguresInSeries.Count; i++)
-            {
-                if (FiguresInSeries[i] != null)
-                {
-                    FiguresInSeries[i].SetSeries(this);
-                    // numberInSeries is set according to place in series
-                    FiguresInSeries[i].SetNumberInSeries(i + 1);
-                }
-            }
+            SetSeriesForFigures();
+        }
+
+        private void Awake()
+        {
+            SetSeriesForFigures();
         }
 
         public int Size()
         {
-            if (FiguresInSeries.Count > 0) return FiguresInSeries.Count;
+            if (figuresInSeries.Count > 0) return figuresInSeries.Count;
             else return 0;
         }
+
+        public List<Figure> GetFigures()
+        {
+            return figuresInSeries;
+        }
+
+        // If figure in series, establish reference in figure.series.
+        private void SetSeriesForFigures()
+        {
+            for (int i = 0; i < figuresInSeries.Count; i++)
+            {
+                if (figuresInSeries[i].GetSeries() == null)
+                {
+                    figuresInSeries[i].SetSeries(this);
+                    // numberInSeries is set according to place in series
+                    figuresInSeries[i].SetNumberInSeries(i + 1);
+                }
+            }
+            #if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+            #endif
+        }
+
+
     }
 }

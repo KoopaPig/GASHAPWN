@@ -77,11 +77,7 @@ public class CameraManager : MonoBehaviour
 
         GameObject SpawnedCapsule = Instantiate(PlayerCapsule, SpawnPosition);
         Instantiate(WinningFigure.capsuleModelPrefab, SpawnedCapsule.transform);
-
-        SpawnedCapsule.transform.localScale = new Vector3(12.5f, 12.5f, 12.5f);
-        SpawnedCapsule.AddComponent<Rigidbody>();
-        SpawnedCapsule.AddComponent<SphereCollider>();
-
+        
         // Turn on main camera
         Maincam.enabled = true;
     }
