@@ -64,11 +64,11 @@ namespace GASHAPWN.UI
             StartCoroutine(WaitTurnOnButton(2f));
         }
 
-        //public void ToCollection()
-        //{
-        //    TransitionManager.Instance().Transition(collectionSceneName, menuTransition, 0);
-        //    GameManager.Instance.UpdateGameState(GameState.Collection);
-        //}
+        public void ToCollection()
+        {
+           TransitionManager.Instance().Transition(collectionSceneName, fromNewFigureTransition, 0);
+           GameManager.Instance.UpdateGameState(GameState.Collection);
+        }
 
         public void ToLevelSelect()
         {
