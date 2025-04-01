@@ -143,3 +143,9 @@ MonoBehaviour:
     - SFX_UI_Capsule_Shake_2
     - SFX_UI_Capsule_Shake_3
     - SFX_UI_Capsule_Shake_4
+  staticGroup:
+    groupTag: StaticGroup
+    addressableKeys:
+    - SFX_UI_Static_1
+    - SFX_UI_Static_2
+    - SFX_UI_Static_3

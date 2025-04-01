@@ -1867,6 +1867,34 @@ PrefabInstance:
       propertyPath: m_Navigation.m_SelectOnRight
       value: 
       objectReference: {fileID: 1672173508}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 383434119}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play_StaticGroup
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 9106126834985326119, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5960,6 +5988,34 @@ PrefabInstance:
       propertyPath: m_Navigation.m_SelectOnRight
       value: 
       objectReference: {fileID: 1530947084}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 383434119}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play_StaticGroup
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 9106126834985326119, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -8284,6 +8340,34 @@ PrefabInstance:
       propertyPath: m_Navigation.m_SelectOnRight
       value: 
       objectReference: {fileID: 467830848}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 383434119}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play_StaticGroup
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974562701200082035, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 9106126834985326119, guid: 50a00c6bce40e7c4395b8e5880abfa42, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
