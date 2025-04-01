@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5355678372191208509}
   - component: {fileID: 8417682460867448695}
   - component: {fileID: 2522714589528920380}
+  - component: {fileID: 6778581199929025319}
   m_Layer: 5
   m_Name: CollectionGUI
   m_TagString: Untagged
@@ -34,8 +35,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5217740087040397878}
   - {fileID: 849937580513665883}
+  - {fileID: 5217740087040397878}
   - {fileID: 3915024012383261909}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -134,6 +135,8 @@ MonoBehaviour:
   infoCard: {fileID: 1613605131579822921}
   navigationArrows: {fileID: 7925266423220167232}
   footer: {fileID: 6508947906023121000}
+  collectionTransition: {fileID: 11400000, guid: d96fcc160d565e54ea03d1334c21eb99, type: 2}
+  mainMenuSceneName: MainMenu
 --- !u!114 &2522714589528920380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,8 +151,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeInDuration: 0.15
   fadeInWaitDuration: 0
-  fadeOutDuration: 0.15
+  fadeOutDuration: 0
   fadeOutWaitDuration: 0
+--- !u!114 &6778581199929025319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112473323874043856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: a4813de7deb37dd40b927e6d190544bb, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: UI
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &1257926684797821006
 GameObject:
   m_ObjectHideFlags: 0

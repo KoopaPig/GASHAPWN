@@ -24,10 +24,10 @@ namespace GASHAPWN.UI {
         public GameObject optionsScreen; // Get refeence to Options Screen object
         public GameObject creditsScreen; // Get reference to Credits Screen object
 
-        private bool isTitleScreen = true;
-        private bool isCreditsScreen = false;
-        private bool isOptionsScreen = false;
-        private bool isControlsScreen = false;
+        // private bool isTitleScreen = true;
+        // private bool isCreditsScreen = false;
+        // private bool isOptionsScreen = false;
+        // private bool isControlsScreen = false;
 
 
         // Get reference to buttons that open and close submenus
@@ -51,44 +51,11 @@ namespace GASHAPWN.UI {
             }
         }
 
+        
         private InputAction cancelAction;
 
-        private void Awake()
-        {
-            animator = GetComponent<Animator>();
-            if (Instance != null && Instance != this)
-            {
-                Destroy(this);
-                return;
-            }
-            Instance = this;
-        }
-
-        private void OnEnable()
-        {
-            var inputActionAsset = GetComponent<PlayerInput>().actions;
-            cancelAction = inputActionAsset["Cancel"];
-
-            cancelAction.performed += HandleCancel;
-            if (!cancelAction.enabled) { cancelAction.Enable(); }
-        }
-
-        private void HandleCancel(InputAction.CallbackContext context)
-        {
-            if (optionsScreen.activeSelf)
-            {
-                CloseOptions();
-            }
-            else if (controlsScreen.activeSelf)
-            {
-                CloseControls();
-            }
-            else if (creditsScreen.activeSelf)
-            {
-                CloseCredits();
-            }
-        }
-
+        /// PUBLIC METHODS ///
+        
         public void PlayButton()
         {
             TransitionManager.Instance().Transition(playSceneName, menuTransition, 0);
@@ -190,7 +157,45 @@ namespace GASHAPWN.UI {
             }
         }
 
-        public void OnDisable()
+        /// PRIVATE METHODS ///
+
+        private void Awake()
+        {
+            animator = GetComponent<Animator>();
+            if (Instance != null && Instance != this)
+            {
+                Destroy(this);
+                return;
+            }
+            Instance = this;
+        }
+
+        private void OnEnable()
+        {
+            var inputActionAsset = GetComponent<PlayerInput>().actions;
+            cancelAction = inputActionAsset["Cancel"];
+
+            cancelAction.performed += HandleCancel;
+            if (!cancelAction.enabled) { cancelAction.Enable(); }
+        }
+
+        private void HandleCancel(InputAction.CallbackContext context)
+        {
+            if (optionsScreen.activeSelf)
+            {
+                CloseOptions();
+            }
+            else if (controlsScreen.activeSelf)
+            {
+                CloseControls();
+            }
+            else if (creditsScreen.activeSelf)
+            {
+                CloseCredits();
+            }
+        }
+
+        private void OnDisable()
         {
             cancelAction.performed -= HandleCancel;
             cancelAction.Disable();
