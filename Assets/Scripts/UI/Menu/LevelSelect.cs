@@ -48,9 +48,6 @@ namespace GASHAPWN.UI {
         private int selectedTimeIndex;
         [SerializeField] private TMP_Text timeLabel;
 
-
-        //[SerializeField] private GameObject beginButton;
-
         private void OnEnable()
         {
             var inputActionAsset = GetComponent<PlayerInput>().actions;
@@ -77,13 +74,13 @@ namespace GASHAPWN.UI {
                 currentBindBox.SetSelected(true);
                 toLevelSelectButton.interactable = false;
             }
-            else Debug.LogError("controlsBindBoxes list is empty!");
+            else Debug.LogError("LevelSelect: controlsBindBoxes list is empty!");
 
             if (levels.Count != 0 && levels != null)
             {
                 // nothing here for now
             }
-            else Debug.LogError("levels list is empty!");
+            else Debug.LogError("LevelSelect: levels list is empty!");
 
             if (battleTimes.Count > 0)
             {
@@ -100,7 +97,6 @@ namespace GASHAPWN.UI {
             cancelAction.Disable();
         }
 
-        //
         // Checks that all Bind Boxes have detected controls
         public bool IsAllControlsDetected()
         {
