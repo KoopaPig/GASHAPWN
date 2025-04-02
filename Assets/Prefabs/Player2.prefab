@@ -453,6 +453,16 @@ MonoBehaviour:
   maxStamina: 6
   currentStamina: 0
   staminaRegenRate: 0.5
+  isInvincible: 0
+  invincibilityDuration: 1
+  damageReduction: 0
+  defenseDuration: 0
+  damageMultiplier: 1
+  attackBonusDuration: 0
+  slamDamage: 2
+  chargeRollDamage: 3
+  quickBreakDamage: 1
+  normalCollisionDamage: 1
   OnDamage:
     m_PersistentCalls:
       m_Calls:
@@ -501,11 +511,24 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
+  OnDefenseActivated:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDefenseDeactivated:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAttackBonusActivated:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAttackBonusDeactivated:
+    m_PersistentCalls:
+      m_Calls: []
   isGrounded: 0
   controlsEnabled: 1
   hasSlammed: 0
   isCharging: 0
   hasCharged: 0
+  isBursting: 0
   moveSpeed: 35
   jumpForce: 30
   minHitSpeed: 3
@@ -517,10 +540,17 @@ MonoBehaviour:
   slamForce: 80
   slamDelay: 0.4
   quickBreakDuration: 0.2
+  quickBreakDefenseDuration: 1.5
   chargeRollMinForce: 15
   chargeRollMaxForce: 45
   chargeRollMaxDuration: 2
   chargeRollSpinSpeed: 1000
+  chargeRollAttackBoostDuration: 2
+  burstInvincibilityDuration: 1.2
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  defenseColor: {r: 0, g: 0, b: 1, a: 1}
+  attackColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  flashSpeed: 0.1
 --- !u!114 &8129853449011347689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -614,10 +644,6 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 1fa2ddc6-9535-421d-b8d0-99bbe464c59f
-    m_ActionName: 'Movement/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3346647609557314154}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
@@ -631,12 +657,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 0bf9da07-c3b9-4888-a316-5718d177ca7f
-    m_ActionName: 'Player2/Movement[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 68075eca-632d-4d38-a35d-aaab1c2f4109
-    m_ActionName: 'Player1/Jump[/Keyboard/space]'
+    m_ActionId: 1fa2ddc6-9535-421d-b8d0-99bbe464c59f
+    m_ActionName: 'Movement/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3346647609557314154}
@@ -651,10 +673,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 7d36f235-1ab8-4a17-a2bd-1494d8007998
-    m_ActionName: 'Player2/Jump[/Keyboard/backspace]'
+    m_ActionId: 68075eca-632d-4d38-a35d-aaab1c2f4109
+    m_ActionName: 'Player1/Jump[/Keyboard/space]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3346647609557314154}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnSlam
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: f165090b-0470-429c-ae14-6d4d5f618ee7
     m_ActionName: 'Player1/Slam[/Keyboard/space]'
   - m_PersistentCalls:
@@ -701,26 +735,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3346647609557314154}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnSlam
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: f7962fd5-28b9-4366-95c2-7b917a14104d
-    m_ActionName: 'Player2/Slam[/Keyboard/backspace]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 64f6db61-be43-4927-aff9-d828fcf6c6a0
-    m_ActionName: 'Player1/QuickBreak[/Keyboard/f]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3346647609557314154}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: OnQuickBreak
         m_Mode: 0
         m_Arguments:
@@ -731,20 +745,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 2669859a-0eeb-46f9-abc2-185dbf7b399c
-    m_ActionName: 'Player2/QuickBreak[/Keyboard/enter]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 2abb32f5-18d2-4bfc-bc32-7209a71485c5
-    m_ActionName: 'Player1/RotateChargeDirection[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 94d17b14-b038-4544-9824-2e6c916c883f
-    m_ActionName: 'Player1/ChargeRoll[/Keyboard/leftShift]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 286c366a-68eb-4f98-99cd-6f4c4445effd
-    m_ActionName: 'Player1/Burst[/Keyboard/b]'
+    m_ActionId: 64f6db61-be43-4927-aff9-d828fcf6c6a0
+    m_ActionName: 'Player1/QuickBreak[/Keyboard/f]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3346647609557314154}
@@ -759,8 +761,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: a70e6482-5bf7-4fe4-a870-6d396dc698be
-    m_ActionName: 'Player2/RotateChargeDirection[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
+    m_ActionId: 2abb32f5-18d2-4bfc-bc32-7209a71485c5
+    m_ActionName: 'Player1/RotateChargeDirection[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3346647609557314154}
@@ -775,8 +777,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 14df2ebf-fcee-428d-a82d-3f477be78110
-    m_ActionName: 'Player2/ChargeRoll[/Keyboard/rightShift]'
+    m_ActionId: 94d17b14-b038-4544-9824-2e6c916c883f
+    m_ActionName: 'Player1/ChargeRoll[/Keyboard/leftShift]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3346647609557314154}
@@ -791,11 +793,123 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: fd217ed0-8862-45a1-9f69-bceaa1ddd26d
-    m_ActionName: 'Player2/Burst[/Keyboard/l]'
+    m_ActionId: 286c366a-68eb-4f98-99cd-6f4c4445effd
+    m_ActionName: 'Player1/Burst[/Keyboard/b]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3346647609557314154}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnMovement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 47a2e64c-f25f-47f9-b5bc-1ab3495f34d7
+    m_ActionName: Controller/Movement
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3346647609557314154}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnRotateChargeDirection
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c729e1ee-dddc-444e-95e7-215806cdb284
+    m_ActionName: Controller/RotateChargeDirection
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3346647609557314154}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1ae2c8e5-cac4-45fe-b9a1-92d714b31be9
+    m_ActionName: Controller/Jump
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3346647609557314154}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnSlam
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 42147703-2f44-4c3e-bcd4-5441eb10b053
+    m_ActionName: Controller/Slam
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3346647609557314154}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnQuickBreak
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d0e75e40-2a19-4b5c-ae58-0b58657e9885
+    m_ActionName: Controller/QuickBreak
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3346647609557314154}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnChargeRoll
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3ccd52a1-f673-45d4-a57d-c64b23494f5f
+    m_ActionName: Controller/ChargeRoll
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3346647609557314154}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnBurst
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4fc3d862-2157-489c-b396-3999fde3d22a
+    m_ActionName: Controller/Burst
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player2
+  m_DefaultActionMap: Controller
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!135 &6406650500916842082
