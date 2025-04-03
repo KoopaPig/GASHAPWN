@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Pig
   Description: This is the smart one that built the brick house.
-  Icon: {fileID: 21300000, guid: 9e696090bfd8d8d46ae99610c9d7d66e, type: 3}
-  Rarity: 0.75
+  Icon: {fileID: 21300000, guid: 96889ae3d166d4c8ba91f10537d914aa, type: 3}
+  Rarity: 0.5
   series: {fileID: 11400000, guid: ade90ef3199282e4ea46741536d2d622, type: 2}
   numberInSeries: 4
   capsuleModelPrefab: {fileID: 3917653514081341178, guid: 12fa38096c041a446a122f858152b05f, type: 3}

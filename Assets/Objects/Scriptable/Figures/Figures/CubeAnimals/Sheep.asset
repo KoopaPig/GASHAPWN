@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a72d00e5af348e84492e1ee75207c4dc, type: 3}
-  m_Name: Chicken
+  m_Name: Sheep
   m_EditorClassIdentifier: 
-  Name: Chicken
-  Description: We'll never find out why he crossed the road
-  Icon: {fileID: 21300000, guid: 0aa5daa519b945546bddd9ed7f5c2cf8, type: 3}
-  Rarity: 0.2
+  Name: Sheep
+  Description: Has the chance to drop 1 to 3 blocks of wool (not really).
+  Icon: {fileID: 21300000, guid: f3517bddcf46f4acdb2838585be824c1, type: 3}
+  Rarity: 0.1
   series: {fileID: 11400000, guid: ade90ef3199282e4ea46741536d2d622, type: 2}
-  numberInSeries: 2
-  capsuleModelPrefab: {fileID: 5684889779482858520, guid: cc470b54087fd0841af6519797b04319, type: 3}
-  collectionModelPrefab: {fileID: 5684889779482858520, guid: a0f5ed2a36ed55a45ba886d6e0df963c, type: 3}
+  numberInSeries: 5
+  capsuleModelPrefab: {fileID: 5345054592326607831, guid: d4e2f8bc86529fc4dab652e8317fee4b, type: 3}
+  collectionModelPrefab: {fileID: 5345054592326607831, guid: 6d613990f3f9bcb46827466079e3dee7, type: 3}

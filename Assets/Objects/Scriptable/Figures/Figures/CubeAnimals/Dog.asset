@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a72d00e5af348e84492e1ee75207c4dc, type: 3}
-  m_Name: Cat
+  m_Name: Dog
   m_EditorClassIdentifier: 
-  Name: Cat
-  Description: This is a cat. It's kinda cute.
-  Icon: {fileID: 21300000, guid: 1ef52ccb873d436409ba6fcee219614f, type: 3}
+  Name: Dog
+  Description: You can't pet him. Sorry.
+  Icon: {fileID: 21300000, guid: 3250c031eb06b4a20a9e02b8dc6be036, type: 3}
   Rarity: 0.25
   series: {fileID: 11400000, guid: ade90ef3199282e4ea46741536d2d622, type: 2}
-  numberInSeries: 1
-  capsuleModelPrefab: {fileID: 9017807211574330043, guid: 95fd08174cbbfab40a039a485ca40655, type: 3}
-  collectionModelPrefab: {fileID: 9017807211574330043, guid: e7352e73bdc6731498f2bbcf3324f2d2, type: 3}
+  numberInSeries: 3
+  capsuleModelPrefab: {fileID: 1596840441843810, guid: 3bd24c2fcb09b394498adb9df0dc835d, type: 3}
+  collectionModelPrefab: {fileID: 1596840441843810, guid: 71e4dd9d518163d40bf9de3e3253cf3f, type: 3}
