@@ -23,7 +23,7 @@ namespace GASHAPWN.UI
         }
 
         /// <summary>
-        /// FadeTurnOff: Fade out CanvasGroup given fadeInWaitDuration and fadeInDuration
+        /// FadeTurnOff: Fade out CanvasGroup given fadeOutWaitDuration and fadeOutDuration
         /// </summary>
         /// <param name="isDisable">Set true if elements should be disabled after fadeout</param>
         public void FadeTurnOff(bool isDisable)

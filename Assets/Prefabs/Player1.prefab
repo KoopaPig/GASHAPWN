@@ -782,7 +782,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 5000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -862,6 +862,7 @@ GameObject:
   - component: {fileID: 738757646059745529}
   - component: {fileID: 4306642885239329398}
   - component: {fileID: 8910377567317957572}
+  - component: {fileID: 5546871984026414875}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Player1
@@ -934,6 +935,16 @@ MonoBehaviour:
   maxStamina: 6
   currentStamina: 0
   staminaRegenRate: 0.5
+  isInvincible: 0
+  invincibilityDuration: 1
+  damageReduction: 0
+  defenseDuration: 0
+  damageMultiplier: 1
+  attackBonusDuration: 0
+  slamDamage: 2
+  chargeRollDamage: 3
+  quickBreakDamage: 1
+  normalCollisionDamage: 1
   OnDamage:
     m_PersistentCalls:
       m_Calls:
@@ -982,11 +993,24 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
+  OnDefenseActivated:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDefenseDeactivated:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAttackBonusActivated:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAttackBonusDeactivated:
+    m_PersistentCalls:
+      m_Calls: []
   isGrounded: 0
   controlsEnabled: 1
   hasSlammed: 0
   isCharging: 0
   hasCharged: 0
+  isBursting: 0
   moveSpeed: 35
   jumpForce: 30
   minHitSpeed: 3
@@ -998,10 +1022,17 @@ MonoBehaviour:
   slamForce: 80
   slamDelay: 0.4
   quickBreakDuration: 0.2
+  quickBreakDefenseDuration: 1.5
   chargeRollMinForce: 15
   chargeRollMaxForce: 45
   chargeRollMaxDuration: 2
   chargeRollSpinSpeed: 1000
+  chargeRollAttackBoostDuration: 2
+  burstInvincibilityDuration: 1.2
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  defenseColor: {r: 0, g: 0, b: 1, a: 1}
+  attackColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  flashSpeed: 0.1
 --- !u!114 &2905451329273328058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1308,3 +1339,16 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5546871984026414875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652500208214954744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae120f1fa6bb46f0922ada4b5d728ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capsPos: {fileID: 2520351315225119760}

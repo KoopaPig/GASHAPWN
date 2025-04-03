@@ -8,7 +8,7 @@ namespace GASHAPWN.UI {
         [SerializeField] private GameObject countdownGUI;
         [SerializeField] private GameObject battleEndGUI;
         [SerializeField] private GameObject suddenDeathGUI;
-        [SerializeField] private VictoryScreenGUI victoryScreenGUI;
+        [SerializeField] private GameObject victoryScreenSubPanel;
 
         private void Awake()
         {
@@ -18,7 +18,7 @@ namespace GASHAPWN.UI {
             battleEndGUI.GetComponent<Animator>().enabled = false;
             suddenDeathGUI.SetActive(false);
             suddenDeathGUI.GetComponent<Animator>().enabled = false;
-            victoryScreenGUI.gameObject.SetActive(false);
+            victoryScreenSubPanel.SetActive(false);
         }
 
         public void StartCountdownGUI()
@@ -43,8 +43,8 @@ namespace GASHAPWN.UI {
         {
             battleEndGUI.SetActive(true);
             battleEndGUI.GetComponent<Animator>().enabled = true;
-            victoryScreenGUI.gameObject.SetActive(true);
-            StartCoroutine(victoryScreenGUI.SlideInVictoryScreen(3f));
+            victoryScreenSubPanel.SetActive(true);
+            StartCoroutine(victoryScreenSubPanel.GetComponentInParent<VictoryScreenGUI>().SlideInVictoryScreen(3f));
         }
 
         public void SuddenDeathGUI()
