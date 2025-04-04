@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a72d00e5af348e84492e1ee75207c4dc, type: 3}
-  m_Name: Bear
+  m_Name: Beanie
   m_EditorClassIdentifier: 
-  Name: Undefined
-  Description: Undefined
-  Icon: {fileID: 21300000, guid: 0744db59211084431beb8f5c1cdf2175, type: 3}
-  Rarity: 0
-  series: {fileID: 0}
-  numberInSeries: 0
+  Name: Beanie
+  Description: This wolf needs a little help to bear the cold of the tundra. She
+    just wears the hat because it's cute.
+  Icon: {fileID: 21300000, guid: 580602e421e4e4696b0294440abf5d10, type: 3}
+  Rarity: 0.15
   capsuleModelPrefab: {fileID: 0}
   collectionModelPrefab: {fileID: 0}
