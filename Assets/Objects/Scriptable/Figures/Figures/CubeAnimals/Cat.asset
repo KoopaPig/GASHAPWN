@@ -16,7 +16,5 @@ MonoBehaviour:
   Description: This is a cat. It's kinda cute.
   Icon: {fileID: 21300000, guid: 682ef4716a1f04a40a64abfe0d0981fe, type: 3}
   Rarity: 0.25
-  series: {fileID: 11400000, guid: ade90ef3199282e4ea46741536d2d622, type: 2}
-  numberInSeries: 1
   capsuleModelPrefab: {fileID: 9017807211574330043, guid: 95fd08174cbbfab40a039a485ca40655, type: 3}
   collectionModelPrefab: {fileID: 9017807211574330043, guid: e7352e73bdc6731498f2bbcf3324f2d2, type: 3}

@@ -16,7 +16,5 @@ MonoBehaviour:
   Description: Has the chance to drop 1 to 3 blocks of wool (not really).
   Icon: {fileID: 21300000, guid: f3517bddcf46f4acdb2838585be824c1, type: 3}
   Rarity: 0.1
-  series: {fileID: 11400000, guid: ade90ef3199282e4ea46741536d2d622, type: 2}
-  numberInSeries: 5
   capsuleModelPrefab: {fileID: 5345054592326607831, guid: d4e2f8bc86529fc4dab652e8317fee4b, type: 3}
   collectionModelPrefab: {fileID: 5345054592326607831, guid: 6d613990f3f9bcb46827466079e3dee7, type: 3}
