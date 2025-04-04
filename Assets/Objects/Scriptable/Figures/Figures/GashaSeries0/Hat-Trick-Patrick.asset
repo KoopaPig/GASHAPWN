@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a72d00e5af348e84492e1ee75207c4dc, type: 3}
-  m_Name: Chicken
+  m_Name: Hat-Trick-Patrick
   m_EditorClassIdentifier: 
-  Name: Chicken
-  Description: We'll never find out why he crossed the road.
-  Icon: {fileID: 21300000, guid: 5fdae035965d548bca93e27eee95e65c, type: 3}
+  Name: Hat-Trick Patrick
+  Description: "Patrick waits patiently in a magician\u2019s hat for their return.
+    Little does he know their final trick was to disappear forever."
+  Icon: {fileID: 21300000, guid: 1aaebbdc900e34f64b07318298fb3220, type: 3}
   Rarity: 0.25
-  capsuleModelPrefab: {fileID: 5684889779482858520, guid: cc470b54087fd0841af6519797b04319, type: 3}
-  collectionModelPrefab: {fileID: 5684889779482858520, guid: a0f5ed2a36ed55a45ba886d6e0df963c, type: 3}
+  capsuleModelPrefab: {fileID: 0}
+  collectionModelPrefab: {fileID: 0}
