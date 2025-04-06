@@ -4,6 +4,9 @@ using UnityEngine.UI;
 using System.Collections;
 using TMPro;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
+using System.Linq;
+using Unity.VisualScripting;
 
 namespace GASHAPWN.UI {
     public class VictoryScreenGUI : MonoBehaviour
@@ -11,7 +14,7 @@ namespace GASHAPWN.UI {
         [Header("Slide-In Settings")]
         [SerializeField] private GameObject victoryScreenFirstButton;
         [SerializeField] private float slideDuration = 0.3f;
-        [SerializeField] private float offsetInPixels = 200f;
+        //[SerializeField] private float offsetInPixels = 200f;
 
         private Vector2 offscreenRight;
         private Vector2 onscreenPosition;
@@ -21,32 +24,11 @@ namespace GASHAPWN.UI {
         [SerializeField] private TextMeshProUGUI winnerText;
         [SerializeField] GameObject winnerCrownGUI;
 
-        private string winnerTag = null;
-        private ResultsContainer[] resultsContainers;
+        private Vector3 winnerCrownPosition;
+
+        [SerializeField] private ResultsContainer[] resultsContainers;
 
         /// PUBLIC METHODS ///
-
-        /// <summary>
-        /// Set winner given playerTag + figure, very important that this is called after victory screen activated
-        /// </summary>
-        /// <param name="playerTag"></param>
-        /// <param name="figure"></param>
-        public void SetWinner(string playerTag, Figure figure)
-        {
-            GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
-            if (playerObj != null)
-            {
-                winnerText.text = figure.Name + " Wins!";
-                winnerTag = playerTag;
-            }
-            else
-            {
-                Debug.LogError($"VictoryScreenGUI: Cannot set winner. No GameObject found with tag {playerTag}");
-            }
-
-            PopulateResultsGivenPlayer(playerTag, figure);
-
-        }
 
         // Slide In Victory Screen given waitDuration
         public IEnumerator SlideInVictoryScreen(float waitDuration)
@@ -95,11 +77,9 @@ namespace GASHAPWN.UI {
             rectTransform.anchoredPosition = offscreenRight;
 
             // Disable crown
+            winnerCrownPosition = winnerCrownGUI.transform.position;
             winnerCrownGUI.SetActive(false);
             winnerCrownGUI.GetComponent<Animator>().enabled = false;
-
-            // Find all resultsContainers
-            resultsContainers = FindObjectsByType<ResultsContainer>(FindObjectsSortMode.None);
 
             // Disable winnerText
             winnerText.gameObject.SetActive(false);
@@ -107,48 +87,51 @@ namespace GASHAPWN.UI {
             // Subscribe to OnWinningFigure and OnLosingFigure Events from BattleManager
             if (BattleManager.Instance != null)
             {
-                BattleManager.Instance.OnWinningFigure.AddListener(SetWinner);
-                BattleManager.Instance.OnLosingFigure.AddListener(PopulateResultsGivenPlayer);
+                BattleManager.Instance.OnWinningFigure.AddListener(PopulateResults);
             }
         }
 
+        // PopulateResults called when OnWinningFigure event triggered
+
+        private void PopulateResults(string s, Figure f) {
+            foreach (var (player, isWinner) in BattleManager.Instance.pendingPlayerResults) {
+                PopulateResultsGivenPlayer(player, isWinner);
+            }
+            BattleManager.Instance.pendingPlayerResults.Clear();
+            winnerCrownGUI.SetActive(true);
+            // Can't figure out how to effectively set position of crown, so position is static
+            StartCoroutine(SetCrown());
+        }
+
+
         /// <summary>
-        /// Populate results given playerTag + figure, very important that this is called after victory screen activated
+        /// Populate results given player GameObject + isWinner bool
         /// </summary>
-        /// <param name="playerTag"></param>
-        /// <param name="figure"></param>
-        private void PopulateResultsGivenPlayer(string playerTag, Figure figure)
+        /// <param name="player"></param>
+        /// <param name="isWinner"></param>
+        private void PopulateResultsGivenPlayer(GameObject player, bool isWinner)
         {
+            var fig = player.GetComponent<PlayerAttachedFigure>().GetAttachedFigure();
             foreach (var container in resultsContainers)
             {
-                // find container with matching playerTag
-                if (container.playerTag == playerTag)
+                // find container with matching tag
+                if (container.playerTag == player.tag)
                 {
-                    container.playerIcon.sprite = figure.Icon;
-                    container.playerText.text = figure.Name;
+                    container.playerIcon.sprite = fig.Icon;
+                    container.playerText.text = fig.Name;
 
-
-                    if (container.playerTag == winnerTag)
+                    if (isWinner)
                     {
-                        // set active crown here
-                        winnerCrownGUI.SetActive(true);
                         // move winning container to top
                         container.gameObject.GetComponent<RectTransform>().SetAsFirstSibling();
-
-                        Canvas.ForceUpdateCanvases();
-
-                        // set crown position
-                        Vector3 newPosition = winnerCrownGUI.transform.position;
-                        newPosition.y = container.transform.position.y;
-                        winnerCrownGUI.transform.position = newPosition;
-                        winnerCrownGUI.GetComponent<Animator>().enabled = true;
-                        // fade in crown
-                        winnerCrownGUI.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(true);
+                        
+                        // set winnerText
+                        winnerText.text = fig.Name + " Wins!";
                     }
                     return;
                 }
             }
-            Debug.LogWarning($"VictoryScreenGUI: No ResultsContainer found for playerTag: {playerTag}");
+            Debug.LogWarning($"VictoryScreenGUI: No ResultsContainer found for player tag: {player.tag}");
         }
 
         // Slides In Results Container given offset, duration, and wait buffer time
@@ -206,12 +189,17 @@ namespace GASHAPWN.UI {
             GetComponentInParent<CanvasGroup>().interactable = true;
         }
 
+        private IEnumerator SetCrown() {
+            yield return new WaitForNextFrameUnit();
+            winnerCrownGUI.GetComponent<Animator>().enabled = true;
+            winnerCrownGUI.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(false);
+        }
+
         private void OnDisable()
         {
             if (BattleManager.Instance != null)
             {
-                BattleManager.Instance.OnWinningFigure.RemoveListener(SetWinner);
-                BattleManager.Instance.OnLosingFigure.RemoveListener(PopulateResultsGivenPlayer);
+                BattleManager.Instance.OnWinningFigure.RemoveListener(PopulateResults);
             }
         }
     }

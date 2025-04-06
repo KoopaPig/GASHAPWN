@@ -151,7 +151,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 5000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -381,6 +381,7 @@ GameObject:
   - component: {fileID: 3346647609557314154}
   - component: {fileID: 4934230125178283013}
   - component: {fileID: 6406650500916842082}
+  - component: {fileID: 4226012246386711322}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Player2
@@ -933,6 +934,19 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4226012246386711322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2356486932853013218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae120f1fa6bb46f0922ada4b5d728ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capsPos: {fileID: 7483671449522736143}
 --- !u!1 &4310528249950759623
 GameObject:
   m_ObjectHideFlags: 0

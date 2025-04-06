@@ -9,6 +9,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.Mathematics;
 
 namespace GASHAPWN
 {
@@ -40,13 +41,11 @@ namespace GASHAPWN
         // Victory screen
         private bool showVictory = false;
 
-        // Controls battle end
-        public bool playerHasDied = false;
+        // If isWinner, then battle end
+        [NonSerialized] public bool isWinner = false;
 
         // Temporary debug bool: if toggled, ignore playerData calling playerDeath
         [SerializeField] private bool isDebug = false;
-
-        GameObject playerThatDied = null;
 
         [Header("Time")]
         // Time limit of battle (seconds)
@@ -64,13 +63,12 @@ namespace GASHAPWN
 
         [Header("Player Reference")]
 
-        // Player figures generated before battle
-        public Figure player1Figure;
-        public Figure player2Figure;
+        public BattleGUIController player1BattleGUI;
+        public BattleGUIController player2BattleGUI;
 
-        public Transform player1CapsPos, player2CapsPos;
+        private List<GameObject> activePlayers = new();
 
-        public BattleGUIController player1BattleGUI, player2BattleGUI;
+        public List<(GameObject player, bool isWinner)> pendingPlayerResults = new();
 
         [Header("Controls Reference")]
         public InputActionAsset controls;
@@ -102,41 +100,47 @@ namespace GASHAPWN
         private void Awake()
         {
             // Check for other instances
-            if (Instance != null && Instance != this)
-            {
-                Destroy(this);
-                return;
-            }
-            _instance = this;
+            // if (Instance != null && Instance != this)
+            // {
+            //     Destroy(this);
+            //     return;
+            // }
+            // _instance = this;
             
             battleTime = GameManager.Instance.currentBattleTime;
-
-            // Generate Figures
-            player1Figure = FigureManager.instance.GetRandomFigure();
-            player2Figure = FigureManager.instance.GetRandomFigure();
-
-            // Check for null figures
-            if(player1Figure == null || player2Figure == null)
-            if (player1Figure == null || player2Figure == null)
+            
+            // Find all active players
+            PlayerData[] allPlayers = FindObjectsByType<PlayerData>(FindObjectsSortMode.InstanceID);
+            foreach (PlayerData player in allPlayers)
             {
-                Debug.Log($"Figures failed to generated: 1) {player1Figure.name}, 2) {player2Figure.name}");
-                return;
+                if (player != null)
+                {
+                    // Add player to activePlayers
+                    activePlayers.Add(player.gameObject);
+                    // Generate figures
+                    var paf = player.GetComponent<PlayerAttachedFigure>();
+                        paf.SetFigureInCapsule(FigureManager.instance.GetRandomFigureWeighted());
+                    // Link generated figures to BattleGUI
+                    if (player.tag == "Player1") {
+                        player1BattleGUI.SetFigureName(paf.GetAttachedFigure().name);
+                        player1BattleGUI.SetFigureIcon(paf.GetAttachedFigure().Icon);
+                    } else if (player.tag == "Player2") {
+                        player2BattleGUI.SetFigureName(paf.GetAttachedFigure().name);
+                        player2BattleGUI.SetFigureIcon(paf.GetAttachedFigure().Icon);
+                    } else {
+                        Debug.LogError("BattleManager: Invalid Player tag. Could not set BattleGUI.");
+                    }
+                }
             }
-
-            Instantiate(player1Figure.capsuleModelPrefab, player1CapsPos.position, player1CapsPos.rotation, player1CapsPos.parent.transform);
-            Instantiate(player2Figure.capsuleModelPrefab, player2CapsPos.position, player2CapsPos.rotation, player2CapsPos.parent.transform);
+            if (activePlayers.Count > GameManager.Instance.numPlayers) {
+                Debug.LogError("BattleManager: Number of active players does not match total number of players.");
+            }
         }
 
         private void Start()
         {
             // Starts dorment and awakes when a battle is initiated
             State = BattleState.Sleep;
-
-            // Link generated figures to BattleGUI
-            player1BattleGUI.SetFigureName(player1Figure.name);
-            player1BattleGUI.SetFigureIcon(player1Figure.Icon);
-            player2BattleGUI.SetFigureName(player2Figure.name);
-            player2BattleGUI.SetFigureIcon(player2Figure.Icon);
 
             //battleControls = controls.FindActionMap("Player");
             if (isCountDownOn) ChangeStateCountdown();
@@ -162,7 +166,7 @@ namespace GASHAPWN
 
             if (State == BattleState.Battle)
                 // display victory screen if player died during battle
-                if (playerHasDied)
+                if (isWinner)
                 {
                     ChangeStateVictoryScreen();
                     if (isDebug) OnPlayerDeathDebug();
@@ -175,7 +179,7 @@ namespace GASHAPWN
             if (State == BattleState.SuddenDeath)
             {
                 // display victory screen if player died during sudden death
-                if (playerHasDied)
+                if (isWinner)
                 {
                     ChangeStateVictoryScreen();
                     if (isDebug) OnPlayerDeathDebug();
@@ -191,6 +195,16 @@ namespace GASHAPWN
                 controls.FindActionMap("UI").actionTriggered += End;
             }
 
+        }
+
+        private bool IsPlayerWin(GameObject player) {
+            if (activePlayers.Count == 1) { return true; }
+            else { 
+                activePlayers.Remove(player);
+                pendingPlayerResults.Add((player, false));
+                return false;
+            }
+            
         }
 
         private void OnDisable()
@@ -237,8 +251,9 @@ namespace GASHAPWN
 
         private void OnPlayerDeathDebug()
         {
-            OnWinningFigure.Invoke("Player2", player2Figure);
-            OnLosingFigure.Invoke("Player1", player1Figure);
+            Debug.Log("BattleManager: OnPlayerDeathDebug is disabled.");
+            //OnWinningFigure.Invoke("Player2", player2Figure);
+            //OnLosingFigure.Invoke("Player1", player1Figure);
         }
 
         /// PUBLIC METHODS ///
@@ -319,20 +334,26 @@ namespace GASHAPWN
             else Debug.Log("BattleManager: Can not change battle state to newFigureScreen");
         }
 
+        // Set winner and loser whenever player dies
         public void OnPlayerDeath(GameObject player)
-        {
-            playerHasDied = true;
-            playerThatDied = player;
-            if (player.CompareTag("Player1"))
-            {
-                OnWinningFigure.Invoke("Player2", player2Figure);
-                OnLosingFigure.Invoke("Player1", player1Figure);
-            }
-            else
-            {
-                OnWinningFigure.Invoke("Player1", player1Figure);
-                OnLosingFigure.Invoke("Player2", player2Figure);
+        {    
+            isWinner = IsPlayerWin(player);
 
+            // Store the player results instead of invoking the events immediately
+            pendingPlayerResults.Add((player, isWinner));
+
+            // if activePlayers is down to 1 after checking if principle player died, 
+            // then we know the remaining player has won
+            if (activePlayers.Count == 1) {
+                isWinner = IsPlayerWin(activePlayers[0]);
+                // Store results for winning player
+                pendingPlayerResults.Add((activePlayers[0], isWinner));
+                // OnWinningFigure called here
+                OnWinningFigure.Invoke(activePlayers[0].tag, 
+                    activePlayers[0].GetComponent<PlayerAttachedFigure>().GetAttachedFigure());
+                activePlayers.Clear();
+            } else {
+                Debug.LogError($"BattleManager: Remaining Players: {activePlayers.Count}");
             }
         }
 
@@ -403,7 +424,6 @@ namespace GASHAPWN
                 controls.FindActionMap("UI").actionTriggered -= End;
             }
         }
-
     }
 
     public enum BattleState

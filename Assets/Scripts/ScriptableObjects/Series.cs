@@ -52,11 +52,13 @@ namespace GASHAPWN
                     figuresInSeries[i].SetSeries(this);
                     // numberInSeries is set according to place in series
                     figuresInSeries[i].SetNumberInSeries(i + 1);
+                    // construct new ID in here
+                    figuresInSeries[i].SetID(SeriesName + "_" + (i + 1).ToString());
+                    #if UNITY_EDITOR
+                    EditorUtility.SetDirty(figuresInSeries[i]);
+                    #endif
                 }
             }
-            #if UNITY_EDITOR
-            EditorUtility.SetDirty(this);
-            #endif
         }
 
 

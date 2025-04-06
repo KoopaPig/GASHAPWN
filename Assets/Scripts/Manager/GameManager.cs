@@ -56,6 +56,11 @@ namespace GASHAPWN
         // Whenever a level is selected, this field should be populated
         public Level currentLevel = null;
 
+        public int numPlayers = 2;
+
+        /// PUBLIC METHODS ///
+
+        // Call this function to set a new GameState
         public void UpdateGameState(GameState newState)
         {
             State = newState;
@@ -82,7 +87,7 @@ namespace GASHAPWN
             else InputSystem.onDeviceChange -= DeviceChange;
 
             OnGameStateChanged?.Invoke(newState);
-            Debug.Log($"GameManager: GameState: {State.HumanName()}");
+            Debug.Log($"GameManager: GameState: {State.ToString()}");
         }
 
         public void DeviceChange(InputDevice device, InputDeviceChange change)
@@ -99,6 +104,22 @@ namespace GASHAPWN
                     break;
             }
         }
+
+        // Save the collection to a specific player
+        public void Save(string playerName, List<CollectedFigure> Collection)
+        {
+            FileManager.Save(playerName + ".json", Collection);
+        }
+
+        // Load the collection from a specific player
+        public List<CollectedFigure> Load(string playerName, List<CollectedFigure> Collection) 
+        {
+            Collection = FileManager.Load<List<CollectedFigure>>(playerName + ".json");
+            return Collection;
+        }
+
+
+        /// PRIVATE METHODS ///
 
         private void Awake()
         {
@@ -117,18 +138,6 @@ namespace GASHAPWN
             // Initial state
             UpdateGameState(GameState.Title);
 
-        }
-        // Save the collection to a specific player
-        public void Save(string playerName, List<CollectedFigure> Collection)
-        {
-            FileManager.Save(playerName + ".json", Collection);
-        }
-
-        // Load the collection from a specific player
-        public List<CollectedFigure> Load(string playerName, List<CollectedFigure> Collection) 
-        {
-            Collection = FileManager.Load<List<CollectedFigure>>(playerName + ".json");
-            return Collection;
         }
     }
 
