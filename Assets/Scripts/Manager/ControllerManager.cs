@@ -1,0 +1,366 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
+
+namespace GASHAPWN
+{
+    public class ControllerManager : MonoBehaviour
+    {
+        private static ControllerManager _instance;
+        public static ControllerManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    // Create instance if it doesn't exist
+                    GameObject controllerManagerObj = new GameObject("ControllerManager");
+                    _instance = controllerManagerObj.AddComponent<ControllerManager>();
+                    DontDestroyOnLoad(controllerManagerObj);
+                    
+                    Debug.Log("ControllerManager: Auto-created instance");
+                    
+                    // Initialize the instance
+                    _instance.Initialize();
+                }
+                return _instance;
+            }
+        }
+
+        [System.Serializable]
+        public class PlayerControllerAssignment
+        {
+            public string playerTag;
+            public InputDevice device;
+            public InputUser user;
+            public PlayerInput playerInput;
+            public InputControlScheme controlScheme;
+            public bool isAssigned = false;
+
+            public PlayerControllerAssignment(string tag)
+            {
+                playerTag = tag;
+            }
+        }
+
+        [SerializeField] private InputActionAsset inputActions;
+        
+        public List<PlayerControllerAssignment> playerAssignments = new List<PlayerControllerAssignment>();
+        private List<InputDevice> assignedDevices = new List<InputDevice>();
+
+        // Track connected devices
+        private List<InputDevice> availableDevices = new List<InputDevice>();
+        private bool initialized = false;
+
+        private void Awake()
+        {
+            // Singleton pattern
+            if (_instance != null && _instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            Initialize();
+        }
+        
+        private void Initialize()
+        {
+            if (initialized)
+                return;
+                
+            // Initialize player assignments
+            if (playerAssignments.Count == 0)
+            {
+                playerAssignments.Add(new PlayerControllerAssignment("Player1"));
+                playerAssignments.Add(new PlayerControllerAssignment("Player2"));
+            }
+
+            // Listen for device changes
+            InputSystem.onDeviceChange += OnDeviceChange;
+            
+            // Populate initial available devices
+            RefreshAvailableDevices();
+            
+            // Try to automatically find the input actions if not set
+            if (inputActions == null)
+            {
+                // Look for PlayerInput in the scene and get its actions
+                PlayerInput[] playerInputs = FindObjectsByType<PlayerInput>(FindObjectsSortMode.None);
+                if (playerInputs.Length > 0 && playerInputs[0].actions != null)
+                {
+                    inputActions = playerInputs[0].actions;
+                    Debug.Log("ControllerManager: Auto-found input actions from PlayerInput component");
+                }
+            }
+            
+            initialized = true;
+            Debug.Log("ControllerManager: Initialized");
+        }
+
+        private void OnDestroy()
+        {
+            if (_instance == this)
+            {
+                InputSystem.onDeviceChange -= OnDeviceChange;
+                _instance = null;
+            }
+        }
+
+        private void OnDeviceChange(InputDevice device, InputDeviceChange change)
+        {
+            // Completely ignore Mouse devices
+            if (device is Mouse)
+                return;
+                
+            Debug.Log($"Device change: {device.name} - {change}");
+
+            if (change == InputDeviceChange.Added || change == InputDeviceChange.Reconnected)
+            {
+                if (!availableDevices.Contains(device) && !assignedDevices.Contains(device))
+                {
+                    availableDevices.Add(device);
+                }
+            }
+            else if (change == InputDeviceChange.Removed || change == InputDeviceChange.Disconnected)
+            {
+                availableDevices.Remove(device);
+                
+                // Handle disconnection of assigned device
+                foreach (var assignment in playerAssignments)
+                {
+                    if (assignment.device == device)
+                    {
+                        assignment.isAssigned = false;
+                        assignment.device = null;
+                        assignedDevices.Remove(device);
+                        Debug.Log($"Device disconnected from {assignment.playerTag}");
+                    }
+                }
+            }
+
+            // Notify LevelSelect if it's active
+            GASHAPWN.UI.LevelSelect levelSelect = FindFirstObjectByType<GASHAPWN.UI.LevelSelect>();
+            if (levelSelect != null)
+            {
+                levelSelect.RefreshControllerUI();
+            }
+        }
+
+        public void RefreshAvailableDevices()
+        {
+            availableDevices.Clear();
+            
+            var allDevices = InputSystem.devices;
+            foreach (var device in allDevices)
+            {
+                // Skip devices that are already assigned
+                if (assignedDevices.Contains(device))
+                    continue;
+                
+                // Only add gamepads and keyboard
+                if (device is Gamepad || device is Keyboard)
+                {
+                    availableDevices.Add(device);
+                }
+                
+                // Skip mouse (we don't want to assign mouse to players)
+            }
+        }
+
+        public bool AssignControllerToPlayer(string playerTag, InputDevice device)
+        {
+            // Don't allow mouse assignments
+            if (device is Mouse)
+                return false;
+                
+            Debug.Log($"Attempting to assign {device.name} to {playerTag}");
+                
+            // Find the player assignment
+            PlayerControllerAssignment targetAssignment = null;
+            foreach (var assignment in playerAssignments)
+            {
+                if (assignment.playerTag == playerTag)
+                {
+                    targetAssignment = assignment;
+                    break;
+                }
+            }
+
+            if (targetAssignment == null)
+            {
+                Debug.LogError($"No player assignment found for tag: {playerTag}");
+                return false;
+            }
+
+            // If device is already assigned to another player, return false
+            foreach (var assignment in playerAssignments)
+            {
+                if (assignment != targetAssignment && assignment.isAssigned && assignment.device == device)
+                {
+                    Debug.LogWarning($"Device {device.name} is already assigned to {assignment.playerTag}");
+                    return false;
+                }
+            }
+
+            // Unassign previous device if there was one
+            if (targetAssignment.isAssigned && targetAssignment.device != null)
+            {
+                assignedDevices.Remove(targetAssignment.device);
+                Debug.Log($"Unassigned {targetAssignment.device.name} from {playerTag}");
+            }
+
+            // Assign new device
+            targetAssignment.device = device;
+            targetAssignment.isAssigned = true;
+            
+            // Determine control scheme
+            if (device is Gamepad)
+            {
+                targetAssignment.controlScheme = new InputControlScheme("Gamepad");
+                Debug.Log($"Assigned {device.name} (Gamepad) to {playerTag}");
+            }
+            else if (device is Keyboard)
+            {
+                targetAssignment.controlScheme = new InputControlScheme("Keyboard");
+                Debug.Log($"Assigned {device.name} (Keyboard) to {playerTag}");
+            }
+            
+            assignedDevices.Add(device);
+            availableDevices.Remove(device);
+            
+            return true;
+        }
+
+        public void SetupPlayerInput(GameObject playerObject)
+        {
+            if (playerObject == null) return;
+            
+            string playerTag = playerObject.tag;
+            
+            // Find the player assignment
+            PlayerControllerAssignment targetAssignment = null;
+            foreach (var assignment in playerAssignments)
+            {
+                if (assignment.playerTag == playerTag)
+                {
+                    targetAssignment = assignment;
+                    break;
+                }
+            }
+
+            if (targetAssignment == null || !targetAssignment.isAssigned)
+                return;
+
+            // Get or add PlayerInput component
+            PlayerInput playerInput = playerObject.GetComponent<PlayerInput>();
+            if (playerInput == null)
+            {
+                playerInput = playerObject.AddComponent<PlayerInput>();
+            }
+
+            if (inputActions != null)
+            {
+                playerInput.actions = inputActions;
+            }
+            
+            // Method 1: Using InputUser directly
+            try {
+                // Create a new InputUser and pair it with the device
+                InputUser user = InputUser.CreateUserWithoutPairedDevices();
+                user = InputUser.PerformPairingWithDevice(targetAssignment.device, user);
+                
+                // Assign the player input to the user
+                user.AssociateActionsWithUser(playerInput.actions);
+                
+                // Store references
+                targetAssignment.playerInput = playerInput;
+                targetAssignment.user = user;
+                
+                Debug.Log($"Set up player input for {playerTag} with {targetAssignment.device.name} using InputUser");
+            }
+            catch (System.Exception e) {
+                Debug.LogError($"Failed to set up InputUser: {e.Message}. Falling back to alternative method.");
+                
+                // Method 2: Alternative approach using PlayerInput directly
+                try {
+                    // Determine the control scheme based on the device
+                    string controlSchemeName = targetAssignment.device is Gamepad ? "Gamepad" : "Keyboard";
+                    
+                    // Directly set the device on the PlayerInput component
+                    playerInput.SwitchCurrentControlScheme(controlSchemeName, targetAssignment.device);
+                    
+                    // Store reference to the player input
+                    targetAssignment.playerInput = playerInput;
+                    
+                    Debug.Log($"Set up player input for {playerTag} with {targetAssignment.device.name} using direct PlayerInput");
+                }
+                catch (System.Exception ex) {
+                    Debug.LogError($"Failed to set up direct PlayerInput: {ex.Message}");
+                }
+            }
+        }
+
+        public bool IsPlayerAssigned(string playerTag)
+        {
+            foreach (var assignment in playerAssignments)
+            {
+                if (assignment.playerTag == playerTag)
+                {
+                    return assignment.isAssigned;
+                }
+            }
+            return false;
+        }
+
+        public GASHAPWN.UI.ControlScheme GetPlayerControlScheme(string playerTag)
+        {
+            foreach (var assignment in playerAssignments)
+            {
+                if (assignment.playerTag == playerTag && assignment.isAssigned)
+                {
+                    if (assignment.device is Gamepad)
+                    {
+                        return GASHAPWN.UI.ControlScheme.XINPUT;
+                    }
+                    else
+                    {
+                        return GASHAPWN.UI.ControlScheme.KEYBOARD;
+                    }
+                }
+            }
+            return GASHAPWN.UI.ControlScheme.KEYBOARD; // Default
+        }
+
+        public List<InputDevice> GetAvailableDevices()
+        {
+            return availableDevices;
+        }
+
+        public InputDevice GetAssignedDevice(string playerTag)
+        {
+            foreach (var assignment in playerAssignments)
+            {
+                if (assignment.playerTag == playerTag && assignment.isAssigned)
+                {
+                    return assignment.device;
+                }
+            }
+            return null;
+        }
+        
+        // Use this to explicitly set the InputActionAsset if needed
+        public void SetInputActions(InputActionAsset actions)
+        {
+            if (actions != null)
+            {
+                inputActions = actions;
+                Debug.Log("ControllerManager: Input actions set manually");
+            }
+        }
+    }
+}
