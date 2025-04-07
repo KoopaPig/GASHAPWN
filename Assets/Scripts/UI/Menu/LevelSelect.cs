@@ -2,8 +2,6 @@ using EasyTransition;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -43,7 +41,7 @@ namespace GASHAPWN.UI {
         public List<float> battleTimes = new List<float>();
         private float selectedTime;
         private int selectedTimeIndex;
-        [SerializeField] private TMP_Text timeLabel;
+        [SerializeField] private TMPro.TMP_Text timeLabel;
 
         private void OnEnable()
         {
@@ -192,32 +190,18 @@ namespace GASHAPWN.UI {
             // First, try to find a gamepad/controller
             while (!inputDetected)
             {
-                // Check gamepad devices first (prioritize controllers)
-                foreach (InputDevice device in ControllerManager.Instance.GetAvailableDevices())
+                // Check for gamepad button presses first (prioritize controllers)
+                foreach (Gamepad gamepad in ControllerManager.Instance.GetAvailableGamepads())
                 {
-                    if (device is Gamepad gamepad)
+                    if (ControllerManager.Instance.IsAnyButtonPressed(gamepad))
                     {
-                        // Check if any control is pressed on the gamepad
-                        bool anyPressed = false;
-                        foreach (InputControl control in gamepad.allControls)
+                        // Assign this gamepad to the player
+                        bool success = ControllerManager.Instance.AssignControllerToPlayer(playerTag, gamepad);
+                        if (success)
                         {
-                            if (control.IsPressed())
-                            {
-                                anyPressed = true;
-                                break;
-                            }
-                        }
-
-                        if (anyPressed)
-                        {
-                            // Assign the gamepad to this player
-                            bool success = ControllerManager.Instance.AssignControllerToPlayer(playerTag, gamepad);
-                            if (success)
-                            {
-                                SetControllerDetected(currentListeningIndex, ControlScheme.XINPUT, true);
-                                inputDetected = true;
-                                break;
-                            }
+                            SetControllerDetected(currentListeningIndex, ControlScheme.XINPUT, true);
+                            inputDetected = true;
+                            break;
                         }
                     }
                 }
@@ -227,30 +211,17 @@ namespace GASHAPWN.UI {
                     break;
                 
                 // If no controller detected, check keyboard
-                foreach (InputDevice device in ControllerManager.Instance.GetAvailableDevices())
+                foreach (InputDevice keyboard in ControllerManager.Instance.GetAvailableKeyboards())
                 {
-                    if (device is Keyboard keyboardDevice)
+                    if (ControllerManager.Instance.IsAnyButtonPressed(keyboard))
                     {
-                        bool anyPressed = false;
-                        foreach (InputControl control in keyboardDevice.allControls)
+                        // Assign keyboard to this player
+                        bool success = ControllerManager.Instance.AssignControllerToPlayer(playerTag, keyboard);
+                        if (success)
                         {
-                            if (control.IsPressed())
-                            {
-                                anyPressed = true;
-                                break;
-                            }
-                        }
-
-                        if (anyPressed)
-                        {
-                            // Assign keyboard to this player
-                            bool success = ControllerManager.Instance.AssignControllerToPlayer(playerTag, keyboardDevice);
-                            if (success)
-                            {
-                                SetControllerDetected(currentListeningIndex, ControlScheme.KEYBOARD, true);
-                                inputDetected = true;
-                                break;
-                            }
+                            SetControllerDetected(currentListeningIndex, ControlScheme.KEYBOARD, true);
+                            inputDetected = true;
+                            break;
                         }
                     }
                 }
