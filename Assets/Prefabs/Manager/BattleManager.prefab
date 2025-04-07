@@ -44,22 +44,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b919d41d816199f4eadce86107e30440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controls: {fileID: -944628639613478452, guid: a4813de7deb37dd40b927e6d190544bb, type: 3}
   newFigure: 0
-  showFigure: 0
-  showVictory: 0
   playerHasDied: 0
+  isDebug: 0
   battleTime: 180
   isCountDownOn: 1
+  player1Figure: {fileID: 0}
+  player2Figure: {fileID: 0}
+  player1CapsPos: {fileID: 0}
+  player2CapsPos: {fileID: 0}
+  player1BattleGUI: {fileID: 0}
+  player2BattleGUI: {fileID: 0}
+  controls: {fileID: -944628639613478452, guid: a4813de7deb37dd40b927e6d190544bb, type: 3}
   ChangeToCountdown:
     m_PersistentCalls:
       m_Calls: []
   ChangeToBattle:
     m_PersistentCalls:
       m_Calls: []
+  ChangeToSuddenDeath:
+    m_PersistentCalls:
+      m_Calls: []
   ChangeToVictory:
     m_PersistentCalls:
       m_Calls: []
   ChangeToNewFigure:
+    m_PersistentCalls:
+      m_Calls: []
+  OnWinningFigure:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLosingFigure:
     m_PersistentCalls:
       m_Calls: []

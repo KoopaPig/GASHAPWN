@@ -15,6 +15,8 @@ namespace GASHAPWN.Audio {
 
         [SerializeField] private SFXGroup capsuleShakeGroup;
 
+        [SerializeField] private SFXGroup staticGroup;
+
         private void Awake()
         {
             // Check for other instances
@@ -63,6 +65,10 @@ namespace GASHAPWN.Audio {
 
         public void Play_CapsuleShake() {
             AudioManager.Instance.PlayRandomSound(capsuleShakeGroup);
+        }
+
+        public void Play_StaticGroup() {
+            AudioManager.Instance.PlayRandomSound(staticGroup);
         }
 
     }

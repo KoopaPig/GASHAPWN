@@ -1,4 +1,6 @@
 using UnityEngine;
+using System;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -17,8 +19,8 @@ namespace GASHAPWN
         public Sprite Icon = null;
         public float Rarity = 0;
 
-        [SerializeField] protected Series series = null;
-        [SerializeField] protected int numberInSeries = 0;
+        [NonSerialized] protected Series series = null;
+        [NonSerialized] protected int numberInSeries = 0;
 
         [Header("Prefabs")]
 
@@ -34,7 +36,7 @@ namespace GASHAPWN
             }
             else if (this.series != series)
             {
-                Debug.LogWarning($"{Name} already belongs to {series.SeriesName}. Clear Figure.series and add the Figure to Series.FiguresInSeries.");
+                Debug.LogWarning($"{Name} already belongs to {series.SeriesName}. Remove {Name} from {series.SeriesName} and try SetFigure again.");
             }
             #if UNITY_EDITOR
             EditorUtility.SetDirty(this);
@@ -57,11 +59,8 @@ namespace GASHAPWN
 
         public string GetID() { return ID; }
 
-        private void OnValidate()
-        {
-            if (series != null) { ID = series.name + "_" + numberInSeries; }
-            else Debug.LogWarning($"{Name} is not assigned to a series and an ID cannot be constructed.");
-        }
+        public void SetID(string str) { ID = str; }
+
     }
 }
 

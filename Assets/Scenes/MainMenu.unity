@@ -14371,7 +14371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initSceneName: MainMenu
   playSceneName: LevelSelect
-  collectionSceneName: 
+  collectionSceneName: Collection
   titleScreen: {fileID: 1946680696}
   controlsScreen: {fileID: 893503446}
   optionsScreen: {fileID: 1024357003}

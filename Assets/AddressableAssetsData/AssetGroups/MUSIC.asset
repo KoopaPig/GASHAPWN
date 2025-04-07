@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: MUSIC
+  m_EditorClassIdentifier: 
+  m_GroupName: MUSIC
+  m_GUID: d76a7031e2703437f83277e275736825
+  m_SerializeEntries:
+  - m_GUID: 3b1475246f3c8ad4ba47477ac2054a3b
+    m_Address: MUSIC_Cool_Attitude_Loop_TEMP
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7f0fda16e36f8ac428e25cb860843927
+    m_Address: MUSIC_SMB2_Boiling_Pot_Edit_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 978fa75f511314c1f9bfe83554d5a08b
+    m_Address: MUSIC_Results_Screen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c84c818b44661c043bec9b7a517d12de
+    m_Address: MUSIC_Give_A_Hand_Loop_TEMP
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f990b0181585ff549b467326992aedbb
+    m_Address: MUSIC_Cute_Theme_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e9835048b3a0d3d43b2c01420d8afcc4, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 788af4b33bf6645c0acf8a71dc2cbc05, type: 2}
+    - {fileID: 11400000, guid: 13060ea95abbd4d52807cd1e5a115722, type: 2}

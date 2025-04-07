@@ -453,7 +453,7 @@ public class PlayerData : MonoBehaviour
             {
                 if (playerRenderers[i] != null)
                 {
-                    playerRenderers[i].material.color = Color.Lerp(Color.white, attackColor, pulseValue);
+                    playerRenderers[i].material.color = Color.Lerp(Color.white, defenseColor, pulseValue);
                 }
             }
             

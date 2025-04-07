@@ -159,6 +159,9 @@ namespace GASHAPWN.Audio {
                         //StartCoroutine(FadeOutMusic(1.5f));
                         StopCurrentMusic();
                         break;
+                    case BattleState.SuddenDeath:
+                        // nothing here
+                        break;
                     default:
                         Debug.LogWarning("BGM_Manager: No music key set for current BattleState.");
                         return;

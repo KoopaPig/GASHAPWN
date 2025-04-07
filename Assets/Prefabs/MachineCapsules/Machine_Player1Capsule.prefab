@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 231553765972983372}
   - component: {fileID: 4170544785478309052}
   - component: {fileID: 4866586670319651887}
+  - component: {fileID: 99669224839063334}
+  - component: {fileID: 2868565071689019703}
   m_Layer: 0
   m_Name: Machine_Player1Capsule
   m_TagString: Untagged
@@ -64,7 +66,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4122586926673862376}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -83,6 +85,31 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &99669224839063334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4122586926673862376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86cb51eb8e75f467883d41f27a43c455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scalar: 10
+--- !u!75 &2868565071689019703
+ConstantForce:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4122586926673862376}
+  m_Enabled: 1
+  m_Force: {x: 0, y: 0, z: 0}
+  m_RelativeForce: {x: 0, y: 0, z: 0}
+  m_Torque: {x: 0, y: 0, z: 0}
+  m_RelativeTorque: {x: 0, y: 0, z: 0}
 --- !u!1001 &1098448738113662472
 PrefabInstance:
   m_ObjectHideFlags: 0
