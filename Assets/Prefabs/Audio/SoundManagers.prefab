@@ -123,19 +123,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundMixer: {fileID: 7613267758212777161, guid: 24482206668284144b552dc371529507, type: 2}
-  buttonSelectionGroup:
-    groupTag: ButtonSelectionGroup
+  menuButtonSelectionGroup:
+    groupTag: MenuButtonSelectionGroup
     addressableKeys:
-    - SFX_Interact_Pop_1
-    - SFX_Interact_Pop_2
-    - SFX_Interact_Pop_3
-    - SFX_Interact_Pop_4
+    - SFX_UI_Interact_Pop_1
+    - SFX_UI_Interact_Pop_2
+    - SFX_UI_Interact_Pop_3
+    - SFX_UI_Interact_Pop_4
+  generalButtonSelectionGroup:
+    groupTag: GeneralButtonSelectionGroup
+    addressableKeys:
+    - SFX_UI_ClickPop_1
+    - SFX_UI_ClickPop_2
+    - SFX_UI_ClickPop_3
+  generalSelectionGroup:
+    groupTag: GeneralSelectionGroup
+    addressableKeys:
+    - SFX_UI_LilPop_1
+    - SFX_UI_LilPop_2
+    - SFX_UI_LilPop_3
   buttonDinkyGroup:
     groupTag: ButtonDinkyGroup
     addressableKeys:
     - SFX_UI_Dink_Select_1
     - SFX_UI_Dink_Select_2
     - SFX_UI_Dink_Select_3
+  buttonFancyGroup:
+    groupTag: ButtonFancyGroup
+    addressableKeys:
+    - SFX_UI_Bubblecork_Select_1
+    - SFX_UI_Bubblecork_Select_2
   capsuleShakeGroup:
     groupTag: CapsuleShakeGroup
     addressableKeys:
@@ -149,3 +166,9 @@ MonoBehaviour:
     - SFX_UI_Static_1
     - SFX_UI_Static_2
     - SFX_UI_Static_3
+  infoCardGroup:
+    groupTag: InfoCardGroup
+    addressableKeys:
+    - SFX_UI_Card_Deal_2
+    - SFX_UI_Card_Deal_4
+    - SFX_UI_Card_Deal_5

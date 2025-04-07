@@ -1,4 +1,5 @@
 using EasyTransition;
+using GASHAPWN.Audio;
 using GASHAPWN.UI;
 using NUnit.Framework;
 using System;
@@ -147,6 +148,7 @@ namespace GASHAPWN.UI {
             } else
             {
                 GetComponent<ScreenSwitcher>().ShowControlsBindScreen();
+                UI_SFXManager.Instance.Play_ScreenWoosh();
             }
         }
 
