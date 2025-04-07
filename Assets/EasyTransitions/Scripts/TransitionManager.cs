@@ -18,8 +18,8 @@ namespace EasyTransition
         public UnityAction onTransitionCutPointReached;
         public UnityAction onTransitionEnd;
 
-        public Image Fillbar;
-        public GameObject LoadingScreen;
+        //public Image Fillbar;
+        //public GameObject LoadingScreen;
 
         private static TransitionManager instance;
 
@@ -174,37 +174,37 @@ namespace EasyTransition
             runningTransition = false;
         }
 
-        public IEnumerator LoadScene(int sceneIndex)
-        {
-            //Instantiate(LoadingScreen);
-            LoadingScreen.SetActive(true);
+        //public IEnumerator LoadScene(int sceneIndex)
+        //{
+        //    //Instantiate(LoadingScreen);
+        //    LoadingScreen.SetActive(true);
 
-            AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
+        //    AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
 
-            while (!operation.isDone)
-            {
-                float progress = Mathf.Clamp01(operation.progress / 0.9f);
-                Fillbar.fillAmount = progress;
-            }
+        //    while (!operation.isDone)
+        //    {
+        //        float progress = Mathf.Clamp01(operation.progress / 0.9f);
+        //        Fillbar.fillAmount = progress;
+        //    }
 
-            yield return null;
-        }
+        //    yield return null;
+        //}
 
-        public IEnumerator LoadScene(string sceneName)
-        {
-            //Instantiate(LoadingScreen);
-            LoadingScreen.SetActive(true);
+        //public IEnumerator LoadScene(string sceneName)
+        //{
+        //    //Instantiate(LoadingScreen);
+        //    LoadingScreen.SetActive(true);
 
-            AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        //    AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
 
-            while (!operation.isDone)
-            {
-                float progress = Mathf.Clamp01(operation.progress / 0.9f);
-                Fillbar.fillAmount = progress;
-            }
+        //    while (!operation.isDone)
+        //    {
+        //        float progress = Mathf.Clamp01(operation.progress / 0.9f);
+        //        Fillbar.fillAmount = progress;
+        //    }
 
-            yield return null;
-        }
+        //    yield return null;
+        //}
 
         private IEnumerator Start()
         {
