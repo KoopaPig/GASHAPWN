@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine.UI;
 using EasyTransition;
 using UnityEngine.InputSystem;
+using GASHAPWN.Audio;
 
 namespace GASHAPWN.UI
 {
@@ -42,6 +43,7 @@ namespace GASHAPWN.UI
         {
             StartCoroutine(infoCardGUI.SlideCardIn());
             infoCardGUI.SetFigureInfoCard(figure);
+            UI_SFXManager.Instance.Play_InfoCardGroup();
         }
 
         /// PRIVATE METHODS ///

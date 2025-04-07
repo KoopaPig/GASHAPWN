@@ -20,8 +20,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 083935768d88ad94dbb48c1a0913ce93
+    m_Address: SFX_UI_Card_Deal_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0942e9914080caa46a8a15223ae0bb8f
     m_Address: SFX_UI_Click_Generic_Cute
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1425c3dee4c88aa42865cee819b6dabf
+    m_Address: SFX_UI_LilPop_2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -55,8 +65,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3db2036a6bb975943aa178ac87d60b85
+    m_Address: SFX_UI_Swoosh_Generic_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 43bb16c42e4ef6e4b8c425f11bcbf15e
     m_Address: SFX_UI_Swipe_Screen_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 55bbafd4517df5f49a0668473b21366c
+    m_Address: SFX_UI_ClickPop_3
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -80,6 +100,41 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7d049494982ebbd41afdedc032d81083
+    m_Address: SFX_UI_Interact_Pop_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 84487a9843191d64283f6c7576b50feb
+    m_Address: SFX_UI_ClickPop_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 850c139f6bc7ce84499c41257d16a324
+    m_Address: SFX_UI_Card_Deal_4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9dff921902526514dace9e5a8c2883f1
+    m_Address: SFX_UI_LilPop_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a20e743eeaa9d25488c44d18d29f16b4
+    m_Address: SFX_UI_Interact_Pop_4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a3bd0c465572b18408fac91fd6598c67
+    m_Address: SFX_UI_Interact_Pop_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a7cdfef22d7eca344818e8a48df75fcf
+    m_Address: SFX_UI_ClickPop_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a80a5155bbb30447eb8e0d209bc934ed
     m_Address: SFX_UI_Static_3
     m_ReadOnly: 0
@@ -87,6 +142,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a845ffe9e169caa48968909f777c2184
     m_Address: SFX_UI_Click_Open_Cute
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c15b10c817faa9049b1533720a3d9cb6
+    m_Address: SFX_UI_Interact_Pop_3
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -100,6 +160,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d7e7962818e8cad4fb8c53c753e9b8b5
+    m_Address: SFX_UI_Card_Deal_5
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: df9457bc3b471c742b9d5397f2f44cd5
     m_Address: SFX_UI_Fillup_Gem_2
     m_ReadOnly: 0
@@ -107,6 +172,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ee0e9403800e6bd41b3c1babf818025e
     m_Address: SFX_UI_Fillup_Gem_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ee6b646d6735dab49bf1244152ac85a1
+    m_Address: SFX_UI_LilPop_3
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
