@@ -2,13 +2,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 namespace GASHAPWN.UI
 {
-    public class ControlsBindBox : MonoBehaviour
+    public class ControlsBindBox : MonoBehaviour, IPointerClickHandler
     {
         public bool IsControllerDetected = false;
         public ControlScheme controlScheme;
+        public int playerIndex;
 
         [Header("Feedback GUI Elements")]
         public Image xInputImage;
@@ -62,7 +64,11 @@ namespace GASHAPWN.UI
                 xInputImage.gameObject.SetActive(false);
                 keyboardImage.gameObject.SetActive(false);
             }
-            else feedbackText.text = "Controls detected!";
+            else 
+            {
+                feedbackText.text = $"Player {playerIndex+1} Ready!";
+                // Device name could be fetched from ControllerManager if needed
+            }
         }
 
         public void SetSelected(bool value)
@@ -73,13 +79,37 @@ namespace GASHAPWN.UI
                 StartCoroutine(LerpColor(border, borderColor, selectedColorBG, 0.15f));
                 StartCoroutine(LerpColor(gradientDots, gradientDotsColor, selectedColorFG, 0.15f));
                 StartCoroutine(LerpColor(belowBox, belowBoxColor, selectedColorBG, 0.15f));
-            } else
+            } 
+            else
             {
                 StartCoroutine(LerpColor(background, selectedColorBG, backgroundColor, 0.15f));
                 StartCoroutine(LerpColor(border, selectedColorBG, borderColor, 0.15f));
                 StartCoroutine(LerpColor(gradientDots, selectedColorFG, gradientDotsColor, 0.15f));
-                StartCoroutine(LerpColor(belowBox, selectedColorBG, belowBoxColor,  0.15f));
+                StartCoroutine(LerpColor(belowBox, selectedColorBG, belowBoxColor, 0.15f));
             }
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            // If the box is already assigned, don't do anything
+            if (IsControllerDetected)
+            {
+                Debug.Log($"ControlsBindBox: Player {playerIndex+1} already has a controller assigned");
+                return;
+            }
+
+            // Make sure LevelSelect exists
+            if (LevelSelect.Instance == null)
+            {
+                Debug.LogError("ControlsBindBox: LevelSelect.Instance is null!");
+                return;
+            }
+
+            Debug.Log($"ControlsBindBox: Starting controller detection for Player {playerIndex+1}");
+            feedbackText.text = "Press any button...";
+            
+            // Start listening for input for this controller
+            LevelSelect.Instance.StartListeningForController(playerIndex);
         }
 
         private IEnumerator LerpColor(Image targetImage, Color startColor, Color endColor, float duration)
@@ -88,6 +118,7 @@ namespace GASHAPWN.UI
 
             while (timeElapsed < duration)
             {
+                timeElapsed += Time.deltaTime;
                 float t = timeElapsed / duration;
                 targetImage.color = Color.Lerp(startColor, endColor, t);
 
@@ -97,7 +128,6 @@ namespace GASHAPWN.UI
 
             targetImage.color = endColor;
         }
-
     }
 
     public enum ControlScheme
@@ -106,4 +136,3 @@ namespace GASHAPWN.UI
         KEYBOARD
     }
 }
-
