@@ -649,6 +649,11 @@ GameObject:
   - component: {fileID: 738757646059745529}
   - component: {fileID: 4306642885239329398}
   - component: {fileID: 8910377567317957572}
+<<<<<<< Updated upstream
+=======
+  - component: {fileID: 5546871984026414875}
+  - component: {fileID: 2192315025893764109}
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: Player1
   m_TagString: Player1
@@ -980,3 +985,38 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
+=======
+--- !u!114 &5546871984026414875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652500208214954744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae120f1fa6bb46f0922ada4b5d728ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capsPos: {fileID: 2520351315225119760}
+--- !u!114 &2192315025893764109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652500208214954744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc8d0d03a35aa304abd95bd33c0df4bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitEffectPrefab: {fileID: 6935178847436559796, guid: 554946954a77a7243b7217e7ae7881e9, type: 3}
+  deflectEffectPrefab: {fileID: 2889093565345682126, guid: a1f5905eb8b831448bde1e7a4d9f33ff, type: 3}
+  audioSource: {fileID: 0}
+  damageSound: {fileID: 0}
+  deflectSound: {fileID: 0}
+  effectSpawnPoint: {fileID: 0}
+  destroyAfterSeconds: 2
+>>>>>>> Stashed changes
