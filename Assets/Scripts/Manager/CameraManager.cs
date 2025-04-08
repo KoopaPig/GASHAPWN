@@ -102,10 +102,11 @@ public class CameraManager : MonoBehaviour
         }
         else PathingEnabled = false;
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Maincam.enabled = !Maincam.enabled;
-            Player1Cam.enabled = !Player1Cam.enabled;
-        }
+        // Debug Function to switch camera
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //{
+        //    Maincam.enabled = !Maincam.enabled;
+        //    Player1Cam.enabled = !Player1Cam.enabled;
+        //}
     }
 }
