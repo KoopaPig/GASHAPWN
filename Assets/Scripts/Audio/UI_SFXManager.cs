@@ -9,13 +9,21 @@ namespace GASHAPWN.Audio {
 
         [SerializeField] private AudioMixerGroup soundMixer;
 
-        [SerializeField] private SFXGroup buttonSelectionGroup;
+        [SerializeField] private SFXGroup menuButtonSelectionGroup;
+
+        [SerializeField] private SFXGroup generalButtonSelectionGroup;
+
+        [SerializeField] private SFXGroup generalSelectionGroup;
 
         [SerializeField] private SFXGroup buttonDinkyGroup;
+
+        [SerializeField] private SFXGroup buttonFancyGroup;
 
         [SerializeField] private SFXGroup capsuleShakeGroup;
 
         [SerializeField] private SFXGroup staticGroup;
+
+        [SerializeField] private SFXGroup infoCardGroup;
 
         private void Awake()
         {
@@ -35,17 +43,27 @@ namespace GASHAPWN.Audio {
 
         public void Play_MainMenuButtonSelection()
         {
-            AudioManager.Instance.PlayRandomSound(buttonSelectionGroup);
+            AudioManager.Instance.PlayRandomSound(menuButtonSelectionGroup);
         }
 
         public void Play_GeneralButtonSelection()
         {
-            AudioManager.Instance.PlaySound("SFX_UI_Click_Close");
+            AudioManager.Instance.PlayRandomSound(generalButtonSelectionGroup);
+        }
+
+        public void Play_GeneralObjectSelection()
+        {
+            AudioManager.Instance.PlayRandomSound(generalSelectionGroup);
         }
 
         public void Play_GeneralButton()
         {
             AudioManager.Instance.PlaySound("SFX_UI_Click_Open_Cute");
+        }
+
+        public void Play_FancyButton()
+        {
+            AudioManager.Instance.PlayRandomSound(buttonFancyGroup);
         }
 
         public void Play_GameEnd()
@@ -71,5 +89,14 @@ namespace GASHAPWN.Audio {
             AudioManager.Instance.PlayRandomSound(staticGroup);
         }
 
+        public void Play_ScreenWoosh()
+        {
+            AudioManager.Instance.PlaySound("SFX_UI_Swoosh_Generic_2");
+        }
+
+        public void Play_InfoCardGroup()
+        {
+            AudioManager.Instance.PlayRandomSound(infoCardGroup);
+        }
     }
 }

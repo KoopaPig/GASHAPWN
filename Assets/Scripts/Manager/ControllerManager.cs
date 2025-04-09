@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.Users;
 
 namespace GASHAPWN
@@ -35,7 +37,7 @@ namespace GASHAPWN
             public InputDevice device;
             public InputUser user;
             public PlayerInput playerInput;
-            public InputControlScheme controlScheme;
+            public string controlScheme;  // Use "Keyboard" or "Controller" to match your action maps
             public bool isAssigned = false;
 
             public PlayerControllerAssignment(string tag)
@@ -49,8 +51,9 @@ namespace GASHAPWN
         public List<PlayerControllerAssignment> playerAssignments = new List<PlayerControllerAssignment>();
         private List<InputDevice> assignedDevices = new List<InputDevice>();
 
-        // Track connected devices
-        private List<InputDevice> availableDevices = new List<InputDevice>();
+        // Separate available devices by type to ensure uniqueness
+        private List<Gamepad> availableGamepads = new List<Gamepad>();
+        private List<InputDevice> availableKeyboards = new List<InputDevice>();
         private bool initialized = false;
 
         private void Awake()
@@ -121,14 +124,25 @@ namespace GASHAPWN
 
             if (change == InputDeviceChange.Added || change == InputDeviceChange.Reconnected)
             {
-                if (!availableDevices.Contains(device) && !assignedDevices.Contains(device))
+                // Add device to appropriate list
+                if (device is Gamepad gamepad && !assignedDevices.Contains(gamepad))
                 {
-                    availableDevices.Add(device);
+                    if (!availableGamepads.Contains(gamepad))
+                        availableGamepads.Add(gamepad);
+                }
+                else if (device is Keyboard keyboard && !assignedDevices.Contains(keyboard))
+                {
+                    if (!availableKeyboards.Contains(keyboard))
+                        availableKeyboards.Add(keyboard);
                 }
             }
             else if (change == InputDeviceChange.Removed || change == InputDeviceChange.Disconnected)
             {
-                availableDevices.Remove(device);
+                // Remove from available lists
+                if (device is Gamepad gamepad)
+                    availableGamepads.Remove(gamepad);
+                else if (device is Keyboard keyboard)
+                    availableKeyboards.Remove(keyboard);
                 
                 // Handle disconnection of assigned device
                 foreach (var assignment in playerAssignments)
@@ -147,13 +161,15 @@ namespace GASHAPWN
             GASHAPWN.UI.LevelSelect levelSelect = FindFirstObjectByType<GASHAPWN.UI.LevelSelect>();
             if (levelSelect != null)
             {
-                levelSelect.RefreshControllerUI();
+                // GET RID OF FOR NOW, COME BACK
+                //levelSelect.RefreshControllerUI();
             }
         }
 
         public void RefreshAvailableDevices()
         {
-            availableDevices.Clear();
+            availableGamepads.Clear();
+            availableKeyboards.Clear();
             
             var allDevices = InputSystem.devices;
             foreach (var device in allDevices)
@@ -162,13 +178,15 @@ namespace GASHAPWN
                 if (assignedDevices.Contains(device))
                     continue;
                 
-                // Only add gamepads and keyboard
-                if (device is Gamepad || device is Keyboard)
+                // Add to appropriate list
+                if (device is Gamepad gamepad)
                 {
-                    availableDevices.Add(device);
+                    availableGamepads.Add(gamepad);
                 }
-                
-                // Skip mouse (we don't want to assign mouse to players)
+                else if (device is Keyboard keyboard)
+                {
+                    availableKeyboards.Add(keyboard);
+                }
             }
         }
 
@@ -211,6 +229,19 @@ namespace GASHAPWN
             if (targetAssignment.isAssigned && targetAssignment.device != null)
             {
                 assignedDevices.Remove(targetAssignment.device);
+                
+                // Return the device to available lists
+                if (targetAssignment.device is Gamepad gamepad)
+                {
+                    if (!availableGamepads.Contains(gamepad))
+                        availableGamepads.Add(gamepad);
+                }
+                else if (targetAssignment.device is Keyboard keyboard)
+                {
+                    if (!availableKeyboards.Contains(keyboard))
+                        availableKeyboards.Add(keyboard);
+                }
+                
                 Debug.Log($"Unassigned {targetAssignment.device.name} from {playerTag}");
             }
 
@@ -221,17 +252,24 @@ namespace GASHAPWN
             // Determine control scheme
             if (device is Gamepad)
             {
-                targetAssignment.controlScheme = new InputControlScheme("Gamepad");
-                Debug.Log($"Assigned {device.name} (Gamepad) to {playerTag}");
+                targetAssignment.controlScheme = "Controller";
+                
+                // Remove from available gamepads list
+                availableGamepads.Remove(device as Gamepad);
+                
+                Debug.Log($"Assigned {device.name} (Controller) to {playerTag}");
             }
             else if (device is Keyboard)
             {
-                targetAssignment.controlScheme = new InputControlScheme("Keyboard");
+                targetAssignment.controlScheme = "Keyboard";
+                
+                // Remove from available keyboards list
+                availableKeyboards.Remove(device);
+                
                 Debug.Log($"Assigned {device.name} (Keyboard) to {playerTag}");
             }
             
             assignedDevices.Add(device);
-            availableDevices.Remove(device);
             
             return true;
         }
@@ -277,6 +315,12 @@ namespace GASHAPWN
                 // Assign the player input to the user
                 user.AssociateActionsWithUser(playerInput.actions);
                 
+                // Switch to the correct action map immediately
+                playerInput.SwitchCurrentActionMap(targetAssignment.controlScheme);
+                
+                // Ensure player never auto switches schemes
+                playerInput.neverAutoSwitchControlSchemes = true;
+                
                 // Store references
                 targetAssignment.playerInput = playerInput;
                 targetAssignment.user = user;
@@ -288,11 +332,9 @@ namespace GASHAPWN
                 
                 // Method 2: Alternative approach using PlayerInput directly
                 try {
-                    // Determine the control scheme based on the device
-                    string controlSchemeName = targetAssignment.device is Gamepad ? "Gamepad" : "Keyboard";
-                    
-                    // Directly set the device on the PlayerInput component
-                    playerInput.SwitchCurrentControlScheme(controlSchemeName, targetAssignment.device);
+                    // Set the action map directly
+                    playerInput.defaultActionMap = targetAssignment.controlScheme;
+                    playerInput.neverAutoSwitchControlSchemes = true;
                     
                     // Store reference to the player input
                     targetAssignment.playerInput = playerInput;
@@ -336,9 +378,22 @@ namespace GASHAPWN
             return GASHAPWN.UI.ControlScheme.KEYBOARD; // Default
         }
 
+        public List<Gamepad> GetAvailableGamepads()
+        {
+            return availableGamepads;
+        }
+
+        public List<InputDevice> GetAvailableKeyboards()
+        {
+            return availableKeyboards;
+        }
+
         public List<InputDevice> GetAvailableDevices()
         {
-            return availableDevices;
+            List<InputDevice> allDevices = new List<InputDevice>();
+            allDevices.AddRange(availableGamepads);
+            allDevices.AddRange(availableKeyboards);
+            return allDevices;
         }
 
         public InputDevice GetAssignedDevice(string playerTag)
@@ -361,6 +416,45 @@ namespace GASHAPWN
                 inputActions = actions;
                 Debug.Log("ControllerManager: Input actions set manually");
             }
+        }
+        
+        // Check if any button is pressed on a device
+        public bool IsAnyButtonPressed(InputDevice device)
+        {
+            var cancelAction = inputActions["Cancel"].controls;
+
+
+            if (device is Gamepad gamepad)
+            {
+                // Check for any pressed buttons on gamepad
+                foreach (var control in gamepad.allControls)
+                {
+                    if (control is ButtonControl button && button.isPressed)
+                    {
+                        if (!cancelAction.Contains(button)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            else if (device is Keyboard keyboard)
+            {
+                // Check for any pressed keys
+                foreach (var control in keyboard.allControls)
+                {
+                    if (control is KeyControl key && key.isPressed)
+                    {
+                        if (!cancelAction.Contains(key))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            // Make an exception for cancel action
+
+            return false;
         }
     }
 }

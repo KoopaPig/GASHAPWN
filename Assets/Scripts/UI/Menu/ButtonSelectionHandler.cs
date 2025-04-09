@@ -35,9 +35,21 @@ namespace GASHAPWN.UI {
                     return;
                 }
 
+                // Invoke for general buttons
+                if (currentSelected != null && currentSelected.GetComponent<GeneralButtonControl>() != null)
+                {
+                    OnGeneralButtonSelected?.Invoke();
+                    lastSelected = currentSelected;
+                    return;
+                }
+
                 // Invoke for general selections
-                //OnGeneralObjectSelected?.Invoke();
-                //lastSelected = currentSelected;
+                if (currentSelected != null)
+                {
+                    OnGeneralObjectSelected?.Invoke();
+                    lastSelected = currentSelected;
+                    return;
+                }
             }
         }
     }
