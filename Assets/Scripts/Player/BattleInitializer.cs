@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -14,7 +15,7 @@ namespace GASHAPWN
         // Force-set specific control schemes (useful for debugging)
         [Header("Debug Options")]
         [SerializeField] private bool useDebugControllers = false;
-        [SerializeField] private string player1ControlScheme = "Gamepad";
+        [SerializeField] private string player1ControlScheme = "Controller";
         [SerializeField] private string player2ControlScheme = "Keyboard";
 
         private void Start()
@@ -38,7 +39,7 @@ namespace GASHAPWN
             if (useDebugControllers)
             {
                 Debug.Log("Using debug controller assignments");
-                SetupPlayersWithDebugControllers();
+                SetupPlayersWithDebugControlSchemes();
             }
             else
             {
@@ -78,7 +79,7 @@ namespace GASHAPWN
             }
         }
 
-        private void SetupPlayersWithDebugControllers()
+        private void SetupPlayersWithDebugControlSchemes()
         {
             // Set up Player 1 with debug control scheme
             if (player1Object != null)
@@ -95,6 +96,18 @@ namespace GASHAPWN
 
         private void SetupPlayerWithDevice(GameObject playerObject, InputDevice device)
         {
+            string playerTag = playerObject.tag;
+            
+            // Get control scheme from controller manager
+            var playerAssignment = FindPlayerAssignment(playerTag);
+            if (playerAssignment == null || !playerAssignment.isAssigned)
+            {
+                Debug.LogError($"No valid assignment found for {playerTag}");
+                return;
+            }
+            
+            string controlScheme = playerAssignment.controlScheme;
+            
             // Get or add PlayerInput component
             PlayerInput playerInput = playerObject.GetComponent<PlayerInput>();
             if (playerInput == null)
@@ -103,55 +116,32 @@ namespace GASHAPWN
                 playerInput.actions = inputActions;
             }
 
-            // Determine control scheme based on device type
-            string controlScheme = (device is Gamepad) ? "Gamepad" : "Keyboard";
+            Debug.Log($"Setting up PlayerInput for {playerTag} with {controlScheme} action map");
             
-            // Configure and apply control scheme
             try
             {
-                // Check that the control scheme exists in the input actions
-                if (HasControlScheme(inputActions, controlScheme))
-                {
-                    // Disable and enable to force rebinding
-                    bool wasEnabled = playerInput.enabled;
-                    playerInput.enabled = false;
-                    
-                    // Configure PlayerInput settings
-                    playerInput.neverAutoSwitchControlSchemes = true;
-                    playerInput.defaultControlScheme = controlScheme;
-                    
-                    // Re-enable the component
-                    playerInput.enabled = wasEnabled;
-                    
-                    // Apply device directly to playerInput
-                    playerInput.SwitchCurrentControlScheme(controlScheme, device);
-                    
-                    Debug.Log($"Player {playerObject.name} set up with {controlScheme} scheme using device {device.name}");
-                }
-                else
-                {
-                    Debug.LogError($"Control scheme '{controlScheme}' not found in input actions. " +
-                                   $"Available schemes: {GetAvailableControlSchemes(inputActions)}");
-                }
+                // First, ensure the player input has the correct actions
+                playerInput.actions = inputActions;
+                
+                // Create a dedicated InputUser for this player and pair with device
+                InputUser user = InputUser.CreateUserWithoutPairedDevices();
+                user = InputUser.PerformPairingWithDevice(device, user);
+                
+                // Associate actions with user
+                user.AssociateActionsWithUser(playerInput.actions);
+                
+                // Set the default action map and switch to it
+                playerInput.defaultActionMap = controlScheme;
+                playerInput.SwitchCurrentActionMap(controlScheme);
+                
+                // Critical: Prevent auto-switching to avoid players interfering with each other
+                playerInput.neverAutoSwitchControlSchemes = true;
+                
+                Debug.Log($"Successfully set up {playerTag} with {device.name} using {controlScheme} action map");
             }
             catch (System.Exception e)
             {
-                Debug.LogError($"Error setting up control scheme: {e.Message}");
-                
-                // Fallback method - just try to make the device usable
-                try
-                {
-                    // Just force the input actions and device
-                    playerInput.actions = inputActions;
-                    playerInput.defaultControlScheme = null; // Let it auto-detect
-                    playerInput.neverAutoSwitchControlSchemes = false; // Allow switching
-                    
-                    Debug.Log($"Player {playerObject.name} set up with fallback method for device {device.name}");
-                }
-                catch (System.Exception ex)
-                {
-                    Debug.LogError($"Error using fallback method: {ex.Message}");
-                }
+                Debug.LogError($"Error setting up player control: {e.Message}");
             }
         }
 
@@ -165,57 +155,31 @@ namespace GASHAPWN
                 playerInput.actions = inputActions;
             }
 
-            // Check that the control scheme exists in the input actions
-            if (HasControlScheme(inputActions, controlScheme))
+            try
             {
-                // Disable and enable to force rebinding
-                bool wasEnabled = playerInput.enabled;
-                playerInput.enabled = false;
-                
-                // Configure PlayerInput settings
+                // Set the action map directly
+                playerInput.defaultActionMap = controlScheme;
+                playerInput.SwitchCurrentActionMap(controlScheme);
                 playerInput.neverAutoSwitchControlSchemes = true;
-                playerInput.defaultControlScheme = controlScheme;
-                
-                // Re-enable the component
-                playerInput.enabled = wasEnabled;
                 
                 Debug.Log($"Player {playerObject.name} set up with debug control scheme: {controlScheme}");
             }
-            else
+            catch (System.Exception e)
             {
-                Debug.LogError($"Control scheme '{controlScheme}' not found in input actions. " +
-                               $"Available schemes: {GetAvailableControlSchemes(inputActions)}");
+                Debug.LogError($"Error setting up debug control scheme: {e.Message}");
             }
         }
         
-        // Helper method to check if a control scheme exists in the input actions
-        private bool HasControlScheme(InputActionAsset actions, string schemeName)
+        private ControllerManager.PlayerControllerAssignment FindPlayerAssignment(string playerTag)
         {
-            if (actions == null)
-                return false;
-                
-            foreach (var scheme in actions.controlSchemes)
+            foreach (var assignment in ControllerManager.Instance.playerAssignments)
             {
-                if (scheme.name == schemeName)
-                    return true;
+                if (assignment.playerTag == playerTag && assignment.isAssigned)
+                {
+                    return assignment;
+                }
             }
-            
-            return false;
-        }
-        
-        // Helper method to get a list of available control schemes
-        private string GetAvailableControlSchemes(InputActionAsset actions)
-        {
-            if (actions == null)
-                return "No input actions assigned";
-                
-            string schemes = "";
-            foreach (var scheme in actions.controlSchemes)
-            {
-                schemes += scheme.name + ", ";
-            }
-            
-            return schemes.TrimEnd(' ', ',');
+            return null;
         }
     }
 }

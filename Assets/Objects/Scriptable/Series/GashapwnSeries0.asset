@@ -14,4 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SeriesName: Gashapwn Series 0
   SeriesIcon: {fileID: 21300000, guid: 0473d1498d6bb0b49838dd2a7d30d42a, type: 3}
-  figuresInSeries: []
+  figuresInSeries:
+  - {fileID: 11400000, guid: 73f1c88d10e65458d943f61ea65a1f7e, type: 2}
+  - {fileID: 11400000, guid: 950404c8dd3de4da3931c3c83be942cd, type: 2}
+  - {fileID: 11400000, guid: 2809ae726f768480c9d40c0fb42be0e1, type: 2}
+  - {fileID: 11400000, guid: a51cfe1947bfe0041884edf1cda3cc4e, type: 2}
+  - {fileID: 11400000, guid: 5b426424a0b554a559972673b8d53735, type: 2}
+  - {fileID: 11400000, guid: fe24c366a285443b987fba9a5051d32e, type: 2}
+  - {fileID: 11400000, guid: 6848ab34f2a9b40438ff70172d217295, type: 2}
+  - {fileID: 11400000, guid: e3e836a95fc5c4fbd91f7d2d03fc6acb, type: 2}
+  - {fileID: 11400000, guid: 67d266aa544503b4ba7189160913ca15, type: 2}

@@ -7,8 +7,16 @@ namespace GASHAPWN.UI {
     {
         [SerializeField] private GameObject xInputHelp;
         [SerializeField] private GameObject KeyboardHelp;
-
         [SerializeField] private ControlScheme controlScheme;
+        [SerializeField] public bool automaticUpdate = true;
+
+        public void ManualSetControlScheme(ControlScheme cs) {
+            if (!automaticUpdate) { 
+                controlScheme = cs;
+                UpdateControlScheme();
+            }
+            else Debug.Log($"{this.name}.IconPicker is set to automaticUpdate, cannot manually set.");
+        }
 
         private void Start()
         {
@@ -22,7 +30,12 @@ namespace GASHAPWN.UI {
 
         void Update()
         {
-            // TODO: Update buttons automatically according to control scheme
+            // Update buttons automatically according to control scheme
+            if (automaticUpdate)
+            {
+                controlScheme = ControllerManager.Instance.GetPlayerControlScheme("Player1");
+                UpdateControlScheme();
+            }
         }
 
         private void UpdateControlScheme()

@@ -39,7 +39,8 @@ namespace GASHAPWN.UI
         [SerializeField] private GameObject figureModel;
         [SerializeField] private GameObject capsule;
         private Animator capsuleAnimator;
-        [SerializeField] private Figure winningFigure;
+        private Figure winningFigure;
+        private string winningPlayerTag;
 
         [SerializeField] private Light directionalLight;
 
@@ -146,11 +147,14 @@ namespace GASHAPWN.UI
 
             GetComponent<Animator>().SetBool("isOverlaySlide", true);
 
-            capsule.SetActive(true);
+            HandleCapsuleModel();
+
             // Capsule enters frame
             capsuleAnimator.SetBool("isCapsuleOpen", false);
             capsuleAnimator.SetTrigger("capsuleEnter");
             buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(true);
+            buttonPrompt.GetComponent<IconPicker>().
+                ManualSetControlScheme(ControllerManager.Instance.GetPlayerControlScheme(winningPlayerTag));
         }
 
         // Use as a buffer before activating buttons
@@ -170,6 +174,7 @@ namespace GASHAPWN.UI
 
         private void SetWinningFigure(string tag, Figure figure)
         {
+            winningPlayerTag = tag;
             winningFigure = figure;
         }
 
@@ -204,6 +209,36 @@ namespace GASHAPWN.UI
 
             light.intensity = targetIntensity;
         }
+
+        private void HandleCapsuleModel()
+        {
+            capsule.SetActive(true);
+
+            var metal = capsule.transform.Find("PlayerCapsule/Metal");
+            if (metal == null)
+            {
+                Debug.LogError("NewFigureScreenGUI: Metal object not found in PlayerCapsule.");
+                return;
+            }
+
+            // Deactivate all inner metal components
+            foreach (Transform child in metal)
+            {
+                child.gameObject.SetActive(false);
+            }
+
+            // Activate the matching sphere
+            var winnerSphere = metal.Find(winningPlayerTag + "Sphere");
+            if (winnerSphere != null)
+            {
+                winnerSphere.gameObject.SetActive(true);
+            }
+            else
+            {
+                Debug.LogWarning($"NewFigureScreenGUI: No matching capsule sphere found for tag: {winningPlayerTag}");
+            }
+        }
+
     }
 }
 
