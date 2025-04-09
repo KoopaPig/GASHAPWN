@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -46,6 +47,22 @@ namespace GASHAPWN.UI {
         private int selectedTimeIndex;
         [SerializeField] private TMPro.TMP_Text timeLabel;
 
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(this);
+                return;
+            }
+            Instance = this;
+
+            // Set indices for controls bind boxes
+            for (int i = 0; i < controlsBindBoxes.Count; i++)
+            {
+                controlsBindBoxes[i].playerIndex = i;
+            }
+        }
+
         private void OnEnable()
         {
             var inputActionAsset = GetComponent<PlayerInput>().actions;
@@ -59,26 +76,8 @@ namespace GASHAPWN.UI {
             {
                 ControllerManager.Instance.SetInputActions(inputActions);
             }
-
-            // Refresh UI to match controller state
-            RefreshControllerUI();
         }
 
-        private void Awake()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(this);
-                return;
-            }
-            Instance = this;
-            
-            // Set indices for controls bind boxes
-            for (int i = 0; i < controlsBindBoxes.Count; i++)
-            {
-                controlsBindBoxes[i].playerIndex = i;
-            }
-        }
 
         void Start()
         {
@@ -88,7 +87,8 @@ namespace GASHAPWN.UI {
                 currentBindBox.SetSelected(true);
                 
                 // Check if controllers are already assigned from a previous scene
-                RefreshControllerUI();
+                
+                StartCoroutine(RefreshControllerUI());
                 
                 // Enable the next screen button only if all controllers are assigned
                 toLevelSelectButton.interactable = IsAllControlsDetected();
@@ -115,28 +115,20 @@ namespace GASHAPWN.UI {
             cancelAction.Disable();
         }
 
-        public void RefreshControllerUI()
+        private IEnumerator RefreshControllerUI()
         {
-            // Check if ControllerManager exists (it will auto-create if it doesn't)
-            if (controlsBindBoxes == null || controlsBindBoxes.Count == 0)
-                return;
+            yield return null;
+            // If controllers already assigned, UI should be updated
+            if (controlsBindBoxes != null || controlsBindBoxes.Count != 0) {
+                for (int i = 0; i < controlsBindBoxes.Count; i++)
+                {
+                    string playerTag = $"Player{i+1}";
+                    bool isAssigned = ControllerManager.Instance.IsPlayerAssigned(playerTag);
+                    ControlScheme scheme = ControllerManager.Instance.GetPlayerControlScheme(playerTag);
 
-            for (int i = 0; i < controlsBindBoxes.Count; i++)
-            {
-                string playerTag = $"Player{i+1}";
-                bool isAssigned = ControllerManager.Instance.IsPlayerAssigned(playerTag);
-                ControlScheme scheme = ControllerManager.Instance.GetPlayerControlScheme(playerTag);
-
-                controlsBindBoxes[i].IsControllerDetected = isAssigned;
-                controlsBindBoxes[i].controlScheme = scheme;
-                controlsBindBoxes[i].UpdateControls();
+                    SetControllerDetected(i, scheme, isAssigned);
+                }
             }
-
-            // Highlight the first unassigned controller box
-            UpdateSelectedBindBox();
-            
-            // Update the continue button
-            toLevelSelectButton.interactable = IsAllControlsDetected();
         }
 
         private void UpdateSelectedBindBox()
@@ -171,7 +163,9 @@ namespace GASHAPWN.UI {
         public void StartListeningForController(int playerIndex)
         {
             if (playerIndex >= controlsBindBoxes.Count || isListeningForInput)
+            {
                 return;
+            }
 
             isListeningForInput = true;
             currentListeningIndex = playerIndex;
@@ -181,6 +175,20 @@ namespace GASHAPWN.UI {
 
             // Start listening for any button press
             StartCoroutine(ListenForInput(playerTag));
+        }
+
+        private IEnumerator DelayedUpdateSelectedBindBox()
+        {
+            yield return null; // wait one frame
+            UpdateSelectedBindBox();
+        }
+
+        private IEnumerator WaitToActivateContinueButton()
+        {
+            yield return null;
+            yield return null;
+            toLevelSelectButton.interactable = true;
+            EventSystem.current.SetSelectedGameObject(toLevelSelectButton.gameObject);
         }
 
         private IEnumerator ListenForInput(string playerTag)
@@ -238,6 +246,7 @@ namespace GASHAPWN.UI {
 
         /// <summary>
         /// Set whether control is detected given index
+        /// Also updates currentBindBox after a delay to eliminate race condition
         /// </summary>
         public void SetControllerDetected(int index, ControlScheme controlScheme, bool value)
         {
@@ -246,20 +255,14 @@ namespace GASHAPWN.UI {
                 controlsBindBoxes[index].IsControllerDetected = value;
                 controlsBindBoxes[index].controlScheme = controlScheme;
                 controlsBindBoxes[index].UpdateControls();
-                
-                if (currentBindBox != null)
-                    currentBindBox.SetSelected(false);
-                
+
                 // Move to the next unassigned controller
-                UpdateSelectedBindBox();
+                // Have to delay a frame to eliminate race condition
+                StartCoroutine(DelayedUpdateSelectedBindBox());
             }
-            
-            if (IsAllControlsDetected())
-            {
-                toLevelSelectButton.interactable = true;
-                if (currentBindBox != null)
-                    currentBindBox.SetSelected(false);
-            }
+
+            // Activate continue button after two frames to eliminate race condition
+            if (IsAllControlsDetected()) StartCoroutine(WaitToActivateContinueButton());
         }
 
         private void HandleCancel(InputAction.CallbackContext context)

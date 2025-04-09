@@ -153,6 +153,8 @@ namespace GASHAPWN.UI
             capsuleAnimator.SetBool("isCapsuleOpen", false);
             capsuleAnimator.SetTrigger("capsuleEnter");
             buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(true);
+            buttonPrompt.GetComponent<IconPicker>().
+                ManualSetControlScheme(ControllerManager.Instance.GetPlayerControlScheme(winningPlayerTag));
         }
 
         // Use as a buffer before activating buttons
