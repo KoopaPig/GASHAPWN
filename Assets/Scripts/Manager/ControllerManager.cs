@@ -249,10 +249,10 @@ namespace GASHAPWN
             targetAssignment.device = device;
             targetAssignment.isAssigned = true;
             
-            // Determine control scheme - use actual action map names from your project
+            // Determine control scheme
             if (device is Gamepad)
             {
-                targetAssignment.controlScheme = "Controller";  // Use your actual controller action map name
+                targetAssignment.controlScheme = "Controller";
                 
                 // Remove from available gamepads list
                 availableGamepads.Remove(device as Gamepad);
@@ -261,7 +261,7 @@ namespace GASHAPWN
             }
             else if (device is Keyboard)
             {
-                targetAssignment.controlScheme = "Keyboard";  // Use your actual keyboard action map name
+                targetAssignment.controlScheme = "Keyboard";
                 
                 // Remove from available keyboards list
                 availableKeyboards.Remove(device);

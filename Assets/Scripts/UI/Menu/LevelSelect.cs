@@ -83,11 +83,18 @@ namespace GASHAPWN.UI {
         {
             if (controlsBindBoxes != null && controlsBindBoxes.Count > 0)
             {
-                currentBindBox = controlsBindBoxes[0]; // assumes [0] == P1
+                // make sure to set the currentBindBox to whatever index is not assigned
+                // this prevents the UI from breaking when assigning one controller,
+                // backing out, coming back, and assigning another
+                int index = 0;
+                for (int i = 0; i < ControllerManager.Instance.playerAssignments.Count; i++)
+                {
+                    if (!ControllerManager.Instance.playerAssignments[i].isAssigned) { index = i; break; }
+                }
+                currentBindBox = controlsBindBoxes[index]; // assumes [0] == P1
                 currentBindBox.SetSelected(true);
                 
-                // Check if controllers are already assigned from a previous scene
-                
+                // Refresh UI according to previously assigned controllers
                 StartCoroutine(RefreshControllerUI());
                 
                 // Enable the next screen button only if all controllers are assigned
