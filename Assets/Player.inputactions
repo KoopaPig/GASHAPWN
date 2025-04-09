@@ -204,8 +204,8 @@
                 },
                 {
                     "name": "",
-                    "id": "c04bf6d1-2239-42bd-9695-b344a4f20e4e",
-                    "path": "<Mouse>/rightButton",
+                    "id": "6152ff4a-3c49-4862-b5a0-20fe568d210f",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -215,8 +215,8 @@
                 },
                 {
                     "name": "",
-                    "id": "5af6dfb2-6f94-42cd-acea-9b9b82c53e98",
-                    "path": "<Mouse>/leftButton",
+                    "id": "b62e1ef1-e871-4c1a-9300-e9d120fa6efe",
+                    "path": "<Keyboard>/rightShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -319,8 +319,30 @@
                 },
                 {
                     "name": "",
+                    "id": "589fe843-8e73-4b51-9cc0-ba6e67e65048",
+                    "path": "<SwitchProControllerHID>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "546e9a67-eb00-4164-b187-5a4b017c56a2",
                     "path": "<XInputController>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateChargeDirection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "609bbdd0-d5ac-49f2-8e07-2f3b96823568",
+                    "path": "<SwitchProControllerHID>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

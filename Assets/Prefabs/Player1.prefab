@@ -863,6 +863,7 @@ GameObject:
   - component: {fileID: 4306642885239329398}
   - component: {fileID: 8910377567317957572}
   - component: {fileID: 5546871984026414875}
+  - component: {fileID: 1188351259255025695}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Player1
@@ -1436,3 +1437,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   capsPos: {fileID: 2520351315225119760}
+--- !u!114 &1188351259255025695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652500208214954744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0daf4ece92617374393d8db35c1e2623, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetRenderer: {fileID: 1538877841718028380}
+  detailMasks:
+  - {fileID: 2800000, guid: 7df0d1845a3031e41a773559bc94f00d, type: 3}
+  - {fileID: 2800000, guid: 266bc013596f6b64fa1e2e538345d508, type: 3}
+  - {fileID: 2800000, guid: 97992eebe009bfd4e9d3517200a415d9, type: 3}
+  - {fileID: 2800000, guid: 48d425481e1c62840b98163d877cf21c, type: 3}
+  - {fileID: 2800000, guid: ca3069b8458fde747928d44228675069, type: 3}
+  - {fileID: 2800000, guid: 3dafb03a7c3c0c243bea4a5579871044, type: 3}
