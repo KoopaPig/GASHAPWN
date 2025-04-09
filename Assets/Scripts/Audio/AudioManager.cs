@@ -51,6 +51,32 @@ namespace GASHAPWN.Audio {
                 }
             };
         }
+
+        // Given AudioClip callback, return a AudioClip at given index
+        public void GetAudioClipAtIndex(int index, System.Action<AudioClip> callback)
+        {
+            if (index < 0 || index >= addressableKeys.Count)
+            {
+                Debug.LogWarning($"Invalid index {index} for SFXGroup '{groupTag}'.");
+                callback?.Invoke(null);
+                return;
+            }
+
+            string selectedKey = addressableKeys[index];
+
+            Addressables.LoadAssetAsync<AudioClip>(selectedKey).Completed += handle =>
+            {
+                if (handle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    callback?.Invoke(handle.Result);
+                }
+                else
+                {
+                    Debug.LogError($"Failed to load AudioClip with key: {selectedKey}");
+                    callback?.Invoke(null);
+                }
+            };
+        }
     }
 
     public class AudioManager : MonoBehaviour
@@ -195,6 +221,29 @@ namespace GASHAPWN.Audio {
             });
         }
 
+        /// <summary>
+        /// Plays sound from SFXGroup given index
+        /// </summary>
+        /// <param name="sfxGroup"></param>
+        /// <param name="transform"></param>
+        /// <param name="index"></param>
+        public void PlaySoundGivenIndex(SFXGroup sfxGroup, Transform transform, int index)
+        {
+            sfxGroup.GetAudioClipAtIndex(index, clip =>
+            {
+                if (clip != null)
+                {
+                    var audioObj = AudioSourcePool.Instance.GetAudioSource();
+                    var audioSource = audioObj.GetComponent<AudioSource>();
+                    audioObj.transform.position = transform.position;
+                    audioSource.clip = clip;
+                    audioSource.Play();
+
+                    StartCoroutine(AudioSourcePool.Instance.ReturnToPool(audioSource));
+                    Addressables.Release(clip); // Release memory when done
+                }
+            });
+        }
 
         // TODO: Function to play SFXGroup in order with looping, for charge roll
         // This might need to be interfaced more directly with the charge roll, because it requires a conditional
