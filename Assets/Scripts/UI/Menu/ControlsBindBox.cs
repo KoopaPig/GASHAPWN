@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace GASHAPWN.UI
 {
-    public class ControlsBindBox : MonoBehaviour, IPointerClickHandler
+    public class ControlsBindBox : MonoBehaviour, ISelectHandler
     {
         public bool IsControllerDetected = false;
         public ControlScheme controlScheme;
@@ -58,9 +58,11 @@ namespace GASHAPWN.UI
                     break;
             }
 
+            // Maybe around here check if already assigned and set corresponding image and set it active
+
             if (!IsControllerDetected)
             {
-                feedbackText.text = "Press any button";
+                feedbackText.text = "Deactivated";
                 xInputImage.gameObject.SetActive(false);
                 keyboardImage.gameObject.SetActive(false);
             }
@@ -75,6 +77,7 @@ namespace GASHAPWN.UI
         {
             if (value)
             {
+                EventSystem.current.SetSelectedGameObject(this.gameObject);
                 StartCoroutine(LerpColor(background, backgroundColor, selectedColorBG, 0.15f));
                 StartCoroutine(LerpColor(border, borderColor, selectedColorBG, 0.15f));
                 StartCoroutine(LerpColor(gradientDots, gradientDotsColor, selectedColorFG, 0.15f));
@@ -82,6 +85,7 @@ namespace GASHAPWN.UI
             } 
             else
             {
+                EventSystem.current.SetSelectedGameObject(null);
                 StartCoroutine(LerpColor(background, selectedColorBG, backgroundColor, 0.15f));
                 StartCoroutine(LerpColor(border, selectedColorBG, borderColor, 0.15f));
                 StartCoroutine(LerpColor(gradientDots, selectedColorFG, gradientDotsColor, 0.15f));
@@ -89,7 +93,7 @@ namespace GASHAPWN.UI
             }
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        public void OnSelect(BaseEventData eventData)
         {
             // If the box is already assigned, don't do anything
             if (IsControllerDetected)
@@ -107,7 +111,7 @@ namespace GASHAPWN.UI
 
             Debug.Log($"ControlsBindBox: Starting controller detection for Player {playerIndex+1}");
             feedbackText.text = "Press any button...";
-            
+
             // Start listening for input for this controller
             LevelSelect.Instance.StartListeningForController(playerIndex);
         }

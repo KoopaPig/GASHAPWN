@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -160,7 +161,8 @@ namespace GASHAPWN
             GASHAPWN.UI.LevelSelect levelSelect = FindFirstObjectByType<GASHAPWN.UI.LevelSelect>();
             if (levelSelect != null)
             {
-                levelSelect.RefreshControllerUI();
+                // GET RID OF FOR NOW, COME BACK
+                //levelSelect.RefreshControllerUI();
             }
         }
 
@@ -247,10 +249,10 @@ namespace GASHAPWN
             targetAssignment.device = device;
             targetAssignment.isAssigned = true;
             
-            // Determine control scheme - use actual action map names from your project
+            // Determine control scheme
             if (device is Gamepad)
             {
-                targetAssignment.controlScheme = "Controller";  // Use your actual controller action map name
+                targetAssignment.controlScheme = "Controller";
                 
                 // Remove from available gamepads list
                 availableGamepads.Remove(device as Gamepad);
@@ -259,7 +261,7 @@ namespace GASHAPWN
             }
             else if (device is Keyboard)
             {
-                targetAssignment.controlScheme = "Keyboard";  // Use your actual keyboard action map name
+                targetAssignment.controlScheme = "Keyboard";
                 
                 // Remove from available keyboards list
                 availableKeyboards.Remove(device);
@@ -419,6 +421,9 @@ namespace GASHAPWN
         // Check if any button is pressed on a device
         public bool IsAnyButtonPressed(InputDevice device)
         {
+            var cancelAction = inputActions["Cancel"].controls;
+
+
             if (device is Gamepad gamepad)
             {
                 // Check for any pressed buttons on gamepad
@@ -426,7 +431,9 @@ namespace GASHAPWN
                 {
                     if (control is ButtonControl button && button.isPressed)
                     {
-                        return true;
+                        if (!cancelAction.Contains(button)) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -437,10 +444,16 @@ namespace GASHAPWN
                 {
                     if (control is KeyControl key && key.isPressed)
                     {
-                        return true;
+                        if (!cancelAction.Contains(key))
+                        {
+                            return true;
+                        }
                     }
                 }
             }
+
+            // Make an exception for cancel action
+
             return false;
         }
     }
