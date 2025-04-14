@@ -16,5 +16,5 @@ MonoBehaviour:
   Description: The cat of all time. For some reason he is photographed every day.
   Icon: {fileID: 21300000, guid: 760145e2d924ddc4ca801b3084f9d1a9, type: 3}
   Rarity: 0.02
-  capsuleModelPrefab: {fileID: 0}
-  collectionModelPrefab: {fileID: 0}
+  capsuleModelPrefab: {fileID: 8713313747913989262, guid: e83a338283fdcca4d8e0b37fb0d0cc54, type: 3}
+  collectionModelPrefab: {fileID: 8713313747913989262, guid: bdf344dec04dd034898134c158437f68, type: 3}

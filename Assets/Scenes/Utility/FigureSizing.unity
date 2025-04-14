@@ -747,7 +747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a05481557ce207e4aa1fb7aa04ceb986, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedFigure: {fileID: 11400000, guid: eb0cc01357dd72846823089ea0d25a02, type: 2}
+  selectedFigure: {fileID: 11400000, guid: 6848ab34f2a9b40438ff70172d217295, type: 2}
   shelfPos: {fileID: 159163533}
 --- !u!4 &1380845364
 Transform:

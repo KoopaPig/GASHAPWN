@@ -16,5 +16,5 @@ MonoBehaviour:
   Description: Some guy.
   Icon: {fileID: 21300000, guid: 61c0b4cbb572db041af4afc622730931, type: 3}
   Rarity: 0.25
-  capsuleModelPrefab: {fileID: 0}
-  collectionModelPrefab: {fileID: 0}
+  capsuleModelPrefab: {fileID: 2116679558333156970, guid: 316f4f548aeebbd408f0c566a2fd0617, type: 3}
+  collectionModelPrefab: {fileID: 2116679558333156970, guid: 4edb9cfa5022e60439cfa944db3a39fb, type: 3}
