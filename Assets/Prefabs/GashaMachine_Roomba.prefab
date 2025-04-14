@@ -1084,6 +1084,7 @@ GameObject:
   - component: {fileID: 8068029372622936368}
   - component: {fileID: 3646331916870864288}
   - component: {fileID: 8848954528328550706}
+  - component: {fileID: 7267059065729631167}
   m_Layer: 6
   m_Name: Cylinder (1)
   m_TagString: Untagged
@@ -1173,7 +1174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.5
-  radius: -37
+  radius: -25
 --- !u!64 &8848954528328550706
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1196,6 +1197,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &7267059065729631167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4501544582853080824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0715745960597b43b8dd1fd7e10c767, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockbackForce: 100
 --- !u!1 &4698318480012309203
 GameObject:
   m_ObjectHideFlags: 0
@@ -1672,6 +1686,7 @@ GameObject:
   - component: {fileID: 5031575103393452618}
   - component: {fileID: 8660780503748975866}
   - component: {fileID: 7163725055805838046}
+  - component: {fileID: 4127585801481419011}
   m_Layer: 6
   m_Name: Cylinder
   m_TagString: Untagged
@@ -1688,7 +1703,7 @@ Transform:
   m_GameObject: {fileID: 6916891097505790176}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.812, y: -0.24, z: -0.126}
+  m_LocalPosition: {x: 0.49, y: -0.24, z: -0.126}
   m_LocalScale: {x: 0.28, y: 0.028373843, z: 0.28}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1761,7 +1776,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.5
-  radius: 37
+  radius: 25
 --- !u!64 &7163725055805838046
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1784,6 +1799,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &4127585801481419011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6916891097505790176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0715745960597b43b8dd1fd7e10c767, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockbackForce: 100
 --- !u!1 &7456210621049218703
 GameObject:
   m_ObjectHideFlags: 0
