@@ -17,5 +17,5 @@ MonoBehaviour:
     searching for the Two Piece."
   Icon: {fileID: 21300000, guid: f6de30d54293e41a5930b4e04d6a781a, type: 3}
   Rarity: 0.05
-  capsuleModelPrefab: {fileID: 0}
-  collectionModelPrefab: {fileID: 0}
+  capsuleModelPrefab: {fileID: 6403369485195595837, guid: 63dd944dd96b2cb4591b69c356c3d211, type: 3}
+  collectionModelPrefab: {fileID: 6403369485195595837, guid: 435449556df4b6a49bdf2dcb0a7a4805, type: 3}

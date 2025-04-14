@@ -17,5 +17,5 @@ MonoBehaviour:
     of \u201887."
   Icon: {fileID: 21300000, guid: f86b66dbe053744678fe6e8174a3224f, type: 3}
   Rarity: 0.1
-  capsuleModelPrefab: {fileID: 0}
-  collectionModelPrefab: {fileID: 0}
+  capsuleModelPrefab: {fileID: 3472770830738529961, guid: 7368c9157107137459b2c39a7ca585c7, type: 3}
+  collectionModelPrefab: {fileID: 3472770830738529961, guid: bcc047bd422bbcb419d530aad29bab4d, type: 3}

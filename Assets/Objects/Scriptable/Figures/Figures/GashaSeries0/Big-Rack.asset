@@ -16,5 +16,5 @@ MonoBehaviour:
   Description: Referring to his antlers. Obviously.
   Icon: {fileID: 21300000, guid: 2a1ec54faa24b434e8e6509e602a3035, type: 3}
   Rarity: 0.15
-  capsuleModelPrefab: {fileID: 0}
-  collectionModelPrefab: {fileID: 0}
+  capsuleModelPrefab: {fileID: 8924744112599301921, guid: 7acdb01d040e86b49bc4dbb25008584b, type: 3}
+  collectionModelPrefab: {fileID: 8924744112599301921, guid: 8d0949c81d1ad17418b798e4ae09cd58, type: 3}
