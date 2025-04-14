@@ -82,5 +82,9 @@ namespace GASHAPWN.Audio
         {
             AudioManager.Instance.PlaySoundGivenIndex(orcHitDamageGroup, transform, index);
         }
+
+        // Interfacing with playerData.hasCharged and isCharging is the interface I need
+        // isCharging initiated when holding button, released when release charge
+        // hasCharged is set at end of coroutine, not really sure how useful hasCharged will be
     }
 }
