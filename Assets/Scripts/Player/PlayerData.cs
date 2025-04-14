@@ -465,13 +465,13 @@ public class PlayerData : MonoBehaviour
     // Helper method to reset all renderers to original colors
     private void ResetAllRenderersToOriginalColors()
     {
-        Debug.Log($"Resetting all renderers to original colors on {gameObject.name}");
+        //Debug.Log($"Resetting all renderers to original colors on {gameObject.name}");
         for (int i = 0; i < playerRenderers.Length; i++)
         {
             if (playerRenderers[i] != null)
             {
                 playerRenderers[i].material.color = originalColors[i];
-                Debug.Log($"Reset renderer {i} to color: {originalColors[i]}");
+                //Debug.Log($"Reset renderer {i} to color: {originalColors[i]}");
                 
                 // Force update material
                 Material currentMat = playerRenderers[i].material;

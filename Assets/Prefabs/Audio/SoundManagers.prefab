@@ -78,6 +78,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundMixer: {fileID: 7613267758212777161, guid: 24482206668284144b552dc371529507, type: 2}
+  orcHitDamageGroup:
+    groupTag: OrcHitDamageGroup
+    addressableKeys:
+    - SFX_Orc_Hit_1
+    - SFX_Orc_Hit_3
+    - SFX_Orc_Hit_4
+    - SFX_Orc_Hit_5
+    - SFX_Orc_Hit_6
 --- !u!1 &7324788933024230893
 GameObject:
   m_ObjectHideFlags: 0
