@@ -41,6 +41,8 @@ namespace GASHAPWN
         // Victory screen
         private bool showVictory = false;
 
+        private bool isPlayerSpawn = false;
+
         // If isWinner, then battle end
         [NonSerialized] public bool isWinner = false;
 
@@ -90,6 +92,9 @@ namespace GASHAPWN
 
         public UnityEvent<BattleState> ChangeToNewFigure = new();
 
+        // Triggers when players are spawned into the arena
+        public UnityEvent<BattleState> OnPlayerSpawn = new();
+
         public UnityEvent<string, Figure> OnWinningFigure = new();
 
         public UnityEvent<string, Figure> OnLosingFigure = new();
@@ -99,14 +104,6 @@ namespace GASHAPWN
         
         private void Awake()
         {
-            // Check for other instances
-            // if (Instance != null && Instance != this)
-            // {
-            //     Destroy(this);
-            //     return;
-            // }
-            // _instance = this;
-            
             battleTime = GameManager.Instance.currentBattleTime;
 
             // Find all active players
@@ -153,6 +150,14 @@ namespace GASHAPWN
             if (State == BattleState.CountDown)
             {
                 countDownTime -= Time.deltaTime;
+                // Time player spawn actions here
+                if (countDownTime <= 5) {
+                    if (!isPlayerSpawn) { 
+                        OnPlayerSpawnActions(State);
+                        isPlayerSpawn = true;
+                    }
+                }
+                // When countdown over, change to Battle state
                 if (countDownTime <= 0)
                 {
                     ChangeStateBattle();
@@ -169,8 +174,8 @@ namespace GASHAPWN
                 if (isWinner)
                 {
                     ChangeStateVictoryScreen();
-                    if (isDebug) OnPlayerDeathDebug();
                 }
+                // else enter sudden death
                 else if (battleTime <= 0)
                 {
                     ChangeStateSuddenDeath();
@@ -182,19 +187,15 @@ namespace GASHAPWN
                 if (isWinner)
                 {
                     ChangeStateVictoryScreen();
-                    if (isDebug) OnPlayerDeathDebug();
-
                 }
-
             }
 
             // Check to exit victory screen
             if (State == BattleState.VictoryScreen && showVictory)
             {
                 // Check for inputs from the UI actionmap
-                controls.FindActionMap("UI").actionTriggered += End;
+                //controls.FindActionMap("UI").actionTriggered += End;
             }
-
         }
 
         private bool IsPlayerWin(GameObject player) {
@@ -204,7 +205,6 @@ namespace GASHAPWN
                 pendingPlayerResults.Add((player, false));
                 return false;
             }
-            
         }
 
         private void OnDisable()
@@ -237,8 +237,7 @@ namespace GASHAPWN
         private void BattleStartActions()
         {
             trackTime = true;
-            // Enable controls here
-            //ControllerManager.Instance.SetBattleControlsActive(true); // activate controls
+            ControllerManager.Instance.SetBattleControlsActive(true); // activate controls
             Debug.Log("Battle Start!");
         }
 
@@ -247,11 +246,6 @@ namespace GASHAPWN
             // timer should be disabled
             Debug.Log("Entered Sudden Death!");
             ResetToSpawn(); // set players back to spawn points
-        }
-
-        private void OnPlayerDeathDebug()
-        {
-            Debug.Log("BattleManager: OnPlayerDeathDebug is disabled.");
         }
 
         /// PUBLIC METHODS ///
@@ -263,7 +257,6 @@ namespace GASHAPWN
             if (State == BattleState.Sleep)
             {
                 State = BattleState.CountDown;
-                //ControllerManager.Instance.SetBattleControlsActive(false); // deactivate controls
                 ChangeToCountdown.Invoke(State);
                 OnBattleStateChanged?.Invoke(State);
                 Debug.Log($"BattleManager: BattleState: {State.ToString()}");
@@ -358,8 +351,25 @@ namespace GASHAPWN
         public void BattleEndActions()
         {
             trackTime = false;
-            //ControllerManager.Instance.SetBattleControlsActive(false);
+            ControllerManager.Instance.SetBattleControlsActive(false);
             Debug.Log("Battle End!");
+        }
+
+        public void OnPlayerSpawnActions(BattleState state)
+        {
+            OnPlayerSpawn.Invoke(state);
+            ResetToSpawn();
+            ControllerManager.Instance.SetBattleControlsActive(false);
+        }
+
+        public void ResetToSpawn()
+        {
+            foreach (var player in activePlayers)
+            {
+                if (player.tag == "Player1") player.gameObject.transform.position = player1SpawnPos.position;
+                else if (player.tag == "Player2") player.gameObject.transform.position = player2SpawnPos.position;
+                else Debug.LogError("BattleManager: Invalid Player tag. Could not set spawn positions.");
+            }
         }
 
         public void FigureCheck(string WinningTag, Figure PlayerFigure)
@@ -403,33 +413,25 @@ namespace GASHAPWN
             }
         }
 
-        public void End(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
-                showVictory = false;
-                // Determine if new figure screen should pop up
+        //public void End(InputAction.CallbackContext context)
+        //{
+        //    if (context.performed)
+        //    {
+        //        showVictory = false;
+        //        // Determine if new figure screen should pop up
 
-                //if (playerThatDied.CompareTag("Player1")) FigureCheck(GameManager.Instance.Player1Collection, player2Figure);
-                //else if (playerThatDied.CompareTag("Player2")) FigureCheck(GameManager.Instance.Player2Collection, player1Figure);
-                //else
-                //{
-                //    Debug.LogError("End executed without player that died");
-                //}
+        //        //if (playerThatDied.CompareTag("Player1")) FigureCheck(GameManager.Instance.Player1Collection, player2Figure);
+        //        //else if (playerThatDied.CompareTag("Player2")) FigureCheck(GameManager.Instance.Player2Collection, player1Figure);
+        //        //else
+        //        //{
+        //        //    Debug.LogError("End executed without player that died");
+        //        //}
 
-                controls.FindActionMap("UI").actionTriggered -= End;
-            }
-        }
+        //        controls.FindActionMap("UI").actionTriggered -= End;
+        //    }
+        //}
 
-        public void ResetToSpawn()
-        {
-            foreach (var player in activePlayers)
-            {
-                if (player.tag == "Player1") player.gameObject.transform.position = player1SpawnPos.position;
-                else if (player.tag == "Player2") player.gameObject.transform.position = player2SpawnPos.position;
-                else Debug.LogError("BattleManager: Invalid Player tag. Could not set spawn positions.");
-            }
-        }
+
     }
 
     public enum BattleState

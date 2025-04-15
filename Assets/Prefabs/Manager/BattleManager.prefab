@@ -45,16 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   newFigure: 0
-  playerHasDied: 0
   isDebug: 0
   battleTime: 180
   isCountDownOn: 1
-  player1Figure: {fileID: 0}
-  player2Figure: {fileID: 0}
-  player1CapsPos: {fileID: 0}
-  player2CapsPos: {fileID: 0}
   player1BattleGUI: {fileID: 0}
   player2BattleGUI: {fileID: 0}
+  player1SpawnPos: {fileID: 0}
+  player2SpawnPos: {fileID: 0}
   controls: {fileID: -944628639613478452, guid: a4813de7deb37dd40b927e6d190544bb, type: 3}
   ChangeToCountdown:
     m_PersistentCalls:
@@ -71,6 +68,21 @@ MonoBehaviour:
   ChangeToNewFigure:
     m_PersistentCalls:
       m_Calls: []
+  OnPlayerSpawn:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8012452833802943089}
+        m_TargetAssemblyTypeName: GASHAPWN.BattleManager, Assembly-CSharp
+        m_MethodName: ResetToSpawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnWinningFigure:
     m_PersistentCalls:
       m_Calls: []

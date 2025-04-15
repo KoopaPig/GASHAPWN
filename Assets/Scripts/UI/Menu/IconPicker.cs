@@ -7,7 +7,7 @@ namespace GASHAPWN.UI {
     {
         [SerializeField] private GameObject xInputHelp;
         [SerializeField] private GameObject KeyboardHelp;
-        [SerializeField] private ControlScheme controlScheme;
+        private ControlScheme controlScheme;
         [SerializeField] public bool automaticUpdate = true;
 
         public void ManualSetControlScheme(ControlScheme cs) {
@@ -40,6 +40,8 @@ namespace GASHAPWN.UI {
 
         private void UpdateControlScheme()
         {
+            xInputHelp.SetActive(false);
+            KeyboardHelp.SetActive(false);
             switch (controlScheme)
             {
                 case ControlScheme.XINPUT:
