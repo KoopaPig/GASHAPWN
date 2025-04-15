@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3820057544206658547}
   - component: {fileID: 1456542903068057197}
   - component: {fileID: 596176130445286208}
-  - component: {fileID: 1091452567397709420}
   m_Layer: 6
   m_Name: Arm2
   m_TagString: Untagged
@@ -267,28 +266,6 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5872137334106976}
-  m_Mesh: {fileID: 0}
---- !u!64 &1091452567397709420
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5872137334106976}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!1 &1022430599124891984
 GameObject:
@@ -1593,7 +1570,6 @@ GameObject:
   - component: {fileID: 3606598903786266363}
   - component: {fileID: 6924295988214035083}
   - component: {fileID: 1354075783787362788}
-  - component: {fileID: 7779667119721215321}
   m_Layer: 6
   m_Name: Arm3
   m_TagString: Untagged
@@ -1849,28 +1825,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1335153162722161702}
   m_Mesh: {fileID: 0}
---- !u!64 &7779667119721215321
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1335153162722161702}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &2436675974934638364
 GameObject:
   m_ObjectHideFlags: 0
@@ -1883,7 +1837,6 @@ GameObject:
   - component: {fileID: 5370133741282559916}
   - component: {fileID: 4743172419337502854}
   - component: {fileID: 2707745556348500677}
-  - component: {fileID: 7228828503835281349}
   m_Layer: 6
   m_Name: Elbow1
   m_TagString: Untagged
@@ -2176,28 +2129,6 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2436675974934638364}
-  m_Mesh: {fileID: 0}
---- !u!64 &7228828503835281349
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2436675974934638364}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!1 &2635031354174465615
 GameObject:
@@ -3534,7 +3465,6 @@ GameObject:
   - component: {fileID: 2603619098803401549}
   - component: {fileID: 5682239043424060481}
   - component: {fileID: 5467702387134381936}
-  - component: {fileID: 1012785849664125265}
   m_Layer: 6
   m_Name: Elbow2
   m_TagString: Untagged
@@ -3827,28 +3757,6 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4295331913205690375}
-  m_Mesh: {fileID: 0}
---- !u!64 &1012785849664125265
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4295331913205690375}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!1 &4986382704227947973
 GameObject:
@@ -6444,7 +6352,6 @@ GameObject:
   - component: {fileID: 3382958255526522500}
   - component: {fileID: 6595948304618859465}
   - component: {fileID: 9122159448784743670}
-  - component: {fileID: 7996095072831853550}
   m_Layer: 6
   m_Name: Arm1
   m_TagString: Untagged
@@ -6699,28 +6606,6 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5961465095090451755}
-  m_Mesh: {fileID: 0}
---- !u!64 &7996095072831853550
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5961465095090451755}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!1 &6235687136407236974
 GameObject:
@@ -8025,7 +7910,6 @@ GameObject:
   - component: {fileID: 7482664422668795464}
   - component: {fileID: 7125380206449816580}
   - component: {fileID: 7356984771237257758}
-  - component: {fileID: 5936201513480715215}
   m_Layer: 6
   m_Name: Elbow3
   m_TagString: Untagged
@@ -8319,28 +8203,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8127865048647198576}
   m_Mesh: {fileID: 0}
---- !u!64 &5936201513480715215
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8127865048647198576}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &8843852778973338552
 GameObject:
   m_ObjectHideFlags: 0
@@ -8351,7 +8213,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6249945511840609758}
   - component: {fileID: 8483639186894939824}
-  - component: {fileID: 6764003319202414542}
   - component: {fileID: 3549828506684394669}
   m_Layer: 6
   m_Name: Claw arm
@@ -8408,28 +8269,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!64 &6764003319202414542
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8843852778973338552}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!114 &3549828506684394669
 MonoBehaviour:
   m_ObjectHideFlags: 0
