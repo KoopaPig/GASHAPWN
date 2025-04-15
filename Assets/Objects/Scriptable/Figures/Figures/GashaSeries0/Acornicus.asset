@@ -17,5 +17,5 @@ MonoBehaviour:
     of the Berlin Walnut. Don\u2019t even try to take his nuts."
   Icon: {fileID: 21300000, guid: 374771e5e36724427a594515e052f18f, type: 3}
   Rarity: 0.25
-  capsuleModelPrefab: {fileID: 8398396018826232258, guid: 4219d17cf78568b48915398ae50c09e7, type: 3}
-  collectionModelPrefab: {fileID: 8398396018826232258, guid: 07aac6b4c0aaccf4a8b6a4438b679798, type: 3}
+  capsuleModelPrefab: {fileID: 4104905387830301790, guid: 4219d17cf78568b48915398ae50c09e7, type: 3}
+  collectionModelPrefab: {fileID: 4551798156747726759, guid: bf7c57c556a5bcb408b644efbaffe1d5, type: 3}
