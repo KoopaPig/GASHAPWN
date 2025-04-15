@@ -18,16 +18,6 @@ namespace GASHAPWN.UI {
             else Debug.Log($"{this.name}.IconPicker is set to automaticUpdate, cannot manually set.");
         }
 
-        private void Start()
-        {
-            UpdateControlScheme();
-        }
-
-        private void OnValidate()
-        {
-            UpdateControlScheme();
-        }
-
         void Update()
         {
             // Update buttons automatically according to control scheme
@@ -36,6 +26,11 @@ namespace GASHAPWN.UI {
                 controlScheme = ControllerManager.Instance.GetPlayerControlScheme("Player1");
                 UpdateControlScheme();
             }
+        }
+
+        private void OnValidate()
+        {
+            UpdateControlScheme();
         }
 
         private void UpdateControlScheme()

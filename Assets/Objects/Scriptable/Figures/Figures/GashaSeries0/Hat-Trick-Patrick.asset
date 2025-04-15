@@ -17,5 +17,5 @@ MonoBehaviour:
     Little does he know their final trick was to disappear forever."
   Icon: {fileID: 21300000, guid: 1aaebbdc900e34f64b07318298fb3220, type: 3}
   Rarity: 0.25
-  capsuleModelPrefab: {fileID: 4866175668763558367, guid: 9090c27997c535b4092159d80a37f9c4, type: 3}
-  collectionModelPrefab: {fileID: 4866175668763558367, guid: 74b5638490a733847959d32e3830198a, type: 3}
+  capsuleModelPrefab: {fileID: 2064440579114422825, guid: 8d866f51d1f41094681ce51290ae3ca2, type: 3}
+  collectionModelPrefab: {fileID: 2343566007365196399, guid: c47c9ce82e01d88419909934342b1b91, type: 3}
