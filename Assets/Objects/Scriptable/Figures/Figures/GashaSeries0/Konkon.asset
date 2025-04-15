@@ -16,5 +16,5 @@ MonoBehaviour:
   Description: How can a fox get any more orange? By tanning, naturally!
   Icon: {fileID: 21300000, guid: cf72d5526176e4c1eb8191180110a62c, type: 3}
   Rarity: 0.25
-  capsuleModelPrefab: {fileID: 7528522254782863860, guid: 5fcd3e1a422531d43b6d9ac8143db67a, type: 3}
-  collectionModelPrefab: {fileID: 7528522254782863860, guid: bfae657dc8419984cab72114c4e3ff01, type: 3}
+  capsuleModelPrefab: {fileID: 7005509019673712975, guid: 5fcd3e1a422531d43b6d9ac8143db67a, type: 3}
+  collectionModelPrefab: {fileID: 1967717857795982485, guid: ba70804039c80064cac3f38763b99253, type: 3}

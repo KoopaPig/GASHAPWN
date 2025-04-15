@@ -119,7 +119,6 @@ namespace GASHAPWN.UI
                 BattleManager.Instance.ChangeToNewFigure.RemoveListener(OnNewFigureScreen);
                 BattleManager.Instance.OnWinningFigure.RemoveListener(SetWinningFigure);
             }
-            submitAction.action.performed -= HandleCapsuleOpenInput;
         }
 
         // Perform OnNewFigureScreen actions after some delay
@@ -152,7 +151,7 @@ namespace GASHAPWN.UI
             // Capsule enters frame
             capsuleAnimator.SetBool("isCapsuleOpen", false);
             capsuleAnimator.SetTrigger("capsuleEnter");
-            buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(true);
+            //buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(false);
             buttonPrompt.GetComponent<IconPicker>().
                 ManualSetControlScheme(ControllerManager.Instance.GetPlayerControlScheme(winningPlayerTag));
         }
@@ -188,6 +187,7 @@ namespace GASHAPWN.UI
             } else
             {
                 StartCapsuleOpen();
+                submitAction.action.performed -= HandleCapsuleOpenInput;
             }
         }
 
