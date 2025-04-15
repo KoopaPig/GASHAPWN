@@ -8,7 +8,7 @@ namespace GASHAPWN {
 
         public void SetFigureInCapsule(Figure figure) {
             attachedFigure = figure;
-            Instantiate(figure.capsuleModelPrefab, capsPos.position, capsPos.rotation, capsPos.parent.transform);
+            Instantiate(figure.capsuleModelPrefab, capsPos.parent.transform);
         }
 
         public Figure GetAttachedFigure() { return attachedFigure; }
