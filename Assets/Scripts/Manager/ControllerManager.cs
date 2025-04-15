@@ -20,9 +20,9 @@ namespace GASHAPWN
                     GameObject controllerManagerObj = new GameObject("ControllerManager");
                     _instance = controllerManagerObj.AddComponent<ControllerManager>();
                     DontDestroyOnLoad(controllerManagerObj);
-                    
+
                     Debug.Log("ControllerManager: Auto-created instance");
-                    
+
                     // Initialize the instance
                     _instance.Initialize();
                 }
@@ -47,7 +47,7 @@ namespace GASHAPWN
         }
 
         [SerializeField] private InputActionAsset inputActions;
-        
+
         public List<PlayerControllerAssignment> playerAssignments = new List<PlayerControllerAssignment>();
         private List<InputDevice> assignedDevices = new List<InputDevice>();
 
@@ -64,18 +64,18 @@ namespace GASHAPWN
                 Destroy(gameObject);
                 return;
             }
-            
+
             _instance = this;
             DontDestroyOnLoad(gameObject);
 
             Initialize();
         }
-        
+
         private void Initialize()
         {
             if (initialized)
                 return;
-                
+
             // Initialize player assignments
             if (playerAssignments.Count == 0)
             {
@@ -85,10 +85,10 @@ namespace GASHAPWN
 
             // Listen for device changes
             InputSystem.onDeviceChange += OnDeviceChange;
-            
+
             // Populate initial available devices
             RefreshAvailableDevices();
-            
+
             // Try to automatically find the input actions if not set
             if (inputActions == null)
             {
@@ -100,7 +100,7 @@ namespace GASHAPWN
                     Debug.Log("ControllerManager: Auto-found input actions from PlayerInput component");
                 }
             }
-            
+
             initialized = true;
             Debug.Log("ControllerManager: Initialized");
         }
@@ -119,7 +119,7 @@ namespace GASHAPWN
             // Completely ignore Mouse devices
             if (device is Mouse)
                 return;
-                
+
             Debug.Log($"Device change: {device.name} - {change}");
 
             if (change == InputDeviceChange.Added || change == InputDeviceChange.Reconnected)
@@ -143,7 +143,7 @@ namespace GASHAPWN
                     availableGamepads.Remove(gamepad);
                 else if (device is Keyboard keyboard)
                     availableKeyboards.Remove(keyboard);
-                
+
                 // Handle disconnection of assigned device
                 foreach (var assignment in playerAssignments)
                 {
@@ -170,14 +170,14 @@ namespace GASHAPWN
         {
             availableGamepads.Clear();
             availableKeyboards.Clear();
-            
+
             var allDevices = InputSystem.devices;
             foreach (var device in allDevices)
             {
                 // Skip devices that are already assigned
                 if (assignedDevices.Contains(device))
                     continue;
-                
+
                 // Add to appropriate list
                 if (device is Gamepad gamepad)
                 {
@@ -195,9 +195,9 @@ namespace GASHAPWN
             // Don't allow mouse assignments
             if (device is Mouse)
                 return false;
-                
+
             Debug.Log($"Attempting to assign {device.name} to {playerTag}");
-                
+
             // Find the player assignment
             PlayerControllerAssignment targetAssignment = null;
             foreach (var assignment in playerAssignments)
@@ -229,7 +229,7 @@ namespace GASHAPWN
             if (targetAssignment.isAssigned && targetAssignment.device != null)
             {
                 assignedDevices.Remove(targetAssignment.device);
-                
+
                 // Return the device to available lists
                 if (targetAssignment.device is Gamepad gamepad)
                 {
@@ -241,45 +241,45 @@ namespace GASHAPWN
                     if (!availableKeyboards.Contains(keyboard))
                         availableKeyboards.Add(keyboard);
                 }
-                
+
                 Debug.Log($"Unassigned {targetAssignment.device.name} from {playerTag}");
             }
 
             // Assign new device
             targetAssignment.device = device;
             targetAssignment.isAssigned = true;
-            
+
             // Determine control scheme
             if (device is Gamepad)
             {
                 targetAssignment.controlScheme = "Controller";
-                
+
                 // Remove from available gamepads list
                 availableGamepads.Remove(device as Gamepad);
-                
+
                 Debug.Log($"Assigned {device.name} (Controller) to {playerTag}");
             }
             else if (device is Keyboard)
             {
                 targetAssignment.controlScheme = "Keyboard";
-                
+
                 // Remove from available keyboards list
                 availableKeyboards.Remove(device);
-                
+
                 Debug.Log($"Assigned {device.name} (Keyboard) to {playerTag}");
             }
-            
+
             assignedDevices.Add(device);
-            
+
             return true;
         }
 
         public void SetupPlayerInput(GameObject playerObject)
         {
             if (playerObject == null) return;
-            
+
             string playerTag = playerObject.tag;
-            
+
             // Find the player assignment
             PlayerControllerAssignment targetAssignment = null;
             foreach (var assignment in playerAssignments)
@@ -305,43 +305,47 @@ namespace GASHAPWN
             {
                 playerInput.actions = inputActions;
             }
-            
+
             // Method 1: Using InputUser directly
-            try {
+            try
+            {
                 // Create a new InputUser and pair it with the device
                 InputUser user = InputUser.CreateUserWithoutPairedDevices();
                 user = InputUser.PerformPairingWithDevice(targetAssignment.device, user);
-                
+
                 // Assign the player input to the user
                 user.AssociateActionsWithUser(playerInput.actions);
-                
+
                 // Switch to the correct action map immediately
                 playerInput.SwitchCurrentActionMap(targetAssignment.controlScheme);
-                
+
                 // Ensure player never auto switches schemes
                 playerInput.neverAutoSwitchControlSchemes = true;
-                
+
                 // Store references
                 targetAssignment.playerInput = playerInput;
                 targetAssignment.user = user;
-                
+
                 Debug.Log($"Set up player input for {playerTag} with {targetAssignment.device.name} using InputUser");
             }
-            catch (System.Exception e) {
+            catch (System.Exception e)
+            {
                 Debug.LogError($"Failed to set up InputUser: {e.Message}. Falling back to alternative method.");
-                
+
                 // Method 2: Alternative approach using PlayerInput directly
-                try {
+                try
+                {
                     // Set the action map directly
                     playerInput.defaultActionMap = targetAssignment.controlScheme;
                     playerInput.neverAutoSwitchControlSchemes = true;
-                    
+
                     // Store reference to the player input
                     targetAssignment.playerInput = playerInput;
-                    
+
                     Debug.Log($"Set up player input for {playerTag} with {targetAssignment.device.name} using direct PlayerInput");
                 }
-                catch (System.Exception ex) {
+                catch (System.Exception ex)
+                {
                     Debug.LogError($"Failed to set up direct PlayerInput: {ex.Message}");
                 }
             }
@@ -407,7 +411,7 @@ namespace GASHAPWN
             }
             return null;
         }
-        
+
         // Use this to explicitly set the InputActionAsset if needed
         public void SetInputActions(InputActionAsset actions)
         {
@@ -417,7 +421,7 @@ namespace GASHAPWN
                 Debug.Log("ControllerManager: Input actions set manually");
             }
         }
-        
+
         // Check if any button is pressed on a device
         public bool IsAnyButtonPressed(InputDevice device)
         {
@@ -431,7 +435,8 @@ namespace GASHAPWN
                 {
                     if (control is ButtonControl button && button.isPressed)
                     {
-                        if (!cancelAction.Contains(button)) {
+                        if (!cancelAction.Contains(button))
+                        {
                             return true;
                         }
                     }
@@ -455,6 +460,66 @@ namespace GASHAPWN
             // Make an exception for cancel action
 
             return false;
+        }
+
+        public PlayerControllerAssignment FindPlayerAssignment(string playerTag)
+        {
+            foreach (var assignment in playerAssignments)
+            {
+                if (assignment.playerTag == playerTag && assignment.isAssigned)
+                {
+                    return assignment;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Activate or deactivate battle controls given specific playerTag
+        /// </summary>
+        /// <param name="playerTag"></param>
+        /// <param name="active"></param>
+        public void SetBattleControlsActive(string playerTag, bool active)
+        {
+            if (IsPlayerAssigned(playerTag))
+            {
+                var i = playerAssignments.Find(x => x.playerTag == playerTag);
+                if (active)
+                {
+                    i.playerInput.actions.FindActionMap(i.controlScheme).Enable();
+                }
+                else
+                {
+                    i.playerInput.actions.FindActionMap(i.controlScheme).Disable();
+                }
+            }
+            else Debug.LogError($"ControllerManager: Failed to activate or deactive battle controls because {playerTag}" +
+                $" does not have an assigned input.");
+        }
+
+        /// <summary>
+        /// Activate or deactivate all battle controls
+        /// </summary>
+        /// <param name="active"></param>
+        public void SetBattleControlsActive(bool active)
+        {
+            foreach (var i in playerAssignments)
+            {
+                if (i.isAssigned && i.playerInput != null)
+                {
+                    var input = i.playerInput;
+                    if (active)
+                    {
+                        input.actions.FindActionMap(i.controlScheme).Enable();
+                    }
+                    else
+                    {
+                        input.actions.FindActionMap(i.controlScheme).Disable();
+                    }
+                }
+                else Debug.LogError($"ControllerManager: Failed to activate or deactive battle controls because {i.playerTag}" +
+                $" does not have an assigned input.");
+            }
         }
     }
 }

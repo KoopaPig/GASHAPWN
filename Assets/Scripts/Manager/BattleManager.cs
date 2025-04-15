@@ -65,6 +65,8 @@ namespace GASHAPWN
 
         public BattleGUIController player1BattleGUI;
         public BattleGUIController player2BattleGUI;
+        public Transform player1SpawnPos;
+        public Transform player2SpawnPos;
 
         private List<GameObject> activePlayers = new();
 
@@ -72,8 +74,6 @@ namespace GASHAPWN
 
         [Header("Controls Reference")]
         public InputActionAsset controls;
-
-        InputActionMap battleControls;
 
         [Header("Events to Trigger")]
         // Triggers when countdown initiates
@@ -108,7 +108,7 @@ namespace GASHAPWN
             // _instance = this;
             
             battleTime = GameManager.Instance.currentBattleTime;
-            
+
             // Find all active players
             PlayerData[] allPlayers = FindObjectsByType<PlayerData>(FindObjectsSortMode.InstanceID);
             foreach (PlayerData player in allPlayers)
@@ -130,11 +130,13 @@ namespace GASHAPWN
                     } else {
                         Debug.LogError("BattleManager: Invalid Player tag. Could not set BattleGUI.");
                     }
+                    
                 }
             }
             if (activePlayers.Count > GameManager.Instance.numPlayers) {
                 Debug.LogError("BattleManager: Number of active players does not match total number of players.");
             }
+            ResetToSpawn();
         }
 
         private void Start()
@@ -142,7 +144,6 @@ namespace GASHAPWN
             // Starts dorment and awakes when a battle is initiated
             State = BattleState.Sleep;
 
-            //battleControls = controls.FindActionMap("Player");
             if (isCountDownOn) ChangeStateCountdown();
             else ChangeStateBattle();
         }
@@ -154,7 +155,6 @@ namespace GASHAPWN
                 countDownTime -= Time.deltaTime;
                 if (countDownTime <= 0)
                 {
-
                     ChangeStateBattle();
                 }
             }
@@ -238,8 +238,7 @@ namespace GASHAPWN
         {
             trackTime = true;
             // Enable controls here
-            //battleControls.Enable();
-            //Debug.Log("Inputs enabled");
+            //ControllerManager.Instance.SetBattleControlsActive(true); // activate controls
             Debug.Log("Battle Start!");
         }
 
@@ -247,13 +246,12 @@ namespace GASHAPWN
         {
             // timer should be disabled
             Debug.Log("Entered Sudden Death!");
+            ResetToSpawn(); // set players back to spawn points
         }
 
         private void OnPlayerDeathDebug()
         {
             Debug.Log("BattleManager: OnPlayerDeathDebug is disabled.");
-            //OnWinningFigure.Invoke("Player2", player2Figure);
-            //OnLosingFigure.Invoke("Player1", player1Figure);
         }
 
         /// PUBLIC METHODS ///
@@ -265,8 +263,7 @@ namespace GASHAPWN
             if (State == BattleState.Sleep)
             {
                 State = BattleState.CountDown;
-                //battleControls.Disable();
-                //Debug.Log("Inputs disabled");
+                //ControllerManager.Instance.SetBattleControlsActive(false); // deactivate controls
                 ChangeToCountdown.Invoke(State);
                 OnBattleStateChanged?.Invoke(State);
                 Debug.Log($"BattleManager: BattleState: {State.ToString()}");
@@ -361,8 +358,7 @@ namespace GASHAPWN
         public void BattleEndActions()
         {
             trackTime = false;
-            // Disable battle controls
-            //battleControls.Disable();
+            //ControllerManager.Instance.SetBattleControlsActive(false);
             Debug.Log("Battle End!");
         }
 
@@ -422,6 +418,16 @@ namespace GASHAPWN
                 //}
 
                 controls.FindActionMap("UI").actionTriggered -= End;
+            }
+        }
+
+        public void ResetToSpawn()
+        {
+            foreach (var player in activePlayers)
+            {
+                if (player.tag == "Player1") player.gameObject.transform.position = player1SpawnPos.position;
+                else if (player.tag == "Player2") player.gameObject.transform.position = player2SpawnPos.position;
+                else Debug.LogError("BattleManager: Invalid Player tag. Could not set spawn positions.");
             }
         }
     }
