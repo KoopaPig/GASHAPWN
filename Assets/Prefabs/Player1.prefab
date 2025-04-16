@@ -864,6 +864,7 @@ GameObject:
   - component: {fileID: 8910377567317957572}
   - component: {fileID: 5546871984026414875}
   - component: {fileID: 1188351259255025695}
+  - component: {fileID: 3811731703456034869}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Player1
@@ -1006,6 +1007,9 @@ MonoBehaviour:
   OnAttackBonusDeactivated:
     m_PersistentCalls:
       m_Calls: []
+  OnChargeRoll:
+    m_PersistentCalls:
+      m_Calls: []
   isGrounded: 0
   controlsEnabled: 1
   hasSlammed: 0
@@ -1054,6 +1058,7 @@ MonoBehaviour:
   playerRb: {fileID: 4142117433518487193}
   playerData: {fileID: 2353342533486014850}
   trajectoryLineRenderer: {fileID: 8740269215228465467}
+  slamTargetPrefab: {fileID: 2192666822702137644, guid: d9f6f273d92fe3f48b0f54966fc889ec, type: 3}
 --- !u!114 &9209613135761091648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1457,3 +1462,23 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 48d425481e1c62840b98163d877cf21c, type: 3}
   - {fileID: 2800000, guid: ca3069b8458fde747928d44228675069, type: 3}
   - {fileID: 2800000, guid: 3dafb03a7c3c0c243bea4a5579871044, type: 3}
+--- !u!114 &3811731703456034869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652500208214954744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 499cc04adcc9d4844ad1ef670dc90782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitEffectPrefab: {fileID: 4052448785602859403, guid: 3d1d25e4c57e6ab40b7a474eea79caf3, type: 3}
+  deflectEffectPrefab: {fileID: 4955433676730161948, guid: 0d7aea3adba095549a83f25d46adeaa5, type: 3}
+  sparksPrefab: {fileID: 9014918171341996205, guid: 5fb8b374abdcef04bacc054baa08b4fc, type: 3}
+  dustImpactPrefab: {fileID: 5506443321757553034, guid: b1eaab9f5a521fd408ddb0b6ba36e95c, type: 3}
+  dustTrail: {fileID: 6864236075366678365, guid: e7ed7814b399d1f478a436a27e0dbc4f, type: 3}
+  sparkThreshold: 8
+  dustThreshold: 6
+  trailSpeedThreshold: 10
