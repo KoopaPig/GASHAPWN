@@ -86,5 +86,13 @@ namespace GASHAPWN.Audio
             source.gameObject.SetActive(false);
             availableSources.Enqueue(source);
         }
+
+        // Return audio soruce to pool immediately
+        public void ReturnToPoolImmediate(AudioSource source)
+        {
+            source.clip = null;
+            source.gameObject.SetActive(false);
+            availableSources.Enqueue(source);
+        }
     }
 }

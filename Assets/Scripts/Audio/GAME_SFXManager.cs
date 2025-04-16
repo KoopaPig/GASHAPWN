@@ -1,3 +1,5 @@
+using System.Collections;
+using Newtonsoft.Json.Bson;
 using Unity.AppUI.UI;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -7,6 +9,7 @@ namespace GASHAPWN.Audio
     /// <summary>
     /// PlayerSFXProfile: For player-related sound effects, need to get reference to 
     /// player object, playerTag, and playerData.
+    /// This object holds sound-effect related data, but it allocates actual playback to GAME_SFXManager.
     /// </summary>
     public class PlayerSFXProfile
     {
@@ -23,11 +26,17 @@ namespace GASHAPWN.Audio
         protected PlayerData playerData { get; set; }
         // Then probably get playerEffects in here eventually
 
+        // For handling the Charge Roll Dynamic Triad SFX
+        public SFXGroup_DynamicTriad.TriadState currChargeRollState = SFXGroup_DynamicTriad.TriadState.NONE;
+        public Coroutine chargeRollRoutine;
+        public AudioSource currentChargeRollSource;
+
         public void Initialize()
         {
             if (playerData != null)
             {
                 playerData.OnDamage.AddListener(HandleDamageSFX);
+                playerData.OnChargeRoll.AddListener(HandleChargeRollSFX);
                 // Add more listeners here
             }
         }
@@ -36,12 +45,18 @@ namespace GASHAPWN.Audio
         {
             int i = playerData.maxHealth - playerData.currentHealth - 1;
             GAME_SFXManager.Instance.Play_OrcHitDamage(playerObject.transform, i);
-
         }
 
-        private void OnDisable()
+
+        public void HandleChargeRollSFX(bool isCharging)
+        {
+            GAME_SFXManager.Instance.HandleChargeRollSFX(playerObject.transform, isCharging, this);
+        }
+
+        ~PlayerSFXProfile()
         {
             playerData.OnDamage.RemoveListener(HandleDamageSFX);
+            playerData.OnChargeRoll.RemoveListener(HandleChargeRollSFX);
         }
     }
 
@@ -54,6 +69,10 @@ namespace GASHAPWN.Audio
         private PlayerSFXProfile player1SFXProfile, player2SFXProfile;
 
         [SerializeField] private SFXGroup orcHitDamageGroup;
+
+        [SerializeField] private SFXGroup_DynamicTriad chargeRollGroup;
+
+        [SerializeField] private SFXGroup jumpGroup;
 
         private void Awake()
         {
@@ -83,8 +102,49 @@ namespace GASHAPWN.Audio
             AudioManager.Instance.PlaySoundGivenIndex(orcHitDamageGroup, transform, index);
         }
 
-        // Interfacing with playerData.hasCharged and isCharging is the interface I need
-        // isCharging initiated when holding button, released when release charge
-        // hasCharged is set at end of coroutine, not really sure how useful hasCharged will be
+        public void Play_Drop(Transform transform)
+        {
+            AudioManager.Instance.PlaySound("SFX_Drop_3", transform);
+        }
+
+        // Handle TriadState changes for Charge Roll given transform, isCharging bool, and PlayerSFXProfile
+        public void HandleChargeRollSFX(Transform transform, bool isCharging, PlayerSFXProfile profile)
+        {
+            if (isCharging)
+            {
+                if (profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.NONE ||
+                    profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.FINISH)
+                {
+                    AudioManager.Instance.HandleSoundDynamicTriad(chargeRollGroup, profile, SFXGroup_DynamicTriad.TriadState.START);
+
+                    if (profile.chargeRollRoutine != null)
+                        StopCoroutine(profile.chargeRollRoutine);
+                    profile.chargeRollRoutine = StartCoroutine(WaitForStartToFinishThenHold(chargeRollGroup, profile));
+                }
+            }
+            else
+            {
+                if (profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.START ||
+                    profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.HOLD)
+                {
+                    if (profile.chargeRollRoutine != null)
+                        StopCoroutine(profile.chargeRollRoutine);
+
+                    AudioManager.Instance.HandleSoundDynamicTriad(chargeRollGroup, profile, SFXGroup_DynamicTriad.TriadState.FINISH);
+                }
+            }
+        }
+
+        private IEnumerator WaitForStartToFinishThenHold(SFXGroup_DynamicTriad group, PlayerSFXProfile profile)
+        {
+            // This wait time is hard-coded for simplicity
+            yield return new WaitForSeconds(0.7f);
+
+            // Transition to HOLD only if still charging
+            if (profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.START)
+            {
+                AudioManager.Instance.HandleSoundDynamicTriad(group, profile, SFXGroup_DynamicTriad.TriadState.HOLD);
+            }
+        }
     }
 }
