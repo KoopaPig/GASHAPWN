@@ -7391,7 +7391,7 @@ Transform:
   m_GameObject: {fileID: 1102373097}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9941,7 +9941,7 @@ MonoBehaviour:
   nextNode: {fileID: 1697850136}
   figureDisplayPoint: {fileID: 1877086544}
   associatedFigure: {fileID: 11400000, guid: 1f815e74ce022c141a8d1c2d5a6232c7, type: 2}
-  isCollected: 0
+  isCollected: 1
   highlightEffect: {fileID: 1538063429}
   lockedVisual: {fileID: 731630413}
 --- !u!4 &1529710500
@@ -11958,7 +11958,7 @@ Transform:
   m_GameObject: {fileID: 1877086543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

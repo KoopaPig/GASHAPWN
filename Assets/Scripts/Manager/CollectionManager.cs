@@ -58,6 +58,9 @@ namespace GASHAPWN {
             // Select the first collected node
             SelectFirstCollectedNode();
 
+            // Verify that nodes are properly linked
+            VerifyNodeConnections();
+
             initialized = true;
         }
 
@@ -66,6 +69,10 @@ namespace GASHAPWN {
         {
             if (node == null || isMoving)
                 return;
+
+            // Disable camera animator to ensure it doesn't override our positioning
+            if (mainCameraAnimator != null && mainCameraAnimator.enabled)
+                mainCameraAnimator.enabled = false;
 
             // Update node visual states
             if (currentNode != null)
@@ -86,8 +93,8 @@ namespace GASHAPWN {
             else
             {
                 // Instantly move camera
-                mainCamera.transform.position = currentNode.transform.position;
-                mainCamera.transform.rotation = currentNode.transform.rotation;
+                mainCamera.transform.position = node.transform.position;
+                mainCamera.transform.rotation = node.transform.rotation;
             }
 
             // Display the figure
@@ -100,23 +107,43 @@ namespace GASHAPWN {
             }
         }
 
-        // Navigate to the next node
+        // Navigate to the next node using ForceJumpToNode
         public void NavigateNext()
         {
             if (currentNode != null && currentNode.nextNode != null)
             {
-                Audio.UI_SFXManager.Instance.Play_LeftRightButtonSelection();
-                SelectNode(currentNode.nextNode);
+                int nextIndex = collectionNodes.IndexOf(currentNode.nextNode);
+                if (nextIndex >= 0)
+                {
+                    ForceJumpToNode(nextIndex);
+                    Audio.UI_SFXManager.Instance.Play_LeftRightButtonSelection();
+                }
+                else
+                {
+                    // Fallback to regular SelectNode if index isn't found
+                    SelectNode(currentNode.nextNode);
+                    Audio.UI_SFXManager.Instance.Play_LeftRightButtonSelection();
+                }
             }
         }
 
-        // Navigate to the previous node
+        // Navigate to the previous node using ForceJumpToNode
         public void NavigatePrevious()
         {
             if (currentNode != null && currentNode.previousNode != null)
             {
-                Audio.UI_SFXManager.Instance.Play_LeftRightButtonSelection();
-                SelectNode(currentNode.previousNode);
+                int prevIndex = collectionNodes.IndexOf(currentNode.previousNode);
+                if (prevIndex >= 0)
+                {
+                    ForceJumpToNode(prevIndex);
+                    Audio.UI_SFXManager.Instance.Play_LeftRightButtonSelection();
+                }
+                else
+                {
+                    // Fallback to regular SelectNode if index isn't found
+                    SelectNode(currentNode.previousNode);
+                    Audio.UI_SFXManager.Instance.Play_LeftRightButtonSelection();
+                }
             }
         }
 
@@ -126,6 +153,40 @@ namespace GASHAPWN {
             if (currentNode != null)
             {
                 currentNode.RotateFigure(amount * rotationSpeed * Time.deltaTime);
+            }
+        }
+
+        // Force jump to a specific node by index
+        public void ForceJumpToNode(int nodeIndex)
+        {
+            if (nodeIndex >= 0 && nodeIndex < collectionNodes.Count)
+            {
+                // Disable animator
+                if (mainCameraAnimator != null)
+                    mainCameraAnimator.enabled = false;
+                    
+                // Get the node
+                CollectionNode node = collectionNodes[nodeIndex];
+                
+                // Update current node
+                if (currentNode != null)
+                    currentNode.UpdateVisualState(false);
+                    
+                currentNode = node;
+                currentNode.UpdateVisualState(true);
+                
+                // Force camera position immediately
+                mainCamera.transform.position = node.transform.position;
+                mainCamera.transform.rotation = node.transform.rotation;
+                
+                // Display figure
+                currentNode.DisplayFigure();
+                
+                // Update UI
+                if (collectionGUI != null && currentNode.isCollected)
+                {
+                    collectionGUI.SwitchFigureGUI(currentNode.associatedFigure);
+                }
             }
         }
 
@@ -148,7 +209,7 @@ namespace GASHAPWN {
                 mainCamera = Camera.main;
 
             if (collectionGUI == null)
-                collectionGUI = FindFirstObjectByType<CollectionGUI>();
+                collectionGUI = FindObjectOfType<CollectionGUI>();
         }
 
         private void Start()
@@ -163,26 +224,47 @@ namespace GASHAPWN {
                 InitializeFromGameManager();
                 collectionGUI.CollectionGUISetActive(true);
             }
+            
+            // Start with a delayed initialization for after animations finish
+            StartCoroutine(DelayedInitialization());
+        }
+
+        private IEnumerator DelayedInitialization()
+        {
+            // Wait longer for animations to complete
+            yield return new WaitForSeconds(4f);
+            
+            // Only force select if no node is currently selected or if we're not on the first node
+            if (currentNode == null || (collectionNodes.Count > 0 && currentNode != collectionNodes[0]))
+            {
+                Debug.Log("Failsafe: Forcing selection of first node");
+                ForceJumpToNode(0);  // Always select first node
+            }
         }
 
         private void OnEnable()
         {
             // Set up input actions
-            if (navigateAction != null)
+            if (navigateAction != null && navigateAction.action != null)
             {
+                navigateAction.action.performed -= OnNavigate; // Remove any existing
                 navigateAction.action.performed += OnNavigate;
                 navigateAction.action.Enable();
             }
 
-            if (rotateAction != null)
+            if (rotateAction != null && rotateAction.action != null)
             {
+                rotateAction.action.performed -= OnRotate; // Remove any existing
+                rotateAction.action.canceled -= OnRotateCanceled;
+                
                 rotateAction.action.performed += OnRotate;
                 rotateAction.action.canceled += OnRotateCanceled;
                 rotateAction.action.Enable();
             }
 
-            if (selectAction != null)
+            if (selectAction != null && selectAction.action != null)
             {
+                selectAction.action.performed -= OnSelect; // Remove any existing
                 selectAction.action.performed += OnSelect;
                 selectAction.action.Enable();
             }
@@ -191,20 +273,19 @@ namespace GASHAPWN {
         private void OnDisable()
         {
             // Clean up input actions
-            if (navigateAction != null)
+            if (navigateAction != null && navigateAction.action != null)
                 navigateAction.action.performed -= OnNavigate;
 
-            if (rotateAction != null)
+            if (rotateAction != null && rotateAction.action != null)
             {
                 rotateAction.action.performed -= OnRotate;
                 rotateAction.action.canceled -= OnRotateCanceled;
             }
 
-            if (selectAction != null)
+            if (selectAction != null && selectAction.action != null)
                 selectAction.action.performed -= OnSelect;
         }
 
-        // Brute force testing
         private void Update()
         {
             // Handle continuous rotation input
@@ -213,19 +294,17 @@ namespace GASHAPWN {
                 currentNode.RotateFigure(currentRotationInput * rotationSpeed * Time.deltaTime);
             }
             
-            // Direct keyboard navigation
+            // Direct keyboard navigation - this is a fallback if the input system doesn't work
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                Debug.Log("Left key pressed - Navigate Previous");
                 NavigatePrevious();
             }
             else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
-                Debug.Log("Right key pressed - Navigate Next");
                 NavigateNext();
             }
             
-            // Direct rotation controls
+            // Direct rotation controls - fallback if input system doesn't work
             if (Input.GetKey(KeyCode.Q))
             {
                 RotateFigure(-1);
@@ -233,6 +312,20 @@ namespace GASHAPWN {
             else if (Input.GetKey(KeyCode.E))
             {
                 RotateFigure(1);
+            }
+
+            // Test navigation with number keys - for testing
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                ForceJumpToNode(0);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                ForceJumpToNode(1);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                ForceJumpToNode(2);
             }
         }
 
@@ -295,16 +388,23 @@ namespace GASHAPWN {
             }
 
             // Wait for animations to progress
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(6f);
 
             // Initialize collection while animations are still playing
             InitializeFromGameManager();
 
-            // Wait a bit more for animations to finish
-            yield return new WaitForSeconds(1.5f);
+            if (collectionNodes.Count > 0) {
+                Debug.Log($"Selecting first node after animation: {collectionNodes[0].name}");
+                ForceJumpToNode(0);
+            }
 
             // Activate UI
             collectionGUI.CollectionGUISetActive(true);
+            
+            // Disable animator after intro to prevent it from interfering with camera control
+            if (mainCameraAnimator != null) {
+                mainCameraAnimator.enabled = false;
+            }
         }
 
         // Initialize collection data from GameManager
@@ -326,6 +426,13 @@ namespace GASHAPWN {
         private IEnumerator MoveCamera(Transform target)
         {
             isMoving = true;
+            
+            // Ensure target is valid
+            if (target == null)
+            {
+                isMoving = false;
+                yield break;
+            }
             
             Vector3 startPosition = mainCamera.transform.position;
             Quaternion startRotation = mainCamera.transform.rotation;
@@ -372,13 +479,22 @@ namespace GASHAPWN {
                 CollectionNode[] nodes = FindObjectsOfType<CollectionNode>();
                 collectionNodes.AddRange(nodes);
             }
-
-            Debug.Log($"CollectionManager: Found {collectionNodes.Count} collection nodes");
         }
 
         // Update nodes based on the player's collection
         private void UpdateNodesFromCollection(List<GameManager.CollectedFigure> collectedFigures)
         {
+            // Set all nodes to collected for testing if there are no figures in collection
+            if (collectedFigures == null || collectedFigures.Count == 0)
+            {
+                foreach (var node in collectionNodes)
+                {
+                    node.isCollected = true;
+                    node.UpdateVisualState(false);
+                }
+                return;
+            }
+
             // Create a lookup for faster access
             Dictionary<string, GameManager.CollectedFigure> collectedLookup = new Dictionary<string, GameManager.CollectedFigure>();
             foreach (var item in collectedFigures)
@@ -418,6 +534,24 @@ namespace GASHAPWN {
             if (collectionNodes.Count > 0)
             {
                 SelectNode(collectionNodes[0], false);
+            }
+        }
+        
+        // Verify node connections to ensure proper navigation
+        private void VerifyNodeConnections()
+        {
+            foreach (var node in collectionNodes)
+            {
+                // Check prev/next links
+                if (node.nextNode != null && node.nextNode.previousNode != node)
+                {
+                    node.nextNode.previousNode = node;
+                }
+                
+                if (node.previousNode != null && node.previousNode.nextNode != node)
+                {
+                    node.previousNode.nextNode = node;
+                }
             }
         }
     }
