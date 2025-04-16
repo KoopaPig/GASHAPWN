@@ -49,6 +49,7 @@ public class PlayerData : MonoBehaviour
     public UnityEvent OnDefenseDeactivated = new UnityEvent();
     public UnityEvent OnAttackBonusActivated = new UnityEvent();
     public UnityEvent OnAttackBonusDeactivated = new UnityEvent();
+    public UnityEvent<bool> OnChargeRoll = new UnityEvent<bool>();
 
     [Header("Player State Flags")]
     public bool isGrounded = false;

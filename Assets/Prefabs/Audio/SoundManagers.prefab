@@ -86,6 +86,15 @@ MonoBehaviour:
     - SFX_Orc_Hit_4
     - SFX_Orc_Hit_5
     - SFX_Orc_Hit_6
+  chargeRollGroup:
+    groupTag: ChargeRollGroup
+    addressableKeys:
+    - SFX_Charge_Roll_Begin
+    - SFX_Charge_Roll_Rep_Long
+    - SFX_Charge_Roll_End
+  jumpGroup:
+    groupTag: JumpGroup
+    addressableKeys: []
 --- !u!1 &7324788933024230893
 GameObject:
   m_ObjectHideFlags: 0

@@ -188,6 +188,7 @@ public class PlayerController : MonoBehaviour
     {
         playerData.isCharging = true;
         playerData.controlsEnabled = false;
+        playerData.OnChargeRoll.Invoke(playerData.isCharging);
 
         Vector3 baseDirection = new Vector3(transform.forward.x, 0, transform.forward.z).normalized;
         chargeRotation = Quaternion.LookRotation(baseDirection);
@@ -249,6 +250,7 @@ public class PlayerController : MonoBehaviour
     private void ReleaseCharge()
     {
         playerData.isCharging = false;
+        playerData.OnChargeRoll.Invoke(playerData.isCharging);
         float chargeDuration = Time.time - chargeStartTime;
         float chargePercent = Mathf.Clamp01(chargeDuration / playerData.chargeRollMaxDuration);
 
