@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 using System.Collections;
 using System.Collections.Generic;
+using static GASHAPWN.ControllerManager;
 
 namespace GASHAPWN
 {
@@ -99,7 +100,7 @@ namespace GASHAPWN
             string playerTag = playerObject.tag;
             
             // Get control scheme from controller manager
-            var playerAssignment = FindPlayerAssignment(playerTag);
+            var playerAssignment = ControllerManager.Instance.FindPlayerAssignment(playerTag);
             if (playerAssignment == null || !playerAssignment.isAssigned)
             {
                 Debug.LogError($"No valid assignment found for {playerTag}");
@@ -137,6 +138,9 @@ namespace GASHAPWN
                 // Critical: Prevent auto-switching to avoid players interfering with each other
                 playerInput.neverAutoSwitchControlSchemes = true;
                 
+                // Setup proper playerInput reference for PlayerInputAssignment
+                playerAssignment.playerInput = playerInput;
+
                 Debug.Log($"Successfully set up {playerTag} with {device.name} using {controlScheme} action map");
             }
             catch (System.Exception e)
@@ -169,17 +173,6 @@ namespace GASHAPWN
                 Debug.LogError($"Error setting up debug control scheme: {e.Message}");
             }
         }
-        
-        private ControllerManager.PlayerControllerAssignment FindPlayerAssignment(string playerTag)
-        {
-            foreach (var assignment in ControllerManager.Instance.playerAssignments)
-            {
-                if (assignment.playerTag == playerTag && assignment.isAssigned)
-                {
-                    return assignment;
-                }
-            }
-            return null;
-        }
+
     }
 }

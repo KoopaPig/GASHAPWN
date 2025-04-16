@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.AppUI.UI;
@@ -51,6 +52,56 @@ namespace GASHAPWN.Audio {
                 }
             };
         }
+
+        // Given AudioClip callback, return a AudioClip at given index
+        public void GetAudioClipAtIndex(int index, System.Action<AudioClip> callback)
+        {
+            if (index < 0 || index >= addressableKeys.Count)
+            {
+                Debug.LogWarning($"Invalid index {index} for SFXGroup '{groupTag}'.");
+                callback?.Invoke(null);
+                return;
+            }
+
+            string selectedKey = addressableKeys[index];
+
+            Addressables.LoadAssetAsync<AudioClip>(selectedKey).Completed += handle =>
+            {
+                if (handle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    callback?.Invoke(handle.Result);
+                }
+                else
+                {
+                    Debug.LogError($"Failed to load AudioClip with key: {selectedKey}");
+                    callback?.Invoke(null);
+                }
+            };
+        }
+
+        public int Size() { return addressableKeys.Count; }
+    }
+
+
+    /// <summary>
+    /// SFXGroup_DynamicTriad is a specialized offshoot of SFXGroup
+    /// Consists of 3 sounds, a "start", "hold", and "finish" sound
+    /// Note: PlayerSFXProfile holds data for functionality of DynamicTriad
+    /// </summary>
+    [System.Serializable]
+    public class  SFXGroup_DynamicTriad : SFXGroup
+    {
+        public enum TriadState { NONE, START, HOLD, FINISH }
+
+        public void SetTriadState(TriadState state) { _currState = state; }
+
+        public TriadState GetTriadState() { return _currState; }
+
+        private void OnValidate() { Debug.LogAssertion(addressableKeys.Count == 3); }
+
+        private SFXGroup_DynamicTriad() { _currState = TriadState.NONE; }
+
+        private TriadState _currState;
     }
 
     public class AudioManager : MonoBehaviour
@@ -95,59 +146,69 @@ namespace GASHAPWN.Audio {
             }
         }
 
+        private void OnDisable()
+        {
+            // unsub from GameManager stuff here
+        }
+
         /// <summary>
-        /// Plays sound given key, pitch, and transform
+        /// Plays sound given key, pitch, and loop
+        /// </summary>
+        /// <param name="addressableKey"></param>
+        /// <param name="pitch"></param>
+        /// <param name="loop"></param>
+        public AudioSource PlaySound(string addressableKey, float pitch = 1.0f)
+        {
+            var audioSource = AudioSourcePool.Instance.GetAudioSource().GetComponent<AudioSource>();
+            audioSource.transform.position = transform.position;
+            audioSource.outputAudioMixerGroup = SFXMixer;
+            audioSource.transform.position = transform.position;
+            audioSource.pitch = pitch;
+
+            Addressables.LoadAssetAsync<AudioClip>(addressableKey).Completed += handle =>
+            {
+                if (handle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    audioSource.clip = handle.Result;
+                    audioSource.Play();
+                    StartCoroutine(AudioSourcePool.Instance.ReturnToPool(audioSource));
+                    Addressables.Release(handle.Result);
+                }
+            };
+            return audioSource;
+        }
+
+        /// <summary>
+        /// Plays sound given key, transform, pitch, and loop
         /// </summary>
         /// <param name="addressableKey"></param>
         /// <param name="transform"></param>
         /// <param name="pitch"></param>
-        public void PlaySound(string addressableKey, Transform transform, float pitch = 1.0f)
+        /// <param name="loop"></param>
+        public AudioSource PlaySound(string addressableKey, Transform transform, float pitch = 1.0f, bool loop = false)
         {
+            var audioSource = AudioSourcePool.Instance.GetAudioSource().GetComponent<AudioSource>();
+            audioSource.transform.position = transform.position;
+            audioSource.outputAudioMixerGroup = SFXMixer;
+            audioSource.transform.position = transform.position;
+            audioSource.loop = loop;
+            audioSource.pitch = pitch;
+
             Addressables.LoadAssetAsync<AudioClip>(addressableKey).Completed += handle =>
             {
                 if (handle.Status == AsyncOperationStatus.Succeeded)
                 {
-                    // Create a new game object to play the audio clip, and position it at the game object's location
-                    var audioObj = AudioSourcePool.Instance.GetAudioSource();
-                    audioObj.transform.position = transform.position;
-                    var audioSource = audioObj.GetComponent<AudioSource>();
-                    audioSource.outputAudioMixerGroup = SFXMixer; // set audio mixer
-                    audioSource.clip = handle.Result; // Play the audio clip
-                    audioSource.pitch = pitch; // Apply pitch variation (none by default)
+                    audioSource.clip = handle.Result;
                     audioSource.Play();
-                    // Return audio source to pool when done playing
-                    StartCoroutine(AudioSourcePool.Instance.ReturnToPool(audioSource));
-                    // Release memory after playing
-                    Addressables.Release(handle.Result);
 
+                    if (!loop)
+                    {
+                        StartCoroutine(AudioSourcePool.Instance.ReturnToPool(audioSource));
+                        Addressables.Release(handle.Result);
+                    }
                 }
             };
-        }
-
-        /// <summary>
-        /// Plays sound given key and pitch
-        /// </summary>
-        /// <param name="addressableKey"></param>
-        /// <param name="pitch"></param>
-        public void PlaySound(string addressableKey, float pitch = 1.0f) {
-            Addressables.LoadAssetAsync<AudioClip>(addressableKey).Completed += handle =>
-            {
-                if (handle.Status == AsyncOperationStatus.Succeeded)
-                {
-                    // Create a new game object to play the audio clip, and position it at the game object's location
-                    var audioObj = AudioSourcePool.Instance.GetAudioSource();
-                    audioObj.transform.position = this.transform.position;
-                    var audioSource = audioObj.GetComponent<AudioSource>();
-                    audioSource.outputAudioMixerGroup = SFXMixer; // set audio mixer
-                    audioSource.clip = handle.Result; // Play the audio clip
-                    audioSource.pitch = pitch; // Apply pitch variation (none by default)
-                    audioSource.Play();
-                    // Return audio source to pool when done playing
-                    StartCoroutine(AudioSourcePool.Instance.ReturnToPool(audioSource));
-                    // Release memory after playing
-                    Addressables.Release(handle.Result);
-                }
-            };
+            return audioSource;
         }
 
         /// <summary>
@@ -195,18 +256,63 @@ namespace GASHAPWN.Audio {
             });
         }
 
-
-        // TODO: Function to play SFXGroup in order with looping, for charge roll
-        // This might need to be interfaced more directly with the charge roll, because it requires a conditional
-        public void PlaySoundDynamicTriad(SFXGroup sfxGroup, Transform transform)
+        /// <summary>
+        /// Plays sound from SFXGroup given index
+        /// </summary>
+        /// <param name="sfxGroup"></param>
+        /// <param name="transform"></param>
+        /// <param name="index"></param>
+        public void PlaySoundGivenIndex(SFXGroup sfxGroup, Transform transform, int index)
         {
+            sfxGroup.GetAudioClipAtIndex(index, clip =>
+            {
+                if (clip != null)
+                {
+                    var audioObj = AudioSourcePool.Instance.GetAudioSource();
+                    var audioSource = audioObj.GetComponent<AudioSource>();
+                    audioObj.transform.position = transform.position;
+                    audioSource.clip = clip;
+                    audioSource.Play();
 
+                    StartCoroutine(AudioSourcePool.Instance.ReturnToPool(audioSource));
+                    Addressables.Release(clip); // Release memory when done
+                }
+            });
         }
 
-        private void OnDisable()
+        /// <summary>
+        /// Given a Dynamic Triad, PlayerSFXProfile, and TriadState, set states and handle sounds
+        /// </summary>
+        /// <param name="dynTriad"></param>
+        /// <param name="profile"></param>
+        /// <param name="state">Current state of the DynamicTriad</param>
+        public void HandleSoundDynamicTriad(SFXGroup_DynamicTriad dynTriad, PlayerSFXProfile profile, SFXGroup_DynamicTriad.TriadState state)
         {
-            // unsub from GameManager stuff here
+            profile.currChargeRollState = state;
+
+            // Stop previous sound if any
+            if (profile.currentChargeRollSource != null)
+            {
+                profile.currentChargeRollSource.Stop();
+                AudioSourcePool.Instance.ReturnToPool(profile.currentChargeRollSource);
+                profile.currentChargeRollSource = null;
+            }
+
+            switch (state)
+            {
+                case SFXGroup_DynamicTriad.TriadState.START:
+                    profile.currentChargeRollSource = PlaySound(dynTriad.addressableKeys[0], profile.playerObject.transform);
+                    break;
+                case SFXGroup_DynamicTriad.TriadState.HOLD:
+                    profile.currentChargeRollSource = PlaySound(dynTriad.addressableKeys[1], profile.playerObject.transform, loop: true);
+                    break;
+                case SFXGroup_DynamicTriad.TriadState.FINISH:
+                    profile.currentChargeRollSource = PlaySound(dynTriad.addressableKeys[2], profile.playerObject.transform);
+                    break;
+            }
         }
+
+
     }
 }
 

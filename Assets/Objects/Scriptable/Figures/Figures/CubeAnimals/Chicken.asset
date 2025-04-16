@@ -16,5 +16,5 @@ MonoBehaviour:
   Description: We'll never find out why he crossed the road.
   Icon: {fileID: 21300000, guid: 5fdae035965d548bca93e27eee95e65c, type: 3}
   Rarity: 0.25
-  capsuleModelPrefab: {fileID: 5684889779482858520, guid: cc470b54087fd0841af6519797b04319, type: 3}
-  collectionModelPrefab: {fileID: 5684889779482858520, guid: a0f5ed2a36ed55a45ba886d6e0df963c, type: 3}
+  capsuleModelPrefab: {fileID: 6029471787997806282, guid: cc470b54087fd0841af6519797b04319, type: 3}
+  collectionModelPrefab: {fileID: 3461969467578086523, guid: a0f5ed2a36ed55a45ba886d6e0df963c, type: 3}

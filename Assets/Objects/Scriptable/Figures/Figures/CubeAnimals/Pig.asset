@@ -16,5 +16,5 @@ MonoBehaviour:
   Description: This is the smart one that built the brick house.
   Icon: {fileID: 21300000, guid: 96889ae3d166d4c8ba91f10537d914aa, type: 3}
   Rarity: 0.15
-  capsuleModelPrefab: {fileID: 3917653514081341178, guid: 12fa38096c041a446a122f858152b05f, type: 3}
-  collectionModelPrefab: {fileID: 3917653514081341178, guid: be1048efcd127514ca0f31591ddf3976, type: 3}
+  capsuleModelPrefab: {fileID: 6272816368262078259, guid: 12fa38096c041a446a122f858152b05f, type: 3}
+  collectionModelPrefab: {fileID: 8694126569872711686, guid: 108c7813024cebe4cbde507b43aa2a04, type: 3}
