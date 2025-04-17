@@ -31,7 +31,7 @@ namespace GASHAPWN.UI {
 
 
         // Get reference to buttons that open and close submenus
-        public GameObject controlsFirstButton, controlsClosedButton, optionsFirstButton, optionsClosedButton, creditsFirstButton, creditsClosedButton;
+        public GameObject controlsFirstButton, controlsClosedButton, optionsFirstButton, optionsClosedButton, creditsFirstObject, creditsClosedButton;
 
         //public GameObject optionsFirstButton, optionsClosedButton;
         Animator animator;
@@ -131,7 +131,7 @@ namespace GASHAPWN.UI {
                 // clear selected object
                 EventSystem.current.SetSelectedGameObject(null);
                 // set new selected object
-                //EventSystem.current.SetSelectedGameObject(creditsFirstButton);
+                EventSystem.current.SetSelectedGameObject(creditsFirstObject);
             }
         }
         public void CloseCredits()
@@ -143,8 +143,7 @@ namespace GASHAPWN.UI {
                 // clear selected object
                 EventSystem.current.SetSelectedGameObject(null);
                 // set new selected object in one frame
-                EventSystem.current.SetSelectedGameObject(creditsFirstButton);
-                
+                EventSystem.current.SetSelectedGameObject(creditsClosedButton);
             }
         }
 
