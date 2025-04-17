@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 using UnityEngine.UI;
 
 namespace GASHAPWN.UI {
@@ -10,20 +13,24 @@ namespace GASHAPWN.UI {
         [SerializeField] private ControlScheme controlScheme;
         [SerializeField] public bool automaticUpdate = true;
 
-        public void ManualSetControlScheme(ControlScheme cs) {
-            if (!automaticUpdate) { 
+        public void ManualSetControlScheme(ControlScheme cs)
+        {
+            if (!automaticUpdate)
+            {
                 controlScheme = cs;
                 UpdateControlScheme();
             }
             else Debug.Log($"{this.name}.IconPicker is set to automaticUpdate, cannot manually set.");
         }
 
-        void Update()
+        private void Update()
         {
-            // Update buttons automatically according to control scheme
-            if (automaticUpdate)
+            if (!automaticUpdate) return;
+
+            var detectScheme = ControllerManager.Instance.GetPlayerControlScheme("Player1");
+            if (detectScheme != controlScheme)
             {
-                controlScheme = ControllerManager.Instance.GetPlayerControlScheme("Player1");
+                controlScheme = detectScheme;
                 UpdateControlScheme();
             }
         }
@@ -47,6 +54,5 @@ namespace GASHAPWN.UI {
                     break;
             }
         }
-
     }
 }

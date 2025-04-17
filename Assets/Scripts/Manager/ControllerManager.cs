@@ -363,7 +363,7 @@ namespace GASHAPWN
             return false;
         }
 
-        public GASHAPWN.UI.ControlScheme GetPlayerControlScheme(string playerTag)
+        public GASHAPWN.UI.ControlScheme GetPlayerControlScheme(string playerTag, System.Action onFallback = null)
         {
             foreach (var assignment in playerAssignments)
             {
@@ -379,6 +379,7 @@ namespace GASHAPWN
                     }
                 }
             }
+            onFallback?.Invoke(); // Invoke fallback action if default condition is reached
             return GASHAPWN.UI.ControlScheme.KEYBOARD; // Default
         }
 
