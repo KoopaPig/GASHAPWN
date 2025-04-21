@@ -291,39 +291,39 @@ namespace GASHAPWN {
             // Handle continuous rotation input
             if (currentRotationInput != 0 && currentNode != null)
             {
-                currentNode.RotateFigure(currentRotationInput * rotationSpeed * Time.deltaTime);
+                currentNode.RotateFigure(currentRotationInput * rotationSpeed * UnityEngine.Time.deltaTime);
             }
             
             // Direct keyboard navigation - this is a fallback if the input system doesn't work
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            if (UnityEngine.Input.GetKeyDown(KeyCode.A) || UnityEngine.Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 NavigatePrevious();
             }
-            else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            else if (UnityEngine.Input.GetKeyDown(KeyCode.D) || UnityEngine.Input.GetKeyDown(KeyCode.RightArrow))
             {
                 NavigateNext();
             }
             
             // Direct rotation controls - fallback if input system doesn't work
-            if (Input.GetKey(KeyCode.Q))
+            if (UnityEngine.Input.GetKey(KeyCode.Q))
             {
                 RotateFigure(-1);
             }
-            else if (Input.GetKey(KeyCode.E))
+            else if (UnityEngine.Input.GetKey(KeyCode.E))
             {
                 RotateFigure(1);
             }
 
             // Test navigation with number keys - for testing
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1))
             {
                 ForceJumpToNode(0);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            else if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha2))
             {
                 ForceJumpToNode(1);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            else if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha3))
             {
                 ForceJumpToNode(2);
             }
