@@ -49,6 +49,7 @@ public class PlayerData : MonoBehaviour
     public UnityEvent OnDefenseDeactivated = new UnityEvent();
     public UnityEvent OnAttackBonusActivated = new UnityEvent();
     public UnityEvent OnAttackBonusDeactivated = new UnityEvent();
+    public UnityEvent<bool> OnChargeRoll = new UnityEvent<bool>();
 
     [Header("Player State Flags")]
     public bool isGrounded = false;
@@ -102,6 +103,9 @@ public class PlayerData : MonoBehaviour
     private Renderer[] playerRenderers;
     private Color[] originalColors;
 
+    private ParticleEffects particleEffects;
+
+
     private void Start()
     {
         currentHealth = maxHealth;
@@ -147,6 +151,11 @@ public class PlayerData : MonoBehaviour
                 Debug.LogWarning($"Renderer {i} has no shared material!");
                 originalColors[i] = Color.white;
             }
+        }
+
+        particleEffects = GetComponent<ParticleEffects>();
+        if (particleEffects == null) {
+            Debug.LogWarning("ParticleEffects component not found on " + gameObject.name);
         }
     }
 
@@ -198,6 +207,7 @@ public class PlayerData : MonoBehaviour
                     if (isDeflecting)
                     {
                         ApplyKnockback(otherRb, deflectKnockbackMultiplier);
+                        particleEffects?.PlayDeflectEffect(contactPoint);
                         Debug.Log("Deflect! Knockback applied.");
                     }
                     else
@@ -205,6 +215,7 @@ public class PlayerData : MonoBehaviour
                         // Determine damage amount based on move type
                         int damageAmount = CalculateDamageAmount(otherPlayerData);
                         TakeDamage(damageAmount);
+                        particleEffects?.PlayHitEffect(contactPoint);
                         Debug.Log("Hit! Damage taken: " + damageAmount);
                     }
                 }

@@ -65,6 +65,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3377a84ecbc6dfb4d86a1c3e9ffcb2d7
+    m_Address: SFX_Charge_Roll_End
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 33c3ba37ec746974aa31e10b994e3872
     m_Address: SFX_Damage_Metal_18
     m_ReadOnly: 0
@@ -185,6 +190,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 70bc3d9038b90e541a8b0a5921774440
+    m_Address: SFX_Charge_Roll_Begin
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7360ab24142a51b48a5951c3008871a7
     m_Address: SFX_Firework_Sparkle_2
     m_ReadOnly: 0
@@ -235,8 +245,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9415b863f677d1345a073063b9092271
-    m_Address: SFX_Charge_Roll_End
+  - m_GUID: 93778dd2c73661248bf4db7cab1c06cb
+    m_Address: SFX_Charge_Roll_Rep_Long
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -306,7 +316,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cfb4dbd05fe109545b7f0e71657d2090
-    m_Address: SFX_Basketbaall_1
+    m_Address: SFX_Basketball_1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -322,11 +332,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d989959e808b0304aa03e56cd43308ba
     m_Address: SFX_Guard_2
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e573eb04a65e9c84b98832809561d090
-    m_Address: SFX_Charge_Roll_Begin
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

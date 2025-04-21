@@ -12,10 +12,21 @@ public class TrajectoryIndicator : MonoBehaviour
     public PlayerData playerData;
     public LineRenderer trajectoryLineRenderer;
 
+    [Header("Slam Target")]
+    public GameObject slamTargetPrefab;
+    private GameObject slamTargetInstance;
+    private bool wasGroundedLastFrame = true;
+
     private void Start()
     {
         trajectoryLineRenderer.positionCount = numPoints;
         trajectoryLineRenderer.enabled = false;
+        // Instantiate the slam target once, keep it disabled until needed
+        if (slamTargetPrefab != null)
+        {
+            slamTargetInstance = Instantiate(slamTargetPrefab);
+            slamTargetInstance.SetActive(false);
+        }
     }
 
     private void Update()
@@ -25,11 +36,25 @@ public class TrajectoryIndicator : MonoBehaviour
         {
             trajectoryLineRenderer.enabled = true;
             RenderTrajectory();
+
+            // Enable and position slam target
+            if (slamTargetInstance != null)
+            {
+                slamTargetInstance.SetActive(true);
+                Vector3 groundPos = GetGroundPositionBelowPlayer();
+                slamTargetInstance.transform.position = groundPos + Vector3.up * 0.01f; // Slight offset to avoid z-fighting
+            }
         }
         else
         {
             trajectoryLineRenderer.enabled = false;
+            // Hide slam target when player lands
+            if (slamTargetInstance != null && !wasGroundedLastFrame)
+            {
+                slamTargetInstance.SetActive(false);
+            }
         }
+        wasGroundedLastFrame = playerData.isGrounded;
     }
 
     private void RenderTrajectory()
@@ -69,5 +94,14 @@ public class TrajectoryIndicator : MonoBehaviour
         }
 
         trajectoryLineRenderer.SetPositions(points);
+    }
+
+    private Vector3 GetGroundPositionBelowPlayer()
+    {
+        if (Physics.Raycast(playerRb.position, Vector3.down, out RaycastHit hit, 10f, collisionLayers))
+        {
+            return hit.point;
+        }
+        return playerRb.position;
     }
 }
