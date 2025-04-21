@@ -21,7 +21,7 @@ namespace GASHAPWN.UI {
             if (currentSelected != lastSelected && currentSelected != null)
             {
                 // Ignore automatic selections triggered by menu opening
-                if (!Input.anyKeyDown && !Input.GetMouseButtonDown(0))
+                if (!UnityEngine.Input.anyKeyDown && !UnityEngine.Input.GetMouseButtonDown(0))
                 {
                     lastSelected = currentSelected;
                     return;
