@@ -87,15 +87,15 @@ namespace GASHAPWN.UI {
             // Subscribe to OnWinningFigure and OnLosingFigure Events from BattleManager
             if (BattleManager.Instance != null)
             {
-                BattleManager.Instance.OnWinningFigure.AddListener(PopulateResults);
+                BattleManager.Instance.OnWinner.AddListener(PopulateResults);
             }
         }
 
         // PopulateResults called when OnWinningFigure event triggered
 
-        private void PopulateResults(string s, Figure f) {
-            foreach (var (player, isWinner) in BattleManager.Instance.pendingPlayerResults) {
-                PopulateResultsGivenPlayer(player, isWinner);
+        private void PopulateResults(GameObject player, string s, Figure f) {
+            foreach (var (p, isWinner) in BattleManager.Instance.pendingPlayerResults) {
+                PopulateResultsGivenPlayer(p, isWinner);
             }
             BattleManager.Instance.pendingPlayerResults.Clear();
             winnerCrownGUI.SetActive(true);
@@ -199,7 +199,7 @@ namespace GASHAPWN.UI {
         {
             if (BattleManager.Instance != null)
             {
-                BattleManager.Instance.OnWinningFigure.RemoveListener(PopulateResults);
+                BattleManager.Instance.OnWinner.RemoveListener(PopulateResults);
             }
         }
     }

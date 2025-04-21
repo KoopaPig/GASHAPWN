@@ -103,7 +103,7 @@ namespace GASHAPWN.UI
             if (BattleManager.Instance != null)
             {
                 BattleManager.Instance.ChangeToNewFigure.AddListener(OnNewFigureScreen);
-                BattleManager.Instance.OnWinningFigure.AddListener(SetWinningFigure);
+                BattleManager.Instance.OnWinner.AddListener(SetWinningFigure);
             }
         }
 
@@ -117,7 +117,7 @@ namespace GASHAPWN.UI
             if (BattleManager.Instance != null)
             {
                 BattleManager.Instance.ChangeToNewFigure.RemoveListener(OnNewFigureScreen);
-                BattleManager.Instance.OnWinningFigure.RemoveListener(SetWinningFigure);
+                BattleManager.Instance.OnWinner.RemoveListener(SetWinningFigure);
             }
         }
 
@@ -142,7 +142,8 @@ namespace GASHAPWN.UI
             starsGUI.SetStars(winningFigure);
 
             // need to make the model a child of Capsule
-            Instantiate(winningFigure.capsuleModelPrefab, figureModel.transform);
+            var obj = Instantiate(winningFigure.capsuleModelPrefab, figureModel.transform);
+            FigureResizeHelper.ResizeFigureObject(obj, figureModel.transform, 0.3f);
 
             GetComponent<Animator>().SetBool("isOverlaySlide", true);
 
@@ -171,7 +172,7 @@ namespace GASHAPWN.UI
             figureScreen_FG.GetComponentInParent<CanvasGroup>().interactable = true;
         }
 
-        private void SetWinningFigure(string tag, Figure figure)
+        private void SetWinningFigure(GameObject player, string tag, Figure figure)
         {
             winningPlayerTag = tag;
             winningFigure = figure;
