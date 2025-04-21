@@ -85,6 +85,25 @@ namespace GASHAPWN
 
             return figures[^1]; // fallback
         }
+
+        public Figure GetFigureByID(string ID)
+        {
+            Figure result = null;
+
+            List<Figure> figures = new List<Figure>(figureDatabase.figureDictionary.Values);
+            foreach(Figure figure in figures)
+            {
+                if (figure.GetID() == ID)
+                {
+                    result = figure;
+                    break;
+                }
+            }
+
+            if (result == null) Debug.LogError("Figure of ID " + ID + " was not found");
+
+            return result;
+        }
     }
 
 }
