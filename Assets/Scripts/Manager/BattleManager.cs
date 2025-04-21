@@ -95,7 +95,7 @@ namespace GASHAPWN
         // Triggers when players are spawned into the arena
         public UnityEvent<BattleState> OnPlayerSpawn = new();
 
-        public UnityEvent<string, Figure> OnWinningFigure = new();
+        public UnityEvent<GameObject, string, Figure> OnWinner = new();
 
         public UnityEvent<string, Figure> OnLosingFigure = new();
 
@@ -339,7 +339,7 @@ namespace GASHAPWN
                 // Store results for winning player
                 pendingPlayerResults.Add((activePlayers[0], isWinner));
                 // OnWinningFigure called here
-                OnWinningFigure.Invoke(activePlayers[0].tag, 
+                OnWinner.Invoke(activePlayers[0], activePlayers[0].tag, 
                     activePlayers[0].GetComponent<PlayerAttachedFigure>().GetAttachedFigure());
                 activePlayers.Clear();
             } else {
@@ -431,7 +431,11 @@ namespace GASHAPWN
         //    }
         //}
 
-
+        public List<GameObject> GetActivePlayers()
+        {
+            if (activePlayers.Count > 0) { return activePlayers; }
+            else return null;
+        }
     }
 
     public enum BattleState

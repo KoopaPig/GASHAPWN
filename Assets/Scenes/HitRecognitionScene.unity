@@ -119,6 +119,31 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &310566251 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2356486932853013218, guid: e8c6ce60769ca2a45955e3aebecbeafe, type: 3}
+  m_PrefabInstance: {fileID: 1079584397}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &310566263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310566251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 499cc04adcc9d4844ad1ef670dc90782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitEffectPrefab: {fileID: 4052448785602859403, guid: 3d1d25e4c57e6ab40b7a474eea79caf3, type: 3}
+  deflectEffectPrefab: {fileID: 4955433676730161948, guid: 0d7aea3adba095549a83f25d46adeaa5, type: 3}
+  sparksPrefab: {fileID: 9014918171341996205, guid: 5fb8b374abdcef04bacc054baa08b4fc, type: 3}
+  dustImpactPrefab: {fileID: 5506443321757553034, guid: b1eaab9f5a521fd408ddb0b6ba36e95c, type: 3}
+  dustTrail: {fileID: 6864236075366678365, guid: e7ed7814b399d1f478a436a27e0dbc4f, type: 3}
+  sparkThreshold: 8
+  dustThreshold: 6
+  trailSpeedThreshold: 10
 --- !u!1001 &338262481
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -174,8 +199,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8652500208214954744, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 510443622}
   m_SourcePrefab: {fileID: 100100000, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+--- !u!1 &510443610 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8652500208214954744, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+  m_PrefabInstance: {fileID: 338262481}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &510443622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510443610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 499cc04adcc9d4844ad1ef670dc90782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitEffectPrefab: {fileID: 4052448785602859403, guid: 3d1d25e4c57e6ab40b7a474eea79caf3, type: 3}
+  deflectEffectPrefab: {fileID: 4955433676730161948, guid: 0d7aea3adba095549a83f25d46adeaa5, type: 3}
+  sparksPrefab: {fileID: 9014918171341996205, guid: 5fb8b374abdcef04bacc054baa08b4fc, type: 3}
+  dustImpactPrefab: {fileID: 5506443321757553034, guid: b1eaab9f5a521fd408ddb0b6ba36e95c, type: 3}
+  dustTrail: {fileID: 6864236075366678365, guid: e7ed7814b399d1f478a436a27e0dbc4f, type: 3}
+  sparkThreshold: 8
+  dustThreshold: 6
+  trailSpeedThreshold: 10
 --- !u!1001 &1079584397
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -231,7 +284,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2356486932853013218, guid: e8c6ce60769ca2a45955e3aebecbeafe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 310566263}
   m_SourcePrefab: {fileID: 100100000, guid: e8c6ce60769ca2a45955e3aebecbeafe, type: 3}
 --- !u!1 &1355620041
 GameObject:
@@ -336,7 +392,7 @@ Transform:
   m_GameObject: {fileID: 1355620041}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.22, y: 0.25, z: 2.02}
+  m_LocalPosition: {x: -7.18, y: 0.25, z: 2.02}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -474,6 +530,7 @@ GameObject:
   - component: {fileID: 1768113498}
   - component: {fileID: 1768113497}
   - component: {fileID: 1768113496}
+  - component: {fileID: 1768113499}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -498,7 +555,7 @@ Camera:
   m_GameObject: {fileID: 1768113495}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 4
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -523,7 +580,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -555,6 +612,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1768113499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768113495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 1
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
