@@ -2904,6 +2904,7 @@ GameObject:
   - component: {fileID: 3330604444739402454}
   - component: {fileID: 3209116838436589590}
   - component: {fileID: 293249943837339810}
+  - component: {fileID: 6276305834711337140}
   m_Layer: 0
   m_Name: GlassCasingBack
   m_TagString: Untagged
@@ -3001,6 +3002,21 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5315805087417359997, guid: 25e2cca6d0005b64aa1dffa14bf254d8, type: 3}
+--- !u!114 &6276305834711337140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6027027981649142988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c965bd786450c854db97682a25e77823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeType: 2
+  customFade: 0
+  fadeTo: 0
 --- !u!1 &6148145872545436056
 GameObject:
   m_ObjectHideFlags: 0
@@ -3466,6 +3482,7 @@ GameObject:
   - component: {fileID: 733934204210365160}
   - component: {fileID: 1765508664037437645}
   - component: {fileID: 6502963673162960520}
+  - component: {fileID: 839870218178913066}
   m_Layer: 0
   m_Name: GlassCasingFront
   m_TagString: Untagged
@@ -3563,6 +3580,21 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6305020580036467330, guid: 25e2cca6d0005b64aa1dffa14bf254d8, type: 3}
+--- !u!114 &839870218178913066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6731792555128080367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c965bd786450c854db97682a25e77823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeType: 2
+  customFade: 0
+  fadeTo: 0
 --- !u!1 &6732576942627037964
 GameObject:
   m_ObjectHideFlags: 0
@@ -4752,6 +4784,8 @@ GameObject:
   - component: {fileID: 2308093445539268125}
   - component: {fileID: 6965830107248068903}
   - component: {fileID: 1392935319746860536}
+  - component: {fileID: 5319025225080027981}
+  - component: {fileID: 4470486715726351560}
   m_Layer: 0
   m_Name: Roof
   m_TagString: Untagged
@@ -4849,6 +4883,43 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5319025225080027981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9193401164422077531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c965bd786450c854db97682a25e77823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeType: 2
+  customFade: 0
+  fadeTo: 0
+--- !u!64 &4470486715726351560
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9193401164422077531}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3562073674547505438, guid: 25e2cca6d0005b64aa1dffa14bf254d8, type: 3}
 --- !u!1001 &3753665804695785579
 PrefabInstance:
   m_ObjectHideFlags: 0
