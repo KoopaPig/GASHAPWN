@@ -2877,7 +2877,7 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 0}
+    TrackingTarget: {fileID: 123580188}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
@@ -2909,7 +2909,7 @@ Transform:
   m_GameObject: {fileID: 182959286}
   serializedVersion: 2
   m_LocalRotation: {x: 0.350616, y: 0, z: 0, w: 0.9365193}
-  m_LocalPosition: {x: -3.8050003, y: 240.7656, z: -16.374636}
+  m_LocalPosition: {x: -1.8050003, y: 240.7656, z: -16.374636}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2939,7 +2939,7 @@ MonoBehaviour:
       Size: {x: 0.8, y: 0.8}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 0, y: -5, z: 0}
+  TargetOffset: {x: 2, y: -5, z: 0}
   Damping: {x: 1, y: 1, z: 1}
   Lookahead:
     Enabled: 0
@@ -21138,10 +21138,6 @@ PrefabInstance:
     - target: {fileID: 7810409205633532874, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
-      propertyPath: isCountDownOn
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8012452833802943089, guid: c9ca9cd185098884a8f315a9d1e71396, type: 3}
       propertyPath: player1CapsPos
