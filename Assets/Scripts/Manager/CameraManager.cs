@@ -2,24 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Splines;
 
 namespace GASHAPWN
 {
     // TODO: Move this back to a general manager position
     public class CameraManager : MonoBehaviour
     {
-        [Header("Positions")]
-        public Transform pathStart;
-        public Transform pathEnd;
-        public Transform machineCapsuleSpawnPos;
+        [Header("Cameras")]
+        private bool isMoving = false;
+        private CinemachineGroupFraming framing;
+        private SplineAnimate dolly;
 
-        //public bool PathingEnabled;
+        [SerializeField] private CinemachineCamera introCam;
+        [SerializeField] private CinemachineCamera battleCam;
+        [SerializeField] private CinemachineCamera winCam;
+        [SerializeField] private CinemachineCamera machineCam; // within GashaMachine
 
         [Header("Player Capsule Prefabs")]
         public GameObject Player1Capsule;
         public GameObject Player2Capsule;
 
-        public float pathDuration = 5f;
+        [Header("Positions")]
+        public Transform machineCapsuleSpawnPos;
 
         private Figure WinningFigure;
         private string WinningFigureTag;
@@ -27,26 +32,15 @@ namespace GASHAPWN
         private float pathTimer = 0f;
         private Coroutine waitCamCoroutine;
 
-        [Header("Cameras")]
-        private bool isMoving = false;
-        private CinemachineGroupFraming framing;
-
-        [SerializeField] private CinemachineCamera introCam;
-        [SerializeField] private CinemachineCamera battleCam;
-        [SerializeField] private CinemachineCamera winCam;
-        [SerializeField] private CinemachineCamera machineCam;
-        
-        // maybe a seperate intro cam
-
         // Store reference to activePlayers PlayerData Components for Camera Effects
         private List<PlayerData> subscribedPlayers = new();
 
         private void Awake()
         {
+            introCam.Priority = 10;
             battleCam.Priority = 5;
             winCam.Priority = 0;
             machineCam.Priority = 0;
-            //introCam.Priority = 0;
         }
 
         private void Start()
@@ -55,8 +49,13 @@ namespace GASHAPWN
             BattleManager.Instance.OnWinner.AddListener(SwitchToWinCam);
             BattleManager.Instance.ChangeToNewFigure.AddListener(SwitchToMachineCam);
             BattleManager.Instance.ChangeToBattle.AddListener(HandleChangeToBattle);
+
             framing = battleCam.GetComponent<CinemachineGroupFraming>();
             framing.Damping = 0f;
+
+            dolly = introCam.GetComponent<SplineAnimate>();
+            dolly.Duration = BattleManager.Instance.countDownTime;
+
             foreach (var player in BattleManager.Instance.GetActivePlayers())
             {
                 var playerData = player.GetComponent<PlayerData>();
@@ -67,7 +66,8 @@ namespace GASHAPWN
 
         public void StartPath(BattleState state)
         {
-            isMoving = true;
+            introCam.Priority = 30;
+            dolly.Play();
         }
 
         public void SwitchToWinCam(GameObject player, string tag, Figure figure)
@@ -91,8 +91,6 @@ namespace GASHAPWN
             GameObject SpawnedCapsule = Instantiate(PlayerCapsule, machineCapsuleSpawnPos);
             SpawnedCapsule.GetComponent<PlayerAttachedFigure>().SetFigureInCapsule(WinningFigure, 2.5f);
 
-            // Turn on main camera
-            battleCam.enabled = true;
         }
 
         // Coroutine to control camera effect when OnDamage event is called
@@ -133,43 +131,6 @@ namespace GASHAPWN
             }
         }
 
-        private float TimeFunc(float time)
-        {
-            if (time < 0.75f)
-            {
-                time += 0.3f * Time.deltaTime;
-            }
-            else time += 0.1f * Time.deltaTime;
-            return time;
-        }
-
-        // TODO: Get the move to position working
-
-        //void Update()
-        //{
-        //    if (isMoving)
-        //    {
-        //        pathTimer += Time.deltaTime;
-        //        float t = Mathf.Clamp01(pathTimer / pathDuration);
-
-        //        Vector3 newPos = Vector3.Lerp(pathStart.position, pathEnd.position, t);
-
-        //        if (t >= 1f)
-        //            isMoving = false;
-        //    }
-        //}
-
-        //private void Update()
-        //{
-        //    if (PathingEnabled && BattleManager.Instance.countDownTime > 0)
-        //    {
-        //        Maincam.transform.position = Vector3.Lerp(StartingPosition.position, EndingPosition.position, time);
-        //        Maincam.transform.rotation = Quaternion.Lerp(StartingPosition.rotation, EndingPosition.rotation, time);
-        //        time = TimeFunc(time);
-        //    }
-        //    else PathingEnabled = false;
-        //}
-
         private IEnumerator WaitToSwitchCamera(Transform transform, string tag, Figure figure, float waitDuration)
         {
             yield return new WaitForSeconds(waitDuration);
@@ -178,12 +139,13 @@ namespace GASHAPWN
 
             // Set winCam to proper transfrom and set active
             winCam.Follow = transform;
-            winCam.LookAt = transform;
+            //winCam.LookAt = transform;
             winCam.Priority = 30;
         }
 
         private void HandleChangeToBattle(BattleState state)
         {
+            if (!dolly.IsPlaying) { introCam.Priority = 0; }
             if (framing != null) framing.Damping = 2f;
         }
 
