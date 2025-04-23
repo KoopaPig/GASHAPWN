@@ -16,7 +16,7 @@ MonoBehaviour:
   m_GUID: d76a7031e2703437f83277e275736825
   m_SerializeEntries:
   - m_GUID: 3b1475246f3c8ad4ba47477ac2054a3b
-    m_Address: MUSIC_Cool_Attitude_Loop_TEMP
+    m_Address: MUSIC_Cool_Attitude_Loop
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -30,8 +30,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b49e0ca2f9ad3194ea0db2bf9492abc0
+    m_Address: MUSIC_Battle_3Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c84c818b44661c043bec9b7a517d12de
-    m_Address: MUSIC_Give_A_Hand_Loop_TEMP
+    m_Address: MUSIC_Give_A_Hand_Loop
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

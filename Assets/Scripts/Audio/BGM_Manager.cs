@@ -113,7 +113,6 @@ namespace GASHAPWN.Audio {
             switch (state)
             {
                 case GameState.Battle:
-                    audioKey = battleMusicKey;
                     break;
                 case GameState.Title:
                     audioKey = menuMusicKey;
@@ -149,6 +148,7 @@ namespace GASHAPWN.Audio {
                         break;
                     case BattleState.CountDown:
                         // battle music should start playing during countdown
+                        audioKey = battleMusicKey;
                         break;
                     case BattleState.VictoryScreen:
                         StopCurrentMusic();
