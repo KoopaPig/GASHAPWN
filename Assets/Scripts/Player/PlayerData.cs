@@ -1,6 +1,6 @@
-using System;
-using System.Collections;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.Events;
 using GASHAPWN;
 
@@ -20,7 +20,7 @@ public class PlayerData : MonoBehaviour
     public float invincibilityDuration = 1.0f; // Default 1 second of i-frames
     public float damageReduction = 0f; // Percentage of damage reduction (0-1)
     public float defenseDuration = 0f; // Duration of active defense state
-    private float defenseTimer = 0f; // Timer for tracking defense state
+    public float defenseTimer = 0f; // Timer for tracking defense state
 
     [Header("Attack Properties")]
     public float damageMultiplier = 1.0f; // For offensive moves
@@ -33,6 +33,24 @@ public class PlayerData : MonoBehaviour
     // Burst doesn't deal damage, only knockback
     public int quickBreakDamage = 1;
     public int normalCollisionDamage = 1;
+
+    [Header("Momentum-Based Damage System")]
+    [Tooltip("Minimum relative speed needed to consider damage")]
+    public float minDamageSpeed = 3f;
+    
+    [Tooltip("Maximum damage from a normal collision (non-ability)")]
+    public int maxMomentumDamage = 2;
+    
+    [Tooltip("Speed difference percentage threshold for deflection")]
+    [Range(0f, 1f)]
+    public float deflectionThreshold = 0.3f; // Increased to 30% for more common deflections
+    
+    [Tooltip("Coefficient used to convert speed difference to damage")]
+    public float speedToDamageCoefficient = 0.1f;
+    
+    [Header("Ability State Tracking")]
+    public bool isUsingOffensiveAbility = false;
+    public bool isUsingDefensiveAbility = false;
 
     [Header("Events")]
     public UnityEvent<int> OnDamage = new UnityEvent<int>();
@@ -105,7 +123,6 @@ public class PlayerData : MonoBehaviour
 
     private ParticleEffects particleEffects;
 
-
     private void Start()
     {
         currentHealth = maxHealth;
@@ -157,6 +174,9 @@ public class PlayerData : MonoBehaviour
         if (particleEffects == null) {
             Debug.LogWarning("ParticleEffects component not found on " + gameObject.name);
         }
+        
+        // Initialize ability flags
+        UpdateAbilityFlags();
     }
 
     private void Update()
@@ -170,6 +190,7 @@ public class PlayerData : MonoBehaviour
                 // Defense bonus expired
                 damageReduction = 0f;
                 OnDefenseDeactivated.Invoke();
+                isUsingDefensiveAbility = false;
             }
         }
 
@@ -184,6 +205,9 @@ public class PlayerData : MonoBehaviour
                 OnAttackBonusDeactivated.Invoke();
             }
         }
+        
+        // Continuously update ability flags
+        UpdateAbilityFlags();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -194,85 +218,232 @@ public class PlayerData : MonoBehaviour
             PlayerData otherPlayerData = collision.gameObject.GetComponent<PlayerData>();
             if (otherRb == null || otherPlayerData == null) return;
 
-            float relativeSpeed = (rb.linearVelocity - otherRb.linearVelocity).magnitude;
-
-            if (relativeSpeed >= minHitSpeed)
+            // Calculate relative velocity at point of impact
+            Vector3 relativeVelocity = rb.linearVelocity - otherRb.linearVelocity;
+            float relativeSpeed = relativeVelocity.magnitude;
+            
+            // Get contact point for visual effects
+            Vector3 contactPoint = collision.GetContact(0).point;
+            
+            // Log collision for debugging
+            Debug.Log($"Collision between {gameObject.name} (speed: {rb.linearVelocity.magnitude:F1}) and {collision.gameObject.name} (speed: {otherRb.linearVelocity.magnitude:F1}) - relative speed: {relativeSpeed:F1}");
+            
+            // Check if collision is fast enough to consider for damage
+            if (relativeSpeed >= minDamageSpeed)
             {
-                Vector3 contactPoint = collision.GetContact(0).point;
-                bool isMetalEnd = IsMetalEnd(contactPoint);
-                bool isDeflecting = IsDeflecting(collision.contacts[0].normal);
-
-                if (isMetalEnd)
+                // Handle ability interactions first
+                if (HandleAbilityInteractions(otherPlayerData, contactPoint, relativeVelocity))
                 {
-                    if (isDeflecting)
-                    {
-                        ApplyKnockback(otherRb, deflectKnockbackMultiplier);
-                        particleEffects?.PlayDeflectEffect(contactPoint);
-                        Debug.Log("Deflect! Knockback applied.");
-                    }
-                    else
-                    {
-                        // Determine damage amount based on move type
-                        int damageAmount = CalculateDamageAmount(otherPlayerData);
-                        TakeDamage(damageAmount);
-                        particleEffects?.PlayHitEffect(contactPoint);
-                        Debug.Log("Hit! Damage taken: " + damageAmount);
-                    }
+                    // If ability interaction was handled, exit
+                    return;
+                }
+                
+                // Check if either player is invincible or using defensive ability
+                if (isInvincible || otherPlayerData.isInvincible || 
+                    isUsingDefensiveAbility || otherPlayerData.isUsingDefensiveAbility)
+                {
+                    // No damage for protected players
+                    Debug.Log($"Player {(isInvincible || isUsingDefensiveAbility ? gameObject.name : otherPlayerData.gameObject.name)} is protected, no damage applied");
+                    return;
+                }
+                
+                // Calculate speeds for comparisons
+                float mySpeed = rb.linearVelocity.magnitude;
+                float otherSpeed = otherRb.linearVelocity.magnitude;
+                
+                // Check if either player is using an offensive ability
+                bool myOffensiveAbility = isUsingOffensiveAbility;
+                bool otherOffensiveAbility = otherPlayerData.isUsingOffensiveAbility;
+                
+                // Log abilities for debugging
+                if (myOffensiveAbility)
+                    Debug.Log($"{gameObject.name} is using offensive ability: HasCharged={hasCharged}, HasSlammed={hasSlammed}");
+                if (otherOffensiveAbility)
+                    Debug.Log($"{collision.gameObject.name} is using offensive ability: HasCharged={otherPlayerData.hasCharged}, HasSlammed={otherPlayerData.hasSlammed}");
+                
+                // If I'm using an offensive ability and the other player isn't
+                if (myOffensiveAbility && !otherOffensiveAbility)
+                {
+                    // Offensive ability always deals damage regardless of speed
+                    int damageAmount = GetOffensiveAbilityDamage();
+                    otherPlayerData.TakeDamage(damageAmount);
+                    particleEffects?.PlayHitEffect(contactPoint);
+                    Debug.Log($"Offensive ability hit! {gameObject.name} deals {damageAmount} damage to {collision.gameObject.name}");
+                    return;
+                }
+                // If other player is using an offensive ability and I'm not
+                else if (!myOffensiveAbility && otherOffensiveAbility)
+                {
+                    // Other player's offensive ability always deals damage regardless of speed
+                    int damageAmount = otherPlayerData.GetOffensiveAbilityDamage();
+                    TakeDamage(damageAmount);
+                    particleEffects?.PlayHitEffect(contactPoint);
+                    Debug.Log($"Offensive ability hit! {collision.gameObject.name} deals {damageAmount} damage to {gameObject.name}");
+                    return;
+                }
+                
+                // Calculate speed thresholds for deflection
+                // A player will deflect if their speed is within the threshold percentage of the other player
+                float myDeflectThreshold = otherSpeed * (1f + deflectionThreshold);
+                float otherDeflectThreshold = mySpeed * (1f + deflectionThreshold);
+                
+                // Determine if this is a deflection (speeds are similar)
+                bool isDeflection = mySpeed <= myDeflectThreshold && otherSpeed <= otherDeflectThreshold;
+                
+                Debug.Log($"Deflection check: My speed {mySpeed:F1} <= {myDeflectThreshold:F1}? {mySpeed <= myDeflectThreshold}");
+                Debug.Log($"Deflection check: Other speed {otherSpeed:F1} <= {otherDeflectThreshold:F1}? {otherSpeed <= otherDeflectThreshold}");
+                Debug.Log($"Is deflection? {isDeflection}");
+                
+                if (isDeflection)
+                {
+                    // Both players deflect
+                    ApplyDeflection(otherRb, contactPoint);
+                    particleEffects?.PlayDeflectEffect(contactPoint);
+                    Debug.Log("Deflection! Both players knocked back.");
                 }
                 else
                 {
-                    Debug.Log("No damage: Glass side hit or invalid contact.");
+                    // Determine which player has higher speed
+                    bool isFasterThanOpponent = mySpeed > otherSpeed;
+                    
+                    if (isFasterThanOpponent)
+                    {
+                        // I'm faster, I deal damage to the other player
+                        int damageAmount = CalculateMomentumDamage(mySpeed, otherSpeed);
+                        otherPlayerData.TakeDamage(damageAmount);
+                        particleEffects?.PlayHitEffect(contactPoint);
+                        Debug.Log($"Hit! {gameObject.name} deals {damageAmount} damage to {collision.gameObject.name}");
+                    }
+                    else
+                    {
+                        // Other player is faster, I take damage
+                        int damageAmount = CalculateMomentumDamage(otherSpeed, mySpeed);
+                        TakeDamage(damageAmount);
+                        particleEffects?.PlayHitEffect(contactPoint);
+                        Debug.Log($"Hit! {collision.gameObject.name} deals {damageAmount} damage to {gameObject.name}");
+                    }
                 }
             }
         }
     }
-
-    // Calculate damage based on the opponent's current move and damage multipliers
-    private int CalculateDamageAmount(PlayerData attacker)
-    {
-        int baseDamage = normalCollisionDamage;
         
-        if (attacker.hasSlammed)
+    // Get damage value for current offensive ability
+    private int GetOffensiveAbilityDamage()
+    {
+        if (hasCharged)
         {
-            baseDamage = attacker.slamDamage;
+            // Always ensure charge roll does at least 2 damage, but can do more with multiplier
+            return Mathf.Max(2, Mathf.RoundToInt(chargeRollDamage * damageMultiplier));
         }
-        else if (attacker.hasCharged)
+        else if (hasSlammed)
         {
-            baseDamage = attacker.chargeRollDamage;
+            // Use the enhanced slamDamage value
+            return Mathf.RoundToInt(slamDamage * damageMultiplier);
         }
-        // Burst doesn't deal damage, only knockback, so no case for isBursting
         
-        // Apply attacker's damage multiplier
-        float totalDamage = baseDamage * attacker.damageMultiplier;
+        // Default offensive ability damage
+        return Mathf.RoundToInt(normalCollisionDamage * damageMultiplier);
+    }
         
-        // Apply defender's damage reduction
-        totalDamage *= (1 - damageReduction);
+    // Calculate damage based on speed difference - modified to scale better with speed
+    private int CalculateMomentumDamage(float fasterSpeed, float slowerSpeed)
+    {
+        // Calculate speed difference as a percentage of the faster speed
+        float speedDifference = fasterSpeed - slowerSpeed;
         
-        return Mathf.Max(1, Mathf.RoundToInt(totalDamage)); // Minimum 1 damage
+        // More dramatic scaling with speed difference
+        float speedRatio = Mathf.Clamp01(speedDifference / fasterSpeed);
+        
+        // Map the speedRatio to damage, with clearer impact from higher speeds
+        // Scale damage exponentially based on speed ratio (more speed = significantly more damage)
+        float scaledRatio = Mathf.Pow(speedRatio, 0.75f); // Less severe scaling than square 
+        
+        // Convert to damage value (scaling up to maxMomentumDamage)
+        int baseDamage = Mathf.RoundToInt(scaledRatio * maxMomentumDamage);
+        
+        // Add a speed bonus for very high speeds (over 20)
+        float speedBonus = 0;
+        if (fasterSpeed > 20f)
+        {
+            speedBonus = Mathf.Floor((fasterSpeed - 20f) / 10f);
+        }
+        
+        // Combine base damage with speed bonus
+        int damage = Mathf.RoundToInt(baseDamage + speedBonus);
+        
+        // For normal collisions, ensure at least normalCollisionDamage
+        damage = Mathf.Max(damage, normalCollisionDamage);
+        
+        // Ensure minimum of 1 damage if any damage is to be dealt
+        return Mathf.Max(1, damage);
     }
-
-    private bool IsMetalEnd(Vector3 hitPoint)
+        
+    // Apply deflection physics
+    private void ApplyDeflection(Rigidbody otherRb, Vector3 contactPoint)
     {
-        return hitPoint.y < transform.position.y;
+        // Calculate direction away from contact point for each player
+        Vector3 myDeflectionDirection = (transform.position - contactPoint).normalized;
+        Vector3 otherDeflectionDirection = (otherRb.position - contactPoint).normalized;
+        
+        // Apply knockback force to both players
+        rb.AddForce(myDeflectionDirection * deflectKnockbackMultiplier * rb.linearVelocity.magnitude, ForceMode.Impulse);
+        otherRb.AddForce(otherDeflectionDirection * deflectKnockbackMultiplier * otherRb.linearVelocity.magnitude, ForceMode.Impulse);
     }
-
-    private bool IsDeflecting(Vector3 hitNormal)
+        
+    // Handle special ability interactions
+    private bool HandleAbilityInteractions(PlayerData otherPlayerData, Vector3 contactPoint, Vector3 relativeVelocity)
     {
-        return Vector3.Dot(hitNormal, transform.forward) > 0.5f;
+        // Handle defensive abilities first
+        if (isUsingDefensiveAbility || otherPlayerData.isUsingDefensiveAbility)
+        {
+            // Defensive abilities prevent damage
+            Debug.Log("Defensive ability active - no damage applied");
+            return true;
+        }
+        
+        // Handle offensive vs offensive ability clash
+        if (isUsingOffensiveAbility && otherPlayerData.isUsingOffensiveAbility)
+        {
+            // Both players using offensive abilities - cancel out and knock back
+            // Calculate increased knockback based on combined momentum
+            float knockbackForce = relativeVelocity.magnitude * 1.5f;
+            Vector3 myKnockbackDir = (transform.position - contactPoint).normalized;
+            Vector3 otherKnockbackDir = (otherPlayerData.transform.position - contactPoint).normalized;
+            
+            rb.AddForce(myKnockbackDir * knockbackForce, ForceMode.Impulse);
+            otherPlayerData.GetComponent<Rigidbody>().AddForce(otherKnockbackDir * knockbackForce, ForceMode.Impulse);
+            
+            particleEffects?.PlayDeflectEffect(contactPoint);
+            Debug.Log("Offensive abilities collided! Increased knockback applied.");
+            return true;
+        }
+        
+        // No special interaction
+        return false;
     }
-
-    private void ApplyKnockback(Rigidbody otherRb, float multiplier)
+        
+    // Update ability flags based on player state
+    public void UpdateAbilityFlags()
     {
-        Vector3 knockbackDirection = (otherRb.position - transform.position).normalized;
-        otherRb.AddForce(knockbackDirection * moveSpeed * multiplier, ForceMode.Impulse);
+        // Offensive abilities
+        isUsingOffensiveAbility = hasSlammed || hasCharged;
+        
+        // Defensive abilities (burst or high damage reduction from quick break)
+        isUsingDefensiveAbility = isBursting || (defenseTimer > 0f && damageReduction >= 0.9f);
     }
 
     public void TakeDamage(int damageAmt)
     {
-        if (isInvincible) 
+        if (isInvincible || isUsingDefensiveAbility) 
         {
-            Debug.Log(gameObject.name + " is invincible! No damage taken.");
+            Debug.Log(gameObject.name + " is protected! No damage taken.");
             return;
+        }
+
+        // Apply damage reduction if active
+        if (damageReduction > 0)
+        {
+            damageAmt = Mathf.Max(1, Mathf.RoundToInt(damageAmt * (1f - damageReduction)));
         }
 
         currentHealth -= damageAmt;
@@ -297,6 +468,10 @@ public class PlayerData : MonoBehaviour
         damageReduction = Mathf.Clamp01(reduction); // Clamp between 0-1
         defenseTimer = duration;
         OnDefenseActivated.Invoke();
+        
+        // Update ability flags immediately
+        UpdateAbilityFlags();
+        
         StartCoroutine(DefenseVisualEffect(duration));
     }
 
@@ -308,6 +483,10 @@ public class PlayerData : MonoBehaviour
         damageMultiplier = multiplier;
         attackBonusTimer = duration;
         OnAttackBonusActivated.Invoke();
+        
+        // Update ability flags immediately
+        UpdateAbilityFlags();
+        
         StartCoroutine(AttackVisualEffect(duration));
     }
 
@@ -317,12 +496,14 @@ public class PlayerData : MonoBehaviour
         Debug.Log($"Burst invincibility activated on {gameObject.name}");
         
         isBursting = true;
+        isInvincible = true;
+        UpdateAbilityFlags();
+        
         StartCoroutine(BurstInvincibility());
     }
 
     private IEnumerator BurstInvincibility()
     {
-        isInvincible = true;
         Debug.Log(gameObject.name + " entered Burst Invincibility!");
 
         // Store reference to the coroutine
@@ -332,6 +513,7 @@ public class PlayerData : MonoBehaviour
 
         isInvincible = false;
         isBursting = false;
+        UpdateAbilityFlags();
         Debug.Log(gameObject.name + " exited Burst Invincibility!");
 
         // Stop the visual effect if it's still running
@@ -476,13 +658,11 @@ public class PlayerData : MonoBehaviour
     // Helper method to reset all renderers to original colors
     private void ResetAllRenderersToOriginalColors()
     {
-        //Debug.Log($"Resetting all renderers to original colors on {gameObject.name}");
         for (int i = 0; i < playerRenderers.Length; i++)
         {
             if (playerRenderers[i] != null)
             {
                 playerRenderers[i].material.color = originalColors[i];
-                //Debug.Log($"Reset renderer {i} to color: {originalColors[i]}");
                 
                 // Force update material
                 Material currentMat = playerRenderers[i].material;

@@ -16,6 +16,10 @@ public class PlayerController : MonoBehaviour
     private ChargeRollIndicator chargeIndicator;
     private float chargeStartTime;
     private Quaternion chargeRotation;
+    
+    // Reference to the initial position for quick break defensive stance
+    private Vector3 quickBreakPosition;
+    private bool isInDefensiveStance = false;
 
     private void Awake()
     {
@@ -39,14 +43,33 @@ public class PlayerController : MonoBehaviour
 
     public void OnMovement(InputAction.CallbackContext context)
     {
-        if (playerData.isCharging) return;
+        // Always store the input value
         moveInput = context.ReadValue<Vector2>();
+        
+        // Check if player is in defensive stance and trying to move
+        if (isInDefensiveStance && moveInput.sqrMagnitude > 0.1f)
+        {
+            EndDefensiveStance();
+        }
+        
+        // Don't override input processing if charging
+        if (playerData.isCharging) 
+        {
+            moveInput = Vector2.zero;
+        }
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
         if (playerData != null && (!playerData.controlsEnabled || playerData.isCharging))
             return;
+
+        // Exit defensive stance if jump is pressed
+        if (isInDefensiveStance && context.performed)
+        {
+            EndDefensiveStance();
+            return;
+        }
 
         if (context.performed && playerData != null && playerData.isGrounded)
         {
@@ -67,6 +90,13 @@ public class PlayerController : MonoBehaviour
     {
         if (playerData == null || !playerData.controlsEnabled || playerData.isCharging)
             return;
+
+        // Exit defensive stance if slam is pressed
+        if (isInDefensiveStance && context.performed)
+        {
+            EndDefensiveStance();
+            return;
+        }
 
         if (context.performed && !playerData.isGrounded && !playerData.hasSlammed)
         {
@@ -101,12 +131,20 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Vector3.down * playerData.slamForce, ForceMode.Impulse);
         
         playerData.hasSlammed = true;
+        playerData.UpdateAbilityFlags();
     }
 
     public void OnQuickBreak(InputAction.CallbackContext context)
     {
         if (playerData == null || !playerData.controlsEnabled || playerData.isCharging || !playerData.isGrounded)
             return;
+
+        // Exit defensive stance if another quickbreak is pressed
+        if (isInDefensiveStance && context.performed)
+        {
+            EndDefensiveStance();
+            return;
+        }
 
         if (context.performed)
         {
@@ -115,9 +153,6 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(QuickBreakCoroutine());
                 playerData.currentStamina -= 2f;
                 playerData.OnStaminaChanged.Invoke(playerData.currentStamina);
-                
-                // Activate defensive buff after quick break
-                playerData.ActivateDefense(playerData.quickBreakDefenseDuration, 0.5f); // 50% damage reduction
             }
             else
             {
@@ -154,7 +189,30 @@ public class PlayerController : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
         transform.rotation = targetRotation;
 
+        // Store position for defensive stance
+        quickBreakPosition = transform.position;
+        
+        // Enter defensive stance (100% damage reduction)
+        isInDefensiveStance = true;
+        playerData.ActivateDefense(playerData.quickBreakDefenseDuration, 1.0f);
+        
+        // Re-enable player control so they can move to exit the stance
         playerData.controlsEnabled = true;
+    }
+
+    // Method to end defensive stance when player moves
+    private void EndDefensiveStance()
+    {
+        if (!isInDefensiveStance)
+            return;
+            
+        Debug.Log("Exited defensive stance due to movement");
+        
+        isInDefensiveStance = false;
+        playerData.defenseTimer = 0f;
+        playerData.damageReduction = 0f;
+        playerData.OnDefenseDeactivated.Invoke();
+        playerData.UpdateAbilityFlags();
     }
 
     public void OnRotateChargeDirection(InputAction.CallbackContext context)
@@ -167,6 +225,13 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started && !playerData.isCharging && !playerData.hasCharged && playerData.controlsEnabled)
         {
+            // Exit defensive stance if charge roll is pressed
+            if (isInDefensiveStance)
+            {
+                EndDefensiveStance();
+                return;
+            }
+            
             if (playerData.currentStamina >= 4f)
             {
                 playerData.currentStamina -= 4f;
@@ -266,6 +331,13 @@ public class PlayerController : MonoBehaviour
         if (playerData == null || !playerData.controlsEnabled || playerData.isCharging)
             return;
 
+        // Exit defensive stance if burst is pressed
+        if (isInDefensiveStance && context.performed)
+        {
+            EndDefensiveStance();
+            return;
+        }
+
         if (context.performed)
         {
             if (playerData.currentStamina >= 6f)
@@ -331,6 +403,16 @@ public class PlayerController : MonoBehaviour
             return;
 
         playerData.isGrounded = IsGrounded();
+
+        // When in defensive stance, keep the player in place
+        if (isInDefensiveStance)
+        {
+            // Allow movement input to break out of stance, but don't apply movement yet
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            transform.position = quickBreakPosition; // Lock position
+            return;
+        }
 
         if (playerData.isGrounded && !playerData.isCharging)
         {
