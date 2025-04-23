@@ -3015,8 +3015,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeType: 2
+  fadeDuration: 0.2
   customFade: 0
-  fadeTo: 0
+  alphaFadeToValue: 0
 --- !u!1 &6148145872545436056
 GameObject:
   m_ObjectHideFlags: 0
@@ -3593,8 +3594,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeType: 2
+  fadeDuration: 0.2
   customFade: 0
-  fadeTo: 0
+  alphaFadeToValue: 0
 --- !u!1 &6732576942627037964
 GameObject:
   m_ObjectHideFlags: 0
@@ -4896,8 +4898,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeType: 2
-  customFade: 0
-  fadeTo: 0
+  fadeDuration: 0.2
+  customFade: 1
+  alphaFadeToValue: 0
 --- !u!64 &4470486715726351560
 MeshCollider:
   m_ObjectHideFlags: 0
