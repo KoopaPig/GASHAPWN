@@ -31,31 +31,45 @@ public class TrajectoryIndicator : MonoBehaviour
 
     private void Update()
     {
-        // Only show the trajectory indicator when the player is airborne.
-        if (!playerData.isGrounded)
+        // Check for jump start
+        if (!playerData.isGrounded && wasGroundedLastFrame)
         {
             trajectoryLineRenderer.enabled = true;
-            RenderTrajectory();
 
-            // Enable and position slam target
             if (slamTargetInstance != null)
             {
                 slamTargetInstance.SetActive(true);
                 Vector3 groundPos = GetGroundPositionBelowPlayer();
-                slamTargetInstance.transform.position = groundPos + Vector3.up * 0.01f; // Slight offset to avoid z-fighting
+                slamTargetInstance.transform.position = groundPos + Vector3.up * 0.01f;
             }
         }
-        else
+
+        // Update position if airborne
+        if (!playerData.isGrounded)
+        {
+            RenderTrajectory();
+
+            if (slamTargetInstance != null && slamTargetInstance.activeSelf)
+            {
+                Vector3 groundPos = GetGroundPositionBelowPlayer();
+                slamTargetInstance.transform.position = groundPos + Vector3.up * 0.01f;
+            }
+        }
+
+        // Player has landed
+        if (playerData.isGrounded && !wasGroundedLastFrame)
         {
             trajectoryLineRenderer.enabled = false;
-            // Hide slam target when player lands
-            if (slamTargetInstance != null && !wasGroundedLastFrame)
+
+            if (slamTargetInstance != null)
             {
                 slamTargetInstance.SetActive(false);
             }
         }
+
         wasGroundedLastFrame = playerData.isGrounded;
     }
+
 
     private void RenderTrajectory()
     {
