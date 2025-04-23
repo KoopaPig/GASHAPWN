@@ -21,7 +21,7 @@ namespace GASHAPWN
         public static GameManager Instance { get; private set; }
 
         // Debug mode for game manager
-        public bool DebugMode { get; private set; } = false;
+        public bool DebugMode = false;
 
         // Tracks the current game state
         [SerializeField] public GameState State { get; private set; }
@@ -42,19 +42,27 @@ namespace GASHAPWN
         public class Data
         {
             [SerializeReference]
-            public List<string> collectedFigureIDs;
+            public List<string> collection1CollectedFigureIDs;
+
             [SerializeReference]
-            public List<int> collectedFigureCounts;
+            public List<string> collection2CollectedFigureIDs;
+
+            [SerializeReference]
+            public List<int> collection1CollectedFigureCounts;
+
+            [SerializeReference]
+            public List<int> collection2CollectedFigureCounts;
 
             public Data()
             {
-                collectedFigureIDs = new();
-                collectedFigureCounts = new();
+                collection1CollectedFigureIDs = new();
+                collection2CollectedFigureIDs = new();
+                collection1CollectedFigureCounts = new();
+                collection2CollectedFigureCounts = new();
             }
         }
 
-        public Data Player1Data;
-        public Data Player2Data;
+        public Data PlayerData;
         public Data TestData;
 
         public List<CollectedFigure> Player1Collection = new();
@@ -135,23 +143,67 @@ namespace GASHAPWN
         }
 
         // Load the collection from a specific player
-        public List<CollectedFigure> Load(string playerName) 
+        public void Load(string playerName) 
         {
-            List<CollectedFigure> Collection = new();
             Data playerData = FileManager.Load<Data>(playerName);
-            foreach(string ID in playerData.collectedFigureIDs)
+            for(int i = 0; i < 2; i++)
             {
-                CollectedFigure newCollectedFigure = new CollectedFigure(FigureManager.instance.GetFigureByID(ID));
-                Collection.Add(newCollectedFigure);
+                List<CollectedFigure> Collection = new();
+                foreach (string ID in playerData.collection1CollectedFigureIDs)
+                {
+                    CollectedFigure newCollectedFigure = new CollectedFigure(FigureManager.instance.GetFigureByID(ID));
+                    Collection.Add(newCollectedFigure);
+                }
+                int index = 0;
+                foreach (CollectedFigure collectedFigure in Collection)
+                {
+                    collectedFigure.amount = playerData.collection1CollectedFigureCounts[index];
+                    Debug.Log("Amount added to " + collectedFigure.figure.name + " = " + collectedFigure.amount);
+                    index++;
+                }
+                if (i == 0) Player1Collection = Collection;
+                else Player2Collection = Collection;
             }
-            int index = 0;
-            foreach(CollectedFigure collectedFigure in Collection)
+        }
+
+        // Debug function: Removes all save data in test
+        public void DeleteSaveData()
+        {
+            TestData.collection1CollectedFigureIDs.Clear();
+            TestData.collection2CollectedFigureIDs.Clear();
+            TestData.collection1CollectedFigureCounts.Clear();
+            TestData.collection2CollectedFigureCounts.Clear();
+            Save("test", TestData);
+        }
+
+        public void LoadRandomSaveData(int amountOfFigures)
+        {
+            // Create a new collection and a checking list for already added figures
+            List<GameManager.CollectedFigure> randomCollection = new();
+            List<Figure> randomFigures = new();
+
+            // Create a set amount of random figures
+            for(int i = 0; i < 2; i++)
             {
-                collectedFigure.amount = playerData.collectedFigureCounts[index];
-                Debug.Log("Amount added to " + collectedFigure.figure.name + " = " + collectedFigure.amount);
-                index++;
+                for (int j = 0; j < amountOfFigures; j++)
+                {
+                    GameManager.CollectedFigure randomCollectedFigure = new();
+                    Figure newRandomFigure = FigureManager.instance.GetRandomFigure();
+
+                    // Check the checking list for duplicate figures
+                    if (randomFigures.Contains(newRandomFigure)) continue;
+                    else
+                    {
+                        randomFigures.Add(newRandomFigure);
+                        randomCollectedFigure.figure = newRandomFigure;
+                        // Generate a random amount collected
+                        randomCollectedFigure.amount = UnityEngine.Random.Range(0, 10);
+                        randomCollection.Add(randomCollectedFigure);
+                    }
+                }
+                if (i == 0) Player1Collection = randomCollection;
+                else Player2Collection = randomCollection;
             }
-            return Collection;
         }
 
 
@@ -171,22 +223,26 @@ namespace GASHAPWN
             // Testing Section: Adding random data to test data and saving it
             if (DebugMode)
             {
-                for (int i = 0; i < 10; i++)
+                LoadRandomSaveData(10);
+                for(int i = 0; i < 2; i++)
                 {
-                    // Make a new figure
-                    Figure testFigure = FigureManager.instance.GetRandomFigure();
-
-                    // Check if the figure already exists in the test data
-                    if (TestData.collectedFigureIDs.Contains(testFigure.GetID())) continue;
-
-                    // If it doesn't, add it to the test data
+                    if (i == 0)
+                    {
+                        foreach (CollectedFigure selectedFigure in Player1Collection)
+                        {
+                            TestData.collection1CollectedFigureIDs.Add(selectedFigure.figure.GetID());
+                            TestData.collection1CollectedFigureCounts.Add(selectedFigure.amount);
+                        }
+                    }
                     else
                     {
-                        TestData.collectedFigureIDs.Add(testFigure.GetID());
-                        TestData.collectedFigureCounts.Add(UnityEngine.Random.Range(0, 10));
+                        foreach (CollectedFigure selectedFigure in Player2Collection)
+                        {
+                            TestData.collection2CollectedFigureIDs.Add(selectedFigure.figure.GetID());
+                            TestData.collection2CollectedFigureCounts.Add(selectedFigure.amount);
+                        }
                     }
                 }
-
                 Save("test", TestData);
             }
             
@@ -198,18 +254,18 @@ namespace GASHAPWN
             UpdateGameState(GameState.Title);
 
             // Load data file or create a new one
-            if (File.Exists(Path.Combine(Application.persistentDataPath, "data.json")))
+            /*if (File.Exists(Path.Combine(Application.persistentDataPath, "data.json")))
             {
                 Debug.Log("Found player data");
                 if (Player1Collection != null && Player1Collection.Count > 0) Player1Collection.Clear();
-                Player1Collection = Load("data");
+                Load("data");
             }
             else
             {
                 Debug.Log("Did not find player data");
                 File.Create(Path.Combine(Application.persistentDataPath, "data.json"));
                 Player1Collection = new();
-            }
+            }*/
 
             // Testing section: Loads in the testing data
             if (DebugMode)
@@ -220,9 +276,8 @@ namespace GASHAPWN
                 {
                     Debug.Log("Found test data, loading...");
                     if (Player1Collection != null && Player1Collection.Count > 0) Player1Collection.Clear();
-                    Player1Collection = Load("test");
+                    Load("test");
                     Debug.Log("Data loaded");
-                    Debug.Log("Player1Collection count: " + Player1Collection.Count);
                 }
                 else Debug.LogError("Test data could not be found");
             }
