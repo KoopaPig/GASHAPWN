@@ -253,20 +253,6 @@ namespace GASHAPWN
             // Initial state
             UpdateGameState(GameState.Title);
 
-            // Load data file or create a new one
-            /*if (File.Exists(Path.Combine(Application.persistentDataPath, "data.json")))
-            {
-                Debug.Log("Found player data");
-                if (Player1Collection != null && Player1Collection.Count > 0) Player1Collection.Clear();
-                Load("data");
-            }
-            else
-            {
-                Debug.Log("Did not find player data");
-                File.Create(Path.Combine(Application.persistentDataPath, "data.json"));
-                Player1Collection = new();
-            }*/
-
             // Testing section: Loads in the testing data
             if (DebugMode)
             {
@@ -280,6 +266,22 @@ namespace GASHAPWN
                     Debug.Log("Data loaded");
                 }
                 else Debug.LogError("Test data could not be found");
+            }
+            else
+            {
+                // Load data file or create a new one
+                if (File.Exists(Path.Combine(Application.persistentDataPath, "data.json")))
+                {
+                    Debug.Log("Found player data");
+                    if (Player1Collection != null && Player1Collection.Count > 0) Player1Collection.Clear();
+                    if (Player2Collection != null && Player2Collection.Count > 0) Player2Collection.Clear();
+                    Load("data");
+                }
+                else
+                {
+                    Debug.Log("Did not find player data; Creating new save data");
+                    Save("data",PlayerData);
+                }
             }
 
         }
