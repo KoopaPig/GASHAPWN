@@ -12,12 +12,16 @@ using UnityEngine.InputSystem.Users;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using System.IO;
+using UnityEngine.ProBuilder.MeshOperations;
 
 namespace GASHAPWN
 {
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
+
+        // Debug mode for game manager
+        public bool DebugMode { get; private set; } = false;
 
         // Tracks the current game state
         [SerializeField] public GameState State { get; private set; }
@@ -33,6 +37,25 @@ namespace GASHAPWN
             public CollectedFigure() { figure = null; amount = 0; }
             public CollectedFigure(Figure _figure) { figure = _figure; amount = 1; }
         };
+
+        [System.Serializable]
+        public class Data
+        {
+            [SerializeReference]
+            public List<string> collectedFigureIDs;
+            [SerializeReference]
+            public List<int> collectedFigureCounts;
+
+            public Data()
+            {
+                collectedFigureIDs = new();
+                collectedFigureCounts = new();
+            }
+        }
+
+        public Data Player1Data;
+        public Data Player2Data;
+        public Data TestData;
 
         public List<CollectedFigure> Player1Collection = new();
         public List<CollectedFigure> Player2Collection = new();
@@ -106,15 +129,28 @@ namespace GASHAPWN
         }
 
         // Save the collection to a specific player
-        public void Save(string playerName, List<CollectedFigure> Collection)
+        public void Save(string playerName, Data playerData)
         {
-            FileManager.Save(playerName + ".json", Collection);
+            FileManager.Save(playerName, playerData);
         }
 
         // Load the collection from a specific player
-        public List<CollectedFigure> Load(string playerName, List<CollectedFigure> Collection) 
+        public List<CollectedFigure> Load(string playerName) 
         {
-            Collection = FileManager.Load<List<CollectedFigure>>(playerName + ".json");
+            List<CollectedFigure> Collection = new();
+            Data playerData = FileManager.Load<Data>(playerName);
+            foreach(string ID in playerData.collectedFigureIDs)
+            {
+                CollectedFigure newCollectedFigure = new CollectedFigure(FigureManager.instance.GetFigureByID(ID));
+                Collection.Add(newCollectedFigure);
+            }
+            int index = 0;
+            foreach(CollectedFigure collectedFigure in Collection)
+            {
+                collectedFigure.amount = playerData.collectedFigureCounts[index];
+                Debug.Log("Amount added to " + collectedFigure.figure.name + " = " + collectedFigure.amount);
+                index++;
+            }
             return Collection;
         }
 
@@ -131,12 +167,65 @@ namespace GASHAPWN
             Instance = this;
 
             DontDestroyOnLoad(this);
+
+            // Testing Section: Adding random data to test data and saving it
+            if (DebugMode)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    // Make a new figure
+                    Figure testFigure = FigureManager.instance.GetRandomFigure();
+
+                    // Check if the figure already exists in the test data
+                    if (TestData.collectedFigureIDs.Contains(testFigure.GetID())) continue;
+
+                    // If it doesn't, add it to the test data
+                    else
+                    {
+                        TestData.collectedFigureIDs.Add(testFigure.GetID());
+                        TestData.collectedFigureCounts.Add(UnityEngine.Random.Range(0, 10));
+                    }
+                }
+
+                Save("test", TestData);
+            }
+            
         }
 
         private void Start()
         {
             // Initial state
             UpdateGameState(GameState.Title);
+
+            // Load data file or create a new one
+            if (File.Exists(Path.Combine(Application.persistentDataPath, "data.json")))
+            {
+                Debug.Log("Found player data");
+                if (Player1Collection != null && Player1Collection.Count > 0) Player1Collection.Clear();
+                Player1Collection = Load("data");
+            }
+            else
+            {
+                Debug.Log("Did not find player data");
+                File.Create(Path.Combine(Application.persistentDataPath, "data.json"));
+                Player1Collection = new();
+            }
+
+            // Testing section: Loads in the testing data
+            if (DebugMode)
+            {
+                Debug.Log(Application.persistentDataPath);
+                // Load Test Data
+                if (File.Exists(Path.Combine(Application.persistentDataPath, "test.json")))
+                {
+                    Debug.Log("Found test data, loading...");
+                    if (Player1Collection != null && Player1Collection.Count > 0) Player1Collection.Clear();
+                    Player1Collection = Load("test");
+                    Debug.Log("Data loaded");
+                    Debug.Log("Player1Collection count: " + Player1Collection.Count);
+                }
+                else Debug.LogError("Test data could not be found");
+            }
 
         }
     }

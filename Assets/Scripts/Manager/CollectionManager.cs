@@ -480,12 +480,12 @@ namespace GASHAPWN {
                 collectionNodes.AddRange(nodes);
             }
         }
-
+        
         // Update nodes based on the player's collection
         private void UpdateNodesFromCollection(List<GameManager.CollectedFigure> collectedFigures)
         {
             // Set all nodes to collected for testing if there are no figures in collection
-            if (collectedFigures == null || collectedFigures.Count == 0)
+            /*if (collectedFigures == null || collectedFigures.Count == 0)
             {
                 foreach (var node in collectionNodes)
                 {
@@ -493,7 +493,7 @@ namespace GASHAPWN {
                     node.UpdateVisualState(false);
                 }
                 return;
-            }
+            }*/
 
             // Create a lookup for faster access
             Dictionary<string, GameManager.CollectedFigure> collectedLookup = new Dictionary<string, GameManager.CollectedFigure>();
