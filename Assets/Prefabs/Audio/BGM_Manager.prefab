@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicMixer: {fileID: 525982394217688346, guid: 24482206668284144b552dc371529507, type: 2}
-  battleMusicKey: MUSIC_SMB2_Boiling_Pot_Edit_Loop
-  menuMusicKey: MUSIC_Give_A_Hand_Loop_TEMP
-  levelSelectMusicKey: MUSIC_Cool_Attitude_Loop_TEMP
+  battleMusicKey: MUSIC_Battle_3Loop
+  menuMusicKey: MUSIC_Give_A_Hand_Loop
+  levelSelectMusicKey: MUSIC_Cool_Attitude_Loop
   collectionMusicKey: MUSIC_Cute_Theme_Loop
   resultsScreenMusicKey: MUSIC_Results_Screen

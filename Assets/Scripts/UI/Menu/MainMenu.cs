@@ -192,6 +192,14 @@ namespace GASHAPWN.UI {
             {
                 CloseCredits();
             }
+            // Close any open confirmation windows
+            var windows = FindObjectsByType<ConfirmationWindow>(FindObjectsSortMode.None);
+            if (windows != null) { 
+                foreach (var w in windows) 
+                { 
+                    if (w.gameObject.activeSelf) w.gameObject.SetActive(false); 
+                } 
+            }
         }
 
         private void OnDisable()

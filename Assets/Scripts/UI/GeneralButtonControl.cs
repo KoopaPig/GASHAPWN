@@ -84,14 +84,18 @@ public class GeneralButtonControl : MonoBehaviour, IPointerEnterHandler, IPointe
 
     public virtual void OnSelect(BaseEventData eventData)
     {
-        ((ISelectHandler)btn).OnSelect(eventData);
-        if (btn.interactable) isHighlightDesired = true;
+        if (btn != null && btn.interactable)
+        {
+            isHighlightDesired = true;
+        }
     }
 
     public virtual void OnDeselect(BaseEventData eventData)
     {
-        ((IDeselectHandler)btn).OnDeselect(eventData);
-        isHighlightDesired = false;
+        if (btn != null && btn.interactable)
+        {
+            isHighlightDesired = false;
+        }
     }
 
     public enum ButtonStatus
