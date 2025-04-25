@@ -1,4 +1,5 @@
 using UnityEngine;
+using GASHAPWN.Utility;
 
 namespace GASHAPWN {
     public class PlayerAttachedFigure : MonoBehaviour

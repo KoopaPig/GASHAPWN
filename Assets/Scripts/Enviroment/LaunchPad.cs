@@ -1,3 +1,4 @@
+using GASHAPWN.Audio;
 using UnityEngine;
 
 public class LaunchPad : MonoBehaviour
@@ -20,6 +21,7 @@ public class LaunchPad : MonoBehaviour
                 playerRb.linearVelocity = Vector3.zero;
                 playerRb.AddForce(launchDirection.normalized * launchForce, ForceMode.VelocityChange);
             }
+            GAME_SFXManager.Instance.Play_BouncePad(collision.transform);
         }
     }
 }

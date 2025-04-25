@@ -7,6 +7,7 @@ using EasyTransition;
 using static UnityEngine.InputSystem.InputAction;
 using UnityEngine.InputSystem;
 using GASHAPWN.Audio;
+using GASHAPWN.Utility;
 
 namespace GASHAPWN.UI
 {

@@ -31,6 +31,7 @@ namespace GASHAPWN.UI
 
         private void ClickYes()
         {
+            GameManager.Instance.DeleteSaveData(); // delete save data
             CloseConfirmationWindow();
         }
 
