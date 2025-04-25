@@ -107,6 +107,16 @@ namespace GASHAPWN.Audio
             AudioManager.Instance.PlaySound("SFX_Drop_3", transform);
         }
 
+        public void Play_Boing(Transform transform)
+        {
+            AudioManager.Instance.PlaySound("SFX_SMB2_Boing", transform);
+        }
+
+        public void Play_BouncePad(Transform transform)
+        {
+            AudioManager.Instance.PlaySound("SFX_Dash_1", transform);
+        }
+
         // Handle TriadState changes for Charge Roll given transform, isCharging bool, and PlayerSFXProfile
         public void HandleChargeRollSFX(Transform transform, bool isCharging, PlayerSFXProfile profile)
         {

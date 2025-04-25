@@ -30,6 +30,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 17b1bda6cc353cf46a21b9ae7ba17c68
+    m_Address: SFX_SMB2_Boing
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1b5edf0d508627b45b344835c7cc3b25
     m_Address: SFX_Jump_7
     m_ReadOnly: 0

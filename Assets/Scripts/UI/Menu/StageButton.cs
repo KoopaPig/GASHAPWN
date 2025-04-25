@@ -11,7 +11,7 @@ namespace GASHAPWN.UI {
 
         public void SetLevel(Level l)
         {
-            levelIcon.sprite = l.levelPreviewIcon;
+            levelIcon.sprite = l.levelPreviewIconA;
         }
 
         private void Awake()
