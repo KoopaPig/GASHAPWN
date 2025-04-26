@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2769647927305078464
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3209693609110266264}
+  - component: {fileID: 2096131048630175215}
+  m_Layer: 0
+  m_Name: UI_SFXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3209693609110266264
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2769647927305078464}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2096131048630175215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2769647927305078464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db96cc20ec75044f9b3a5d7eb23da34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundMixer: {fileID: 7613267758212777161, guid: 24482206668284144b552dc371529507, type: 2}
+  menuButtonSelectionGroup:
+    groupTag: MenuButtonSelectionGroup
+    addressableKeys:
+    - SFX_UI_Interact_Pop_1
+    - SFX_UI_Interact_Pop_2
+    - SFX_UI_Interact_Pop_3
+    - SFX_UI_Interact_Pop_4
+  generalButtonSelectionGroup:
+    groupTag: GeneralButtonSelectionGroup
+    addressableKeys:
+    - SFX_UI_ClickPop_1
+    - SFX_UI_ClickPop_2
+    - SFX_UI_ClickPop_3
+  generalSelectionGroup:
+    groupTag: GeneralSelectionGroup
+    addressableKeys:
+    - SFX_UI_LilPop_1
+    - SFX_UI_LilPop_2
+    - SFX_UI_LilPop_3
+  buttonDinkyGroup:
+    groupTag: ButtonDinkyGroup
+    addressableKeys:
+    - SFX_UI_Dink_Select_1
+    - SFX_UI_Dink_Select_2
+    - SFX_UI_Dink_Select_3
+  buttonFancyGroup:
+    groupTag: ButtonFancyGroup
+    addressableKeys:
+    - SFX_UI_Bubblecork_Select_1
+    - SFX_UI_Bubblecork_Select_2
+  capsuleShakeGroup:
+    groupTag: CapsuleShakeGroup
+    addressableKeys:
+    - SFX_UI_Capsule_Shake_1
+    - SFX_UI_Capsule_Shake_2
+    - SFX_UI_Capsule_Shake_3
+    - SFX_UI_Capsule_Shake_4
+  staticGroup:
+    groupTag: StaticGroup
+    addressableKeys:
+    - SFX_UI_Static_1
+    - SFX_UI_Static_2
+    - SFX_UI_Static_3
+  infoCardGroup:
+    groupTag: InfoCardGroup
+    addressableKeys:
+    - SFX_UI_Card_Deal_2
+    - SFX_UI_Card_Deal_4
+    - SFX_UI_Card_Deal_5
+  lowStaminaGroup:
+    groupTag: Low Stamina Group
+    addressableKeys:
+    - SFX_UI_Low_Stamina_1
+    - SFX_UI_Low_Stamina_2

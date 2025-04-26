@@ -68,7 +68,6 @@ namespace GASHAPWN.UI {
 
                 fadeToB = !fadeToB;
 
-
                 yield return new WaitForSeconds(cycleInterval/2);
             }
         }

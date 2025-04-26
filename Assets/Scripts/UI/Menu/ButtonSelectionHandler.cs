@@ -5,7 +5,8 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
 
-namespace GASHAPWN.UI {
+namespace GASHAPWN.UI
+{
     public class ButtonSelectionHandler : MonoBehaviour
     {
         public UnityEvent OnMenuButtonSelected = new UnityEvent();
@@ -14,17 +15,24 @@ namespace GASHAPWN.UI {
 
         private GameObject lastSelected;
 
+        private bool _isAutoNavigate = false;
+
+        public bool IsAutoNavigate
+        {
+            get { return _isAutoNavigate; }
+            set { _isAutoNavigate = value; }
+        }
+
         private void Update()
         {
             GameObject currentSelected = EventSystem.current.currentSelectedGameObject;
 
             if (currentSelected != lastSelected && currentSelected != null)
             {
-                // Ignore automatic selections triggered by menu opening
-                if (!UnityEngine.Input.anyKeyDown && !UnityEngine.Input.GetMouseButtonDown(0))
-                {
+                if (IsAutoNavigate) {
                     lastSelected = currentSelected;
-                    return;
+                    IsAutoNavigate = false;
+                    return; 
                 }
 
                 // Invoke for menu buttons
@@ -54,5 +62,3 @@ namespace GASHAPWN.UI {
         }
     }
 }
-
-

@@ -724,7 +724,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2736651247227360057}
+      - m_Target: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
         m_TargetAssemblyTypeName: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
         m_MethodName: Play_LeftRightButtonSelection
         m_Mode: 1
@@ -2022,7 +2022,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2736651247227360057}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
         m_MethodName: Play_GeneralButtonSelection
         m_Mode: 1
@@ -3838,7 +3838,7 @@ PrefabInstance:
     - target: {fileID: 5606734499784084150, guid: 4e5a338caf8be5b41aeb2eabb3662f43, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 2736651247227360057}
+      objectReference: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
     - target: {fileID: 5606734499784084150, guid: 4e5a338caf8be5b41aeb2eabb3662f43, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -4524,7 +4524,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2736651247227360057}
+      - m_Target: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
         m_TargetAssemblyTypeName: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
         m_MethodName: Play_LeftRightButtonSelection
         m_Mode: 1
@@ -5877,7 +5877,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2736651247227360057}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
         m_MethodName: Play_GeneralButtonSelection
         m_Mode: 1
@@ -6561,7 +6561,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2736651247227360057}
+      - m_Target: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
         m_TargetAssemblyTypeName: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
         m_MethodName: Play_LeftRightButtonSelection
         m_Mode: 1
@@ -10860,7 +10860,7 @@ PrefabInstance:
     - target: {fileID: 4934671046706063707, guid: d6502254ad3b37744a9c984c3155b4fa, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 2736651247227360057}
+      objectReference: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
     - target: {fileID: 4934671046706063707, guid: d6502254ad3b37744a9c984c3155b4fa, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -10940,7 +10940,7 @@ PrefabInstance:
     - target: {fileID: 8454259499441394598, guid: d6502254ad3b37744a9c984c3155b4fa, type: 3}
       propertyPath: OnMenuButtonHighlighted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2736651247227360057}
+      objectReference: {fileID: 0}
     - target: {fileID: 8454259499441394598, guid: d6502254ad3b37744a9c984c3155b4fa, type: 3}
       propertyPath: OnMenuButtonHighlighted.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -11832,7 +11832,7 @@ PrefabInstance:
     - target: {fileID: 4934671046706063707, guid: d6502254ad3b37744a9c984c3155b4fa, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 2736651247227360057}
+      objectReference: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
     - target: {fileID: 4934671046706063707, guid: d6502254ad3b37744a9c984c3155b4fa, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -17441,6 +17441,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
+        m_TargetAssemblyTypeName: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
+        m_MethodName: Play_GeneralButtonSelection
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1584605548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20875,12 +20887,120 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1fa2ddc6-9535-421d-b8d0-99bbe464c59f
+    m_ActionName: 'Keyboard/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2abb32f5-18d2-4bfc-bc32-7209a71485c5
+    m_ActionName: 'Keyboard/RotateChargeDirection[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 68075eca-632d-4d38-a35d-aaab1c2f4109
+    m_ActionName: 'Keyboard/Jump[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f165090b-0470-429c-ae14-6d4d5f618ee7
+    m_ActionName: 'Keyboard/Slam[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 64f6db61-be43-4927-aff9-d828fcf6c6a0
+    m_ActionName: 'Keyboard/QuickBreak[/Keyboard/leftShift]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 94d17b14-b038-4544-9824-2e6c916c883f
+    m_ActionName: 'Keyboard/ChargeRoll[/Keyboard/rightShift]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 286c366a-68eb-4f98-99cd-6f4c4445effd
+    m_ActionName: 'Keyboard/Burst[/Keyboard/b]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 47a2e64c-f25f-47f9-b5bc-1ab3495f34d7
+    m_ActionName: 'Controller/Movement[/XInputControllerWindows/leftStick]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c729e1ee-dddc-444e-95e7-215806cdb284
+    m_ActionName: 'Controller/RotateChargeDirection[/XInputControllerWindows/leftStick]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1ae2c8e5-cac4-45fe-b9a1-92d714b31be9
+    m_ActionName: 'Controller/Jump[/XInputControllerWindows/buttonSouth]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 42147703-2f44-4c3e-bcd4-5441eb10b053
+    m_ActionName: 'Controller/Slam[/XInputControllerWindows/buttonSouth]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d0e75e40-2a19-4b5c-ae58-0b58657e9885
+    m_ActionName: 'Controller/QuickBreak[/XInputControllerWindows/leftTrigger]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3ccd52a1-f673-45d4-a57d-c64b23494f5f
+    m_ActionName: 'Controller/ChargeRoll[/XInputControllerWindows/rightTrigger]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4fc3d862-2157-489c-b396-3999fde3d22a
+    m_ActionName: 'Controller/Burst[/XInputControllerWindows/buttonNorth]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
+        m_TargetAssemblyTypeName: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
+        m_MethodName: Play_GeneralButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 7a93c17f-1918-475b-9157-dd39d5b9bc44
+    m_ActionName: 'UI/Navigate[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/rightStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/rightStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fc9818a0-ccc4-45b5-a582-8c0c6045deb7
+    m_ActionName: 'UI/Submit[/Keyboard/enter,/XInputControllerWindows/buttonSouth]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7689e941-c813-43d9-81c8-a1dcbc6cf0fa
+    m_ActionName: 'UI/Cancel[/Keyboard/escape,/XInputControllerWindows/buttonEast]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 33a0162c-62a5-4b72-b90b-920b7a8ab658
+    m_ActionName: 'UI/Point[/Mouse/position,/Pen/position]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 25da4932-ce7e-4a98-871a-aa48966f4bd1
+    m_ActionName: 'UI/Click[/Mouse/leftButton,/Pen/tip]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7c1ef12c-ba60-4a9c-ac10-5ef3361fb159
+    m_ActionName: 'UI/RightClick[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 42e102cf-639a-4712-8232-d54b4d7aaa36
+    m_ActionName: 'UI/MiddleClick[/Mouse/middleButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f2006933-9c03-4146-8842-2946e967ebab
+    m_ActionName: 'UI/ScrollWheel[/Mouse/scroll]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9625082c-38c3-4458-a3e6-d88df7c82ea0
+    m_ActionName: UI/TrackedDevicePosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7193efd9-1d90-4926-b086-6de57c8404fd
+    m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: UI
   m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 1727623773}
 --- !u!114 &1858329487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20896,7 +21016,7 @@ MonoBehaviour:
   OnMenuButtonSelected:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2736651247227360057}
+      - m_Target: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
         m_TargetAssemblyTypeName: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
         m_MethodName: Play_MainMenuButtonSelection
         m_Mode: 1
@@ -20911,7 +21031,7 @@ MonoBehaviour:
   OnGeneralButtonSelected:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2736651247227360057}
+      - m_Target: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
         m_TargetAssemblyTypeName: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
         m_MethodName: Play_GeneralButtonSelection
         m_Mode: 1
@@ -20926,7 +21046,7 @@ MonoBehaviour:
   OnGeneralObjectSelected:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2736651247227360057}
+      - m_Target: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
         m_TargetAssemblyTypeName: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
         m_MethodName: Play_GeneralObjectSelection
         m_Mode: 1
@@ -23460,7 +23580,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2736651247227360057}
+      - m_Target: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
         m_TargetAssemblyTypeName: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
         m_MethodName: Play_LeftRightButtonSelection
         m_Mode: 1
@@ -24201,7 +24321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4934671046706063707, guid: d6502254ad3b37744a9c984c3155b4fa, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4934671046706063707, guid: d6502254ad3b37744a9c984c3155b4fa, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -24222,7 +24342,7 @@ PrefabInstance:
     - target: {fileID: 4934671046706063707, guid: d6502254ad3b37744a9c984c3155b4fa, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 2736651247227360057}
+      objectReference: {fileID: 0}
     - target: {fileID: 4934671046706063707, guid: d6502254ad3b37744a9c984c3155b4fa, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -24431,7 +24551,7 @@ PrefabInstance:
     - target: {fileID: 5606734499784084150, guid: 4e5a338caf8be5b41aeb2eabb3662f43, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 2736651247227360057}
+      objectReference: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
     - target: {fileID: 5606734499784084150, guid: 4e5a338caf8be5b41aeb2eabb3662f43, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -24602,17 +24722,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &2736651247227360057 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6836412219076472514, guid: a9536a4f12928e64fb2d05478b0d36cc, type: 3}
-  m_PrefabInstance: {fileID: 258610160177851687}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3db96cc20ec75044f9b3a5d7eb23da34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2793540371583225633 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2544626283150192517, guid: 4e5a338caf8be5b41aeb2eabb3662f43, type: 3}
