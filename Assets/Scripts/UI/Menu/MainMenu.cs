@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using GASHAPWN.Audio;
+using GASHAPWN.Utility;
 
 namespace GASHAPWN.UI {
     public class MainMenu : MonoBehaviour
@@ -74,11 +75,7 @@ namespace GASHAPWN.UI {
             if (!IsMenuTransition)
             {
                 controlsScreen.SetActive(true);
-
-                // clear selected object
-                EventSystem.current.SetSelectedGameObject(null);
-                // set new selected object
-                EventSystem.current.SetSelectedGameObject(controlsFirstButton);
+                EventSystemSelectHelper.SetSelectedGameObject(controlsFirstButton);
             }
         }
 
@@ -87,11 +84,7 @@ namespace GASHAPWN.UI {
             if (!IsMenuTransition)
             {
                 controlsScreen.SetActive(false);
-
-                // clear selected object
-                EventSystem.current.SetSelectedGameObject(null);
-                // set new selected object in one frame
-                EventSystem.current.SetSelectedGameObject(controlsClosedButton);
+                EventSystemSelectHelper.SetSelectedGameObject(controlsClosedButton);
             }
         }
 
@@ -100,11 +93,7 @@ namespace GASHAPWN.UI {
             if (!IsMenuTransition)
             {
                 optionsScreen.SetActive(true);
-
-                // clear selected object
-                EventSystem.current.SetSelectedGameObject(null);
-                // set new selected object
-                EventSystem.current.SetSelectedGameObject(optionsFirstButton);
+                EventSystemSelectHelper.SetSelectedGameObject(optionsFirstButton);
             }
         }
 
@@ -114,12 +103,7 @@ namespace GASHAPWN.UI {
             {
                 //DisableNavigationForOptions();
                 optionsScreen.SetActive(false);
-
-                // clear selected object
-                EventSystem.current.SetSelectedGameObject(null);
-
-                // set new selected object in one frame
-                EventSystem.current.SetSelectedGameObject(optionsClosedButton);
+                EventSystemSelectHelper.SetSelectedGameObject(optionsClosedButton);
             }
         }
 
@@ -128,11 +112,7 @@ namespace GASHAPWN.UI {
             if (!IsMenuTransition)
             {
                 creditsScreen.SetActive(true);
-
-                // clear selected object
-                EventSystem.current.SetSelectedGameObject(null);
-                // set new selected object
-                EventSystem.current.SetSelectedGameObject(creditsFirstObject);
+                EventSystemSelectHelper.SetSelectedGameObject(creditsFirstObject);
             }
         }
         public void CloseCredits()
@@ -140,11 +120,7 @@ namespace GASHAPWN.UI {
             if (!IsMenuTransition)
             {
                 creditsScreen.SetActive(false);
-
-                // clear selected object
-                EventSystem.current.SetSelectedGameObject(null);
-                // set new selected object in one frame
-                EventSystem.current.SetSelectedGameObject(creditsClosedButton);
+                EventSystemSelectHelper.SetSelectedGameObject(creditsClosedButton);
             }
         }
 

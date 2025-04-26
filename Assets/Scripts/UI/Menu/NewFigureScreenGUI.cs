@@ -169,7 +169,7 @@ namespace GASHAPWN.UI
             } else figureScreen_FG.GetComponentInParent<CanvasGroup>().interactable = false;
 
             yield return new WaitForSeconds(waitDuration);
-            EventSystem.current.SetSelectedGameObject(figureScreenFirstButton); // Set new button here
+            EventSystemSelectHelper.SetSelectedGameObject(figureScreenFirstButton); // Set new button here
             figureScreen_FG.GetComponentInParent<CanvasGroup>().interactable = true;
         }
 
