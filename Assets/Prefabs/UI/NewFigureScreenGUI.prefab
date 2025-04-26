@@ -7067,13 +7067,13 @@ MonoBehaviour:
   OnGeneralButtonSelected:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
+      - m_Target: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
+        m_TargetAssemblyTypeName: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
+        m_MethodName: Play_MainMenuButtonSelection
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -8416,10 +8416,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1310973646201629819}
     - target: {fileID: 5762643855179397336, guid: 6dc03ff295b125d4390e16fc7ddc9f4e, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5762643855179397336, guid: 6dc03ff295b125d4390e16fc7ddc9f4e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2803992135818664477}
@@ -8638,12 +8634,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6748895967116253828}
     - target: {fileID: 5762643855179397336, guid: 6dc03ff295b125d4390e16fc7ddc9f4e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762643855179397336, guid: 6dc03ff295b125d4390e16fc7ddc9f4e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2803992135818664477}
     - target: {fileID: 5762643855179397336, guid: 6dc03ff295b125d4390e16fc7ddc9f4e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
+    - target: {fileID: 5762643855179397336, guid: 6dc03ff295b125d4390e16fc7ddc9f4e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ToLevelSelect
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762643855179397336, guid: 6dc03ff295b125d4390e16fc7ddc9f4e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762643855179397336, guid: 6dc03ff295b125d4390e16fc7ddc9f4e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6802039774079012055, guid: 6dc03ff295b125d4390e16fc7ddc9f4e, type: 3}
       propertyPath: m_Pivot.x

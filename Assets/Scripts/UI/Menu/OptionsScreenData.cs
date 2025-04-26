@@ -1,3 +1,4 @@
+using GASHAPWN.Audio;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -27,6 +28,7 @@ namespace GASHAPWN.UI
             confirmWindow.yesButton.onClick.AddListener(ClickYes);
             confirmWindow.noButton.onClick.AddListener(ClickNo);
             confirmWindow.messageText.text = message;
+            UI_SFXManager.Instance.Play_WarningPopup();
         }
 
         private void ClickYes()

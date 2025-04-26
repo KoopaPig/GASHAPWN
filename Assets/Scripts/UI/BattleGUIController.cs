@@ -4,6 +4,9 @@ using TMPro;
 using System.Collections.Generic;
 using System.Collections;
 using static UnityEngine.Rendering.DebugUI;
+using Unity.Collections.LowLevel.Unsafe;
+using Unity.VisualScripting;
+using GASHAPWN.Audio;
 
 namespace GASHAPWN.UI {
     public class BattleGUIController : MonoBehaviour
@@ -185,6 +188,15 @@ namespace GASHAPWN.UI {
             staminaChangeCoroutine = StartCoroutine(AnimateStaminaChange(currStamina, newValue, 0.15f));
         }
 
+        // LowStamina (GUI)
+
+        public void LowStaminaGUI(float value)
+        {
+            staminaAnimator.SetTrigger("isStaminaLowEffect");
+            UI_SFXManager.Instance.Play_StaminaLow();
+            StartCoroutine(ResetStaminaLowEffect());
+        }
+
 
         ////// PRIVATE METHODS /////
 
@@ -216,11 +228,6 @@ namespace GASHAPWN.UI {
             staminaInterval = maxStamina / staminaBarSections;
         }
 
-        private void Update()
-        {
-            // need to increase stamina value in here
-        }
-
         // Initialize event listeners for PlayerData
         private void Initialize(PlayerData player)
         {
@@ -236,6 +243,7 @@ namespace GASHAPWN.UI {
                 playerData.SetMaxStamina.RemoveListener(SetMaxStaminaGUI);
                 playerData.OnStaminaHardDecrease.RemoveListener(LoseStaminaGUI);
                 playerData.OnStaminaHardIncrease.RemoveListener(RecoverStaminaGUI);
+                playerData.OnLowStamina.RemoveListener(LowStaminaGUI);
             }
 
             playerData = player;
@@ -252,6 +260,7 @@ namespace GASHAPWN.UI {
                 playerData.SetMaxStamina.AddListener(SetMaxStaminaGUI);
                 playerData.OnStaminaHardDecrease.AddListener(LoseStaminaGUI);
                 playerData.OnStaminaHardIncrease.AddListener(RecoverStaminaGUI);
+                playerData.OnLowStamina.AddListener(LowStaminaGUI);
             }
         }
 
@@ -382,6 +391,12 @@ namespace GASHAPWN.UI {
             staminaAnimator.SetBool("isIntervalEffect", false);
         }
 
+        private IEnumerator ResetStaminaLowEffect()
+        {
+            yield return new WaitForNextFrameUnit();
+            staminaAnimator.ResetTrigger("isStaminaLowEffect");
+        }
+
         private void OnDisable()
         {
             // unsub from health and stamina events here
@@ -397,6 +412,7 @@ namespace GASHAPWN.UI {
                 playerData.SetMaxStamina.RemoveListener(SetMaxStaminaGUI);
                 playerData.OnStaminaHardDecrease.RemoveListener(LoseStaminaGUI);
                 playerData.OnStaminaHardIncrease.RemoveListener(RecoverStaminaGUI);
+                playerData.OnLowStamina.RemoveListener(LowStaminaGUI);
             }
         }
 

@@ -58,6 +58,7 @@ namespace GASHAPWN.UI {
         
         public void PlayButton()
         {
+            UI_SFXManager.Instance.Play_PlayButton();
             TransitionManager.Instance().Transition(playSceneName, menuTransition, 0);
             GameManager.Instance.UpdateGameState(GameState.LevelSelect);
         }

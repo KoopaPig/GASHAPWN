@@ -1,4 +1,6 @@
 using GASHAPWN.UI;
+using Newtonsoft.Json.Bson;
+using Unity.AppUI.UI;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -9,6 +11,7 @@ namespace GASHAPWN.Audio {
 
         [SerializeField] private AudioMixerGroup soundMixer;
 
+        [Header("Button-Related Groups")]
         [SerializeField] private SFXGroup menuButtonSelectionGroup;
 
         [SerializeField] private SFXGroup generalButtonSelectionGroup;
@@ -19,11 +22,14 @@ namespace GASHAPWN.Audio {
 
         [SerializeField] private SFXGroup buttonFancyGroup;
 
+        [Header("Other UI Groups")]
         [SerializeField] private SFXGroup capsuleShakeGroup;
 
         [SerializeField] private SFXGroup staticGroup;
 
         [SerializeField] private SFXGroup infoCardGroup;
+
+        [SerializeField] private SFXGroup lowStaminaGroup;
 
         private void Awake()
         {
@@ -98,5 +104,25 @@ namespace GASHAPWN.Audio {
         {
             AudioManager.Instance.PlayRandomSound(infoCardGroup);
         }
+
+        public void Play_WarningPopup()
+        {
+            AudioManager.Instance.PlaySound("SFX_UI_Notice_5");
+        }
+
+        public void Play_StaminaLow()
+        {
+            AudioManager.Instance.PlayRandomSound(lowStaminaGroup);
+        }
+
+        //public void Play_StaminaFill()
+        //{
+
+        //}
+
+        //public void Play_StaminaDeplete()
+        //{
+
+        //}
     }
 }

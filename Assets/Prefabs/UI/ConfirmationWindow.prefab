@@ -513,6 +513,34 @@ PrefabInstance:
       propertyPath: m_Navigation.m_SelectOnRight
       value: 
       objectReference: {fileID: 8639751215264875272}
+    - target: {fileID: 278624363678375176, guid: 61e8f5eb17ffcfe4e9276b6d379a6e11, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 278624363678375176, guid: 61e8f5eb17ffcfe4e9276b6d379a6e11, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 278624363678375176, guid: 61e8f5eb17ffcfe4e9276b6d379a6e11, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
+    - target: {fileID: 278624363678375176, guid: 61e8f5eb17ffcfe4e9276b6d379a6e11, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 278624363678375176, guid: 61e8f5eb17ffcfe4e9276b6d379a6e11, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play_GeneralButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 278624363678375176, guid: 61e8f5eb17ffcfe4e9276b6d379a6e11, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 278624363678375176, guid: 61e8f5eb17ffcfe4e9276b6d379a6e11, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1122076376226748157, guid: 61e8f5eb17ffcfe4e9276b6d379a6e11, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -642,6 +670,34 @@ PrefabInstance:
       propertyPath: m_Navigation.m_SelectOnRight
       value: 
       objectReference: {fileID: 601788929166448673}
+    - target: {fileID: 278624363678375176, guid: 61e8f5eb17ffcfe4e9276b6d379a6e11, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 278624363678375176, guid: 61e8f5eb17ffcfe4e9276b6d379a6e11, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 278624363678375176, guid: 61e8f5eb17ffcfe4e9276b6d379a6e11, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
+    - target: {fileID: 278624363678375176, guid: 61e8f5eb17ffcfe4e9276b6d379a6e11, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 278624363678375176, guid: 61e8f5eb17ffcfe4e9276b6d379a6e11, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play_GeneralButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 278624363678375176, guid: 61e8f5eb17ffcfe4e9276b6d379a6e11, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GASHAPWN.Audio.UI_SFXManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 278624363678375176, guid: 61e8f5eb17ffcfe4e9276b6d379a6e11, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1122076376226748157, guid: 61e8f5eb17ffcfe4e9276b6d379a6e11, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

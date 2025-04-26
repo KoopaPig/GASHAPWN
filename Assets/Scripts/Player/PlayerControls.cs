@@ -1,4 +1,5 @@
 using System.Collections;
+using GASHAPWN.Audio;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -55,9 +56,11 @@ public class PlayerController : MonoBehaviour
                 rb.AddForce(Vector3.up * playerData.jumpForce, ForceMode.Impulse);
                 playerData.currentStamina -= 1f;
                 playerData.OnStaminaChanged.Invoke(playerData.currentStamina);
+                GAME_SFXManager.Instance.Play_Jump(this.transform);
             }
             else
             {
+                playerData.OnLowStamina.Invoke(playerData.currentStamina);
                 Debug.Log("Not enough stamina to jump");
             }
         }
@@ -75,12 +78,13 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(SlamCoroutine());
                 playerData.currentStamina -= 1f;
                 playerData.OnStaminaChanged.Invoke(playerData.currentStamina);
-                
+
                 // Activate attack boost for slam
                 playerData.ActivateAttackBoost(1.0f, 1.5f); // 1 second of 50% damage boost
             }
             else
             {
+                playerData.OnLowStamina.Invoke(playerData.currentStamina);
                 Debug.Log("Not enough stamina to slam");
             }
         }
@@ -95,8 +99,8 @@ public class PlayerController : MonoBehaviour
         
         rb.useGravity = false;
         
-        yield return new WaitForSeconds(1f);
-        
+        yield return new WaitForSeconds(playerData.slamAirborneTime);
+        GAME_SFXManager.Instance.Play_Drop(this.transform);
         rb.useGravity = true;
         rb.AddForce(Vector3.down * playerData.slamForce, ForceMode.Impulse);
         
@@ -115,12 +119,13 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(QuickBreakCoroutine());
                 playerData.currentStamina -= 2f;
                 playerData.OnStaminaChanged.Invoke(playerData.currentStamina);
-                
+
                 // Activate defensive buff after quick break
                 playerData.ActivateDefense(playerData.quickBreakDefenseDuration, 0.5f); // 50% damage reduction
             }
             else
             {
+                playerData.OnLowStamina.Invoke(playerData.currentStamina);
                 Debug.Log("Not enough stamina for quick break");
             }
         }
@@ -175,6 +180,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                playerData.OnLowStamina.Invoke(playerData.currentStamina);
                 Debug.Log("Not enough stamina to charge");
             }
         }
@@ -276,6 +282,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                playerData.OnLowStamina.Invoke(playerData.currentStamina);
                 Debug.Log("Not enough stamina for burst");
             }
         }
@@ -331,6 +338,12 @@ public class PlayerController : MonoBehaviour
             return;
 
         playerData.isGrounded = IsGrounded();
+
+        // Play slam sound if isGrounded and hasSlammed
+        if (playerData.isGrounded && playerData.hasSlammed)
+        {
+            GAME_SFXManager.Instance.Play_SlamImpact(this.transform);
+        }
 
         if (playerData.isGrounded && !playerData.isCharging)
         {
