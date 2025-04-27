@@ -1,6 +1,6 @@
-using System;
-using System.Collections;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.Events;
 using GASHAPWN;
 using GASHAPWN.Audio;
@@ -18,22 +18,40 @@ public class PlayerData : MonoBehaviour
 
     [Header("I-Frame & Defense Settings")]
     public bool isInvincible = false;
-    public float invincibilityDuration = 1.0f; // Default 1 second of i-frames
-    public float damageReduction = 0f; // Percentage of damage reduction (0-1)
-    public float defenseDuration = 0f; // Duration of active defense state
-    private float defenseTimer = 0f; // Timer for tracking defense state
+    public float invincibilityDuration = 1.0f;
+    public float damageReduction = 0f;
+    public float defenseDuration = 0f;
+    public float defenseTimer = 0f;
 
     [Header("Attack Properties")]
-    public float damageMultiplier = 1.0f; // For offensive moves
-    public float attackBonusDuration = 0f; // Duration of attack bonus
-    private float attackBonusTimer = 0f; // Timer for tracking attack bonus
+    public float damageMultiplier = 1.0f;
+    public float attackBonusDuration = 0f;
+    private float attackBonusTimer = 0f;
 
     [Header("Move-Specific Damage Values")]
+    // Changed to 2 for both slam and charge
     public int slamDamage = 2;
-    public int chargeRollDamage = 3;
-    // Burst doesn't deal damage, only knockback
+    public int chargeRollDamage = 2;
     public int quickBreakDamage = 1;
     public int normalCollisionDamage = 1;
+
+    [Header("Momentum-Based Damage System")]
+    [Tooltip("Minimum relative speed needed to consider damage")]
+    public float minDamageSpeed = 3f;
+    
+    [Tooltip("Maximum damage from a normal collision (non-ability)")]
+    public int maxMomentumDamage = 2;
+    
+    [Tooltip("Speed difference percentage threshold for deflection")]
+    [Range(0f, 1f)]
+    public float deflectionThreshold = 0.4f;
+    
+    [Tooltip("Coefficient used to convert speed difference to damage")]
+    public float speedToDamageCoefficient = 0.1f;
+    
+    [Header("Ability State Tracking")]
+    public bool isUsingOffensiveAbility = false;
+    public bool isUsingDefensiveAbility = false;
 
     [Header("Events")]
     public UnityEvent<int> OnDamage = new UnityEvent<int>();
@@ -46,7 +64,6 @@ public class PlayerData : MonoBehaviour
     public UnityEvent<float> OnLowStamina = new UnityEvent<float>();
     public UnityEvent<GameObject> OnDeath = new UnityEvent<GameObject>();
     
-    // New events
     public UnityEvent OnDefenseActivated = new UnityEvent();
     public UnityEvent OnDefenseDeactivated = new UnityEvent();
     public UnityEvent OnAttackBonusActivated = new UnityEvent();
@@ -59,7 +76,7 @@ public class PlayerData : MonoBehaviour
     public bool hasSlammed = false;
     public bool isCharging = false;
     public bool hasCharged = false;
-    public bool isBursting = false; // Track burst state for invincibility
+    public bool isBursting = false;
 
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
@@ -84,30 +101,28 @@ public class PlayerData : MonoBehaviour
 
     [Header("Quick Break Settings")]
     public float quickBreakDuration = 0.2f;
-    public float quickBreakDefenseDuration = 1.5f; // Duration of defense boost after quick break
+    public float quickBreakDefenseDuration = 1.5f;
 
     [Header("Charge Roll Settings")]
     public float chargeRollMinForce = 15f;
     public float chargeRollMaxForce = 45f;
     public float chargeRollMaxDuration = 2f;
     public float chargeRollSpinSpeed = 1000f;
-    public float chargeRollAttackBoostDuration = 2.0f; // Duration of attack boost after charge
+    public float chargeRollAttackBoostDuration = 2.0f;
 
     [Header("Burst Settings")]
-    public float burstInvincibilityDuration = 1.2f; // Invincibility duration during burst
+    public float burstInvincibilityDuration = 1.2f;
 
     [Header("Visual Feedback")]
-    public Color flashColor = Color.red; // Color to flash during i-frames
-    public Color defenseColor = Color.blue; // Color to show during defense boost
-    public Color attackColor = Color.yellow; // Color to show during attack boost
-    public float flashSpeed = 0.1f; // How fast to flash
+    public Color flashColor = Color.red;
+    public Color defenseColor = Color.blue;
+    public Color attackColor = Color.yellow;
+    public float flashSpeed = 0.1f;
 
-    // Multiple renderer support
     private Renderer[] playerRenderers;
     private Color[] originalColors;
 
     private ParticleEffects particleEffects;
-
 
     private void Start()
     {
@@ -117,41 +132,29 @@ public class PlayerData : MonoBehaviour
         SetMaxStamina.Invoke(maxStamina);
         rb = GetComponent<Rigidbody>();
 
-        // Find all renderers in the player hierarchy
         playerRenderers = GetComponentsInChildren<Renderer>();
-        
-        Debug.Log($"Found {playerRenderers.Length} renderers in {gameObject.name}");
         
         if (playerRenderers.Length == 0)
         {
             Debug.LogError($"No renderers found in {gameObject.name} or its children! Visual effects won't work.");
         }
         
-        // Store all original colors
         originalColors = new Color[playerRenderers.Length];
         for (int i = 0; i < playerRenderers.Length; i++)
         {
-            // Create unique material instances to avoid shared material issues
             if (playerRenderers[i].sharedMaterial != null)
             {
                 playerRenderers[i].material = new Material(playerRenderers[i].sharedMaterial);
-                // Store the current color (which should be the correct original color)
                 originalColors[i] = playerRenderers[i].material.color;
                 
-                // Debug the original color we're storing
-                Debug.Log($"Original color for renderer {i}: {originalColors[i]}");
-                
-                // Make sure the initial color is not black
                 if (originalColors[i] == Color.black)
                 {
-                    Debug.LogWarning($"Original color for renderer {i} is black, setting to white");
                     originalColors[i] = Color.white;
                     playerRenderers[i].material.color = Color.white;
                 }
             }
             else
             {
-                Debug.LogWarning($"Renderer {i} has no shared material!");
                 originalColors[i] = Color.white;
             }
         }
@@ -160,6 +163,8 @@ public class PlayerData : MonoBehaviour
         if (particleEffects == null) {
             Debug.LogWarning("ParticleEffects component not found on " + gameObject.name);
         }
+        
+        UpdateAbilityFlags();
     }
 
     private void Update()
@@ -173,6 +178,8 @@ public class PlayerData : MonoBehaviour
                 // Defense bonus expired
                 damageReduction = 0f;
                 OnDefenseDeactivated.Invoke();
+                isUsingDefensiveAbility = false;
+                ResetAllRenderersToOriginalColors(); // Added: Reset colors when defense expires
             }
         }
 
@@ -185,8 +192,11 @@ public class PlayerData : MonoBehaviour
                 // Attack bonus expired
                 damageMultiplier = 1.0f;
                 OnAttackBonusDeactivated.Invoke();
+                ResetAllRenderersToOriginalColors(); // Added: Reset colors when attack bonus expires
             }
         }
+        
+        UpdateAbilityFlags();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -197,89 +207,160 @@ public class PlayerData : MonoBehaviour
             PlayerData otherPlayerData = collision.gameObject.GetComponent<PlayerData>();
             if (otherRb == null || otherPlayerData == null) return;
 
-            float relativeSpeed = (rb.linearVelocity - otherRb.linearVelocity).magnitude;
-
-            if (relativeSpeed >= minHitSpeed)
+            Vector3 relativeVelocity = rb.linearVelocity - otherRb.linearVelocity;
+            float relativeSpeed = relativeVelocity.magnitude;
+            
+            Vector3 contactPoint = collision.GetContact(0).point;
+            
+            if (relativeSpeed >= minDamageSpeed)
             {
-                Vector3 contactPoint = collision.GetContact(0).point;
-                bool isMetalEnd = IsMetalEnd(contactPoint);
-                bool isDeflecting = IsDeflecting(collision.contacts[0].normal);
-
-                if (isMetalEnd)
+                if (HandleAbilityInteractions(otherPlayerData, contactPoint, relativeVelocity))
                 {
-                    if (isDeflecting)
-                    {
-                        ApplyKnockback(otherRb, deflectKnockbackMultiplier);
-                        particleEffects?.PlayDeflectEffect(contactPoint);
-                        Debug.Log("Deflect! Knockback applied.");
-                    }
-                    else
-                    {
-                        // Determine damage amount based on move type
-                        int damageAmount = CalculateDamageAmount(otherPlayerData);
-                        TakeDamage(damageAmount);
-                        particleEffects?.PlayHitEffect(contactPoint);
-                        Debug.Log("Hit! Damage taken: " + damageAmount);
-                    }
+                    return;
+                }
+                
+                if (isInvincible || otherPlayerData.isInvincible || 
+                    isUsingDefensiveAbility || otherPlayerData.isUsingDefensiveAbility)
+                {
+                    return;
+                }
+                
+                float mySpeed = rb.linearVelocity.magnitude;
+                float otherSpeed = otherRb.linearVelocity.magnitude;
+                
+                bool myOffensiveAbility = isUsingOffensiveAbility;
+                bool otherOffensiveAbility = otherPlayerData.isUsingOffensiveAbility;
+                
+                if (myOffensiveAbility && !otherOffensiveAbility)
+                {
+                    int damageAmount = GetOffensiveAbilityDamage();
+                    otherPlayerData.TakeDamage(damageAmount);
+                    particleEffects?.PlayHitEffect(contactPoint);
+                    return;
+                }
+                else if (!myOffensiveAbility && otherOffensiveAbility)
+                {
+                    int damageAmount = otherPlayerData.GetOffensiveAbilityDamage();
+                    TakeDamage(damageAmount);
+                    particleEffects?.PlayHitEffect(contactPoint);
+                    return;
+                }
+                
+                float myDeflectThreshold = otherSpeed * (1f + deflectionThreshold);
+                float otherDeflectThreshold = mySpeed * (1f + deflectionThreshold);
+                
+                bool isDeflection = mySpeed <= myDeflectThreshold && otherSpeed <= otherDeflectThreshold;
+                
+                if (isDeflection)
+                {
+                    ApplyDeflection(otherRb, contactPoint);
+                    particleEffects?.PlayDeflectEffect(contactPoint);
                 }
                 else
                 {
-                    Debug.Log("No damage: Glass side hit or invalid contact.");
+                    bool isFasterThanOpponent = mySpeed > otherSpeed;
+                    
+                    if (isFasterThanOpponent)
+                    {
+                        int damageAmount = CalculateMomentumDamage(mySpeed, otherSpeed);
+                        otherPlayerData.TakeDamage(damageAmount);
+                        particleEffects?.PlayHitEffect(contactPoint);
+                    }
+                    else
+                    {
+                        int damageAmount = CalculateMomentumDamage(otherSpeed, mySpeed);
+                        TakeDamage(damageAmount);
+                        particleEffects?.PlayHitEffect(contactPoint);
+                    }
                 }
             }
         }
     }
-
-    // Calculate damage based on the opponent's current move and damage multipliers
-    private int CalculateDamageAmount(PlayerData attacker)
-    {
-        int baseDamage = normalCollisionDamage;
         
-        if (attacker.hasSlammed)
+    // Updated to return flat 2 damage for slam and charge
+    private int GetOffensiveAbilityDamage()
+    {
+        if (hasCharged)
         {
-            baseDamage = attacker.slamDamage;
+            return 2; // Flat damage for charge roll
         }
-        else if (attacker.hasCharged)
+        else if (hasSlammed)
         {
-            baseDamage = attacker.chargeRollDamage;
+            return 2; // Flat damage for slam
         }
-        // Burst doesn't deal damage, only knockback, so no case for isBursting
         
-        // Apply attacker's damage multiplier
-        float totalDamage = baseDamage * attacker.damageMultiplier;
+        return Mathf.RoundToInt(normalCollisionDamage * damageMultiplier);
+    }
         
-        // Apply defender's damage reduction
-        totalDamage *= (1 - damageReduction);
+    // Modified to return damage between 0.5 and 1.5 based on speed
+    private int CalculateMomentumDamage(float fasterSpeed, float slowerSpeed)
+    {
+        // Calculate speed difference
+        float speedDifference = fasterSpeed - slowerSpeed;
         
-        return Mathf.Max(1, Mathf.RoundToInt(totalDamage)); // Minimum 1 damage
+        // Calculate raw damage value between 0.5 and 1.5 based on speed difference
+        // Full range reached at 10 speed difference
+        float rawDamage = Mathf.Lerp(0.5f, 1.5f, Mathf.Clamp01(speedDifference / 10f));
+        
+        // Round to nearest 0.5
+        float roundedDamage = Mathf.Round(rawDamage * 2) / 2;
+        
+        // Convert to int - will be either 0, 1, or 1 for values in our range
+        // Note: using ceiling to ensure 0.5 becomes 1
+        return Mathf.CeilToInt(roundedDamage);
     }
-
-    private bool IsMetalEnd(Vector3 hitPoint)
+        
+    private void ApplyDeflection(Rigidbody otherRb, Vector3 contactPoint)
     {
-        return hitPoint.y < transform.position.y;
+        Vector3 myDeflectionDirection = (transform.position - contactPoint).normalized;
+        Vector3 otherDeflectionDirection = (otherRb.position - contactPoint).normalized;
+        
+        rb.AddForce(myDeflectionDirection * deflectKnockbackMultiplier * rb.linearVelocity.magnitude, ForceMode.Impulse);
+        otherRb.AddForce(otherDeflectionDirection * deflectKnockbackMultiplier * otherRb.linearVelocity.magnitude, ForceMode.Impulse);
     }
-
-    private bool IsDeflecting(Vector3 hitNormal)
+        
+    private bool HandleAbilityInteractions(PlayerData otherPlayerData, Vector3 contactPoint, Vector3 relativeVelocity)
     {
-        return Vector3.Dot(hitNormal, transform.forward) > 0.5f;
+        if (isUsingDefensiveAbility || otherPlayerData.isUsingDefensiveAbility)
+        {
+            return true;
+        }
+        
+        if (isUsingOffensiveAbility && otherPlayerData.isUsingOffensiveAbility)
+        {
+            float knockbackForce = relativeVelocity.magnitude * 1.5f;
+            Vector3 myKnockbackDir = (transform.position - contactPoint).normalized;
+            Vector3 otherKnockbackDir = (otherPlayerData.transform.position - contactPoint).normalized;
+            
+            rb.AddForce(myKnockbackDir * knockbackForce, ForceMode.Impulse);
+            otherPlayerData.GetComponent<Rigidbody>().AddForce(otherKnockbackDir * knockbackForce, ForceMode.Impulse);
+            
+            particleEffects?.PlayDeflectEffect(contactPoint);
+            return true;
+        }
+        
+        return false;
     }
-
-    private void ApplyKnockback(Rigidbody otherRb, float multiplier)
+        
+    public void UpdateAbilityFlags()
     {
-        Vector3 knockbackDirection = (otherRb.position - transform.position).normalized;
-        otherRb.AddForce(knockbackDirection * moveSpeed * multiplier, ForceMode.Impulse);
+        isUsingOffensiveAbility = hasSlammed || hasCharged;
+        isUsingDefensiveAbility = isBursting || (defenseTimer > 0f && damageReduction >= 0.9f);
     }
 
     public void TakeDamage(int damageAmt)
     {
-        if (isInvincible) 
+        if (isInvincible || isUsingDefensiveAbility) 
         {
-            Debug.Log(gameObject.name + " is invincible! No damage taken.");
             return;
         }
 
+        if (damageReduction > 0)
+        {
+            damageAmt = Mathf.Max(1, Mathf.RoundToInt(damageAmt * (1f - damageReduction)));
+        }
+
         currentHealth -= damageAmt;
-        Debug.Log(gameObject.name + " took " + damageAmt + " damage! Current HP: " + currentHealth);
         OnDamage.Invoke(damageAmt);
 
         if (currentHealth <= 0)
@@ -292,72 +373,63 @@ public class PlayerData : MonoBehaviour
         }
     }
 
-    // Activate defense boost
     public void ActivateDefense(float duration, float reduction)
     {
-        Debug.Log($"Defense activated on {gameObject.name} for {duration} seconds with {reduction*100}% reduction");
-        
-        damageReduction = Mathf.Clamp01(reduction); // Clamp between 0-1
+        damageReduction = Mathf.Clamp01(reduction);
         defenseTimer = duration;
         OnDefenseActivated.Invoke();
+        
+        UpdateAbilityFlags();
+        
         StartCoroutine(DefenseVisualEffect(duration));
     }
 
-    // Activate attack boost
     public void ActivateAttackBoost(float duration, float multiplier)
     {
-        Debug.Log($"Attack boost activated on {gameObject.name} for {duration} seconds with {multiplier}x multiplier");
-        
         damageMultiplier = multiplier;
         attackBonusTimer = duration;
         OnAttackBonusActivated.Invoke();
+        
+        UpdateAbilityFlags();
+        
         StartCoroutine(AttackVisualEffect(duration));
     }
 
-    // Used when performing burst move
     public void ActivateBurstInvincibility()
     {
-        Debug.Log($"Burst invincibility activated on {gameObject.name}");
-        
         isBursting = true;
+        isInvincible = true;
+        UpdateAbilityFlags();
+        
         StartCoroutine(BurstInvincibility());
     }
 
     private IEnumerator BurstInvincibility()
     {
-        isInvincible = true;
-        Debug.Log(gameObject.name + " entered Burst Invincibility!");
-
-        // Store reference to the coroutine
         Coroutine visualEffect = StartCoroutine(BurstVisualEffect());
 
         yield return new WaitForSeconds(burstInvincibilityDuration);
 
         isInvincible = false;
         isBursting = false;
-        Debug.Log(gameObject.name + " exited Burst Invincibility!");
+        UpdateAbilityFlags();
 
-        // Stop the visual effect if it's still running
         if (visualEffect != null)
             StopCoroutine(visualEffect);
 
-        // Reset all renderers to original colors
         ResetAllRenderersToOriginalColors();
     }
 
     private IEnumerator ActivateIFrames()
     {
         isInvincible = true;
-        Debug.Log(gameObject.name + " entered I-Frames! No damage can be taken.");
 
         StartCoroutine(FlashEffect());
 
         yield return new WaitForSeconds(invincibilityDuration);
 
         isInvincible = false;
-        Debug.Log(gameObject.name + " exited I-Frames! Can take damage again.");
 
-        // Reset all renderers to original colors
         ResetAllRenderersToOriginalColors();
     }
 
@@ -366,14 +438,10 @@ public class PlayerData : MonoBehaviour
         if (playerRenderers.Length == 0)
             yield break;
 
-        Debug.Log($"Starting flash effect on {gameObject.name}");
-        
-        // Track how many flashes we've done
         int flashCount = 0;
         
-        while (isInvincible && flashCount < 20) // Limit to 20 flashes as a safety
+        while (isInvincible && flashCount < 20)
         {
-            // Change all renderers to flash color
             for (int i = 0; i < playerRenderers.Length; i++)
             {
                 if (playerRenderers[i] != null)
@@ -384,7 +452,6 @@ public class PlayerData : MonoBehaviour
             
             yield return new WaitForSeconds(flashSpeed);
             
-            // Change all renderers back to original color
             for (int i = 0; i < playerRenderers.Length; i++)
             {
                 if (playerRenderers[i] != null)
@@ -397,18 +464,15 @@ public class PlayerData : MonoBehaviour
             flashCount++;
         }
         
-        Debug.Log($"Flash effect ended on {gameObject.name} after {flashCount} flashes");
-        
-        // Ensure colors are reset at the end
         ResetAllRenderersToOriginalColors();
     }
 
+    // Modified to ensure colors are reset when defense effect ends
     private IEnumerator DefenseVisualEffect(float duration)
     {
         if (playerRenderers.Length == 0)
             yield break;
 
-        // Apply defense color to all renderers
         for (int i = 0; i < playerRenderers.Length; i++)
         {
             if (playerRenderers[i] != null)
@@ -420,19 +484,19 @@ public class PlayerData : MonoBehaviour
         
         yield return new WaitForSeconds(duration);
         
-        // Only reset colors if not in another state (like invincibility)
+        // Reset colors when the effect ends, but only if not in another state
         if (!isInvincible && defenseTimer <= 0 && attackBonusTimer <= 0)
         {
             ResetAllRenderersToOriginalColors();
         }
     }
 
+    // Modified to ensure colors are reset when attack effect ends
     private IEnumerator AttackVisualEffect(float duration)
     {
         if (playerRenderers.Length == 0)
             yield break;
 
-        // Apply attack color to all renderers
         for (int i = 0; i < playerRenderers.Length; i++)
         {
             if (playerRenderers[i] != null)
@@ -444,7 +508,7 @@ public class PlayerData : MonoBehaviour
         
         yield return new WaitForSeconds(duration);
         
-        // Only reset colors if not in another state (like invincibility)
+        // Reset colors when the effect ends, but only if not in another state
         if (!isInvincible && defenseTimer <= 0 && attackBonusTimer <= 0)
         {
             ResetAllRenderersToOriginalColors();
@@ -460,7 +524,6 @@ public class PlayerData : MonoBehaviour
         
         while (elapsedTime < burstInvincibilityDuration)
         {
-            // Pulse between white and yellow for burst
             float pulseValue = Mathf.PingPong(elapsedTime * 8f, 1f);
             
             for (int i = 0; i < playerRenderers.Length; i++)
@@ -474,27 +537,33 @@ public class PlayerData : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+        
+        // Make sure to reset colors at the end
+        ResetAllRenderersToOriginalColors();
     }
 
     // Helper method to reset all renderers to original colors
     private void ResetAllRenderersToOriginalColors()
     {
-        //Debug.Log($"Resetting all renderers to original colors on {gameObject.name}");
         for (int i = 0; i < playerRenderers.Length; i++)
         {
             if (playerRenderers[i] != null)
             {
                 playerRenderers[i].material.color = originalColors[i];
-                //Debug.Log($"Reset renderer {i} to color: {originalColors[i]}");
-                
-                // Force update material
-                Material currentMat = playerRenderers[i].material;
-                playerRenderers[i].material = currentMat;
             }
         }
     }
     
-    // Add OnDisable to ensure colors get reset when the object is disabled
+    // Called when player actions reset defense
+    public void ClearDefenseState()
+    {
+        defenseTimer = 0f;
+        damageReduction = 0f;
+        OnDefenseDeactivated.Invoke();
+        UpdateAbilityFlags();
+        ResetAllRenderersToOriginalColors();
+    }
+    
     private void OnDisable()
     {
         ResetAllRenderersToOriginalColors();
@@ -509,7 +578,6 @@ public class PlayerData : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log(gameObject.name + " has been eliminated!");
         OnDeath.Invoke(this.gameObject);
         BattleManager.Instance.OnPlayerDeath(this.gameObject);
     }
