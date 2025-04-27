@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7975525196682138065
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3481781241112215195}
+  - component: {fileID: 6316170855533194351}
+  m_Layer: 0
+  m_Name: GAME_SFXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3481781241112215195
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7975525196682138065}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6316170855533194351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7975525196682138065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95f9cf7ec3ca05a448e9bd88564e3cac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundMixer: {fileID: 7613267758212777161, guid: 24482206668284144b552dc371529507, type: 2}
+  chargeRollGroup:
+    groupTag: ChargeRollGroup
+    addressableKeys:
+    - SFX_Charge_Roll_Begin
+    - SFX_Charge_Roll_Rep_Long
+    - SFX_Charge_Roll_End
+  orcHitDamageGroup:
+    groupTag: OrcHitDamageGroup
+    addressableKeys:
+    - SFX_Orc_Hit_1
+    - SFX_Orc_Hit_3
+    - SFX_Orc_Hit_4
+    - SFX_Orc_Hit_5
+    - SFX_Orc_Hit_6
+  impactGroupGeneral:
+    groupTag: Impact Group General
+    addressableKeys:
+    - SFX_Basketball_1
+    - SFX_Basketball_2
+    - SFX_Basketball_3
+  impactGroupDeflect:
+    groupTag: Impact Group Deflect
+    addressableKeys:
+    - SFX_Hammer_Hit_2
+    - SFX_Hammer_Hit_5
+  impactGroupSlam:
+    groupTag: Impact Group Slam
+    addressableKeys:
+    - SFX_Damage_Metal_18
+    - SFX_Damage_Metal_19
+    - SFX_Damage_Metal_20
+    - SFX_Damage_Metal_21
+    - SFX_Damage_Metal_22

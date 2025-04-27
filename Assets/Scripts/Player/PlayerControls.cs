@@ -1,4 +1,5 @@
 using System.Collections;
+using GASHAPWN.Audio;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,7 +9,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Vector2 moveInput;
     private Vector2 rotationInput;
-    
+
     [SerializeField] private PlayerData playerData;
     [SerializeField] private float groundCheckDistance = 0.6f; // Slightly more than sphere radius
     [SerializeField] private LayerMask groundLayer; // Set this in inspector to your ground layer
@@ -16,7 +17,7 @@ public class PlayerController : MonoBehaviour
     private ChargeRollIndicator chargeIndicator;
     private float chargeStartTime;
     private Quaternion chargeRotation;
-    
+
     // Reference to the initial position for quick break defensive stance
     private Vector3 quickBreakPosition;
     private bool isInDefensiveStance = false;
@@ -45,15 +46,15 @@ public class PlayerController : MonoBehaviour
     {
         // Always store the input value
         moveInput = context.ReadValue<Vector2>();
-        
+
         // Check if player is in defensive stance and trying to move
         if (isInDefensiveStance && moveInput.sqrMagnitude > 0.1f)
         {
             EndDefensiveStance();
         }
-        
+
         // Don't override input processing if charging
-        if (playerData.isCharging) 
+        if (playerData.isCharging)
         {
             moveInput = Vector2.zero;
         }
@@ -78,9 +79,11 @@ public class PlayerController : MonoBehaviour
                 rb.AddForce(Vector3.up * playerData.jumpForce, ForceMode.Impulse);
                 playerData.currentStamina -= 1f;
                 playerData.OnStaminaChanged.Invoke(playerData.currentStamina);
+                GAME_SFXManager.Instance.Play_Jump(this.transform);
             }
             else
             {
+                playerData.OnLowStamina.Invoke(playerData.currentStamina);
                 Debug.Log("Not enough stamina to jump");
             }
         }
@@ -105,12 +108,13 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(SlamCoroutine());
                 playerData.currentStamina -= 1f;
                 playerData.OnStaminaChanged.Invoke(playerData.currentStamina);
-                
+
                 // Activate attack boost for slam
                 playerData.ActivateAttackBoost(1.0f, 1.5f); // 1 second of 50% damage boost
             }
             else
             {
+                playerData.OnLowStamina.Invoke(playerData.currentStamina);
                 Debug.Log("Not enough stamina to slam");
             }
         }
@@ -119,17 +123,17 @@ public class PlayerController : MonoBehaviour
     private IEnumerator SlamCoroutine()
     {
         playerData.controlsEnabled = false;
-        
+
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-        
+
         rb.useGravity = false;
-        
-        yield return new WaitForSeconds(1f);
-        
+
+        yield return new WaitForSeconds(playerData.slamAirborneTime);
+        GAME_SFXManager.Instance.Play_Drop(this.transform);
         rb.useGravity = true;
         rb.AddForce(Vector3.down * playerData.slamForce, ForceMode.Impulse);
-        
+
         playerData.hasSlammed = true;
         playerData.UpdateAbilityFlags();
     }
@@ -153,9 +157,17 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(QuickBreakCoroutine());
                 playerData.currentStamina -= 2f;
                 playerData.OnStaminaChanged.Invoke(playerData.currentStamina);
+
+                // Activate defensive buff after quick break - This line was only in the 'main' branch part of the conflict marker,
+                // but it logically belongs here when the QuickBreak is initiated, not in the marker itself.
+                // Assuming it was intended to be part of the Quick Break action:
+                // playerData.ActivateDefense(playerData.quickBreakDefenseDuration, 0.5f); // 50% damage reduction
+                // --- However, the coroutine seems to handle the final defensive stance activation.
+                // --- Let's keep the original structure where the coroutine handles the final state.
             }
             else
             {
+                playerData.OnLowStamina.Invoke(playerData.currentStamina);
                 Debug.Log("Not enough stamina for quick break");
             }
         }
@@ -191,11 +203,11 @@ public class PlayerController : MonoBehaviour
 
         // Store position for defensive stance
         quickBreakPosition = transform.position;
-        
+
         // Enter defensive stance (100% damage reduction)
         isInDefensiveStance = true;
-        playerData.ActivateDefense(playerData.quickBreakDefenseDuration, 1.0f);
-        
+        playerData.ActivateDefense(playerData.quickBreakDefenseDuration, 1.0f); // Apply full defense here
+
         // Re-enable player control so they can move to exit the stance
         playerData.controlsEnabled = true;
     }
@@ -205,14 +217,14 @@ public class PlayerController : MonoBehaviour
     {
         if (!isInDefensiveStance)
             return;
-            
+
         Debug.Log("Exited defensive stance due to movement");
-        
+
         isInDefensiveStance = false;
-        playerData.defenseTimer = 0f;
-        playerData.damageReduction = 0f;
+        playerData.defenseTimer = 0f; // Assuming PlayerData handles deactivation based on timer or this call
+        playerData.damageReduction = 0f; // Explicitly reset reduction
         playerData.OnDefenseDeactivated.Invoke();
-        playerData.UpdateAbilityFlags();
+        playerData.UpdateAbilityFlags(); // Update flags after stance ends
     }
 
     public void OnRotateChargeDirection(InputAction.CallbackContext context)
@@ -231,7 +243,7 @@ public class PlayerController : MonoBehaviour
                 EndDefensiveStance();
                 return;
             }
-            
+
             if (playerData.currentStamina >= 4f)
             {
                 playerData.currentStamina -= 4f;
@@ -240,6 +252,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                playerData.OnLowStamina.Invoke(playerData.currentStamina);
                 Debug.Log("Not enough stamina to charge");
             }
         }
@@ -306,7 +319,7 @@ public class PlayerController : MonoBehaviour
         chargeIndicator.HideIndicator();
         playerData.controlsEnabled = true;
         playerData.hasCharged = true;
-        
+
         // Activate attack boost after charge roll
         float chargeBoost = Mathf.Lerp(1.2f, 2.0f, Mathf.Clamp01((Time.time - chargeStartTime) / playerData.chargeRollMaxDuration));
         playerData.ActivateAttackBoost(playerData.chargeRollAttackBoostDuration, chargeBoost);
@@ -348,6 +361,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                playerData.OnLowStamina.Invoke(playerData.currentStamina);
                 Debug.Log("Not enough stamina for burst");
             }
         }
@@ -356,7 +370,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator BurstCoroutine()
     {
         playerData.controlsEnabled = false;
-        
+
         // Activate invincibility for burst
         playerData.ActivateBurstInvincibility();
 
@@ -404,26 +418,39 @@ public class PlayerController : MonoBehaviour
 
         playerData.isGrounded = IsGrounded();
 
-        // When in defensive stance, keep the player in place
+        // --- RESOLVED CONFLICT AREA START ---
+
+        // Check defensive stance first (from HEAD)
         if (isInDefensiveStance)
         {
-            // Allow movement input to break out of stance, but don't apply movement yet
+            // Keep the player in place when in defensive stance
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
             transform.position = quickBreakPosition; // Lock position
-            return;
+            return; // Exit FixedUpdate early if in defensive stance
         }
+
+        // Play slam sound if isGrounded and hasSlammed (from main)
+        // This check needs to happen *before* hasSlammed is reset below.
+        if (playerData.isGrounded && playerData.hasSlammed)
+        {
+            GAME_SFXManager.Instance.Play_SlamImpact(this.transform);
+            // Note: hasSlammed is reset later in this function when grounded.
+        }
+
+        // --- RESOLVED CONFLICT AREA END ---
 
         if (playerData.isGrounded && !playerData.isCharging)
         {
             rb.linearDamping = playerData.drag;
             rb.angularDamping = playerData.angularDrag;
             playerData.controlsEnabled = true;
-            playerData.hasSlammed = false;
+            playerData.hasSlammed = false; // Reset slam state now that we've landed (and potentially played the sound)
             playerData.hasCharged = false;
             Vector3 force = new Vector3(moveInput.x, 0f, moveInput.y) * playerData.moveSpeed;
             rb.AddForce(force);
 
+            // Regenerate stamina only when moving on the ground
             if (moveInput.sqrMagnitude > 0.01f)
             {
                 playerData.currentStamina += playerData.staminaRegenRate * Time.fixedDeltaTime;
@@ -431,13 +458,16 @@ public class PlayerController : MonoBehaviour
                 playerData.OnStaminaChanged.Invoke(playerData.currentStamina);
             }
         }
-        else
+        else // Player is airborne or charging
         {
+            // Reduce drag when airborne or charging
             rb.linearDamping = 0f;
             rb.angularDamping = 0f;
         }
 
-        Vector3 torque = new Vector3(moveInput.y, 0f, -moveInput.x) * playerData.airTorque;
+        // Apply air/ground torque based on movement input (even if not moving forward, allows spinning)
+        // Note: This torque applies even when charging according to this logic placement.
+        Vector3 torque = new Vector3(moveInput.y, 0f, -moveInput.x) * playerData.airTorque; // Might want separate ground/air torque values
         rb.AddTorque(torque);
     }
 

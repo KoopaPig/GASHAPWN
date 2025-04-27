@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GASHAPWN {
+namespace GASHAPWN.Utility {
     public static class FigureResizeHelper
     {
         // Given an object, resize it to worldspace scale according the parent's scale

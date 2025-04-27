@@ -1,4 +1,5 @@
 using System.Collections;
+using GASHAPWN.Utility;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -66,7 +67,7 @@ namespace GASHAPWN.UI {
             }
 
             levelSelectScreen.anchoredPosition = onscreenPosition;
-            EventSystem.current.SetSelectedGameObject(levelSelectFirstButton); // Set new button here
+            EventSystemSelectHelper.SetSelectedGameObject(levelSelectFirstButton); // Set new button here
             transitionCoroutine = null; // reset
             //levelSelectScreen.GetComponent<CanvasGroup>().interactable = true;
         }
@@ -87,7 +88,7 @@ namespace GASHAPWN.UI {
             }
 
             controlsBindScreen.anchoredPosition = onscreenPosition;
-            EventSystem.current.SetSelectedGameObject(controlsBindFirstButton); // Set new button here
+            EventSystemSelectHelper.SetSelectedGameObject(controlsBindFirstButton); // Set new button here
             transitionCoroutine = null; // reset
             //controlsBindScreen.GetComponent<CanvasGroup>().interactable = true;
         }

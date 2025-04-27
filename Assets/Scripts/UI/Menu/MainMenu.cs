@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using GASHAPWN.Audio;
+using GASHAPWN.Utility;
 
 namespace GASHAPWN.UI {
     public class MainMenu : MonoBehaviour
@@ -58,6 +59,7 @@ namespace GASHAPWN.UI {
         
         public void PlayButton()
         {
+            UI_SFXManager.Instance.Play_PlayButton();
             TransitionManager.Instance().Transition(playSceneName, menuTransition, 0);
             GameManager.Instance.UpdateGameState(GameState.LevelSelect);
         }
@@ -73,11 +75,7 @@ namespace GASHAPWN.UI {
             if (!IsMenuTransition)
             {
                 controlsScreen.SetActive(true);
-
-                // clear selected object
-                EventSystem.current.SetSelectedGameObject(null);
-                // set new selected object
-                EventSystem.current.SetSelectedGameObject(controlsFirstButton);
+                EventSystemSelectHelper.SetSelectedGameObject(controlsFirstButton);
             }
         }
 
@@ -86,11 +84,7 @@ namespace GASHAPWN.UI {
             if (!IsMenuTransition)
             {
                 controlsScreen.SetActive(false);
-
-                // clear selected object
-                EventSystem.current.SetSelectedGameObject(null);
-                // set new selected object in one frame
-                EventSystem.current.SetSelectedGameObject(controlsClosedButton);
+                EventSystemSelectHelper.SetSelectedGameObject(controlsClosedButton);
             }
         }
 
@@ -99,11 +93,7 @@ namespace GASHAPWN.UI {
             if (!IsMenuTransition)
             {
                 optionsScreen.SetActive(true);
-
-                // clear selected object
-                EventSystem.current.SetSelectedGameObject(null);
-                // set new selected object
-                EventSystem.current.SetSelectedGameObject(optionsFirstButton);
+                EventSystemSelectHelper.SetSelectedGameObject(optionsFirstButton);
             }
         }
 
@@ -113,12 +103,7 @@ namespace GASHAPWN.UI {
             {
                 //DisableNavigationForOptions();
                 optionsScreen.SetActive(false);
-
-                // clear selected object
-                EventSystem.current.SetSelectedGameObject(null);
-
-                // set new selected object in one frame
-                EventSystem.current.SetSelectedGameObject(optionsClosedButton);
+                EventSystemSelectHelper.SetSelectedGameObject(optionsClosedButton);
             }
         }
 
@@ -127,11 +112,7 @@ namespace GASHAPWN.UI {
             if (!IsMenuTransition)
             {
                 creditsScreen.SetActive(true);
-
-                // clear selected object
-                EventSystem.current.SetSelectedGameObject(null);
-                // set new selected object
-                EventSystem.current.SetSelectedGameObject(creditsFirstObject);
+                EventSystemSelectHelper.SetSelectedGameObject(creditsFirstObject);
             }
         }
         public void CloseCredits()
@@ -139,11 +120,7 @@ namespace GASHAPWN.UI {
             if (!IsMenuTransition)
             {
                 creditsScreen.SetActive(false);
-
-                // clear selected object
-                EventSystem.current.SetSelectedGameObject(null);
-                // set new selected object in one frame
-                EventSystem.current.SetSelectedGameObject(creditsClosedButton);
+                EventSystemSelectHelper.SetSelectedGameObject(creditsClosedButton);
             }
         }
 
@@ -191,6 +168,14 @@ namespace GASHAPWN.UI {
             else if (creditsScreen.activeSelf)
             {
                 CloseCredits();
+            }
+            // Close any open confirmation windows
+            var windows = FindObjectsByType<ConfirmationWindow>(FindObjectsSortMode.None);
+            if (windows != null) { 
+                foreach (var w in windows) 
+                { 
+                    if (w.gameObject.activeSelf) w.gameObject.SetActive(false); 
+                } 
             }
         }
 

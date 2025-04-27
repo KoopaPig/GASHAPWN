@@ -73,9 +73,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2724288958098471093}
     m_Modifications:
+    - target: {fileID: 941156103908479563, guid: 05906227285679c4aa67b3151d133b78, type: 3}
+      propertyPath: m_VersionIndex
+      value: 224
+      objectReference: {fileID: 0}
+    - target: {fileID: 944638747882415482, guid: 05906227285679c4aa67b3151d133b78, type: 3}
+      propertyPath: m_VersionIndex
+      value: 266
+      objectReference: {fileID: 0}
     - target: {fileID: 1319019512237741334, guid: 05906227285679c4aa67b3151d133b78, type: 3}
       propertyPath: m_Name
       value: Ramp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2985217969946684373, guid: 05906227285679c4aa67b3151d133b78, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3980946798837729550, guid: 05906227285679c4aa67b3151d133b78, type: 3}
+      propertyPath: m_VersionIndex
+      value: 266
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590496251514970849, guid: 05906227285679c4aa67b3151d133b78, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5011529545236395433, guid: 05906227285679c4aa67b3151d133b78, type: 3}
       propertyPath: m_LocalScale.x
@@ -128,6 +148,14 @@ PrefabInstance:
     - target: {fileID: 5011529545236395433, guid: 05906227285679c4aa67b3151d133b78, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011049120382233688, guid: 05906227285679c4aa67b3151d133b78, type: 3}
+      propertyPath: m_VersionIndex
+      value: 266
+      objectReference: {fileID: 0}
+    - target: {fileID: 8269151903829740068, guid: 05906227285679c4aa67b3151d133b78, type: 3}
+      propertyPath: m_VersionIndex
+      value: 266
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

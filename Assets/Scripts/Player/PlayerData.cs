@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using GASHAPWN;
+using GASHAPWN.Audio;
 
 public class PlayerData : MonoBehaviour
 {
@@ -60,6 +61,7 @@ public class PlayerData : MonoBehaviour
     public UnityEvent<float> SetMaxStamina = new UnityEvent<float>();
     public UnityEvent<float> OnStaminaHardDecrease = new UnityEvent<float>();
     public UnityEvent<float> OnStaminaHardIncrease = new UnityEvent<float>();
+    public UnityEvent<float> OnLowStamina = new UnityEvent<float>();
     public UnityEvent<GameObject> OnDeath = new UnityEvent<GameObject>();
     
     public UnityEvent OnDefenseActivated = new UnityEvent();
@@ -81,6 +83,7 @@ public class PlayerData : MonoBehaviour
     public float jumpForce = 5f;
     public float minHitSpeed = 3f;
     public float deflectKnockbackMultiplier = 1.5f;
+    public float slamAirborneTime = 1f;
 
     [Header("Physics Floatiness")]
     public float drag = 0f;

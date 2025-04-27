@@ -30,13 +30,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1b5edf0d508627b45b344835c7cc3b25
-    m_Address: SFX_Jump_7
+  - m_GUID: 17b1bda6cc353cf46a21b9ae7ba17c68
+    m_Address: SFX_SMB2_Boing
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1c2598858844f8143b29289a9049bbb4
     m_Address: SFX_Remove_9
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ea59fffd53510b4f9433ed987751c1c
+    m_Address: SFX_Jump_1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -47,11 +52,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 265a2ee688348ef41822aea7a72d949d
     m_Address: SFX_Basketball_3
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 29c9d2a01281dad48b493d744bd32b01
-    m_Address: SFX_Guard_5
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -100,23 +100,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3b5beaa0df038374e8a270a52342eb66
-    m_Address: SFX_Basketball_4
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3c77b59f385629c458f2f62a64ebaa46
     m_Address: SFX_Pot_Smash_2
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 420fefa3e9c7de243ba52939d7c9c562
-    m_Address: SFX_Confetti_1
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4429d2e1328da2d468ee713cdfbede98
-    m_Address: SFX_Hammer_Hit_4
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -200,16 +185,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 77fe419bf52f7f847909792853d88765
-    m_Address: SFX_GiftBox_Open_Designed_1
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 795634383ffe48b488978821de79fd7a
-    m_Address: SFX_Guard_3
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 86d5bee14bfc345d098b8c1570c0858d
     m_Address: SFX_Orc_Hit_4
     m_ReadOnly: 0
@@ -255,11 +230,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 962b50da4213a824fa76af8efa1e4d46
-    m_Address: SFX_Confetti_3
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9e1bfc79dfd8c514aa9378a55b02651c
     m_Address: SFX_Swoosh_Movement_3
     m_ReadOnly: 0
@@ -267,11 +237,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a2849aa8a4e524665926e0f7052d10cf
     m_Address: SFX_Orc_Hit_1
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a8615cd7dc9ad1549b6baedfaf0f8745
-    m_Address: SFX_Hammer_Hit_3
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -305,16 +270,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: cea67909e22dab34786813ad1ae2334f
-    m_Address: SFX_Damage_Metal_26
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ceda7397a6c502e48828b04ddcfac701
-    m_Address: SFX_Confetti_2
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cfb4dbd05fe109545b7f0e71657d2090
     m_Address: SFX_Basketball_1
     m_ReadOnly: 0
@@ -322,11 +277,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d004c8de437d6224089e5980838182ba
     m_Address: SFX_STGR_Win_Reaction
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d5d93cfa3b59f5546b424719a1542b62
-    m_Address: SFX_Guard_4
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
