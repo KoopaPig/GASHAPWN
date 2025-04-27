@@ -44,7 +44,7 @@ public class PlayerData : MonoBehaviour
     
     [Tooltip("Speed difference percentage threshold for deflection")]
     [Range(0f, 1f)]
-    public float deflectionThreshold = 0.3f;
+    public float deflectionThreshold = 0.4f;
     
     [Tooltip("Coefficient used to convert speed difference to damage")]
     public float speedToDamageCoefficient = 0.1f;
