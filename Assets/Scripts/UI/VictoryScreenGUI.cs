@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using Unity.VisualScripting;
+using GASHAPWN.Utility;
 
 namespace GASHAPWN.UI {
     public class VictoryScreenGUI : MonoBehaviour
@@ -185,7 +186,7 @@ namespace GASHAPWN.UI {
                 yield break;
             }
             yield return new WaitForSeconds(waitDuration);
-            EventSystem.current.SetSelectedGameObject(victoryScreenFirstButton); // Set new button here
+            EventSystemSelectHelper.SetSelectedGameObject(victoryScreenFirstButton); // Set new button here
             GetComponentInParent<CanvasGroup>().interactable = true;
         }
 

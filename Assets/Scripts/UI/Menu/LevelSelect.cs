@@ -1,6 +1,7 @@
 using EasyTransition;
 using GASHAPWN.Audio;
 using GASHAPWN.UI;
+using GASHAPWN.Utility;
 using NUnit.Framework;
 using System;
 using System.Collections;
@@ -195,7 +196,7 @@ namespace GASHAPWN.UI {
             yield return null;
             yield return null;
             toLevelSelectButton.interactable = true;
-            EventSystem.current.SetSelectedGameObject(toLevelSelectButton.gameObject);
+            EventSystemSelectHelper.SetSelectedGameObject(toLevelSelectButton.gameObject);
         }
 
         private IEnumerator ListenForInput(string playerTag)

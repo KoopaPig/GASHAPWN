@@ -68,11 +68,15 @@ namespace GASHAPWN.Audio
 
         private PlayerSFXProfile player1SFXProfile, player2SFXProfile;
 
-        [SerializeField] private SFXGroup orcHitDamageGroup;
-
         [SerializeField] private SFXGroup_DynamicTriad chargeRollGroup;
 
-        [SerializeField] private SFXGroup jumpGroup;
+        [SerializeField] private SFXGroup orcHitDamageGroup;
+
+        [SerializeField] private SFXGroup impactGroupGeneral;
+
+        [SerializeField] private SFXGroup impactGroupDeflect;
+
+        [SerializeField] private SFXGroup impactGroupSlam;
 
         private void Awake()
         {
@@ -105,6 +109,51 @@ namespace GASHAPWN.Audio
         public void Play_Drop(Transform transform)
         {
             AudioManager.Instance.PlaySound("SFX_Drop_3", transform);
+        }
+
+        public void Play_SlamImpact(Transform transform)
+        {
+            AudioManager.Instance.PlayRandomSound(impactGroupSlam, transform);
+        }
+
+        public void Play_DefenseActivate(Transform transform)
+        {
+            AudioManager.Instance.PlaySound("SFX_Deflect_6", transform);
+        }
+        
+        public void Play_DefenseDeactivate(Transform transform)
+        {
+            AudioManager.Instance.PlaySound("SFX_Deflect_1", transform);
+        }
+
+        public void Play_Jump(Transform transform)
+        {
+            AudioManager.Instance.PlaySound("SFX_Jump_1", transform, Random.Range(0.8f, 1.2f));
+        }
+
+        public void Play_Boing(Transform transform)
+        {
+            AudioManager.Instance.PlaySound("SFX_SMB2_Boing", transform);
+        }
+
+        public void Play_BouncePad(Transform transform)
+        {
+            AudioManager.Instance.PlaySound("SFX_Dash_1", transform);
+        }
+
+        public void Play_GlassBreak(Transform transform)
+        {
+            AudioManager.Instance.PlaySound("SFX_Pot_Smash_1", transform);
+        }
+
+        public void Play_ImpactGeneral(Transform transform)
+        {
+            AudioManager.Instance.PlayRandomSound(impactGroupGeneral);
+        }
+
+        public void Play_ImpactDeflect(Transform transform)
+        {
+            AudioManager.Instance.PlayRandomSound(impactGroupDeflect);
         }
 
         // Handle TriadState changes for Charge Roll given transform, isCharging bool, and PlayerSFXProfile

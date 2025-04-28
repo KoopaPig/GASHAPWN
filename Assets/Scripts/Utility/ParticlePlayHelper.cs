@@ -2,15 +2,18 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ParticlePlayHelper : MonoBehaviour
+namespace GASHAPWN.Utility
 {
-    [SerializeField] private List<ParticleSystem> particleEffects = new List<ParticleSystem>();
-
-    public void PlayParticleEffect(int index)
+    public class ParticlePlayHelper : MonoBehaviour
     {
-        if (particleEffects[index] != null)
+        [SerializeField] private List<ParticleSystem> particleEffects = new List<ParticleSystem>();
+
+        public void PlayParticleEffect(int index)
         {
-            particleEffects[index].Play();
+            if (particleEffects[index] != null)
+            {
+                particleEffects[index].Play();
+            }
         }
     }
 }

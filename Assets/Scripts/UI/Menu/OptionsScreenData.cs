@@ -1,3 +1,5 @@
+using GASHAPWN.Audio;
+using GASHAPWN.Utility;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,7 +14,7 @@ namespace GASHAPWN.UI
         {
             OpenConfirmationWindow("Are you sure you want to delete save data?");
             lastSelectedObject = EventSystem.current.currentSelectedGameObject;
-            EventSystem.current.SetSelectedGameObject(confirmWindow.noButton.gameObject);
+            EventSystemSelectHelper.SetSelectedGameObject(confirmWindow.noButton.gameObject);
         }
 
 
@@ -27,10 +29,12 @@ namespace GASHAPWN.UI
             confirmWindow.yesButton.onClick.AddListener(ClickYes);
             confirmWindow.noButton.onClick.AddListener(ClickNo);
             confirmWindow.messageText.text = message;
+            UI_SFXManager.Instance.Play_WarningPopup();
         }
 
         private void ClickYes()
         {
+            GameManager.Instance.DeleteSaveData(); // delete save data
             CloseConfirmationWindow();
         }
 
@@ -41,7 +45,7 @@ namespace GASHAPWN.UI
 
         private void CloseConfirmationWindow()
         {
-            EventSystem.current.SetSelectedGameObject(lastSelectedObject);
+            EventSystemSelectHelper.SetSelectedGameObject(lastSelectedObject);
             confirmWindow.yesButton.onClick.RemoveListener(ClickYes);
             confirmWindow.noButton.onClick.RemoveListener(ClickNo);
             confirmWindow.gameObject.SetActive(false);

@@ -397,15 +397,42 @@ MonoBehaviour:
   OnStaminaHardIncrease:
     m_PersistentCalls:
       m_Calls: []
+  OnLowStamina:
+    m_PersistentCalls:
+      m_Calls: []
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
   OnDefenseActivated:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6316170855533194351, guid: 796b39b075f4ba0428646085efaf5510, type: 3}
+        m_TargetAssemblyTypeName: GASHAPWN.Audio.GAME_SFXManager, Assembly-CSharp
+        m_MethodName: Play_DefenseActivate
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 6525822001250450065}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDefenseDeactivated:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6316170855533194351, guid: 796b39b075f4ba0428646085efaf5510, type: 3}
+        m_TargetAssemblyTypeName: GASHAPWN.Audio.GAME_SFXManager, Assembly-CSharp
+        m_MethodName: Play_DefenseDeactivate
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 6525822001250450065}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnAttackBonusActivated:
     m_PersistentCalls:
       m_Calls: []

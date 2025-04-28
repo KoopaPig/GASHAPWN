@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d954cd534247b8499634d60190604a5, type: 3}
   m_Name: Stage1
   m_EditorClassIdentifier: 
-  levelName: Stage1
-  levelSceneName: TestWeek14
-  levelPreviewIcon: {fileID: 21300000, guid: 82307f0bf8de9344882d3c1084ce280e, type: 3}
+  levelName: No Frills
+  levelSceneName: Stage1_Flat
+  levelPreviewIconA: {fileID: 21300000, guid: a0ece25159fd09e45a7cc5235e8aff0e, type: 3}
+  levelPreviewIconB: {fileID: 21300000, guid: 23fe3f15d6f299f40ad8d0077fdfd1c3, type: 3}
