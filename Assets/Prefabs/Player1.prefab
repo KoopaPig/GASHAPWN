@@ -827,12 +827,19 @@ MonoBehaviour:
   invincibilityDuration: 1
   damageReduction: 0
   defenseDuration: 0
+  defenseTimer: 0
   damageMultiplier: 1
   attackBonusDuration: 0
   slamDamage: 2
   chargeRollDamage: 3
   quickBreakDamage: 1
   normalCollisionDamage: 1
+  minDamageSpeed: 4
+  maxMomentumDamage: 2
+  deflectionThreshold: 0.4
+  speedToDamageCoefficient: 0.1
+  isUsingOffensiveAbility: 0
+  isUsingDefensiveAbility: 0
   OnDamage:
     m_PersistentCalls:
       m_Calls:
@@ -933,6 +940,7 @@ MonoBehaviour:
   jumpForce: 30
   minHitSpeed: 3
   deflectKnockbackMultiplier: 1.5
+  slamAirborneTime: 1
   drag: 1
   angularDrag: 1
   sphereMaterial: {fileID: 0}
