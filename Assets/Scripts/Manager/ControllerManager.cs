@@ -47,7 +47,7 @@ namespace GASHAPWN
             }
         }
 
-        [SerializeField] private InputActionAsset inputActions;
+        public InputActionAsset inputActions;
 
         public List<PlayerControllerAssignment> playerAssignments = new List<PlayerControllerAssignment>();
         private List<InputDevice> assignedDevices = new List<InputDevice>();
@@ -85,6 +85,7 @@ namespace GASHAPWN
                 playerAssignments.Add(new PlayerControllerAssignment("Player2"));
             }
 
+            // COME BACK
             // Listen for device changes
             InputSystem.onDeviceChange += OnDeviceChange;
 
@@ -111,6 +112,7 @@ namespace GASHAPWN
         {
             if (_instance == this)
             {
+                // COME BACK
                 InputSystem.onDeviceChange -= OnDeviceChange;
                 _instance = null;
             }
@@ -276,83 +278,6 @@ namespace GASHAPWN
             return true;
         }
 
-        //public void SetupPlayerInput(GameObject playerObject)
-        //{
-        //    if (playerObject == null) return;
-
-        //    string playerTag = playerObject.tag;
-
-        //    // Find the player assignment
-        //    PlayerControllerAssignment targetAssignment = null;
-        //    foreach (var assignment in playerAssignments)
-        //    {
-        //        if (assignment.playerTag == playerTag)
-        //        {
-        //            targetAssignment = assignment;
-        //            break;
-        //        }
-        //    }
-
-        //    if (targetAssignment == null || !targetAssignment.isAssigned)
-        //        return;
-
-        //    // Get or add PlayerInput component
-        //    PlayerInput playerInput = playerObject.GetComponent<PlayerInput>();
-        //    if (playerInput == null)
-        //    {
-        //        playerInput = playerObject.AddComponent<PlayerInput>();
-        //    }
-
-        //    if (inputActions != null)
-        //    {
-        //        playerInput.actions = inputActions;
-        //    }
-
-        //    // Method 1: Using InputUser directly
-        //    try
-        //    {
-        //        // Create a new InputUser and pair it with the device
-        //        InputUser user = InputUser.CreateUserWithoutPairedDevices();
-        //        user = InputUser.PerformPairingWithDevice(targetAssignment.device, user);
-
-        //        // Assign the player input to the user
-        //        user.AssociateActionsWithUser(playerInput.actions);
-
-        //        // Switch to the correct action map immediately
-        //        playerInput.SwitchCurrentActionMap(targetAssignment.controlScheme);
-
-        //        // Ensure player never auto switches schemes
-        //        playerInput.neverAutoSwitchControlSchemes = true;
-
-        //        // Store references
-        //        targetAssignment.playerInput = playerInput;
-        //        targetAssignment.user = user;
-
-        //        Debug.Log($"Set up player input for {playerTag} with {targetAssignment.device.name} using InputUser");
-        //    }
-        //    catch (System.Exception e)
-        //    {
-        //        Debug.LogError($"Failed to set up InputUser: {e.Message}. Falling back to alternative method.");
-
-        //        // Method 2: Alternative approach using PlayerInput directly
-        //        try
-        //        {
-        //            // Set the action map directly
-        //            playerInput.defaultActionMap = targetAssignment.controlScheme;
-        //            playerInput.neverAutoSwitchControlSchemes = true;
-
-        //            // Store reference to the player input
-        //            targetAssignment.playerInput = playerInput;
-
-        //            Debug.Log($"Set up player input for {playerTag} with {targetAssignment.device.name} using direct PlayerInput");
-        //        }
-        //        catch (System.Exception ex)
-        //        {
-        //            Debug.LogError($"Failed to set up direct PlayerInput: {ex.Message}");
-        //        }
-        //    }
-        //}
-
         public bool IsPlayerAssigned(string playerTag)
         {
             foreach (var assignment in playerAssignments)
@@ -487,10 +412,14 @@ namespace GASHAPWN
                 if (active)
                 {
                     i.playerInput.actions.FindActionMap("BattleControls").Enable();
+                    i.playerInput.actions.FindActionMap("UI").Disable();
+                    i.playerInput.SwitchCurrentActionMap("BattleControls");
                 }
                 else
                 {
                     i.playerInput.actions.FindActionMap("BattleControls").Disable();
+                    i.playerInput.actions.FindActionMap("UI").Enable();
+                    i.playerInput.SwitchCurrentActionMap("UI");
                 }
             }
             else Debug.LogError($"ControllerManager: Failed to activate or deactive battle controls because {playerTag}" +
@@ -511,21 +440,19 @@ namespace GASHAPWN
                     if (active)
                     {
                         input.actions.FindActionMap("BattleControls").Enable();
+                        input.actions.FindActionMap("UI").Disable();
+                        input.SwitchCurrentActionMap("BattleControls");
                     }
                     else
                     {
                         input.actions.FindActionMap("BattleControls").Disable();
+                        input.actions.FindActionMap("UI").Enable();
+                        input.SwitchCurrentActionMap("UI");
                     }
                 }
                 else Debug.LogError($"ControllerManager: Failed to activate or deactive battle controls because {i.playerTag}" +
                 $" does not have an assigned input.");
             }
-        }
-
-        public void SetUIControlsActive(bool active)
-        {
-            //playerInput.SwitchCurrentActionMap("UI"); // When opening menu
-            //playerInput.SwitchCurrentActionMap("BattleControls"); // When closing menu
         }
 
         // Helper function to convert ControlScheme into strings that can be read by input system
@@ -537,11 +464,12 @@ namespace GASHAPWN
                 case ControlScheme.XINPUT:
                     return "Gamepad";
                 case ControlScheme.KEYBOARD:
-                    return "Keyboard&Mouse"; // Mouse can be an input if its Keyboard&Mouse?
+                    return "KeyboardMouse";
                 default:
                     throw new System.Exception("Unknown control scheme");
             }
         }
+
     }
 
     // Maybe somehow I can assign the playerInput field in each player based on scene

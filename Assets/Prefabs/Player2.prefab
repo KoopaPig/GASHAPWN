@@ -565,54 +565,6 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3346647609557314154}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnMovement
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 1fa2ddc6-9535-421d-b8d0-99bbe464c59f
-    m_ActionName: 'Movement/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3346647609557314154}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnJump
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 68075eca-632d-4d38-a35d-aaab1c2f4109
-    m_ActionName: 'Player1/Jump[/Keyboard/space]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3346647609557314154}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnSlam
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: f165090b-0470-429c-ae14-6d4d5f618ee7
-    m_ActionName: 'Player1/Slam[/Keyboard/space]'
-  - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 7a93c17f-1918-475b-9157-dd39d5b9bc44
     m_ActionName: 'UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
@@ -656,70 +608,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3346647609557314154}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnQuickBreak
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 64f6db61-be43-4927-aff9-d828fcf6c6a0
-    m_ActionName: 'Player1/QuickBreak[/Keyboard/f]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3346647609557314154}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnRotateChargeDirection
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 2abb32f5-18d2-4bfc-bc32-7209a71485c5
-    m_ActionName: 'Player1/RotateChargeDirection[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3346647609557314154}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnChargeRoll
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 94d17b14-b038-4544-9824-2e6c916c883f
-    m_ActionName: 'Player1/ChargeRoll[/Keyboard/leftShift]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3346647609557314154}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnBurst
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 286c366a-68eb-4f98-99cd-6f4c4445effd
-    m_ActionName: 'Player1/Burst[/Keyboard/b]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3346647609557314154}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: OnMovement
         m_Mode: 0
         m_Arguments:
@@ -730,8 +618,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 47a2e64c-f25f-47f9-b5bc-1ab3495f34d7
-    m_ActionName: Controller/Movement
+    m_ActionId: d8c45472-0bc4-46ac-8303-a495dc420d98
+    m_ActionName: 'BattleControls/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3346647609557314154}
@@ -746,8 +634,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: c729e1ee-dddc-444e-95e7-215806cdb284
-    m_ActionName: Controller/RotateChargeDirection
+    m_ActionId: e79fc03f-0304-47ef-8422-ec0e805b2f7a
+    m_ActionName: 'BattleControls/RotateChargeDirection[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3346647609557314154}
@@ -762,8 +650,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 1ae2c8e5-cac4-45fe-b9a1-92d714b31be9
-    m_ActionName: Controller/Jump
+    m_ActionId: 71bcbabb-1572-4f69-afbc-3fb1fc3d6f0b
+    m_ActionName: 'BattleControls/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3346647609557314154}
@@ -778,8 +666,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 42147703-2f44-4c3e-bcd4-5441eb10b053
-    m_ActionName: Controller/Slam
+    m_ActionId: 8d57d35d-d7fb-42ee-8744-1b20c1604614
+    m_ActionName: 'BattleControls/Slam[/Keyboard/space,/XInputControllerWindows/buttonSouth]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3346647609557314154}
@@ -794,8 +682,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: d0e75e40-2a19-4b5c-ae58-0b58657e9885
-    m_ActionName: Controller/QuickBreak
+    m_ActionId: 70cb2017-94bc-45c7-8154-5a8696b56037
+    m_ActionName: 'BattleControls/QuickBreak[/Keyboard/leftShift,/XInputControllerWindows/leftTrigger]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3346647609557314154}
@@ -810,26 +698,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 3ccd52a1-f673-45d4-a57d-c64b23494f5f
-    m_ActionName: Controller/ChargeRoll
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3346647609557314154}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnBurst
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 4fc3d862-2157-489c-b396-3999fde3d22a
-    m_ActionName: Controller/Burst
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+    m_ActionId: ec9bd26a-2556-4bd4-8bf4-16b9062fd805
+    m_ActionName: 'BattleControls/ChargeRoll[/Keyboard/rightShift,/XInputControllerWindows/rightTrigger]'
+  m_NeverAutoSwitchControlSchemes: 1
+  m_DefaultControlScheme: KeyboardMouse
   m_DefaultActionMap: BattleControls
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

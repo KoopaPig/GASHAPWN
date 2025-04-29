@@ -3152,10 +3152,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1Object: {fileID: 1408102599}
   player2Object: {fileID: 693589795}
-  inputActions: {fileID: -944628639613478452, guid: a4813de7deb37dd40b927e6d190544bb, type: 3}
   useDebugControllers: 0
   player1ControlScheme: Gamepad
-  player2ControlScheme: Keyboard
+  player2ControlScheme: KeyboardMouse
 --- !u!4 &135495226
 Transform:
   m_ObjectHideFlags: 0

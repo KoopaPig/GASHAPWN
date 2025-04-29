@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using static GASHAPWN.ControllerManager;
 using UnityEngine.InputSystem.UI;
+using Unity.VisualScripting;
+using static UnityEditor.Searcher.SearcherWindow;
 
 namespace GASHAPWN
 {
@@ -12,174 +14,90 @@ namespace GASHAPWN
     {
         [SerializeField] private GameObject player1Object;
         [SerializeField] private GameObject player2Object;
-        [SerializeField] private InputActionAsset inputActions;
 
         // Force-set specific control schemes (useful for debugging)
+
+        // NOTE: DEBUG IS NOT FUNCTIONAL RIGHT NOW
         [Header("Debug Options")]
         [SerializeField] private bool useDebugControllers = false;
         [SerializeField] private string player1ControlScheme = "Gamepad";
-        [SerializeField] private string player2ControlScheme = "Keyboard";
+        [SerializeField] private string player2ControlScheme = "KeyboardMouse";
 
         private void Start()
         {
-            // Set input actions in the ControllerManager if provided
-            if (inputActions != null)
-            {
-                ControllerManager.Instance.SetInputActions(inputActions);
-            }
-
-            // Wait a frame to ensure everything is initialized
-            StartCoroutine(DelayedSetup());
-        }
-
-        private IEnumerator DelayedSetup()
-        {
-            // Wait for a couple of frames to ensure everything is initialized
-            yield return null;
-            yield return null;
-
-            if (useDebugControllers)
-            {
-                Debug.Log("Using debug controller assignments");
-                SetupPlayersWithDebugControlSchemes();
-            }
-            else
-            {
-                Debug.Log("BattleInitializer: Setting up player controls from controller assignments...");
-                SetupPlayersWithAssignedControllers();
-            }
+            Debug.Log("BattleInitializer: Setting up player controls from controller assignments...");
+            SetupPlayersWithAssignedControllers();
         }
 
         private void SetupPlayersWithAssignedControllers()
         {
-            // Get assigned devices from ControllerManager
-            InputDevice player1Device = ControllerManager.Instance.GetAssignedDevice("Player1");
-            InputDevice player2Device = ControllerManager.Instance.GetAssignedDevice("Player2");
+            foreach (var assignment in ControllerManager.Instance.playerAssignments)
+            {
+                // find player object via playerTag
+                GameObject playerObj = GameObject.FindWithTag(assignment.playerTag);
+                if (playerObj == null)
+                {
+                    Debug.LogError($"BattleInitializer: No player object found with tag {assignment.playerTag}");
+                    break;
+                }
+
+                // Get PlayerInput component from player game object
+                PlayerInput playerInput = playerObj.GetComponent<PlayerInput>();
+
+                // Add component if it doesn't exist
+                if (playerInput == null) playerInput = playerObj.AddComponent<PlayerInput>();
 
 
-            // Log the assigned devices
-            Debug.Log($"Player1 assigned device: {(player1Device != null ? player1Device.name : "None")}");
-            Debug.Log($"Player2 assigned device: {(player2Device != null ? player2Device.name : "None")}");
-
-            // Set up Player 1
-            if (player1Object != null && player1Device != null)
-            {
-                SetupPlayerWithDevice(player1Object, player1Device);
-            }
-            else
-            {
-                Debug.LogWarning("Player1 has no assigned device");
-            }
-
-            // Set up Player 2
-            if (player2Object != null && player2Device != null)
-            {
-                SetupPlayerWithDevice(player2Object, player2Device);
-            }
-            else
-            {
-                Debug.LogWarning("Player2 has no assigned device");
+                if (!useDebugControllers)
+                {
+                    SetupPlayerWithDevice(playerInput, assignment);
+                }
+                else { StartCoroutine(WaitToAddDebugDevices(playerInput, assignment)); }
             }
         }
 
-        private void SetupPlayersWithDebugControlSchemes()
+        private IEnumerator WaitToAddDebugDevices(PlayerInput playerInput, PlayerControllerAssignment assignment)
         {
-            // Set up Player 1 with debug control scheme
-            if (player1Object != null)
-            {
-                SetupPlayerWithDebugScheme(player1Object, player1ControlScheme);
-            }
-
-            // Set up Player 2 with debug control scheme
-            if (player2Object != null)
-            {
-                SetupPlayerWithDebugScheme(player2Object, player2ControlScheme);
-            }
+            yield return null;
+            if (assignment.playerTag == "Player1") { SetupPlayerWithDevice(playerInput, assignment, player1ControlScheme); }
+            if (assignment.playerTag == "Player2") { SetupPlayerWithDevice(playerInput, assignment, player2ControlScheme); }
+            else Debug.LogError("Should not be here.");
         }
 
-        private void SetupPlayerWithDevice(GameObject playerObject, InputDevice device)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="playerInput"></param>
+        /// <param name="assignment"></param>
+        private void SetupPlayerWithDevice(PlayerInput playerInput, PlayerControllerAssignment assignment, string controlScheme = null)
         {
-            string playerTag = playerObject.tag;
-            
-            // Get control scheme from controller manager
-            var playerAssignment = ControllerManager.Instance.FindPlayerAssignment(playerTag);
-            if (playerAssignment == null || !playerAssignment.isAssigned)
+            Debug.Log($"BattleInitializer: Setting up {assignment.playerTag} with device {assignment.device.displayName}");
+
+            playerInput.actions = ControllerManager.Instance.inputActions;
+
+            if (controlScheme == null) { playerInput.defaultControlScheme = GetControlSchemeName(assignment.controlScheme); }
+            else { playerInput.defaultControlScheme = controlScheme; }
+
+            playerInput.defaultActionMap = "BattleControls";
+            playerInput.SwitchCurrentActionMap("BattleControls");
+
+            playerInput.neverAutoSwitchControlSchemes = true;
+
+            // Unpair any previous devices and user
+            if (playerInput.user.valid)
             {
-                Debug.LogError($"No valid assignment found for {playerTag}");
-                return;
-            }
-            
-            string controlScheme = GetControlSchemeName(playerAssignment.controlScheme);
-            
-            // Get or add PlayerInput component
-            PlayerInput playerInput = playerObject.GetComponent<PlayerInput>();
-            if (playerInput == null)
-            {
-                playerInput = playerObject.AddComponent<PlayerInput>();
-            }
-
-            Debug.Log($"Setting up PlayerInput for {playerTag}");
-            
-            try
-            {
-                //playerInput.uiInputModule = FindFirstObjectByType<InputSystemUIInputModule>();
-                //playerInput.camera = Camera.main;
-
-                // First, ensure the player input has the correct actions
-                //playerInput.actions = inputActions;
-                //playerInput.defaultControlScheme = controlScheme;
-                //playerInput.defaultActionMap = "BattleControls";
-
-                // Create a dedicated InputUser for this player and pair with device
-                //InputUser user = InputUser.CreateUserWithoutPairedDevices();
-                //user = InputUser.PerformPairingWithDevice(device, user);
-
-                playerAssignment.user = InputUser.PerformPairingWithDevice(device, playerInput.user);
-
-                // Associate actions with user
-                //user.AssociateActionsWithUser(playerInput.actions);
-                
-                // Set the default action map and switch to it
-                //playerInput.SwitchCurrentActionMap("BattleControls");
-                
-                // Critical: Prevent auto-switching to avoid players interfering with each other
-                playerInput.neverAutoSwitchControlSchemes = true;
-                
-                // Setup proper playerInput reference for PlayerInputAssignment
-                playerAssignment.playerInput = playerInput;
-                //playerAssignment.user = user;
-
-                Debug.Log($"Successfully set up {playerTag} with {device.name}");
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError($"Error setting up player control: {e.Message}");
-            }
-        }
-
-        private void SetupPlayerWithDebugScheme(GameObject playerObject, string controlScheme)
-        {
-            // Get or add PlayerInput component
-            PlayerInput playerInput = playerObject.GetComponent<PlayerInput>();
-            if (playerInput == null)
-            {
-                playerInput = playerObject.AddComponent<PlayerInput>();
-                playerInput.actions = inputActions;
+                playerInput.user.UnpairDevicesAndRemoveUser();
             }
 
-            try
-            {
-                // Set the action map directly
-                playerInput.defaultActionMap = controlScheme;
-                playerInput.SwitchCurrentActionMap(controlScheme);
-                playerInput.neverAutoSwitchControlSchemes = true;
-                
-                Debug.Log($"Player {playerObject.name} set up with debug control scheme: {controlScheme}");
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError($"Error setting up debug control scheme: {e.Message}");
-            }
+            // Pair this device and assign it to this player
+            var pairedUser = InputUser.PerformPairingWithDevice(assignment.device, assignment.user);
+            pairedUser.AssociateActionsWithUser(playerInput.actions);
+
+            // Save to assignment 
+            assignment.playerInput = playerInput;
+            assignment.user = pairedUser;
+
+            playerInput.ActivateInput();
         }
 
     }

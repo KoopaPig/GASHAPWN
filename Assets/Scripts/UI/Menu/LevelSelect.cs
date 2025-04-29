@@ -93,6 +93,7 @@ namespace GASHAPWN.UI {
                     if (!ControllerManager.Instance.playerAssignments[i].isAssigned) { index = i; break; }
                 }
                 currentBindBox = controlsBindBoxes[index]; // assumes [0] == P1
+                
                 currentBindBox.SetSelected(true);
                 
                 // Refresh UI according to previously assigned controllers
@@ -127,14 +128,14 @@ namespace GASHAPWN.UI {
         {
             yield return null;
             // If controllers already assigned, UI should be updated
-            if (controlsBindBoxes != null || controlsBindBoxes.Count != 0) {
+            if (controlsBindBoxes != null && controlsBindBoxes.Count != 0) {
                 for (int i = 0; i < controlsBindBoxes.Count; i++)
                 {
                     string playerTag = $"Player{i+1}";
                     bool isAssigned = ControllerManager.Instance.IsPlayerAssigned(playerTag);
                     ControlScheme scheme = ControllerManager.Instance.GetPlayerControlScheme(playerTag);
 
-                    SetControllerDetected(i, scheme, isAssigned);
+                    SetControllerDetectedGUI(i, scheme, isAssigned);
                 }
             }
         }
@@ -201,6 +202,10 @@ namespace GASHAPWN.UI {
 
         private IEnumerator ListenForInput(string playerTag)
         {
+            // The issue with not being able to do keyboard then controller is happening in here
+            // Has something to do with inputDetected and seeming to always break out becaue
+
+
             // Wait a small delay to avoid detecting the click
             yield return new WaitForSeconds(0.1f);
 
@@ -218,17 +223,17 @@ namespace GASHAPWN.UI {
                         bool success = ControllerManager.Instance.AssignControllerToPlayer(playerTag, gamepad);
                         if (success)
                         {
-                            SetControllerDetected(currentListeningIndex, ControlScheme.XINPUT, true);
+                            SetControllerDetectedGUI(currentListeningIndex, ControlScheme.XINPUT, true);
                             inputDetected = true;
                             break;
                         }
                     }
                 }
-                
+
                 // If we found a controller, break out
                 if (inputDetected)
                     break;
-                
+
                 // If no controller detected, check keyboard
                 foreach (InputDevice keyboard in ControllerManager.Instance.GetAvailableKeyboards())
                 {
@@ -238,7 +243,7 @@ namespace GASHAPWN.UI {
                         bool success = ControllerManager.Instance.AssignControllerToPlayer(playerTag, keyboard);
                         if (success)
                         {
-                            SetControllerDetected(currentListeningIndex, ControlScheme.KEYBOARD, true);
+                            SetControllerDetectedGUI(currentListeningIndex, ControlScheme.KEYBOARD, true);
                             inputDetected = true;
                             break;
                         }
@@ -256,13 +261,13 @@ namespace GASHAPWN.UI {
         /// Set whether control is detected given index
         /// Also updates currentBindBox after a delay to eliminate race condition
         /// </summary>
-        public void SetControllerDetected(int index, ControlScheme controlScheme, bool value)
+        public void SetControllerDetectedGUI(int index, ControlScheme controlScheme, bool value)
         {
             if (index < controlsBindBoxes.Count && controlsBindBoxes != null)
             {
                 controlsBindBoxes[index].IsControllerDetected = value;
                 controlsBindBoxes[index].controlScheme = controlScheme;
-                controlsBindBoxes[index].UpdateControls();
+                controlsBindBoxes[index].UpdateControllerIcon();
 
                 // Move to the next unassigned controller
                 // Have to delay a frame to eliminate race condition

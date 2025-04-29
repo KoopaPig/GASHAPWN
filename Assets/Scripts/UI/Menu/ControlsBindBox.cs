@@ -42,7 +42,7 @@ namespace GASHAPWN.UI
             keyboardImage.gameObject.SetActive(false);
         }
 
-        public void UpdateControls()
+        public void UpdateControllerIcon()
         {
             switch (controlScheme)
             {
@@ -113,6 +113,7 @@ namespace GASHAPWN.UI
             feedbackText.text = "Press any button...";
 
             // Start listening for input for this controller
+
             LevelSelect.Instance.StartListeningForController(playerIndex);
         }
 
