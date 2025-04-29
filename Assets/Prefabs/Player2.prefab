@@ -346,19 +346,12 @@ MonoBehaviour:
   invincibilityDuration: 1
   damageReduction: 0
   defenseDuration: 0
-  defenseTimer: 0
   damageMultiplier: 1
   attackBonusDuration: 0
   slamDamage: 2
   chargeRollDamage: 3
   quickBreakDamage: 1
   normalCollisionDamage: 1
-  minDamageSpeed: 4
-  maxMomentumDamage: 2
-  deflectionThreshold: 0.4
-  speedToDamageCoefficient: 0.1
-  isUsingOffensiveAbility: 0
-  isUsingDefensiveAbility: 0
   OnDamage:
     m_PersistentCalls:
       m_Calls:
@@ -837,7 +830,7 @@ MonoBehaviour:
     m_ActionName: Controller/Burst
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Controller
+  m_DefaultActionMap: BattleControls
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!135 &6406650500916842082

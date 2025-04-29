@@ -144,7 +144,7 @@ namespace GASHAPWN
                 playerInput.actions = assignment.playerInput.actions;
                 
                 // Switch to the same action map
-                playerInput.SwitchCurrentActionMap(assignment.controlScheme);
+                playerInput.SwitchCurrentActionMap(ControllerManager.GetControlSchemeName(assignment.controlScheme));
                 
                 // Get references to the actions
                 navigateAction = InputActionReference.Create(playerInput.actions.FindAction("Navigate"));
@@ -203,7 +203,7 @@ namespace GASHAPWN
                 rotateAction.AddBinding("<Mouse>/rightButton").WithProcessor("scale(1)");
                 rotateAction.AddBinding("<Mouse>/leftButton").WithProcessor("scale(-1)");
             }
-            else if (actionMap.name.Contains("Controller"))
+            else if (actionMap.name.Contains("Gamepad"))
             {
                 rotateAction.AddBinding("<Gamepad>/leftTrigger").WithProcessor("scale(-1)");
                 rotateAction.AddBinding("<Gamepad>/rightTrigger");
@@ -227,7 +227,7 @@ namespace GASHAPWN
             
             // Create keyboard and controller action maps
             var keyboardMap = new InputActionMap("Keyboard");
-            var controllerMap = new InputActionMap("Controller");
+            var controllerMap = new InputActionMap("Gamepad");
             
             inputActions.AddActionMap(keyboardMap);
             inputActions.AddActionMap(controllerMap);
@@ -275,7 +275,7 @@ namespace GASHAPWN
             playerInput.actions = inputActions;
             
             // Set action map based on connected devices
-            playerInput.SwitchCurrentActionMap(Gamepad.current != null ? "Controller" : "Keyboard");
+            playerInput.SwitchCurrentActionMap(Gamepad.current != null ? "Gamepad" : "Keyboard");
             
             // Enable the action maps
             keyboardMap.Enable();

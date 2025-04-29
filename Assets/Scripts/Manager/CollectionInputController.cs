@@ -78,7 +78,7 @@ namespace GASHAPWN
                     string actionMapName = "Keyboard"; // Default
                     if (Gamepad.current != null)
                     {
-                        actionMapName = "Controller";
+                        actionMapName = "Gamepad";
                         DebugLog($"Controller detected, using {actionMapName} action map");
                     }
                     
@@ -211,7 +211,7 @@ namespace GASHAPWN
             Vector2 input = context.ReadValue<Vector2>();
             
             // Different handling based on action map
-            if (playerInput.currentActionMap.name == "Controller")
+            if (playerInput.currentActionMap.name == "Gamepad")
             {
                 // For controller, we'll use the X-axis directly
                 rotationValue = input.x * 100f; // Scale factor for rotation speed

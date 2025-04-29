@@ -29,7 +29,6 @@ namespace GASHAPWN
         private Figure WinningFigure;
         private string WinningFigureTag;
 
-        private float pathTimer = 0f;
         private Coroutine waitCamCoroutine;
 
         // Store reference to activePlayers PlayerData Components for Camera Effects

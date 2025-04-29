@@ -133,10 +133,4 @@ namespace GASHAPWN.UI
             targetImage.color = endColor;
         }
     }
-
-    public enum ControlScheme
-    {
-        XINPUT,
-        KEYBOARD
-    }
 }
