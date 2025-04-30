@@ -23,11 +23,13 @@ namespace GASHAPWN.UI {
             else Debug.Log($"{this.name}.IconPicker is set to automaticUpdate, cannot manually set.");
         }
 
+
+        // TODO: Adjust how this automatic update functions with new system
         private void Update()
         {
             if (!automaticUpdate) return;
 
-            var detectScheme = ControllerManager.Instance.GetPlayerControlScheme("Player1");
+            var detectScheme = PlayerInputAssigner.Instance.GetPlayerControlScheme("Player1");
             if (detectScheme != controlScheme)
             {
                 controlScheme = detectScheme;

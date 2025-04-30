@@ -97,8 +97,6 @@ namespace GASHAPWN
 
         public UnityEvent<GameObject, string, Figure> OnWinner = new();
 
-        public UnityEvent<string, Figure> OnLosingFigure = new();
-
         
         /// PRIVATE METHODS ///
         
@@ -133,7 +131,7 @@ namespace GASHAPWN
             if (activePlayers.Count > GameManager.Instance.numPlayers) {
                 Debug.LogError("BattleManager: Number of active players does not match total number of players.");
             }
-            ResetToSpawn();
+            //ResetToSpawn();
         }
 
         private void Start()
@@ -237,7 +235,7 @@ namespace GASHAPWN
         private void BattleStartActions()
         {
             trackTime = true;
-            ControllerManager.Instance.SetBattleControlsActive(true); // activate controls
+            //PlayerInputAssigner.Instance.SetBattleControlsActive(true); // activate controls
             Debug.Log("Battle Start!");
         }
 
@@ -326,7 +324,7 @@ namespace GASHAPWN
 
         // Set winner and loser whenever player dies
         public void OnPlayerDeath(GameObject player)
-        {    
+        {   
             isWinner = IsPlayerWin(player);
 
             // Store the player results instead of invoking the events immediately
@@ -351,7 +349,7 @@ namespace GASHAPWN
         public void BattleEndActions()
         {
             trackTime = false;
-            ControllerManager.Instance.SetBattleControlsActive(false);
+            //PlayerInputAssigner.Instance.SetBattleControlsActive(false);
             Debug.Log("Battle End!");
         }
 
@@ -359,7 +357,7 @@ namespace GASHAPWN
         {
             OnPlayerSpawn.Invoke(state);
             ResetToSpawn();
-            ControllerManager.Instance.SetBattleControlsActive(false);
+            //PlayerInputAssigner.Instance.SetBattleControlsActive(false);
         }
 
         public void ResetToSpawn()

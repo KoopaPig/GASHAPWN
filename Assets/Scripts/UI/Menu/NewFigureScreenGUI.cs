@@ -46,7 +46,7 @@ namespace GASHAPWN.UI
         [SerializeField] private Light directionalLight;
 
         [Header("Scene Info")]
-        [SerializeField] private string levelSelectSceneName;
+        [SerializeField] private string mainMenuSceneName;
         [SerializeField] private string collectionSceneName;
         [SerializeField] private TransitionSettings fromNewFigureTransition;
 
@@ -72,10 +72,10 @@ namespace GASHAPWN.UI
            GameManager.Instance.UpdateGameState(GameState.Collection);
         }
 
-        public void ToLevelSelect()
+        public void ToMainMenu()
         {
-            TransitionManager.Instance().Transition(levelSelectSceneName, fromNewFigureTransition, 0);
-            GameManager.Instance.UpdateGameState(GameState.LevelSelect);
+            TransitionManager.Instance().Transition(mainMenuSceneName, fromNewFigureTransition, 0);
+            GameManager.Instance.UpdateGameState(GameState.Title);
         }
 
         ///// PRIVATE METHODS /////
@@ -155,7 +155,7 @@ namespace GASHAPWN.UI
             capsuleAnimator.SetTrigger("capsuleEnter");
             //buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(false);
             buttonPrompt.GetComponent<IconPicker>().
-                ManualSetControlScheme(ControllerManager.Instance.GetPlayerControlScheme(winningPlayerTag));
+                ManualSetControlScheme(PlayerInputAssigner.Instance.GetPlayerControlScheme(winningPlayerTag));
         }
 
         // Use as a buffer before activating buttons

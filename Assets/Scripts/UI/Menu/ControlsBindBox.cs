@@ -114,7 +114,7 @@ namespace GASHAPWN.UI
 
             // Start listening for input for this controller
 
-            LevelSelect.Instance.StartListeningForController(playerIndex);
+            //LevelSelect.Instance.StartListeningForController(playerIndex);
         }
 
         private IEnumerator LerpColor(Image targetImage, Color startColor, Color endColor, float duration)

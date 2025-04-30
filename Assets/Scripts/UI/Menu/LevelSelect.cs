@@ -6,6 +6,7 @@ using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -22,11 +23,11 @@ namespace GASHAPWN.UI {
         public List<ControlsBindBox> controlsBindBoxes;
         private ControlsBindBox currentBindBox = null;
         [SerializeField] private Button toLevelSelectButton;
-        [SerializeField] private InputActionAsset inputActions;
+        //[SerializeField] private InputActionAsset inputActions;
 
         [NonSerialized] public bool isControlsBindScreen = true;
         private bool isListeningForInput = false;
-        private int currentListeningIndex = -1;
+        private int currentListeningIndex = 0;
 
         [Header("Transition Settings")]
         [SerializeField] public TransitionSettings menuTransition;
@@ -66,39 +67,103 @@ namespace GASHAPWN.UI {
 
         private void OnEnable()
         {
+            if (PlayerInputAssigner.Instance != null)
+            {
+                PlayerInputAssigner.Instance.playerInputManager.onPlayerJoined += OnPlayerJoinedGUI;
+                PlayerInputAssigner.Instance.playerInputManager.onPlayerLeft += OnPlayerLeftGUI;
+            }
+            //else StartCoroutine(WaitForPlayerInputAssigner());
+
             var inputActionAsset = GetComponent<PlayerInput>().actions;
             cancelAction = inputActionAsset["Cancel"];
 
             cancelAction.performed += HandleCancel;
             if (!cancelAction.enabled) { cancelAction.Enable(); }
+        }
 
-            // Ensure controller manager has input actions
-            if (inputActions != null)
+        private IEnumerator WaitForPlayerInputAssigner()
+        {
+            while (PlayerInputAssigner.Instance == null)
             {
-                ControllerManager.Instance.SetInputActions(inputActions);
+                yield return null;
             }
+
+            PlayerInputAssigner.Instance.playerInputManager.onPlayerJoined += OnPlayerJoinedGUI;
+            PlayerInputAssigner.Instance.playerInputManager.onPlayerLeft += OnPlayerLeftGUI;
+        }
+
+        /// <summary>
+        /// Updates GUI according to joined players
+        /// </summary>
+        /// <param name="playerInput"></param>
+        public void OnPlayerJoinedGUI(PlayerInput playerInput)
+        {
+            if (currentListeningIndex >= controlsBindBoxes.Count)
+            {
+                Debug.LogWarning("LevelSelect: All player slots filled.");
+                return;
+            }
+
+            var bindBox = controlsBindBoxes[currentListeningIndex];
+            currentBindBox = bindBox;
+
+            // Assign control scheme for UI
+            ControlScheme scheme = playerInput.currentControlScheme switch
+            {
+                "Gamepad" => ControlScheme.XINPUT,
+                "KeyboardMouse" or "Keyboard" => ControlScheme.KEYBOARD,
+                _ => ControlScheme.KEYBOARD
+            };
+
+            // Let currentBindBox know that a detection occurred
+            SetControllerDetectedGUI(currentListeningIndex, scheme, true);
+            currentListeningIndex++;
+
+            currentBindBox.SetSelected(false);
+            if (currentListeningIndex < controlsBindBoxes.Count)
+            {
+                controlsBindBoxes[currentListeningIndex].SetSelected(true);
+            }
+
+            // Disable joining once all bindBoxes are filled
+            if (currentListeningIndex >= controlsBindBoxes.Count)
+            {
+                PlayerInputManager.instance.DisableJoining();
+            }
+        }
+
+        public void OnPlayerLeftGUI(PlayerInput playerInput)
+        {
+            // nothing here yet
         }
 
 
         void Start()
         {
+            if (isControlsBindScreen) { 
+                PlayerInputAssigner.Instance.playerInputManager.EnableJoining(); 
+                PlayerInputAssigner.Instance.ClearAssignments();
+            }
+
             if (controlsBindBoxes != null && controlsBindBoxes.Count > 0)
             {
+                currentBindBox = controlsBindBoxes[0];
+                currentBindBox.SetSelected(true);
+
+
+                // TODO: I stil want some form of auto-population and the ability to back out of joining
+
                 // make sure to set the currentBindBox to whatever index is not assigned
                 // this prevents the UI from breaking when assigning one controller,
                 // backing out, coming back, and assigning another
-                int index = 0;
-                for (int i = 0; i < ControllerManager.Instance.playerAssignments.Count; i++)
-                {
-                    if (!ControllerManager.Instance.playerAssignments[i].isAssigned) { index = i; break; }
-                }
-                currentBindBox = controlsBindBoxes[index]; // assumes [0] == P1
-                
-                currentBindBox.SetSelected(true);
-                
+                //int index = PlayerInputAssigner.Instance.playerAssignments.Count;
+                //currentBindBox = controlsBindBoxes[index]; // assumes [0] == P1
+
+                //currentBindBox.SetSelected(true);
+
                 // Refresh UI according to previously assigned controllers
-                StartCoroutine(RefreshControllerUI());
-                
+                //StartCoroutine(RefreshControllerUI());
+
                 // Enable the next screen button only if all controllers are assigned
                 toLevelSelectButton.interactable = IsAllControlsDetected();
             }
@@ -120,6 +185,11 @@ namespace GASHAPWN.UI {
 
         public void OnDisable()
         {
+            if (PlayerInputAssigner.Instance != null)
+            {
+                PlayerInputAssigner.Instance.playerInputManager.onPlayerJoined -= OnPlayerJoinedGUI;
+                PlayerInputAssigner.Instance.playerInputManager.onPlayerLeft -= OnPlayerLeftGUI;
+            }
             cancelAction.performed -= HandleCancel;
             cancelAction.Disable();
         }
@@ -128,16 +198,16 @@ namespace GASHAPWN.UI {
         {
             yield return null;
             // If controllers already assigned, UI should be updated
-            if (controlsBindBoxes != null && controlsBindBoxes.Count != 0) {
-                for (int i = 0; i < controlsBindBoxes.Count; i++)
-                {
-                    string playerTag = $"Player{i+1}";
-                    bool isAssigned = ControllerManager.Instance.IsPlayerAssigned(playerTag);
-                    ControlScheme scheme = ControllerManager.Instance.GetPlayerControlScheme(playerTag);
+            //if (controlsBindBoxes != null && controlsBindBoxes.Count != 0) {
+            //    for (int i = 0; i < controlsBindBoxes.Count; i++)
+            //    {
+            //        string playerTag = $"Player{i+1}";
+            //        bool isAssigned = ControllerManager.Instance.IsPlayerAssigned(playerTag);
+            //        ControlScheme scheme = ControllerManager.Instance.GetPlayerControlScheme(playerTag);
 
-                    SetControllerDetectedGUI(i, scheme, isAssigned);
-                }
-            }
+            //        SetControllerDetectedGUI(i, scheme, isAssigned);
+            //    }
+            //}
         }
 
         private void UpdateSelectedBindBox()
@@ -183,7 +253,9 @@ namespace GASHAPWN.UI {
             controlsBindBoxes[playerIndex].feedbackText.text = "Press any button...";
 
             // Start listening for any button press
-            StartCoroutine(ListenForInput(playerTag));
+
+
+            //StartCoroutine(ListenForInput(playerTag));
         }
 
         private IEnumerator DelayedUpdateSelectedBindBox()
@@ -200,62 +272,62 @@ namespace GASHAPWN.UI {
             EventSystemSelectHelper.SetSelectedGameObject(toLevelSelectButton.gameObject);
         }
 
-        private IEnumerator ListenForInput(string playerTag)
-        {
-            // The issue with not being able to do keyboard then controller is happening in here
-            // Has something to do with inputDetected and seeming to always break out becaue
+        //private IEnumerator ListenForInput(string playerTag)
+        //{
+        //    // The issue with not being able to do keyboard then controller is happening in here
+        //    // Has something to do with inputDetected and seeming to always break out becaue
 
 
-            // Wait a small delay to avoid detecting the click
-            yield return new WaitForSeconds(0.1f);
+        //    // Wait a small delay to avoid detecting the click
+        //    yield return new WaitForSeconds(0.1f);
 
-            bool inputDetected = false;
+        //    bool inputDetected = false;
             
-            // First, try to find a gamepad/controller
-            while (!inputDetected)
-            {
-                // Check for gamepad button presses first (prioritize controllers)
-                foreach (Gamepad gamepad in ControllerManager.Instance.GetAvailableGamepads())
-                {
-                    if (ControllerManager.Instance.IsAnyButtonPressed(gamepad))
-                    {
-                        // Assign this gamepad to the player
-                        bool success = ControllerManager.Instance.AssignControllerToPlayer(playerTag, gamepad);
-                        if (success)
-                        {
-                            SetControllerDetectedGUI(currentListeningIndex, ControlScheme.XINPUT, true);
-                            inputDetected = true;
-                            break;
-                        }
-                    }
-                }
+        //    // First, try to find a gamepad/controller
+        //    while (!inputDetected)
+        //    {
+        //        // Check for gamepad button presses first (prioritize controllers)
+        //        foreach (Gamepad gamepad in ControllerManager.Instance.GetAvailableGamepads())
+        //        {
+        //            if (ControllerManager.Instance.IsAnyButtonPressed(gamepad))
+        //            {
+        //                // Assign this gamepad to the player
+        //                bool success = ControllerManager.Instance.AssignControllerToPlayer(playerTag, gamepad);
+        //                if (success)
+        //                {
+        //                    SetControllerDetectedGUI(currentListeningIndex, ControlScheme.XINPUT, true);
+        //                    inputDetected = true;
+        //                    break;
+        //                }
+        //            }
+        //        }
 
-                // If we found a controller, break out
-                if (inputDetected)
-                    break;
+        //        // If we found a controller, break out
+        //        if (inputDetected)
+        //            break;
 
-                // If no controller detected, check keyboard
-                foreach (InputDevice keyboard in ControllerManager.Instance.GetAvailableKeyboards())
-                {
-                    if (ControllerManager.Instance.IsAnyButtonPressed(keyboard))
-                    {
-                        // Assign keyboard to this player
-                        bool success = ControllerManager.Instance.AssignControllerToPlayer(playerTag, keyboard);
-                        if (success)
-                        {
-                            SetControllerDetectedGUI(currentListeningIndex, ControlScheme.KEYBOARD, true);
-                            inputDetected = true;
-                            break;
-                        }
-                    }
-                }
+        //        // If no controller detected, check keyboard
+        //        foreach (InputDevice keyboard in ControllerManager.Instance.GetAvailableKeyboards())
+        //        {
+        //            if (ControllerManager.Instance.IsAnyButtonPressed(keyboard))
+        //            {
+        //                // Assign keyboard to this player
+        //                bool success = ControllerManager.Instance.AssignControllerToPlayer(playerTag, keyboard);
+        //                if (success)
+        //                {
+        //                    SetControllerDetectedGUI(currentListeningIndex, ControlScheme.KEYBOARD, true);
+        //                    inputDetected = true;
+        //                    break;
+        //                }
+        //            }
+        //        }
                 
-                yield return null;
-            }
+        //        yield return null;
+        //    }
 
-            isListeningForInput = false;
-            currentListeningIndex = -1;
-        }
+        //    isListeningForInput = false;
+        //    currentListeningIndex = -1;
+        //}
 
         /// <summary>
         /// Set whether control is detected given index
@@ -283,6 +355,7 @@ namespace GASHAPWN.UI {
             if (isControlsBindScreen) {
                 TransitionManager.Instance().Transition(mainMenuSceneName, menuTransition, 0);
                 GameManager.Instance.UpdateGameState(GameState.Title);
+                PlayerInputManager.instance.DisableJoining();
             } else
             {
                 GetComponent<ScreenSwitcher>().ShowControlsBindScreen();
@@ -316,6 +389,9 @@ namespace GASHAPWN.UI {
 
         public void GameStart()
         {
+            // only set player inputs persistent when transitioning to battle scene
+            PlayerInputAssigner.Instance.SetPlayerInputsPersistent();
+
             TransitionManager.Instance().Transition(selectedLevel.levelSceneName, toLevelTransition, 0);
             GameManager.Instance.currentBattleTime = selectedTime;
             GameManager.Instance.currentLevel = selectedLevel;

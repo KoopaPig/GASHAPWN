@@ -19,6 +19,8 @@ namespace GASHAPWN
         [SerializeField] private CinemachineCamera winCam;
         [SerializeField] private CinemachineCamera machineCam; // within GashaMachine
 
+        [SerializeField] private CinemachineTargetGroup targetGroup;
+
         [Header("Player Capsule Prefabs")]
         public GameObject Player1Capsule;
         public GameObject Player2Capsule;
@@ -55,12 +57,19 @@ namespace GASHAPWN
             dolly = introCam.GetComponent<SplineAnimate>();
             dolly.Duration = BattleManager.Instance.countDownTime;
 
+            //targetGroup.Targets
+
             foreach (var player in BattleManager.Instance.GetActivePlayers())
             {
                 var playerData = player.GetComponent<PlayerData>();
                 playerData.OnDamage.AddListener(OnHit);
                 subscribedPlayers.Add(playerData);
             }
+        }
+
+        private void LateUpdate()
+        {
+            UpdateTargetGroup();
         }
 
         public void StartPath(BattleState state)
@@ -152,6 +161,48 @@ namespace GASHAPWN
         private void OnHit(int val)
         {
             StartCoroutine(HitCamEffect(0.65f));
+        }
+
+
+        private void UpdateTargetGroup()
+        {
+            List<GameObject> activePlayers = BattleManager.Instance.GetActivePlayers();
+
+            // Clean the list: remove destroyed/null entries
+            activePlayers.RemoveAll(player => player == null);
+
+            // Get current targets as a dictionary for quick lookup
+            Dictionary<Transform, CinemachineTargetGroup.Target> currentTargets = new();
+
+            foreach (var target in targetGroup.Targets)
+            {
+                if (target.Object != null)
+                    currentTargets[target.Object] = target;
+            }
+
+            List<CinemachineTargetGroup.Target> newTargetList = new();
+
+            foreach (var player in activePlayers)
+            {
+                Transform playerTransform = player.transform;
+
+                // Use previous target weight/radius if it already existed
+                if (currentTargets.TryGetValue(playerTransform, out var existingTarget))
+                {
+                    newTargetList.Add(existingTarget);
+                }
+                else
+                {
+                    newTargetList.Add(new CinemachineTargetGroup.Target
+                    {
+                        Object = playerTransform,
+                        Weight = 2f,
+                        Radius = 30f
+                    });
+                }
+            }
+
+            targetGroup.Targets = newTargetList;
         }
 
         private void OnDisable()
