@@ -36,6 +36,8 @@ namespace GASHAPWN
         // The model instance that's currently displayed
         private GameObject currentModel;
 
+        public Transform cameraPosition;
+
         private void Awake()
         {
             // Initialize to correct visual state

@@ -347,13 +347,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 31282696}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16018225, y: -0, z: -0, w: 0.9870875}
-  m_LocalPosition: {x: 0, y: 1, z: -3}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0.11, y: 0.11, z: -0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 648887152}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!1001 &33542880
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -626,6 +626,7 @@ MonoBehaviour:
   isCollected: 0
   highlightEffect: {fileID: 2037916902}
   lockedVisual: {fileID: 1130365368}
+  cameraPosition: {fileID: 1631930485}
 --- !u!4 &101055842
 Transform:
   m_ObjectHideFlags: 0
@@ -669,13 +670,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 114983992}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16018225, y: -0, z: -0, w: 0.9870875}
-  m_LocalPosition: {x: 0, y: 1, z: -3}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0.11, y: 0.11, z: -0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 771975514}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!1001 &123302418
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -814,13 +815,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 139699667}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16018225, y: -0, z: -0, w: 0.9870875}
-  m_LocalPosition: {x: 0, y: 1, z: -3}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0.11, y: 0.11, z: -0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 636008518}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!4 &148247074 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5299659440637989804, guid: a38f60b20ea9d8e4086d5859b8def0db, type: 3}
@@ -953,13 +954,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 173934847}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16018225, y: -0, z: -0, w: 0.9870875}
-  m_LocalPosition: {x: 0, y: 1, z: -3}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0.11, y: 0.11, z: -0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 527886134}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!4 &176427327 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1423189617985187196, guid: ebc13ed40311b184c98364ffba271c6c, type: 3}
@@ -3115,13 +3116,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 434575796}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16018225, y: -0, z: -0, w: 0.9870875}
-  m_LocalPosition: {x: 0, y: 1, z: -3}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0.11, y: 0.11, z: -0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 778236129}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!4 &445576415 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7894133148651297418, guid: 34785ad8f60384e449d99867f7f946c3, type: 3}
@@ -3515,6 +3516,7 @@ MonoBehaviour:
   isCollected: 0
   highlightEffect: {fileID: 495176656}
   lockedVisual: {fileID: 1807679249}
+  cameraPosition: {fileID: 173934848}
 --- !u!4 &527886134
 Transform:
   m_ObjectHideFlags: 0
@@ -3663,13 +3665,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 570847703}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16018225, y: -0, z: -0, w: 0.9870875}
-  m_LocalPosition: {x: 0, y: 1, z: -3}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0.11, y: 0.11, z: -0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1697850137}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!4 &574054159 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7894133148651297418, guid: 34785ad8f60384e449d99867f7f946c3, type: 3}
@@ -4022,6 +4024,7 @@ MonoBehaviour:
   isCollected: 0
   highlightEffect: {fileID: 1401430833}
   lockedVisual: {fileID: 1696327485}
+  cameraPosition: {fileID: 139699668}
 --- !u!4 &636008518
 Transform:
   m_ObjectHideFlags: 0
@@ -4143,6 +4146,7 @@ MonoBehaviour:
   isCollected: 0
   highlightEffect: {fileID: 249524378}
   lockedVisual: {fileID: 1063712771}
+  cameraPosition: {fileID: 31282697}
 --- !u!4 &648887152
 Transform:
   m_ObjectHideFlags: 0
@@ -4402,6 +4406,7 @@ MonoBehaviour:
   isCollected: 0
   highlightEffect: {fileID: 1983215928}
   lockedVisual: {fileID: 945410628}
+  cameraPosition: {fileID: 1100217938}
 --- !u!4 &684815345
 Transform:
   m_ObjectHideFlags: 0
@@ -4710,6 +4715,7 @@ MonoBehaviour:
   isCollected: 0
   highlightEffect: {fileID: 1537788826}
   lockedVisual: {fileID: 1198715410}
+  cameraPosition: {fileID: 727030458}
 --- !u!4 &713687702
 Transform:
   m_ObjectHideFlags: 0
@@ -4753,13 +4759,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 727030457}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16018225, y: -0, z: -0, w: 0.9870875}
-  m_LocalPosition: {x: 0, y: 1, z: -3}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0.11, y: 0.11, z: -0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 713687702}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!1 &731630413
 GameObject:
   m_ObjectHideFlags: 0
@@ -4941,6 +4947,7 @@ MonoBehaviour:
   isCollected: 0
   highlightEffect: {fileID: 2080601130}
   lockedVisual: {fileID: 162994162}
+  cameraPosition: {fileID: 114983993}
 --- !u!4 &771975514
 Transform:
   m_ObjectHideFlags: 0
@@ -5079,6 +5086,7 @@ MonoBehaviour:
   isCollected: 0
   highlightEffect: {fileID: 1865474765}
   lockedVisual: {fileID: 740186935}
+  cameraPosition: {fileID: 434575797}
 --- !u!4 &778236129
 Transform:
   m_ObjectHideFlags: 0
@@ -6150,13 +6158,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 913132978}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16018225, y: -0, z: -0, w: 0.9870875}
-  m_LocalPosition: {x: 0, y: 1, z: -3}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0.11, y: 0.11, z: -0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1354776915}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!4 &914958004 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6343437858535550425, guid: 3f036e691e664f447a90fa723afffeb0, type: 3}
@@ -6255,13 +6263,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 938428359}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16018225, y: -0, z: -0, w: 0.9870875}
-  m_LocalPosition: {x: 0, y: 1, z: -3}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0.11, y: 0.11, z: -0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1195317136}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!1001 &940553008
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7608,13 +7616,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1100217937}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16018225, y: -0, z: -0, w: 0.9870875}
-  m_LocalPosition: {x: 0, y: 1, z: -3}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0.11, y: 0.11, z: -0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 684815345}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!1 &1102373097
 GameObject:
   m_ObjectHideFlags: 0
@@ -8358,6 +8366,7 @@ MonoBehaviour:
   isCollected: 0
   highlightEffect: {fileID: 1161018715}
   lockedVisual: {fileID: 1297050962}
+  cameraPosition: {fileID: 938428360}
 --- !u!4 &1195317136
 Transform:
   m_ObjectHideFlags: 0
@@ -9264,6 +9273,7 @@ MonoBehaviour:
   isCollected: 0
   highlightEffect: {fileID: 1976147139}
   lockedVisual: {fileID: 494952655}
+  cameraPosition: {fileID: 913132979}
 --- !u!1001 &1381852712
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9567,13 +9577,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1417393200}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16018225, y: -0, z: -0, w: 0.9870875}
-  m_LocalPosition: {x: 0, y: 1, z: -3}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0.11, y: 0.11, z: -0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1418118779}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!1 &1418118777
 GameObject:
   m_ObjectHideFlags: 0
@@ -9610,6 +9620,7 @@ MonoBehaviour:
   isCollected: 0
   highlightEffect: {fileID: 982285999}
   lockedVisual: {fileID: 1679116025}
+  cameraPosition: {fileID: 1417393201}
 --- !u!4 &1418118779
 Transform:
   m_ObjectHideFlags: 0
@@ -9943,13 +9954,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1462104063}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16018225, y: -0, z: -0, w: 0.9870875}
-  m_LocalPosition: {x: 0, y: 1, z: -3}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0.11, y: 0.11, z: -0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2128798656}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!1 &1473754329
 GameObject:
   m_ObjectHideFlags: 0
@@ -10195,6 +10206,7 @@ MonoBehaviour:
   isCollected: 1
   highlightEffect: {fileID: 1538063429}
   lockedVisual: {fileID: 731630413}
+  cameraPosition: {fileID: 2084139697}
 --- !u!4 &1529710500
 Transform:
   m_ObjectHideFlags: 0
@@ -10998,13 +11010,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1631930484}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16018225, y: -0, z: -0, w: 0.9870875}
-  m_LocalPosition: {x: 0, y: 1, z: -3}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0.11, y: 0.11, z: -0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 101055842}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!1 &1639791717
 GameObject:
   m_ObjectHideFlags: 0
@@ -11065,7 +11077,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -11556,6 +11568,7 @@ MonoBehaviour:
   isCollected: 0
   highlightEffect: {fileID: 1557992691}
   lockedVisual: {fileID: 217027870}
+  cameraPosition: {fileID: 570847704}
 --- !u!4 &1697850137
 Transform:
   m_ObjectHideFlags: 0
@@ -13220,13 +13233,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2084139696}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16018225, y: -0, z: -0, w: 0.9870875}
-  m_LocalPosition: {x: 0, y: 1, z: -3}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0.11, y: 0.11, z: -0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1529710500}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!1001 &2085604839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13559,6 +13572,7 @@ MonoBehaviour:
   isCollected: 0
   highlightEffect: {fileID: 2010019601}
   lockedVisual: {fileID: 1314444701}
+  cameraPosition: {fileID: 1462104064}
 --- !u!4 &2128798656
 Transform:
   m_ObjectHideFlags: 0

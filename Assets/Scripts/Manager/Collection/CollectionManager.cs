@@ -98,8 +98,8 @@ namespace GASHAPWN {
             else
             {
                 // Instantly move camera
-                mainCamera.transform.position = node.transform.position;
-                mainCamera.transform.rotation = node.transform.rotation;
+                mainCamera.transform.position = node.cameraPosition.position;
+                mainCamera.transform.rotation = node.cameraPosition.rotation;
             }
 
             // Display the figure
@@ -181,8 +181,8 @@ namespace GASHAPWN {
                 currentNode.UpdateVisualState(true);
                 
                 // Force camera position immediately
-                mainCamera.transform.position = node.transform.position;
-                mainCamera.transform.rotation = node.transform.rotation;
+                mainCamera.transform.position = node.cameraPosition.position;
+                mainCamera.transform.rotation = node.cameraPosition.rotation;
                 
                 // Display figure
                 currentNode.DisplayFigure();
