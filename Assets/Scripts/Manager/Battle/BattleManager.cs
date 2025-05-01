@@ -13,6 +13,7 @@ using Unity.Mathematics;
 
 namespace GASHAPWN
 {
+    [RequireComponent (typeof(BattleInitializer))]
     public class BattleManager : MonoBehaviour
     {
         public static BattleManager Instance
@@ -131,7 +132,6 @@ namespace GASHAPWN
             if (activePlayers.Count > GameManager.Instance.numPlayers) {
                 Debug.LogError("BattleManager: Number of active players does not match total number of players.");
             }
-            //ResetToSpawn();
         }
 
         private void Start()
@@ -187,13 +187,6 @@ namespace GASHAPWN
                     ChangeStateVictoryScreen();
                 }
             }
-
-            // Check to exit victory screen
-            if (State == BattleState.VictoryScreen && showVictory)
-            {
-                // Check for inputs from the UI actionmap
-                //controls.FindActionMap("UI").actionTriggered += End;
-            }
         }
 
         private bool IsPlayerWin(GameObject player) {
@@ -235,15 +228,19 @@ namespace GASHAPWN
         private void BattleStartActions()
         {
             trackTime = true;
-            //PlayerInputAssigner.Instance.SetBattleControlsActive(true); // activate controls
+            PlayerInputAssigner.Instance.SetBattleControlsActive(true); // activate controls
             Debug.Log("Battle Start!");
         }
 
         private void SuddenDeathActions()
         {
-            // timer should be disabled
             Debug.Log("Entered Sudden Death!");
             ResetToSpawn(); // set players back to spawn points
+            // Set HP of all active players to 1
+            foreach (var player in activePlayers)
+            {
+                player.GetComponent<PlayerData>().SetHP(1);
+            }
         }
 
         /// PUBLIC METHODS ///
@@ -309,7 +306,6 @@ namespace GASHAPWN
 
         // Changes the BattleState to NewFigureScreen
         // Works if current BattleState is VictoryScreen
-
         public void ChangeStateNewFigureScreen()
         {
             if (State == BattleState.VictoryScreen)
@@ -317,6 +313,7 @@ namespace GASHAPWN
                 State = BattleState.NewFigureScreen;
                 ChangeToNewFigure.Invoke(State);
                 OnBattleStateChanged?.Invoke(State);
+                PlayerInputAssigner.Instance.ClearAssignments();
                 Debug.Log($"BattleManager: BattleState: {State.ToString()}");
             }
             else Debug.Log("BattleManager: Can not change battle state to newFigureScreen");
@@ -349,7 +346,7 @@ namespace GASHAPWN
         public void BattleEndActions()
         {
             trackTime = false;
-            //PlayerInputAssigner.Instance.SetBattleControlsActive(false);
+            PlayerInputAssigner.Instance.SetBattleControlsActive(false);
             Debug.Log("Battle End!");
         }
 
@@ -357,7 +354,7 @@ namespace GASHAPWN
         {
             OnPlayerSpawn.Invoke(state);
             ResetToSpawn();
-            //PlayerInputAssigner.Instance.SetBattleControlsActive(false);
+            PlayerInputAssigner.Instance.SetBattleControlsActive(false);
         }
 
         public void ResetToSpawn()
@@ -372,13 +369,6 @@ namespace GASHAPWN
 
         public void FigureCheck(string WinningTag, Figure PlayerFigure)
         {
-            //if (!Collection.Contains(PlayerFigure))
-            //{
-            //    Collection.Add(PlayerFigure);
-            //    newFigure = true;
-            //}
-            //else newFigure = false;
-
             GameManager.CollectedFigure potentialNewFigure = new(PlayerFigure);
 
             if(WinningTag == "Player1")
@@ -410,24 +400,6 @@ namespace GASHAPWN
                 }
             }
         }
-
-        //public void End(InputAction.CallbackContext context)
-        //{
-        //    if (context.performed)
-        //    {
-        //        showVictory = false;
-        //        // Determine if new figure screen should pop up
-
-        //        //if (playerThatDied.CompareTag("Player1")) FigureCheck(GameManager.Instance.Player1Collection, player2Figure);
-        //        //else if (playerThatDied.CompareTag("Player2")) FigureCheck(GameManager.Instance.Player2Collection, player1Figure);
-        //        //else
-        //        //{
-        //        //    Debug.LogError("End executed without player that died");
-        //        //}
-
-        //        controls.FindActionMap("UI").actionTriggered -= End;
-        //    }
-        //}
 
         public List<GameObject> GetActivePlayers()
         {

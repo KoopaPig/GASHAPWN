@@ -355,7 +355,8 @@ namespace GASHAPWN.UI {
             if (isControlsBindScreen) {
                 TransitionManager.Instance().Transition(mainMenuSceneName, menuTransition, 0);
                 GameManager.Instance.UpdateGameState(GameState.Title);
-                PlayerInputManager.instance.DisableJoining();
+                PlayerInputAssigner.Instance.DisableJoining();
+                PlayerInputAssigner.Instance.ClearAssignments();
             } else
             {
                 GetComponent<ScreenSwitcher>().ShowControlsBindScreen();

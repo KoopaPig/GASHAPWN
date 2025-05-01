@@ -2677,6 +2677,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1639791719}
+    - target: {fileID: 6778581199929025319, guid: b82485156808f7b42b5037c1c8615c3a, type: 3}
+      propertyPath: m_UIInputModule
+      value: 
+      objectReference: {fileID: 1679112398}
     - target: {fileID: 6836307729231160055, guid: b82485156808f7b42b5037c1c8615c3a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

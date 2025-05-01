@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 namespace GASHAPWN
 {
@@ -39,6 +40,7 @@ namespace GASHAPWN
         // List of PlayerControllerAssignments
         public static List<PlayerControllerAssignment> playerAssignments = new();
 
+        private List<Transform> cachedSpawnPoints;
 
         // NEED TO ADD A DEBUG FUNCTION BACK IN HERE
 
@@ -64,14 +66,25 @@ namespace GASHAPWN
             {
                 Debug.LogError("PlayerInputManager component missing!");
             }
-
-            //Initialize();
         }
 
         private void OnPlayerJoined(PlayerInput input)
         {
+            // If not LevelSelect, ignore the body of this function
+            if (SceneManager.GetActiveScene().name != "LevelSelect") return;
+
+            // Find player spawn points, cache them
+            if (cachedSpawnPoints == null || cachedSpawnPoints.Count == 0)
+            {
+                GameObject[] spawns = GameObject.FindGameObjectsWithTag("PlayerSpawn");
+                cachedSpawnPoints = spawns
+                    .OrderBy(go => go.name)
+                    .Select(go => go.transform)
+                    .ToList();
+            }
+
             int index = playerAssignments.Count;
-            string playerTag = $"Player{index + 1}";
+            string playerTag = $"Player{index + 1}"; // Construct playerTag
 
             var controlScheme = StringToControlScheme(input.currentControlScheme);
 
@@ -86,9 +99,21 @@ namespace GASHAPWN
             Debug.Log($"PlayerInputAssigner: Assigned {playerTag} with {input.devices[0].displayName} input.");
             input.gameObject.tag = playerTag;
             input.gameObject.name = playerTag;
+            
+            // set input position to cached spawn point
+            if (index < cachedSpawnPoints.Count)
+            {
+                Transform spawnPoint = cachedSpawnPoints[index];
+                input.transform.position = spawnPoint.position;
+            }
+            else Debug.LogWarning($"PlayerInputAssigner: No spawn point available for {playerTag}. " +
+                $"Total available: {cachedSpawnPoints.Count}");
+
+            input.DeactivateInput(); // deactivate until battle
         }
 
-        // Problem: This should be called when backing out of the scene, but it clears playerAssignments when going into battle as well
+        // Problem: This should be called when backing out of the scene, have to manage persistence
+        // Need to destroy players if backing out
         private void OnPlayerLeft(PlayerInput input)
         {
             var assignmentToRemove = playerAssignments.FirstOrDefault(a => a.playerInput == input);
@@ -98,11 +123,6 @@ namespace GASHAPWN
                 playerAssignments.Remove(assignmentToRemove);
             }
             else Debug.LogError("PlayerInputAssigner: Invalid PlayerInput attempted to leave.");
-        }
-
-        private void Initialize()
-        {
-
         }
 
         private void OnDisable()
@@ -239,8 +259,14 @@ namespace GASHAPWN
 
         public void DisableJoining() { if (playerInputManager != null) playerInputManager.DisableJoining(); }
 
-        public void ClearAssignments() { playerAssignments.Clear(); }
+        // Clear playerAssignments and destroy persistent PlayerInputs
+        public void ClearAssignments()
+        {
+            foreach (var assignment in playerAssignments)
+            {
+                Destroy(assignment.playerInput.gameObject);
+            }
+            playerAssignments.Clear();
+        }
     }
 }
-
-
