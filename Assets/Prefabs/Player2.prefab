@@ -438,9 +438,6 @@ MonoBehaviour:
   OnAttackBonusDeactivated:
     m_PersistentCalls:
       m_Calls: []
-  OnChargeRoll:
-    m_PersistentCalls:
-      m_Calls: []
   isGrounded: 0
   controlsEnabled: 1
   hasSlammed: 0
@@ -490,7 +487,7 @@ MonoBehaviour:
   playerRb: {fileID: 0}
   playerData: {fileID: 3906117202403509763}
   trajectoryLineRenderer: {fileID: 2297578372157324722}
-  slamTargetPrefab: {fileID: 2192666822702137644, guid: d9f6f273d92fe3f48b0f54966fc889ec, type: 3}
+  slamTargetPrefab: {fileID: 5506443321757553034, guid: b1eaab9f5a521fd408ddb0b6ba36e95c, type: 3}
 --- !u!114 &4927106659032965687
 MonoBehaviour:
   m_ObjectHideFlags: 0
