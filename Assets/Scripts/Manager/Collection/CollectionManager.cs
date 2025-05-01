@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using EasyTransition;
 
 namespace GASHAPWN {
     public class CollectionManager : MonoBehaviour
@@ -20,13 +21,17 @@ namespace GASHAPWN {
         [SerializeField] public bool isCamIntro = true;
         [SerializeField] private Transform nodesParent;
 
+        [Header("Transition Settings")]
+        [SerializeField] public TransitionSettings collectionTransition;
+        [SerializeField] public string mainMenuSceneName;
+
         [Header("UI References")]
         [SerializeField] private CollectionGUI collectionGUI;
 
         [Header("Input")]
-        public InputActionReference navigateAction;
-        public InputActionReference rotateAction;
-        public InputActionReference selectAction;
+        //public InputActionReference navigateAction;
+        //public InputActionReference rotateAction;
+        //public InputActionReference selectAction;
 
         [Header("Rotation Settings")]
         [SerializeField] private float rotationSpeed = 100f;
@@ -93,17 +98,17 @@ namespace GASHAPWN {
             else
             {
                 // Instantly move camera
-                mainCamera.transform.position = node.transform.position;
-                mainCamera.transform.rotation = node.transform.rotation;
+                mainCamera.transform.position = node.cameraPosition.position;
+                mainCamera.transform.rotation = node.cameraPosition.rotation;
             }
 
             // Display the figure
             currentNode.DisplayFigure();
 
             // Update UI with figure information
-            if (collectionGUI != null && currentNode.isCollected)
+            if (collectionGUI != null)
             {
-                collectionGUI.SwitchFigureGUI(currentNode.associatedFigure);
+                collectionGUI.SwitchFigureGUI(currentNode.associatedFigure, currentNode.isCollected);
             }
         }
 
@@ -176,16 +181,16 @@ namespace GASHAPWN {
                 currentNode.UpdateVisualState(true);
                 
                 // Force camera position immediately
-                mainCamera.transform.position = node.transform.position;
-                mainCamera.transform.rotation = node.transform.rotation;
+                mainCamera.transform.position = node.cameraPosition.position;
+                mainCamera.transform.rotation = node.cameraPosition.rotation;
                 
                 // Display figure
                 currentNode.DisplayFigure();
                 
                 // Update UI
-                if (collectionGUI != null && currentNode.isCollected)
+                if (collectionGUI != null)
                 {
-                    collectionGUI.SwitchFigureGUI(currentNode.associatedFigure);
+                    collectionGUI.SwitchFigureGUI(currentNode.associatedFigure, currentNode.isCollected);
                 }
             }
         }
@@ -209,7 +214,7 @@ namespace GASHAPWN {
                 mainCamera = Camera.main;
 
             if (collectionGUI == null)
-                collectionGUI = FindObjectOfType<CollectionGUI>();
+                collectionGUI = FindFirstObjectByType<CollectionGUI>();
         }
 
         private void Start()
@@ -242,49 +247,49 @@ namespace GASHAPWN {
             }
         }
 
-        private void OnEnable()
-        {
-            // Set up input actions
-            if (navigateAction != null && navigateAction.action != null)
-            {
-                navigateAction.action.performed -= OnNavigate; // Remove any existing
-                navigateAction.action.performed += OnNavigate;
-                navigateAction.action.Enable();
-            }
+        //private void OnEnable()
+        //{
+        //    // Set up input actions
+        //    if (navigateAction != null && navigateAction.action != null)
+        //    {
+        //        navigateAction.action.performed -= OnNavigate; // Remove any existing
+        //        navigateAction.action.performed += OnNavigate;
+        //        navigateAction.action.Enable();
+        //    }
 
-            if (rotateAction != null && rotateAction.action != null)
-            {
-                rotateAction.action.performed -= OnRotate; // Remove any existing
-                rotateAction.action.canceled -= OnRotateCanceled;
+        //    if (rotateAction != null && rotateAction.action != null)
+        //    {
+        //        rotateAction.action.performed -= OnRotate; // Remove any existing
+        //        rotateAction.action.canceled -= OnRotateCanceled;
                 
-                rotateAction.action.performed += OnRotate;
-                rotateAction.action.canceled += OnRotateCanceled;
-                rotateAction.action.Enable();
-            }
+        //        rotateAction.action.performed += OnRotate;
+        //        rotateAction.action.canceled += OnRotateCanceled;
+        //        rotateAction.action.Enable();
+        //    }
 
-            if (selectAction != null && selectAction.action != null)
-            {
-                selectAction.action.performed -= OnSelect; // Remove any existing
-                selectAction.action.performed += OnSelect;
-                selectAction.action.Enable();
-            }
-        }
+        //    if (selectAction != null && selectAction.action != null)
+        //    {
+        //        selectAction.action.performed -= OnSelect; // Remove any existing
+        //        selectAction.action.performed += OnSelect;
+        //        selectAction.action.Enable();
+        //    }
+        //}
 
-        private void OnDisable()
-        {
-            // Clean up input actions
-            if (navigateAction != null && navigateAction.action != null)
-                navigateAction.action.performed -= OnNavigate;
+        //private void OnDisable()
+        //{
+        //    // Clean up input actions
+        //    if (navigateAction != null && navigateAction.action != null)
+        //        navigateAction.action.performed -= OnNavigate;
 
-            if (rotateAction != null && rotateAction.action != null)
-            {
-                rotateAction.action.performed -= OnRotate;
-                rotateAction.action.canceled -= OnRotateCanceled;
-            }
+        //    if (rotateAction != null && rotateAction.action != null)
+        //    {
+        //        rotateAction.action.performed -= OnRotate;
+        //        rotateAction.action.canceled -= OnRotateCanceled;
+        //    }
 
-            if (selectAction != null && selectAction.action != null)
-                selectAction.action.performed -= OnSelect;
-        }
+        //    if (selectAction != null && selectAction.action != null)
+        //        selectAction.action.performed -= OnSelect;
+        //}
 
         private void Update()
         {
@@ -292,26 +297,6 @@ namespace GASHAPWN {
             if (currentRotationInput != 0 && currentNode != null)
             {
                 currentNode.RotateFigure(currentRotationInput * rotationSpeed * UnityEngine.Time.deltaTime);
-            }
-            
-            // Direct keyboard navigation - this is a fallback if the input system doesn't work
-            if (UnityEngine.Input.GetKeyDown(KeyCode.A) || UnityEngine.Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                NavigatePrevious();
-            }
-            else if (UnityEngine.Input.GetKeyDown(KeyCode.D) || UnityEngine.Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                NavigateNext();
-            }
-            
-            // Direct rotation controls - fallback if input system doesn't work
-            if (UnityEngine.Input.GetKey(KeyCode.Q))
-            {
-                RotateFigure(-1);
-            }
-            else if (UnityEngine.Input.GetKey(KeyCode.E))
-            {
-                RotateFigure(1);
             }
 
             // Test navigation with number keys - for testing
@@ -331,24 +316,7 @@ namespace GASHAPWN {
 
         #region Input Handlers
 
-        private void OnNavigate(InputAction.CallbackContext context)
-        {
-            if (isMoving || currentNode == null)
-                return;
 
-            // Read the input value (expected to be a Vector2)
-            Vector2 input = context.ReadValue<Vector2>();
-            
-            // Determine direction based on input
-            if (input.x > 0.5f)
-            {
-                NavigateNext();
-            }
-            else if (input.x < -0.5f)
-            {
-                NavigatePrevious();
-            }
-        }
 
         private void OnRotate(InputAction.CallbackContext context)
         {
@@ -476,7 +444,7 @@ namespace GASHAPWN {
             else
             {
                 // Find all nodes in the scene
-                CollectionNode[] nodes = FindObjectsOfType<CollectionNode>();
+                var nodes = FindObjectsByType<CollectionNode>(FindObjectsSortMode.InstanceID);
                 collectionNodes.AddRange(nodes);
             }
         }

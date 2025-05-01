@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7810409205633532874}
+  - component: {fileID: 3499382402623062507}
   - component: {fileID: 8012452833802943089}
   m_Layer: 0
   m_Name: BattleManager
@@ -32,6 +33,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3499382402623062507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6748602134496478548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2714a824958db24db8c4c9db9b14560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8012452833802943089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,8 +121,5 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   OnWinner:
-    m_PersistentCalls:
-      m_Calls: []
-  OnLosingFigure:
     m_PersistentCalls:
       m_Calls: []

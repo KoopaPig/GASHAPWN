@@ -55,7 +55,7 @@ public class PlayerData : MonoBehaviour
 
     [Header("Player State Flags")]
     public bool isGrounded = false;
-    public bool controlsEnabled = true;
+    public bool controlsEnabled = false;
     public bool hasSlammed = false;
     public bool isCharging = false;
     public bool hasCharged = false;
@@ -111,55 +111,8 @@ public class PlayerData : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
-        SetMaxHealth.Invoke(maxHealth);
-        currentStamina = maxStamina;
-        SetMaxStamina.Invoke(maxStamina);
         rb = GetComponent<Rigidbody>();
 
-        // Find all renderers in the player hierarchy
-        playerRenderers = GetComponentsInChildren<Renderer>();
-        
-        Debug.Log($"Found {playerRenderers.Length} renderers in {gameObject.name}");
-        
-        if (playerRenderers.Length == 0)
-        {
-            Debug.LogError($"No renderers found in {gameObject.name} or its children! Visual effects won't work.");
-        }
-        
-        // Store all original colors
-        originalColors = new Color[playerRenderers.Length];
-        for (int i = 0; i < playerRenderers.Length; i++)
-        {
-            // Create unique material instances to avoid shared material issues
-            if (playerRenderers[i].sharedMaterial != null)
-            {
-                playerRenderers[i].material = new Material(playerRenderers[i].sharedMaterial);
-                // Store the current color (which should be the correct original color)
-                originalColors[i] = playerRenderers[i].material.color;
-                
-                // Debug the original color we're storing
-                Debug.Log($"Original color for renderer {i}: {originalColors[i]}");
-                
-                // Make sure the initial color is not black
-                if (originalColors[i] == Color.black)
-                {
-                    Debug.LogWarning($"Original color for renderer {i} is black, setting to white");
-                    originalColors[i] = Color.white;
-                    playerRenderers[i].material.color = Color.white;
-                }
-            }
-            else
-            {
-                Debug.LogWarning($"Renderer {i} has no shared material!");
-                originalColors[i] = Color.white;
-            }
-        }
-
-        particleEffects = GetComponent<ParticleEffects>();
-        if (particleEffects == null) {
-            Debug.LogWarning("ParticleEffects component not found on " + gameObject.name);
-        }
     }
 
     private void Update()
@@ -512,5 +465,60 @@ public class PlayerData : MonoBehaviour
         Debug.Log(gameObject.name + " has been eliminated!");
         OnDeath.Invoke(this.gameObject);
         BattleManager.Instance.OnPlayerDeath(this.gameObject);
+    }
+
+    public void InitializePlayerData()
+    {
+        controlsEnabled = true;
+
+        // Set Health and Stamina, GUI as well
+        currentHealth = maxHealth;
+        SetMaxHealth.Invoke(maxHealth);
+        currentStamina = maxStamina;
+        SetMaxStamina.Invoke(maxStamina);
+
+        // Find all renderers in the player hierarchy
+        playerRenderers = GetComponentsInChildren<Renderer>();
+
+        Debug.Log($"Found {playerRenderers.Length} renderers in {gameObject.name}");
+        if (playerRenderers.Length == 0)
+        {
+            Debug.LogError($"No renderers found in {gameObject.name} or its children! Visual effects won't work.");
+        }
+
+        // Store all original colors
+        originalColors = new Color[playerRenderers.Length];
+        for (int i = 0; i < playerRenderers.Length; i++)
+        {
+            // Create unique material instances to avoid shared material issues
+            if (playerRenderers[i].sharedMaterial != null)
+            {
+                playerRenderers[i].material = new Material(playerRenderers[i].sharedMaterial);
+                // Store the current color (which should be the correct original color)
+                originalColors[i] = playerRenderers[i].material.color;
+
+                // Debug the original color we're storing
+                //Debug.Log($"Original color for renderer {i}: {originalColors[i]}");
+
+                // Make sure the initial color is not black
+                if (originalColors[i] == Color.black)
+                {
+                    //Debug.LogWarning($"Original color for renderer {i} is black, setting to white");
+                    originalColors[i] = Color.white;
+                    playerRenderers[i].material.color = Color.white;
+                }
+            }
+            else
+            {
+                //Debug.LogWarning($"Renderer {i} has no shared material!");
+                originalColors[i] = Color.white;
+            }
+        }
+
+        particleEffects = GetComponent<ParticleEffects>();
+        if (particleEffects == null)
+        {
+            Debug.LogWarning("ParticleEffects component not found on " + gameObject.name);
+        }
     }
 }

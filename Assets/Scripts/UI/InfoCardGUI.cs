@@ -35,7 +35,7 @@ namespace GASHAPWN.UI
 
         private bool isSliding = false;
         private Coroutine slideCoroutine;
-        private bool isVisible = false;
+        public bool isVisible = false;
 
         private void Awake()
         {
@@ -67,24 +67,6 @@ namespace GASHAPWN.UI
             // Set seriesIcon and numberInSeriesText
             seriesIcon.sprite = figure.GetSeries().SeriesIcon;
             numberInSeriesText.text = string.Format("{0:000} / {1:000}", figure.GetNumberInSeries(), figure.GetSeries().Size());
-        }
-        
-        // Enhanced version of SetFigureInfoCard with collection-specific features
-        public void SetFigureInfoCardExtended(Figure figure, bool isNewFigure = false, int collectionCount = 1)
-        {
-            // Set basic figure info
-            SetFigureInfoCard(figure);
-            
-            // Set collection-specific info
-            if (collectionCountText != null)
-                collectionCountText.text = $"Owned: {collectionCount}";
-                
-            if (figureAmount != null)
-                figureAmount.text = $"x{collectionCount}";
-                
-            // Show/hide new figure badge
-            if (newFigureBadge != null)
-                newFigureBadge.SetActive(isNewFigure);
         }
 
         // Slide in card from offscreen position

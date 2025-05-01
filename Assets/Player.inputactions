@@ -2,13 +2,13 @@
     "name": "Player",
     "maps": [
         {
-            "name": "Keyboard",
-            "id": "0eba469d-4593-4bc6-a12d-8776bed67f85",
+            "name": "BattleControls",
+            "id": "00ace403-1520-4207-a1d2-bf154d3e76c7",
             "actions": [
                 {
                     "name": "Movement",
                     "type": "Value",
-                    "id": "1fa2ddc6-9535-421d-b8d0-99bbe464c59f",
+                    "id": "d8c45472-0bc4-46ac-8303-a495dc420d98",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -17,7 +17,7 @@
                 {
                     "name": "RotateChargeDirection",
                     "type": "Value",
-                    "id": "2abb32f5-18d2-4bfc-bc32-7209a71485c5",
+                    "id": "e79fc03f-0304-47ef-8422-ec0e805b2f7a",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -26,7 +26,7 @@
                 {
                     "name": "Jump",
                     "type": "Button",
-                    "id": "68075eca-632d-4d38-a35d-aaab1c2f4109",
+                    "id": "71bcbabb-1572-4f69-afbc-3fb1fc3d6f0b",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -35,7 +35,7 @@
                 {
                     "name": "Slam",
                     "type": "Button",
-                    "id": "f165090b-0470-429c-ae14-6d4d5f618ee7",
+                    "id": "8d57d35d-d7fb-42ee-8744-1b20c1604614",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -44,7 +44,7 @@
                 {
                     "name": "QuickBreak",
                     "type": "Button",
-                    "id": "64f6db61-be43-4927-aff9-d828fcf6c6a0",
+                    "id": "70cb2017-94bc-45c7-8154-5a8696b56037",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -53,16 +53,7 @@
                 {
                     "name": "ChargeRoll",
                     "type": "Button",
-                    "id": "94d17b14-b038-4544-9824-2e6c916c883f",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Burst",
-                    "type": "Button",
-                    "id": "286c366a-68eb-4f98-99cd-6f4c4445effd",
+                    "id": "ec9bd26a-2556-4bd4-8bf4-16b9062fd805",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -72,7 +63,7 @@
             "bindings": [
                 {
                     "name": "WASD",
-                    "id": "0225f605-6285-435e-97a4-2392b37dcd7d",
+                    "id": "a4686342-97e9-4d84-beb9-67d19cfd3e17",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
@@ -83,7 +74,7 @@
                 },
                 {
                     "name": "up",
-                    "id": "8df81241-c074-479f-a429-b6aacf3f34e1",
+                    "id": "37088583-0367-4cda-9228-c26bc7a8af87",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
@@ -94,7 +85,7 @@
                 },
                 {
                     "name": "down",
-                    "id": "c236bc9e-558a-4b38-b735-6b4fc808d398",
+                    "id": "4f059d53-00c0-4423-a9b3-ca5473fcffb8",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -105,7 +96,7 @@
                 },
                 {
                     "name": "left",
-                    "id": "7000c44c-1306-4a04-9917-4ae8c0409878",
+                    "id": "0bb99665-040d-4420-a603-8a37fdfa9a87",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -116,7 +107,7 @@
                 },
                 {
                     "name": "right",
-                    "id": "4315cd98-1fa8-4f37-8710-30f178ac6e3b",
+                    "id": "b0b8e81c-a823-4db7-aceb-aa196f6727fe",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -126,8 +117,19 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "",
+                    "id": "93ef89b3-eac3-455e-b735-f472e38a3e38",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "WASD",
-                    "id": "0244acad-e843-4105-bcce-8264e5113da7",
+                    "id": "5eeee9f4-e9f7-4c28-ae06-6e962fac2204",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
@@ -138,7 +140,7 @@
                 },
                 {
                     "name": "up",
-                    "id": "769be21f-9307-48e7-ade9-10a8e9a74d46",
+                    "id": "d9efef2f-8024-4fa6-84e4-f96cf7a3f15a",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
@@ -149,7 +151,7 @@
                 },
                 {
                     "name": "down",
-                    "id": "07cb2f37-1da0-400a-8b20-b7fb84f2885b",
+                    "id": "9a0406ad-1b5a-42b0-a4d4-8d364589e9fb",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -160,7 +162,7 @@
                 },
                 {
                     "name": "left",
-                    "id": "0a56ca2b-e2b8-4d7b-9761-4d1ca6fbe31e",
+                    "id": "8d63c7f0-4cf5-488e-ac85-c52be5809247",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -171,7 +173,7 @@
                 },
                 {
                     "name": "right",
-                    "id": "18a6eaf3-2e11-4e84-a400-885edabe5ba3",
+                    "id": "88e02457-7766-40d6-b8ee-1c8eee0657ed",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -182,7 +184,18 @@
                 },
                 {
                     "name": "",
-                    "id": "32245266-b793-4524-8c07-2b8b2ad925b3",
+                    "id": "fa47ea31-c00c-4493-a199-3948670093c2",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateChargeDirection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cfd33352-ee08-4a5f-9c92-1866df15a3b5",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
@@ -193,7 +206,18 @@
                 },
                 {
                     "name": "",
-                    "id": "1260d292-dbdc-408f-a338-5a5a6bcf1ec1",
+                    "id": "334ad062-e96d-468f-8d3c-0107bbb947af",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "244c2c2a-f06a-4c19-b1e8-b269b8450680",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
@@ -204,7 +228,18 @@
                 },
                 {
                     "name": "",
-                    "id": "6152ff4a-3c49-4862-b5a0-20fe568d210f",
+                    "id": "b63f4c28-fd2b-4b24-b1dc-8929b5827eeb",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Slam",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f55516be-796b-420f-832b-d0285451ef24",
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
@@ -215,166 +250,7 @@
                 },
                 {
                     "name": "",
-                    "id": "b62e1ef1-e871-4c1a-9300-e9d120fa6efe",
-                    "path": "<Keyboard>/rightShift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ChargeRoll",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "669ddd8c-85a5-42df-bd6a-2f48128c2985",
-                    "path": "<Keyboard>/b",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Burst",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Controller",
-            "id": "4d5a944d-c080-4d20-9bef-aed1214aabe2",
-            "actions": [
-                {
-                    "name": "Movement",
-                    "type": "Value",
-                    "id": "47a2e64c-f25f-47f9-b5bc-1ab3495f34d7",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "RotateChargeDirection",
-                    "type": "Value",
-                    "id": "c729e1ee-dddc-444e-95e7-215806cdb284",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "1ae2c8e5-cac4-45fe-b9a1-92d714b31be9",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Slam",
-                    "type": "Button",
-                    "id": "42147703-2f44-4c3e-bcd4-5441eb10b053",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "QuickBreak",
-                    "type": "Button",
-                    "id": "d0e75e40-2a19-4b5c-ae58-0b58657e9885",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ChargeRoll",
-                    "type": "Button",
-                    "id": "3ccd52a1-f673-45d4-a57d-c64b23494f5f",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Burst",
-                    "type": "Button",
-                    "id": "4fc3d862-2157-489c-b396-3999fde3d22a",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "8e5dfe60-58f8-4a23-bdd3-6bd648c9a4bf",
-                    "path": "<XInputController>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "589fe843-8e73-4b51-9cc0-ba6e67e65048",
-                    "path": "<SwitchProControllerHID>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "546e9a67-eb00-4164-b187-5a4b017c56a2",
-                    "path": "<XInputController>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateChargeDirection",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "609bbdd0-d5ac-49f2-8e07-2f3b96823568",
-                    "path": "<SwitchProControllerHID>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateChargeDirection",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d36b513a-43db-4ad4-ba79-f13ba2526483",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f82e3280-cc52-42ea-8232-80686cfcd07d",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Slam",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6a9ea89e-9b42-42f4-af89-173a31cfded5",
+                    "id": "d27caa8b-243c-49bb-a09c-2f42c3b21a02",
                     "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
@@ -385,8 +261,8 @@
                 },
                 {
                     "name": "",
-                    "id": "62bac075-59c9-4e04-aab3-2a2e1c5ab499",
-                    "path": "<Gamepad>/rightTrigger",
+                    "id": "049d11b0-741e-4794-9b08-9b6e39b87f72",
+                    "path": "<Keyboard>/rightShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -396,12 +272,12 @@
                 },
                 {
                     "name": "",
-                    "id": "0f2bd481-e825-402f-9f78-a8e31d20ae37",
-                    "path": "<Gamepad>/buttonNorth",
+                    "id": "91863b6e-2964-4017-867c-8fb2062c9b49",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Burst",
+                    "action": "ChargeRoll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -502,18 +378,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "CollectionSpin",
+                    "name": "Join",
                     "type": "Button",
-                    "id": "c3a400a8-a1e5-41d1-9b34-cd0f2bd42595",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "CollectionNavigate",
-                    "type": "Button",
-                    "id": "32986308-df3e-4f4f-8d05-13efbe645944",
+                    "id": "eb85d651-53d9-4713-b820-66810d63790f",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -703,7 +570,7 @@
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "KeyboardMouse",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -714,7 +581,7 @@
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "KeyboardMouse",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -725,7 +592,7 @@
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "KeyboardMouse",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -736,7 +603,7 @@
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "KeyboardMouse",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -747,7 +614,7 @@
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "KeyboardMouse",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -758,7 +625,7 @@
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "KeyboardMouse",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -769,7 +636,7 @@
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "KeyboardMouse",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -780,7 +647,7 @@
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "KeyboardMouse",
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -791,7 +658,7 @@
                     "path": "*/{Submit}",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR",
+                    "groups": "Gamepad;Touch;Joystick;XR;KeyboardMouse",
                     "action": "Submit",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -802,7 +669,7 @@
                     "path": "*/{Cancel}",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR",
+                    "groups": "Gamepad;Touch;Joystick;XR;KeyboardMouse",
                     "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -813,7 +680,7 @@
                     "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "KeyboardMouse",
                     "action": "Point",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -824,7 +691,7 @@
                     "path": "<Pen>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "KeyboardMouse",
                     "action": "Point",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -846,7 +713,7 @@
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse",
+                    "groups": "KeyboardMouse",
                     "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -857,7 +724,7 @@
                     "path": "<Pen>/tip",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse",
+                    "groups": "KeyboardMouse",
                     "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -890,7 +757,7 @@
                     "path": "<Mouse>/scroll",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse",
+                    "groups": "KeyboardMouse",
                     "action": "ScrollWheel",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -901,7 +768,7 @@
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "KeyboardMouse",
                     "action": "RightClick",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -912,7 +779,7 @@
                     "path": "<Mouse>/middleButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "KeyboardMouse",
                     "action": "MiddleClick",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -940,282 +807,343 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Keyboard",
-                    "id": "41727d17-39db-45d4-8ada-c36f37803b74",
-                    "path": "1DAxis",
+                    "name": "",
+                    "id": "45d666df-d971-40aa-bec4-428c1a274325",
+                    "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "CollectionSpin",
-                    "isComposite": true,
+                    "action": "Join",
+                    "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
-                    "id": "a98e1054-1e99-4014-babc-c99cf81e03d1",
-                    "path": "<Keyboard>/q",
+                    "name": "",
+                    "id": "909c20ef-cd14-4b5e-9d42-b04478e70e42",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "CollectionSpin",
+                    "action": "Join",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 },
                 {
-                    "name": "positive",
-                    "id": "d6c82037-af95-48f4-a00b-299fd2187dd8",
-                    "path": "<Keyboard>/e",
+                    "name": "",
+                    "id": "27027aac-56b8-4c29-8a4f-c38cc7651bd6",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "CollectionSpin",
+                    "action": "Join",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Collection",
+            "id": "62249c7d-52c1-41dd-aeab-17789dd8f616",
+            "actions": [
+                {
+                    "name": "Navigate",
+                    "type": "PassThrough",
+                    "id": "730ef14c-fe03-498b-adf5-1bbbf668742f",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
-                    "name": "right",
-                    "id": "f5e61879-a455-4123-9abc-34387eae8094",
-                    "path": "<Gamepad>/rightStick/right",
-                    "interactions": "",
+                    "name": "Submit",
+                    "type": "Button",
+                    "id": "7f163054-317e-48a5-a1a8-190f1eee3332",
+                    "expectedControlType": "",
                     "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "CollectionSpin",
-                    "isComposite": false,
-                    "isPartOfComposite": true
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
+                {
+                    "name": "Cancel",
+                    "type": "Button",
+                    "id": "08a4ceb0-263c-46dc-b41e-e6c79630b99e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Rotate",
+                    "type": "Value",
+                    "id": "7495430b-35e9-4fa2-a235-ffbec292d671",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
                 {
                     "name": "Gamepad",
-                    "id": "d0b07bad-6649-49c9-a714-ad6a1864a774",
+                    "id": "41e089b7-29fc-43b6-8374-512904714011",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "CollectionSpin",
+                    "action": "Navigate",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "up",
-                    "id": "36ede700-9896-4416-b455-a1922c2e2f01",
+                    "id": "b9374cab-f9fb-4845-964e-941f003a2a6f",
                     "path": "<Gamepad>/leftStick/up",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "CollectionSpin",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "up",
-                    "id": "a13baa5d-27cf-4610-8f01-82dae3d840e4",
-                    "path": "<Gamepad>/rightStick/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "CollectionSpin",
+                    "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "down",
-                    "id": "fbee34c1-3939-40e4-a70c-2b410d3c0b3b",
+                    "id": "550bdff3-49c5-4cc4-9ef4-94d9fac0ff83",
                     "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "CollectionSpin",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "75d32e61-4f8a-472d-9ea3-09aaaff30c16",
-                    "path": "<Gamepad>/rightStick/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "CollectionSpin",
+                    "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "left",
-                    "id": "a8788984-a33a-44c3-aa87-d9c158881c63",
-                    "path": "<Gamepad>/leftStick/left",
+                    "id": "54fad4c5-4ea3-4d62-8354-f63802355aa9",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "CollectionSpin",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "54eec061-e9e7-4588-83d1-5e7f1871be03",
-                    "path": "<Gamepad>/rightStick/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "CollectionSpin",
+                    "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "right",
-                    "id": "cdf2e1c5-3a19-4185-9aee-86dec8a94755",
-                    "path": "<Gamepad>/leftStick/right",
+                    "id": "7ee737a0-9a5b-4149-a72e-98065f59bd88",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "CollectionSpin",
+                    "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "right",
-                    "id": "2ea93698-ac06-4843-ba99-12d0994bbbf6",
-                    "path": "<Gamepad>/rightStick/right",
+                    "name": "",
+                    "id": "86776b4f-6482-4a5e-a22d-e427cec7e05d",
+                    "path": "<Gamepad>/dpad",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "CollectionSpin",
+                    "action": "Navigate",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "Keyboard",
-                    "id": "2dde4a33-7460-4f60-8c04-fead22e70977",
+                    "id": "30a32458-3a7f-40a5-8a06-7125d04f8df8",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "CollectionNavigate",
+                    "action": "Navigate",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "up",
-                    "id": "1d362e5c-b2c6-4a3c-877f-220faf0391fd",
+                    "id": "667f9318-bd7d-417f-a0dc-4d1b806574f9",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "CollectionNavigate",
+                    "groups": "KeyboardMouse",
+                    "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "up",
-                    "id": "ed543775-3577-4f07-8673-7bcb5498f6a9",
+                    "id": "ede07a6a-6497-482a-9a18-b4d9ee537f44",
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "CollectionNavigate",
+                    "groups": "KeyboardMouse",
+                    "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "down",
-                    "id": "1d00d6aa-a164-488e-86ea-5c634cad0777",
+                    "id": "bb770e96-9b16-45a8-9abb-8b656d78ae54",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "CollectionNavigate",
+                    "groups": "KeyboardMouse",
+                    "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "down",
-                    "id": "ec0494eb-b90c-4b52-83f3-25d7faaaf682",
+                    "id": "382d0b14-4562-4d54-896e-0cb2389b658f",
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "CollectionNavigate",
+                    "groups": "KeyboardMouse",
+                    "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "left",
-                    "id": "ad462455-add9-4d8b-818f-d47746f8bdc4",
+                    "id": "8afb18b4-2d5f-47cb-8321-235625a63878",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "CollectionNavigate",
+                    "groups": "KeyboardMouse",
+                    "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "left",
-                    "id": "2858fd28-dac0-439a-a911-0f3c3c7c24ab",
+                    "id": "eb6af4d3-33a2-4ac9-933e-f84d16258a1a",
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "CollectionNavigate",
+                    "groups": "KeyboardMouse",
+                    "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "right",
-                    "id": "d45ae296-f83c-4c03-8c2b-81b76ff48514",
+                    "id": "cbbf3678-2c07-4499-b476-795744f6bf67",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "CollectionNavigate",
+                    "groups": "KeyboardMouse",
+                    "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "right",
-                    "id": "93789d04-ea32-4d1e-8d0c-70c321ff0093",
+                    "id": "c49be09e-49b4-42a6-8db3-9300a0461239",
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "CollectionNavigate",
+                    "groups": "KeyboardMouse",
+                    "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Gamepad",
-                    "id": "588ac6c4-859a-44bd-a5aa-e6e015ed96a4",
-                    "path": "1DAxis",
+                    "name": "",
+                    "id": "697bba0a-3464-4601-815e-1c09c9c16a67",
+                    "path": "*/{Cancel}",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "CollectionNavigate",
-                    "isComposite": true,
+                    "groups": "Gamepad;Touch;Joystick;XR;KeyboardMouse",
+                    "action": "Cancel",
+                    "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
-                    "id": "a4e0130c-c231-4486-ae40-dc9b7d3b4e6c",
-                    "path": "<Gamepad>/leftTrigger",
+                    "name": "",
+                    "id": "2dfab67d-f5da-4901-9bed-7a8895e0fc07",
+                    "path": "*/{Submit}",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "CollectionNavigate",
+                    "groups": "Gamepad;Touch;Joystick;XR;KeyboardMouse",
+                    "action": "Submit",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 },
                 {
-                    "name": "positive",
-                    "id": "8b70dda9-7691-4099-b5e8-48b0616b9c9c",
-                    "path": "<Gamepad>/rightTrigger",
+                    "name": "",
+                    "id": "cbd08b77-f977-404d-8126-0ba9e1539159",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "Scale(factor=-1)",
                     "groups": "",
-                    "action": "CollectionNavigate",
+                    "action": "Rotate",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2b53ccbd-18c2-41bb-8f8b-187ea6684e1b",
+                    "path": "<XInputController>/leftStick/left",
+                    "interactions": "",
+                    "processors": "Scale(factor=-1)",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a198724c-6d88-4cce-a558-fb097aa1c7a3",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "Scale",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bbd7c07d-47e3-47cc-9c8b-6be85ffc9291",
+                    "path": "<XInputController>/leftStick/right",
+                    "interactions": "",
+                    "processors": "Scale",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "Gamepad",
+            "bindingGroup": "Gamepad",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "KeyboardMouse",
+            "bindingGroup": "KeyboardMouse",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
 }

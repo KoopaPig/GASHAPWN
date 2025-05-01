@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private Vector2 rotationInput;
     
-    [SerializeField] private PlayerData playerData;
+    private PlayerData playerData;
     [SerializeField] private float groundCheckDistance = 0.6f; // Slightly more than sphere radius
     [SerializeField] private LayerMask groundLayer; // Set this in inspector to your ground layer
 
@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
                 coll.material = playerData.sphereMaterial;
             }
         }
+        playerData = GetComponent<PlayerData>();
     }
 
     public void OnMovement(InputAction.CallbackContext context)
