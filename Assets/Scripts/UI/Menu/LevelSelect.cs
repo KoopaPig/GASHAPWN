@@ -10,6 +10,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace GASHAPWN.UI {
@@ -390,7 +391,7 @@ namespace GASHAPWN.UI {
 
         public void GameStart()
         {
-            // only set player inputs persistent when transitioning to battle scene
+            // Only set PlayerInputs persistent before transitioning to battle scene
             PlayerInputAssigner.Instance.SetPlayerInputsPersistent();
 
             TransitionManager.Instance().Transition(selectedLevel.levelSceneName, toLevelTransition, 0);

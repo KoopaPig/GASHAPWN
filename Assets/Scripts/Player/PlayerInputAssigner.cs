@@ -4,9 +4,11 @@ using GASHAPWN;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Searcher.SearcherWindow;
 
 namespace GASHAPWN
 {
@@ -42,6 +44,9 @@ namespace GASHAPWN
 
         private List<Transform> cachedSpawnPoints;
 
+        // Get reference to a single PlayerInput prefab that should be used in all scenarios outside the battle
+        [SerializeField] private GameObject uiPlayerInputPrefab;
+
         // NEED TO ADD A DEBUG FUNCTION BACK IN HERE
 
         private void Awake()
@@ -60,7 +65,6 @@ namespace GASHAPWN
             if (playerInputManager != null)
             {
                 playerInputManager.onPlayerJoined += OnPlayerJoined;
-                //playerInputManager.onPlayerLeft += OnPlayerLeft;
             }
             else
             {
@@ -74,6 +78,7 @@ namespace GASHAPWN
             if (SceneManager.GetActiveScene().name != "LevelSelect") return;
 
             // Find player spawn points, cache them
+            if (cachedSpawnPoints != null) cachedSpawnPoints.Clear();
             if (cachedSpawnPoints == null || cachedSpawnPoints.Count == 0)
             {
                 GameObject[] spawns = GameObject.FindGameObjectsWithTag("PlayerSpawn");
@@ -112,26 +117,11 @@ namespace GASHAPWN
             input.DeactivateInput(); // deactivate until battle
         }
 
-        // Problem: This should be called when backing out of the scene, have to manage persistence
-        // Need to destroy players if backing out
-        private void OnPlayerLeft(PlayerInput input)
-        {
-            var assignmentToRemove = playerAssignments.FirstOrDefault(a => a.playerInput == input);
-            if (assignmentToRemove != null)
-            {
-                Debug.Log($"Player {assignmentToRemove.playerTag} has left.");
-                playerAssignments.Remove(assignmentToRemove);
-            }
-            else Debug.LogError("PlayerInputAssigner: Invalid PlayerInput attempted to leave.");
-        }
-
         private void OnDisable()
         {
-            // error here
             if (PlayerInputManager.instance != null)
             {
                 PlayerInputManager.instance.onPlayerJoined -= OnPlayerJoined;
-                //PlayerInputManager.instance.onPlayerLeft -= OnPlayerLeft;
             }
         }
 
@@ -140,10 +130,14 @@ namespace GASHAPWN
         // Mark PlayerInputs in playerAssignments as persistent, only call this when transitioning to battle scene
         public void SetPlayerInputsPersistent()
         {
-            foreach (var assignment in playerAssignments)
+            if (SceneManager.GetActiveScene().name == "LevelSelect")
             {
-                DontDestroyOnLoad(assignment.playerInput);
+                foreach (var assignment in playerAssignments)
+                {
+                    DontDestroyOnLoad(assignment.playerInput);
+                }
             }
+            else Debug.LogError("PlayerInputAssigner: Tried to set PlayerInputs as persistent outside the LevelSelect scene.");
         }
         
         // Returns true if IsAssgined = true for PlayerControllerAssingment corresponding to playerTag
@@ -248,11 +242,36 @@ namespace GASHAPWN
             };
         }
 
-        public ControlScheme GetPlayerControlScheme(string playerTag)
+        // Returns true if found a ControlScheme corresponding to playerTag in playerAssignments
+        public bool TryGetPlayerControlScheme(string playerTag, out ControlScheme controlScheme)
         {
             var assignment = FindPlayerAssignment(playerTag);
-            if (assignment != null) return assignment.controlScheme;
-            else return ControlScheme.KEYBOARD;
+            if (assignment != null)
+            {
+                controlScheme = assignment.controlScheme;
+                return true;
+            }
+
+            controlScheme = ControlScheme.KEYBOARD; // fallback
+            return false;
+        }
+
+        // Returns true if found a ControlScheme from first PlayerInput object in scene
+        public bool TryGetAnyControlScheme(out ControlScheme scheme)
+        {
+            var input = FindFirstObjectByType<PlayerInput>();
+            if (input.isActiveAndEnabled)
+            {
+                try
+                {
+                    scheme = StringToControlScheme(input.currentControlScheme);
+                    return true;
+                }
+                catch { }
+            }
+
+            scheme = ControlScheme.KEYBOARD; // fallback
+            return false;
         }
 
         public void EnableJoining() { if (playerInputManager != null) playerInputManager.EnableJoining(); }
@@ -264,9 +283,39 @@ namespace GASHAPWN
         {
             foreach (var assignment in playerAssignments)
             {
-                Destroy(assignment.playerInput.gameObject);
+                if (!string.IsNullOrEmpty(assignment.playerTag))
+                {
+                    GameObject obj = GameObject.FindWithTag(assignment.playerTag);
+                    if (obj != null) Destroy(obj);
+                }
             }
             playerAssignments.Clear();
+        }
+
+        // Instantiate new PlayerInput for UI navigation
+        public void ConsolidatePlayerInput()
+        {
+            // Destroy PlayerInput components of players
+            foreach (var assignment in playerAssignments)
+            {
+                Destroy(assignment.playerInput);
+            }
+
+            // Spawn new PlayerInput for UI
+            if (uiPlayerInputPrefab != null)
+            {
+                GameObject uiInputObj = Instantiate(uiPlayerInputPrefab);
+                PlayerInput uiInput = uiInputObj.GetComponent<PlayerInput>();
+
+                uiInput.SwitchCurrentActionMap("UI");
+                uiInput.camera = Camera.main;
+                uiInput.uiInputModule = FindFirstObjectByType<InputSystemUIInputModule>();
+                uiInput.ActivateInput();
+            }
+            else
+            {
+                Debug.LogWarning("UI PlayerInput prefab not assigned.");
+            }
         }
     }
 }

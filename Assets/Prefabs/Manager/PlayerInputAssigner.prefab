@@ -90,3 +90,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInputManager: {fileID: 0}
+  uiPlayerInputPrefab: {fileID: 2700969416952816561, guid: 9cba68cec2ca0c248b389e2c5db84d24, type: 3}

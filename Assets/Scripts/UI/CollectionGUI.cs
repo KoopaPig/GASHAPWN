@@ -17,13 +17,6 @@ namespace GASHAPWN.UI
         [SerializeField] private GameObject navigationArrows;
         [SerializeField] private GameObject footer;
 
-        [Header("Transition Settings")]
-        [SerializeField] public TransitionSettings collectionTransition;
-        [SerializeField] public string mainMenuSceneName;
-
-        private InputAction cancelAction;
-
-
         /// PUBLIC METHODS ///
 
         // CollectionGUISetActive(): If true, fade in CollectionGUI. If false, fade out.
@@ -52,28 +45,6 @@ namespace GASHAPWN.UI
         {
             infoCardGUI = infoCard.GetComponent<InfoCardGUI>();
         }
-
-        private void OnEnable()
-        {
-            var inputActionAsset = GetComponent<PlayerInput>().actions;
-            cancelAction = inputActionAsset["Cancel"];
-
-            cancelAction.performed += HandleCancel;
-            if (!cancelAction.enabled) { cancelAction.Enable(); }
-        }
-
-        private void HandleCancel(InputAction.CallbackContext context)
-        {
-            TransitionManager.Instance().Transition(mainMenuSceneName, collectionTransition, 0);
-            GameManager.Instance.UpdateGameState(GameState.Title);
-        }
-
-        private void OnDisable()
-        {
-            cancelAction.performed -= HandleCancel;
-            cancelAction.Disable();
-        }
-
     }
 }
 

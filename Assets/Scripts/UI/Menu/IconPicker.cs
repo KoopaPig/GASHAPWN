@@ -29,11 +29,18 @@ namespace GASHAPWN.UI {
         {
             if (!automaticUpdate) return;
 
-            var detectScheme = PlayerInputAssigner.Instance.GetPlayerControlScheme("Player1");
-            if (detectScheme != controlScheme)
+            ControlScheme detectedScheme;
+
+            // Try to Get ControlScheme from Player1 first;
+            // if not, try to get any control scheme from first PlayerInput object in scene
+            if (PlayerInputAssigner.Instance.TryGetPlayerControlScheme("Player1", out detectedScheme) ||
+                PlayerInputAssigner.Instance.TryGetAnyControlScheme(out detectedScheme))
             {
-                controlScheme = detectScheme;
-                UpdateControlScheme();
+                if (detectedScheme != controlScheme)
+                {
+                    controlScheme = detectedScheme;
+                    UpdateControlScheme();
+                }
             }
         }
 

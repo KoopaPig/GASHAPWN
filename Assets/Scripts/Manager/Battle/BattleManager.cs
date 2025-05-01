@@ -201,6 +201,7 @@ namespace GASHAPWN
         private void OnDisable()
         {
             RemoveAllListeners();
+            PlayerInputAssigner.Instance.ClearAssignments();
         }
 
         private void OnDestroy()
@@ -313,7 +314,6 @@ namespace GASHAPWN
                 State = BattleState.NewFigureScreen;
                 ChangeToNewFigure.Invoke(State);
                 OnBattleStateChanged?.Invoke(State);
-                PlayerInputAssigner.Instance.ClearAssignments();
                 Debug.Log($"BattleManager: BattleState: {State.ToString()}");
             }
             else Debug.Log("BattleManager: Can not change battle state to newFigureScreen");
@@ -347,6 +347,7 @@ namespace GASHAPWN
         {
             trackTime = false;
             PlayerInputAssigner.Instance.SetBattleControlsActive(false);
+            PlayerInputAssigner.Instance.ConsolidatePlayerInput();
             Debug.Log("Battle End!");
         }
 

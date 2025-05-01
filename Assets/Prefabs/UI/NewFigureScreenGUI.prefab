@@ -8077,7 +8077,7 @@ MonoBehaviour:
   xInputHelp: {fileID: 4791668500990939411}
   KeyboardHelp: {fileID: 6526346565411131580}
   controlScheme: 1
-  automaticUpdate: 0
+  automaticUpdate: 1
 --- !u!225 &5319305273393702212
 CanvasGroup:
   m_ObjectHideFlags: 0
