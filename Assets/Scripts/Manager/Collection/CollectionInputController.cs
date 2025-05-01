@@ -77,13 +77,10 @@ namespace GASHAPWN
         // Rotation handler - used to rotate the figure
         public void OnRotate(InputAction.CallbackContext context)
         {
-            Debug.Log("here");
-            //if (!isInitialized || collectionManager == null) return;
-            
-            // Read input value and process based on context
-
+            // Get the raw rotation value from the input device
             rotationValue = context.ReadValue<float>() * 100f;
-            
+
+            // Debug.Log to verify we're getting both positive and negative values
             DebugLog($"Rotation value: {rotationValue}");
         }
         

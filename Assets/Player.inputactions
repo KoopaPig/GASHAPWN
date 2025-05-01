@@ -874,7 +874,7 @@
                 },
                 {
                     "name": "Rotate",
-                    "type": "PassThrough",
+                    "type": "Value",
                     "id": "7495430b-35e9-4fa2-a235-ffbec292d671",
                     "expectedControlType": "Axis",
                     "processors": "",
@@ -1083,6 +1083,17 @@
                 },
                 {
                     "name": "",
+                    "id": "2b53ccbd-18c2-41bb-8f8b-187ea6684e1b",
+                    "path": "<XInputController>/leftStick/left",
+                    "interactions": "",
+                    "processors": "Scale(factor=-1)",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a198724c-6d88-4cce-a558-fb097aa1c7a3",
                     "path": "<Keyboard>/e",
                     "interactions": "",
@@ -1094,19 +1105,8 @@
                 },
                 {
                     "name": "",
-                    "id": "085431c1-bdcf-4829-b08a-e47ce4bcb522",
-                    "path": "<Gamepad>/leftStick/left",
-                    "interactions": "",
-                    "processors": "Scale(factor=-1)",
-                    "groups": "",
-                    "action": "Rotate",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "235a3ec2-52c6-4a54-9d9f-481faf4ad860",
-                    "path": "<Gamepad>/leftStick/right",
+                    "id": "bbd7c07d-47e3-47cc-9c8b-6be85ffc9291",
+                    "path": "<XInputController>/leftStick/right",
                     "interactions": "",
                     "processors": "Scale",
                     "groups": "",
