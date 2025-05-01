@@ -32,11 +32,18 @@ namespace GASHAPWN.UI
         }
 
         // SwitchFigureGUI: Sets the figure on InfoCard and slides in
-        public void SwitchFigureGUI(Figure figure)
+        public void SwitchFigureGUI(Figure figure, bool isCollected)
         {
-            StartCoroutine(infoCardGUI.SlideCardIn());
-            infoCardGUI.SetFigureInfoCard(figure);
-            UI_SFXManager.Instance.Play_InfoCardGroup();
+            if (isCollected)
+            {
+                StartCoroutine(infoCardGUI.SlideCardIn());
+                infoCardGUI.SetFigureInfoCard(figure);
+                UI_SFXManager.Instance.Play_InfoCardGroup();
+            } else if (infoCardGUI.isVisible)
+            {
+                UI_SFXManager.Instance.Play_InfoCardGroup();
+                StartCoroutine(infoCardGUI.SlideCardOut());
+            }
         }
 
         /// PRIVATE METHODS ///

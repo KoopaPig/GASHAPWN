@@ -1,5 +1,6 @@
 using UnityEngine;
 using GASHAPWN;
+using GASHAPWN.Utility;
 
 namespace GASHAPWN
 {

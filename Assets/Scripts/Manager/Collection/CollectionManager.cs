@@ -106,9 +106,9 @@ namespace GASHAPWN {
             currentNode.DisplayFigure();
 
             // Update UI with figure information
-            if (collectionGUI != null && currentNode.isCollected)
+            if (collectionGUI != null)
             {
-                collectionGUI.SwitchFigureGUI(currentNode.associatedFigure);
+                collectionGUI.SwitchFigureGUI(currentNode.associatedFigure, currentNode.isCollected);
             }
         }
 
@@ -188,9 +188,9 @@ namespace GASHAPWN {
                 currentNode.DisplayFigure();
                 
                 // Update UI
-                if (collectionGUI != null && currentNode.isCollected)
+                if (collectionGUI != null)
                 {
-                    collectionGUI.SwitchFigureGUI(currentNode.associatedFigure);
+                    collectionGUI.SwitchFigureGUI(currentNode.associatedFigure, currentNode.isCollected);
                 }
             }
         }
