@@ -150,61 +150,68 @@ public class PlayerData : MonoBehaviour
             PlayerData otherPlayerData = collision.gameObject.GetComponent<PlayerData>();
             if (otherRb == null || otherPlayerData == null) return;
 
+            // Calculate relative velocity between the players
             float relativeSpeed = (rb.linearVelocity - otherRb.linearVelocity).magnitude;
-
+            
+            // Check if either player is using an offensive ability
+            bool selfOffensive = hasSlammed || hasCharged || isBursting;
+            bool otherOffensive = otherPlayerData.hasSlammed || otherPlayerData.hasCharged || otherPlayerData.isBursting;
+            
+            // Deflection case: both players using offensive abilities or similar speeds
+            bool shouldDeflect = (selfOffensive && otherOffensive) || 
+                                (Mathf.Abs(rb.linearVelocity.magnitude - otherRb.linearVelocity.magnitude) < 2f);
+            
+            // Determine who has higher momentum (mass × velocity)
+            bool hasHigherMomentum = rb.linearVelocity.magnitude > otherRb.linearVelocity.magnitude;
+            
             if (relativeSpeed >= minHitSpeed)
             {
                 Vector3 contactPoint = collision.GetContact(0).point;
-                bool isMetalEnd = IsMetalEnd(contactPoint);
-                bool isDeflecting = IsDeflecting(collision.contacts[0].normal);
-
-                if (isMetalEnd)
+                
+                if (shouldDeflect)
                 {
-                    if (isDeflecting)
-                    {
-                        ApplyKnockback(otherRb, deflectKnockbackMultiplier);
-                        particleEffects?.PlayDeflectEffect(contactPoint);
-                        Debug.Log("Deflect! Knockback applied.");
-                    }
-                    else
-                    {
-                        // Determine damage amount based on move type
-                        int damageAmount = CalculateDamageAmount(otherPlayerData);
-                        TakeDamage(damageAmount);
-                        particleEffects?.PlayHitEffect(contactPoint);
-                        Debug.Log("Hit! Damage taken: " + damageAmount);
-                    }
+                    // Both deflect each other
+                    Vector3 deflectionDir = (transform.position - collision.transform.position).normalized;
+                    rb.AddForce(deflectionDir * deflectKnockbackMultiplier * relativeSpeed, ForceMode.Impulse);
+                    otherRb.AddForce(-deflectionDir * deflectKnockbackMultiplier * relativeSpeed, ForceMode.Impulse);
+                    
+                    particleEffects?.PlayDeflectEffect(contactPoint);
+                    GAME_SFXManager.Instance.Play_ImpactDeflect(transform);
                 }
-                else
+                else if (hasHigherMomentum)
                 {
-                    Debug.Log("No damage: Glass side hit or invalid contact.");
+                    // Calculate damage based on speed and abilities
+                    int damageAmount = CalculateDamageAmount(relativeSpeed, selfOffensive);
+                    
+                    otherPlayerData.TakeDamage(damageAmount);
+                    particleEffects?.PlayHitEffect(contactPoint);
+                    GAME_SFXManager.Instance.Play_ImpactGeneral(transform);
                 }
             }
         }
     }
 
-    // Calculate damage based on the opponent's current move and damage multipliers
-    private int CalculateDamageAmount(PlayerData attacker)
+    // Calculate damage based on speed and offensive abilities
+    private int CalculateDamageAmount(float relativeSpeed, bool isOffensiveAbility)
     {
-        int baseDamage = normalCollisionDamage;
+        // Base damage from 0.5 to 1.25 based on speed
+        float speedDamage = Mathf.Lerp(0.5f, 1.25f, Mathf.Clamp01((relativeSpeed - minHitSpeed) / 10f));
         
-        if (attacker.hasSlammed)
+        // Offensive abilities deal fixed damage
+        if (isOffensiveAbility)
         {
-            baseDamage = attacker.slamDamage;
+            if (hasSlammed)
+                return slamDamage;
+            else if (hasCharged)
+                return chargeRollDamage;
+            else if (isBursting)
+                return 2; // Default offensive ability damage
         }
-        else if (attacker.hasCharged)
-        {
-            baseDamage = attacker.chargeRollDamage;
-        }
-        // Burst doesn't deal damage, only knockback, so no case for isBursting
         
         // Apply attacker's damage multiplier
-        float totalDamage = baseDamage * attacker.damageMultiplier;
+        float totalDamage = speedDamage * damageMultiplier;
         
-        // Apply defender's damage reduction
-        totalDamage *= (1 - damageReduction);
-        
-        return Mathf.Max(1, Mathf.RoundToInt(totalDamage)); // Minimum 1 damage
+        return Mathf.Max(1, Mathf.RoundToInt(totalDamage));
     }
 
     private bool IsMetalEnd(Vector3 hitPoint)
