@@ -9,11 +9,19 @@ public class AirborneIndicator : MonoBehaviour
     private void Start()
     {
         airborneLineRenderer.positionCount = 2;
+        airborneLineRenderer.gameObject.SetActive(true);
         airborneLineRenderer.enabled = false;
     }
 
     private void Update()
     {
+        // Deactivate if !playerData.controlsEnabled
+        if (!playerData.controlsEnabled)
+        {
+            airborneLineRenderer.gameObject.SetActive(false);
+            return;
+        }
+
         if (!playerData.isGrounded)
         {
             airborneLineRenderer.enabled = true;
