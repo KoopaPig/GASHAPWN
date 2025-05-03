@@ -463,6 +463,7 @@ public class PlayerData : MonoBehaviour
     private void Die()
     {
         Debug.Log(gameObject.name + " has been eliminated!");
+        controlsEnabled = false;
         OnDeath.Invoke(this.gameObject);
         BattleManager.Instance.OnPlayerDeath(this.gameObject);
     }

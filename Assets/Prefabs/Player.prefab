@@ -467,9 +467,10 @@ GameObject:
   - component: {fileID: 5546871984026414875}
   - component: {fileID: 1188351259255025695}
   - component: {fileID: 3811731703456034869}
+  - component: {fileID: 1623130332527421633}
+  - component: {fileID: 5325374155935492858}
   - component: {fileID: 6455137775304450897}
   - component: {fileID: 6814078848887007008}
-  - component: {fileID: 1623130332527421633}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player1
@@ -807,6 +808,35 @@ MonoBehaviour:
   sparkThreshold: 8
   dustThreshold: 6
   trailSpeedThreshold: 10
+--- !u!114 &1623130332527421633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652500208214954744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fd39791ab002c943b95fc706bef5075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player1CapsulePrefab: {fileID: 4122586926673862376, guid: e5c1d3bb95058c0469e6ce6e0fe29086, type: 3}
+  player2CapsulePrefab: {fileID: 5671259831451931561, guid: 332e833c61e23f8408e8d912fa8ecf33, type: 3}
+--- !u!114 &5325374155935492858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652500208214954744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f910e5e060a3254ba5bcc7793a393a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  figurePosition: {fileID: 0}
+  explosionForce: 450
+  explosionRadius: 3
 --- !u!114 &6455137775304450897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -988,25 +1018,27 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: eb85d651-53d9-4713-b820-66810d63790f
     m_ActionName: 'UI/Join[/Keyboard/enter,/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 730ef14c-fe03-498b-adf5-1bbbf668742f
+    m_ActionName: 'Collection/Navigate[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/rightTrigger,/XInputControllerWindows/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7f163054-317e-48a5-a1a8-190f1eee3332
+    m_ActionName: 'Collection/Submit[/Keyboard/enter,/XInputControllerWindows/buttonSouth]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 08a4ceb0-263c-46dc-b41e-e6c79630b99e
+    m_ActionName: 'Collection/Cancel[/Keyboard/escape,/XInputControllerWindows/buttonEast]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7495430b-35e9-4fa2-a235-ffbec292d671
+    m_ActionName: 'Collection/Rotate[/Keyboard/q,/XInputControllerWindows/leftStick/left,/Keyboard/e,/XInputControllerWindows/leftStick/right]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: BattleControls
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1623130332527421633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8652500208214954744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fd39791ab002c943b95fc706bef5075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player1CapsulePrefab: {fileID: 4122586926673862376, guid: e5c1d3bb95058c0469e6ce6e0fe29086, type: 3}
-  player2CapsulePrefab: {fileID: 5671259831451931561, guid: 332e833c61e23f8408e8d912fa8ecf33, type: 3}
 --- !u!1001 &1168607910405732285
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -27,6 +27,7 @@ public class TrajectoryIndicator : MonoBehaviour
     private void Start()
     {
         trajectoryLineRenderer.positionCount = numPoints;
+        trajectoryLineRenderer.gameObject.SetActive(true);
         trajectoryLineRenderer.enabled = false;
         // Instantiate the slam target once, keep it disabled until needed
         if (slamTargetPrefab != null)
@@ -38,6 +39,15 @@ public class TrajectoryIndicator : MonoBehaviour
 
     private void Update()
     {
+        // Deactivate if !playerData.controlsEnabled
+        if (!playerData.controlsEnabled)
+        {
+            trajectoryLineRenderer.gameObject.SetActive(false);
+            if (slamTargetInstance != null && slamTargetInstance.activeSelf)
+                slamTargetInstance.SetActive(false);
+            return;
+        }
+
         // Check for jump start
         if (!playerData.isGrounded && wasGroundedLastFrame)
         {
