@@ -239,8 +239,9 @@ namespace GASHAPWN {
             // Wait longer for animations to complete
             yield return new WaitForSeconds(4f);
             
-            // Only force select if no node is currently selected or if we're not on the first node
-            if (currentNode == null || (collectionNodes.Count > 0 && currentNode != collectionNodes[0]))
+            // Only force select if no node is currently selected or if we're not on the correct first node
+            if (currentNode == null || 
+                (collectionNodes.Count > 0 && currentNode != collectionNodes[0]))
             {
                 Debug.Log("Failsafe: Forcing selection of first node");
                 ForceJumpToNode(0);  // Always select first node
@@ -447,6 +448,22 @@ namespace GASHAPWN {
                 var nodes = FindObjectsByType<CollectionNode>(FindObjectsSortMode.InstanceID);
                 collectionNodes.AddRange(nodes);
             }
+
+            // Sort nodes by series and then by number in series
+            collectionNodes.Sort((a, b) => {
+                // First compare series names alphabetically
+                int seriesComparison = string.Compare(
+                    a.associatedFigure?.GetSeries()?.SeriesName ?? "", 
+                    b.associatedFigure?.GetSeries()?.SeriesName ?? ""
+                );
+                
+                if (seriesComparison != 0)
+                    return seriesComparison;
+                    
+                // Then compare by number in series
+                return a.associatedFigure?.GetNumberInSeries() ?? 0 - 
+                    b.associatedFigure?.GetNumberInSeries() ?? 0;
+            });
         }
         
         // Update nodes based on the player's collection
@@ -529,17 +546,38 @@ namespace GASHAPWN {
         // Select the first collected node
         private void SelectFirstCollectedNode()
         {
-            // Try to find a collected node
+            // Try to find a collected node in the first series
+            string firstSeriesName = null;
+            CollectionNode firstCollectedNode = null;
+            
             foreach (CollectionNode node in collectionNodes)
             {
-                if (node.isCollected)
+                if (node.associatedFigure == null || node.associatedFigure.GetSeries() == null)
+                    continue;
+                    
+                string seriesName = node.associatedFigure.GetSeries().SeriesName;
+                
+                // Set the first series name if not already set
+                if (firstSeriesName == null)
+                    firstSeriesName = seriesName;
+                    
+                // If we're still in the first series and this node is collected
+                if (seriesName == firstSeriesName && node.isCollected)
                 {
-                    SelectNode(node, false);
-                    return;
+                    firstCollectedNode = node;
+                    break;  // Found our node, break out
                 }
             }
-
-            // If no collected nodes found, select the first node
+            
+            // If we found a collected node in the first series, select it
+            if (firstCollectedNode != null)
+            {
+                SelectNode(firstCollectedNode, false);
+                return;
+            }
+            
+            // If no collected nodes found in first series, 
+            // fall back to the first node regardless of collection status
             if (collectionNodes.Count > 0)
             {
                 SelectNode(collectionNodes[0], false);
