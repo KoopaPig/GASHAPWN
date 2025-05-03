@@ -2,6 +2,7 @@ using System.Collections;
 using GASHAPWN.Utility;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace GASHAPWN.UI {
@@ -43,6 +44,7 @@ namespace GASHAPWN.UI {
             if (transitionCoroutine != null) return;
             GetComponent<LevelSelect>().isControlsBindScreen = false;
             transitionCoroutine = StartCoroutine(SlideInLevelSelectScreen());
+            PlayerInputManager.instance.DisableJoining();
         }
 
         public void ShowControlsBindScreen()
@@ -50,6 +52,7 @@ namespace GASHAPWN.UI {
             if (transitionCoroutine != null) return;
             GetComponent<LevelSelect>().isControlsBindScreen = true;
             transitionCoroutine = StartCoroutine(SlideInControlsBindScreen());
+            PlayerInputManager.instance.EnableJoining();
         }
 
         // Slides in LevelSelectScreen, sets new selected button

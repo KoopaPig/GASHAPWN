@@ -17,13 +17,6 @@ namespace GASHAPWN.UI
         [SerializeField] private GameObject navigationArrows;
         [SerializeField] private GameObject footer;
 
-        [Header("Transition Settings")]
-        [SerializeField] public TransitionSettings collectionTransition;
-        [SerializeField] public string mainMenuSceneName;
-
-        private InputAction cancelAction;
-
-
         /// PUBLIC METHODS ///
 
         // CollectionGUISetActive(): If true, fade in CollectionGUI. If false, fade out.
@@ -39,11 +32,18 @@ namespace GASHAPWN.UI
         }
 
         // SwitchFigureGUI: Sets the figure on InfoCard and slides in
-        public void SwitchFigureGUI(Figure figure)
+        public void SwitchFigureGUI(Figure figure, bool isCollected)
         {
-            StartCoroutine(infoCardGUI.SlideCardIn());
-            infoCardGUI.SetFigureInfoCard(figure);
-            UI_SFXManager.Instance.Play_InfoCardGroup();
+            if (isCollected)
+            {
+                StartCoroutine(infoCardGUI.SlideCardIn());
+                infoCardGUI.SetFigureInfoCard(figure);
+                UI_SFXManager.Instance.Play_InfoCardGroup();
+            } else if (infoCardGUI.isVisible)
+            {
+                UI_SFXManager.Instance.Play_InfoCardGroup();
+                StartCoroutine(infoCardGUI.SlideCardOut());
+            }
         }
 
         /// PRIVATE METHODS ///
@@ -52,28 +52,6 @@ namespace GASHAPWN.UI
         {
             infoCardGUI = infoCard.GetComponent<InfoCardGUI>();
         }
-
-        private void OnEnable()
-        {
-            var inputActionAsset = GetComponent<PlayerInput>().actions;
-            cancelAction = inputActionAsset["Cancel"];
-
-            cancelAction.performed += HandleCancel;
-            if (!cancelAction.enabled) { cancelAction.Enable(); }
-        }
-
-        private void HandleCancel(InputAction.CallbackContext context)
-        {
-            TransitionManager.Instance().Transition(mainMenuSceneName, collectionTransition, 0);
-            GameManager.Instance.UpdateGameState(GameState.Title);
-        }
-
-        private void OnDisable()
-        {
-            cancelAction.performed -= HandleCancel;
-            cancelAction.Disable();
-        }
-
     }
 }
 

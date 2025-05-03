@@ -47,11 +47,11 @@ namespace GASHAPWN
         {
             for (int i = 0; i < figuresInSeries.Count; i++)
             {
+                // numberInSeries is set according to place in series
+                figuresInSeries[i].SetNumberInSeries(i + 1);
                 if (figuresInSeries[i].GetSeries() == null)
                 {
                     figuresInSeries[i].SetSeries(this);
-                    // numberInSeries is set according to place in series
-                    figuresInSeries[i].SetNumberInSeries(i + 1);
                     // construct new ID in here
                     figuresInSeries[i].SetID(SeriesName + "_" + (i + 1).ToString());
                     #if UNITY_EDITOR
