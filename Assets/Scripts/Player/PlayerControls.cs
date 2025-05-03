@@ -135,6 +135,10 @@ public class PlayerController : MonoBehaviour
     private IEnumerator QuickBreakCoroutine()
     {
         playerData.controlsEnabled = false;
+        
+        // Make player temporarily invincible during quick break
+        bool wasInvincible = playerData.isInvincible;
+        playerData.isInvincible = true;
 
         Vector3 initialVelocity = rb.linearVelocity;
         Vector3 initialAngularVelocity = rb.angularVelocity;
@@ -160,6 +164,12 @@ public class PlayerController : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
         transform.rotation = targetRotation;
 
+        // Restore invincibility state
+        playerData.isInvincible = wasInvincible;
+        
+        // Activate defensive buff after quick break
+        playerData.ActivateDefense(playerData.quickBreakDefenseDuration, 0.5f); // 50% damage reduction
+        
         playerData.controlsEnabled = true;
     }
 

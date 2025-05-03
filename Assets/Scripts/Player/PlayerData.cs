@@ -157,12 +157,15 @@ public class PlayerData : MonoBehaviour
             bool selfOffensive = hasSlammed || hasCharged || isBursting;
             bool otherOffensive = otherPlayerData.hasSlammed || otherPlayerData.hasCharged || otherPlayerData.isBursting;
             
-            // Deflection case: both players using offensive abilities or similar speeds
-            bool shouldDeflect = (selfOffensive && otherOffensive) || 
-                                (Mathf.Abs(rb.linearVelocity.magnitude - otherRb.linearVelocity.magnitude) < 2f);
+            // Calculate speed difference - lower value means more similar speeds
+            float speedDifference = Mathf.Abs(rb.linearVelocity.magnitude - otherRb.linearVelocity.magnitude);
             
-            // Determine who has higher momentum (mass × velocity)
-            bool hasHigherMomentum = rb.linearVelocity.magnitude > otherRb.linearVelocity.magnitude;
+            // Deflection case - generous criteria but ONLY when:
+            // 1. Both players using offensive abilities (always deflect)
+            // 2. OR neither player is offensive BUT they have similar speeds
+            bool shouldDeflect = 
+                (selfOffensive && otherOffensive) || // Both offensive abilities always deflect
+                (!selfOffensive && !otherOffensive && speedDifference < 3f); // Similar speeds (generous threshold)
             
             if (relativeSpeed >= minHitSpeed)
             {
@@ -170,22 +173,52 @@ public class PlayerData : MonoBehaviour
                 
                 if (shouldDeflect)
                 {
-                    // Both deflect each other
+                    // Both deflect each other with enhanced knockback
                     Vector3 deflectionDir = (transform.position - collision.transform.position).normalized;
-                    rb.AddForce(deflectionDir * deflectKnockbackMultiplier * relativeSpeed, ForceMode.Impulse);
-                    otherRb.AddForce(-deflectionDir * deflectKnockbackMultiplier * relativeSpeed, ForceMode.Impulse);
+                    float knockbackForce = deflectKnockbackMultiplier * relativeSpeed;
+                    
+                    // Add some upward component to make deflections more visible and dramatic
+                    Vector3 enhancedDeflection = (deflectionDir + Vector3.up * 0.3f).normalized;
+                    
+                    rb.AddForce(enhancedDeflection * knockbackForce, ForceMode.Impulse);
+                    otherRb.AddForce(-enhancedDeflection * knockbackForce, ForceMode.Impulse);
                     
                     particleEffects?.PlayDeflectEffect(contactPoint);
                     GAME_SFXManager.Instance.Play_ImpactDeflect(transform);
                 }
-                else if (hasHigherMomentum)
+                // If I'm using an offensive ability and the other player is not, I win
+                else if (selfOffensive && !otherOffensive)
                 {
-                    // Calculate damage based on speed and abilities
-                    int damageAmount = CalculateDamageAmount(relativeSpeed, selfOffensive);
+                    // Calculate damage based on offensive ability
+                    int damageAmount = CalculateDamageAmount(relativeSpeed, true); // Using true for offensive ability
                     
                     otherPlayerData.TakeDamage(damageAmount);
                     particleEffects?.PlayHitEffect(contactPoint);
                     GAME_SFXManager.Instance.Play_ImpactGeneral(transform);
+                }
+                // If the other player is using an offensive ability and I'm not, they win
+                else if (!selfOffensive && otherOffensive)
+                {
+                    // No need to calculate damage here, as the other player's OnCollisionEnter will handle it
+                    // But we need to handle knockback
+                    Vector3 knockbackDir = (transform.position - collision.transform.position).normalized;
+                    rb.AddForce(knockbackDir * deflectKnockbackMultiplier * relativeSpeed, ForceMode.Impulse);
+                }
+                // Neither player is using offensive abilities, and they don't have similar speeds
+                else
+                {
+                    // Determine who has higher momentum (mass × velocity)
+                    bool hasHigherMomentum = rb.linearVelocity.magnitude > otherRb.linearVelocity.magnitude;
+                    
+                    if (hasHigherMomentum)
+                    {
+                        // Calculate damage based on speed difference
+                        int damageAmount = CalculateDamageAmount(relativeSpeed, false);
+                        
+                        otherPlayerData.TakeDamage(damageAmount);
+                        particleEffects?.PlayHitEffect(contactPoint);
+                        GAME_SFXManager.Instance.Play_ImpactGeneral(transform);
+                    }
                 }
             }
         }
@@ -194,19 +227,14 @@ public class PlayerData : MonoBehaviour
     // Calculate damage based on speed and offensive abilities
     private int CalculateDamageAmount(float relativeSpeed, bool isOffensiveAbility)
     {
-        // Base damage from 0.5 to 1.25 based on speed
-        float speedDamage = Mathf.Lerp(0.5f, 1.25f, Mathf.Clamp01((relativeSpeed - minHitSpeed) / 10f));
-        
-        // Offensive abilities deal fixed damage
+        // For offensive abilities, deal flat damage
         if (isOffensiveAbility)
         {
-            if (hasSlammed)
-                return slamDamage;
-            else if (hasCharged)
-                return chargeRollDamage;
-            else if (isBursting)
-                return 2; // Default offensive ability damage
+            return Mathf.RoundToInt(1.5f);  // Flat 1.5 damage for offensive abilities
         }
+        
+        // Speed-based damage from 0.5 to 1.25 based on speed
+        float speedDamage = Mathf.Lerp(0.5f, 1.25f, Mathf.Clamp01((relativeSpeed - minHitSpeed) / 10f));
         
         // Apply attacker's damage multiplier
         float totalDamage = speedDamage * damageMultiplier;
