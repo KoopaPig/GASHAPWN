@@ -131,7 +131,6 @@ namespace GASHAPWN.UI
             figureScreen_BG.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(true);
             figureScreen_FG.SetActive(true);
             StartCoroutine(LerpLightIntensity(directionalLight, 0, 1, 2.5f));
-            figureScreen_FG.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(true);
             figureScreen_FG.GetComponentInParent<CanvasGroup>().interactable = false;
 
             // set up input action here
@@ -153,7 +152,7 @@ namespace GASHAPWN.UI
             // Capsule enters frame
             capsuleAnimator.SetBool("isCapsuleOpen", false);
             capsuleAnimator.SetTrigger("capsuleEnter");
-            //buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(false);
+            buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(false);
         }
 
         // Use as a buffer before activating buttons
