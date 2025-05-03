@@ -14,9 +14,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Collection.unity
     guid: dd53892a531323746bfa757bfd3b9438
-  - enabled: 0
-    path: Assets/Scenes/TestEnvironments/TestWeek14.unity
-    guid: 7efe2b05421ae4d41a628b0e8b422dc3
   - enabled: 1
     path: Assets/Scenes/Stages/Stage1_Flat.unity
     guid: fcf51580f57d34940a1fb901d416a911

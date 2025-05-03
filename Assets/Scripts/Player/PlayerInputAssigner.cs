@@ -8,7 +8,6 @@ using UnityEngine.InputSystem.UI;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using static UnityEditor.Searcher.SearcherWindow;
 
 namespace GASHAPWN
 {
