@@ -7024,7 +7024,7 @@ MonoBehaviour:
   figureModel: {fileID: 635884638454106052}
   capsule: {fileID: 6260142304287328686}
   directionalLight: {fileID: 4428149808164457196}
-  levelSelectSceneName: LevelSelect
+  mainMenuSceneName: MainMenu
   collectionSceneName: Collection
   fromNewFigureTransition: {fileID: 11400000, guid: d96fcc160d565e54ea03d1334c21eb99, type: 2}
 --- !u!95 &8744309584837174496
@@ -8077,7 +8077,7 @@ MonoBehaviour:
   xInputHelp: {fileID: 4791668500990939411}
   KeyboardHelp: {fileID: 6526346565411131580}
   controlScheme: 1
-  automaticUpdate: 0
+  automaticUpdate: 1
 --- !u!225 &5319305273393702212
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -8615,11 +8615,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 124026736057237160, guid: 6dc03ff295b125d4390e16fc7ddc9f4e, type: 3}
       propertyPath: m_Name
-      value: LevelSelectButton
+      value: MainMenuButton
       objectReference: {fileID: 0}
     - target: {fileID: 3349448816835606408, guid: 6dc03ff295b125d4390e16fc7ddc9f4e, type: 3}
       propertyPath: m_text
-      value: To Level Select
+      value: To Main Menu
       objectReference: {fileID: 0}
     - target: {fileID: 5762643855179397336, guid: 6dc03ff295b125d4390e16fc7ddc9f4e, type: 3}
       propertyPath: m_Interactable
@@ -8647,7 +8647,7 @@ PrefabInstance:
       objectReference: {fileID: 2096131048630175215, guid: 4188365acd21dac4cace621149a29975, type: 3}
     - target: {fileID: 5762643855179397336, guid: 6dc03ff295b125d4390e16fc7ddc9f4e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ToLevelSelect
+      value: ToMainMenu
       objectReference: {fileID: 0}
     - target: {fileID: 5762643855179397336, guid: 6dc03ff295b125d4390e16fc7ddc9f4e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName

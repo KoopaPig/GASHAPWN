@@ -51,9 +51,7 @@ namespace GASHAPWN {
             playerData.OnDamage.RemoveListener(UpdateDetailMask_Dmg);
             playerData.SetHealth.RemoveListener(UpdateDetailMask_HP);
         }
+
+        public void SetRenderer(Renderer renderer) { targetRenderer = renderer; }
     }
-
 }
-
-
-

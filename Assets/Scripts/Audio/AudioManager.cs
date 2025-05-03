@@ -18,14 +18,13 @@ namespace GASHAPWN.Audio {
         public List<string> addressableKeys = new List<string>(); // List of addressableKeys
         private int previousIndex = -1;
 
-        // Given AudioClip callback, return a random AudioClip
-        public void GetRandomAudioClip(System.Action<AudioClip> callback)
+        // Return a random Addressable in group
+        public string GetRandomAudioAddress()
         {
             if (addressableKeys.Count < 2)
             {
                 Debug.LogWarning($"SFXGroup '{groupTag}' needs at least 2 addressable keys assigned.");
-                callback?.Invoke(null);
-                return;
+                return null;
             }
 
             // Make sure newly selected clip is not the same clip
@@ -36,47 +35,19 @@ namespace GASHAPWN.Audio {
             }
             previousIndex = i;
 
-            string selectedKey = addressableKeys[i];
-
-            // Load the audio clip asynchronously
-            Addressables.LoadAssetAsync<AudioClip>(selectedKey).Completed += handle =>
-            {
-                if (handle.Status == AsyncOperationStatus.Succeeded)
-                {
-                    callback?.Invoke(handle.Result);
-                }
-                else
-                {
-                    Debug.LogError($"Failed to load AudioClip with key: {selectedKey}");
-                    callback?.Invoke(null);
-                }
-            };
+            return addressableKeys[i];
         }
 
         // Given AudioClip callback, return a AudioClip at given index
-        public void GetAudioClipAtIndex(int index, System.Action<AudioClip> callback)
+        public string GetAudioAddressAtIndex(int index)
         {
             if (index < 0 || index >= addressableKeys.Count)
             {
                 Debug.LogWarning($"Invalid index {index} for SFXGroup '{groupTag}'.");
-                callback?.Invoke(null);
-                return;
+                return null;
             }
 
-            string selectedKey = addressableKeys[index];
-
-            Addressables.LoadAssetAsync<AudioClip>(selectedKey).Completed += handle =>
-            {
-                if (handle.Status == AsyncOperationStatus.Succeeded)
-                {
-                    callback?.Invoke(handle.Result);
-                }
-                else
-                {
-                    Debug.LogError($"Failed to load AudioClip with key: {selectedKey}");
-                    callback?.Invoke(null);
-                }
-            };
+            return addressableKeys[index];
         }
 
         public int Size() { return addressableKeys.Count; }
@@ -171,8 +142,8 @@ namespace GASHAPWN.Audio {
                 {
                     audioSource.clip = handle.Result;
                     audioSource.Play();
-                    StartCoroutine(AudioSourcePool.Instance.ReturnToPool(audioSource));
-                    Addressables.Release(handle.Result);
+
+                    StartCoroutine(ReturnAfterPlay(audioSource, handle.Result));
                 }
             };
             return audioSource;
@@ -203,8 +174,7 @@ namespace GASHAPWN.Audio {
 
                     if (!loop)
                     {
-                        StartCoroutine(AudioSourcePool.Instance.ReturnToPool(audioSource));
-                        Addressables.Release(handle.Result);
+                        StartCoroutine(ReturnAfterPlay(audioSource, handle.Result));
                     }
                 }
             };
@@ -217,20 +187,7 @@ namespace GASHAPWN.Audio {
         /// <param name="sfxGroup"></param>
         public void PlayRandomSound(SFXGroup sfxGroup)
         {
-            sfxGroup.GetRandomAudioClip(clip =>
-            {
-                if (clip != null)
-                {
-                    var audioObj = AudioSourcePool.Instance.GetAudioSource();
-                    var audioSource = audioObj.GetComponent<AudioSource>();
-                    audioObj.transform.position = this.transform.position;
-                    audioSource.clip = clip;
-                    audioSource.Play();
-
-                    StartCoroutine(AudioSourcePool.Instance.ReturnToPool(audioSource));
-                    Addressables.Release(clip); // Release memory when done
-                }
-            });
+            PlaySound(sfxGroup.GetRandomAudioAddress());
         }
 
         /// <summary>
@@ -240,20 +197,7 @@ namespace GASHAPWN.Audio {
         /// <param name="transform"></param>
         public void PlayRandomSound(SFXGroup sfxGroup, Transform transform)
         {
-            sfxGroup.GetRandomAudioClip(clip =>
-            {
-                if (clip != null)
-                {
-                    var audioObj = AudioSourcePool.Instance.GetAudioSource();
-                    var audioSource = audioObj.GetComponent<AudioSource>();
-                    audioObj.transform.position = transform.position;
-                    audioSource.clip = clip;
-                    audioSource.Play();
-
-                    StartCoroutine(AudioSourcePool.Instance.ReturnToPool(audioSource));
-                    Addressables.Release(clip); // Release memory when done
-                }
-            });
+            PlaySound(sfxGroup.GetRandomAudioAddress(), transform);
         }
 
         /// <summary>
@@ -264,20 +208,7 @@ namespace GASHAPWN.Audio {
         /// <param name="index"></param>
         public void PlaySoundGivenIndex(SFXGroup sfxGroup, Transform transform, int index)
         {
-            sfxGroup.GetAudioClipAtIndex(index, clip =>
-            {
-                if (clip != null)
-                {
-                    var audioObj = AudioSourcePool.Instance.GetAudioSource();
-                    var audioSource = audioObj.GetComponent<AudioSource>();
-                    audioObj.transform.position = transform.position;
-                    audioSource.clip = clip;
-                    audioSource.Play();
-
-                    StartCoroutine(AudioSourcePool.Instance.ReturnToPool(audioSource));
-                    Addressables.Release(clip); // Release memory when done
-                }
-            });
+            PlaySound(sfxGroup.GetAudioAddressAtIndex(index), transform);
         }
 
         /// <summary>
@@ -312,7 +243,13 @@ namespace GASHAPWN.Audio {
             }
         }
 
-
+        // Safely release clip from addressables after it 
+        private IEnumerator ReturnAfterPlay(AudioSource audioSource, AudioClip clip)
+        {
+            yield return new WaitUntil(() => !audioSource.isPlaying);
+            AudioSourcePool.Instance.ReturnToPool(audioSource);
+            Addressables.Release(clip);
+        }
     }
 }
 

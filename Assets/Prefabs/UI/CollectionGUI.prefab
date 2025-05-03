@@ -180,7 +180,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: UI
+  m_DefaultActionMap: 62249c7d-52c1-41dd-aeab-17789dd8f616
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1 &1257926684797821006
@@ -396,8 +396,37 @@ MonoBehaviour:
   figureDescription: {fileID: 7572250103532139347}
   seriesIcon: {fileID: 8506824317876986606}
   numberInSeriesText: {fileID: 1435590765313344729}
+  newFigureBadge: {fileID: 0}
+  collectionCountText: {fileID: 0}
+  leftNavigationHint: {fileID: 0}
+  rightNavigationHint: {fileID: 0}
+  rotationHint: {fileID: 0}
   slideDuration: 0.2
   yOffsetInPixels: -1000
+  slideCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!95 &9020833249875385199
 Animator:
   serializedVersion: 7

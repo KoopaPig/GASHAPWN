@@ -8,14 +8,21 @@ public class TrajectoryIndicator : MonoBehaviour
     public LayerMask collisionLayers;
 
     [Header("Player Settings")]
-    public Rigidbody playerRb;
-    public PlayerData playerData;
     public LineRenderer trajectoryLineRenderer;
+    private Rigidbody playerRb;
+    private PlayerData playerData;
 
     [Header("Slam Target")]
     public GameObject slamTargetPrefab;
     private GameObject slamTargetInstance;
     private bool wasGroundedLastFrame = true;
+
+
+    private void Awake()
+    {
+        playerRb = GetComponent<Rigidbody>();
+        playerData = GetComponent<PlayerData>();
+    }
 
     private void Start()
     {

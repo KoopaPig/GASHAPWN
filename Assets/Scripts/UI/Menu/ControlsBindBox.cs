@@ -42,7 +42,7 @@ namespace GASHAPWN.UI
             keyboardImage.gameObject.SetActive(false);
         }
 
-        public void UpdateControls()
+        public void UpdateControllerIcon()
         {
             switch (controlScheme)
             {
@@ -113,7 +113,8 @@ namespace GASHAPWN.UI
             feedbackText.text = "Press any button...";
 
             // Start listening for input for this controller
-            LevelSelect.Instance.StartListeningForController(playerIndex);
+
+            //LevelSelect.Instance.StartListeningForController(playerIndex);
         }
 
         private IEnumerator LerpColor(Image targetImage, Color startColor, Color endColor, float duration)
@@ -132,11 +133,5 @@ namespace GASHAPWN.UI
 
             targetImage.color = endColor;
         }
-    }
-
-    public enum ControlScheme
-    {
-        XINPUT,
-        KEYBOARD
     }
 }

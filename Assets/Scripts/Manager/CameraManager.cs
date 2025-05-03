@@ -19,6 +19,8 @@ namespace GASHAPWN
         [SerializeField] private CinemachineCamera winCam;
         [SerializeField] private CinemachineCamera machineCam; // within GashaMachine
 
+        [SerializeField] private CinemachineTargetGroup targetGroup;
+
         [Header("Player Capsule Prefabs")]
         public GameObject Player1Capsule;
         public GameObject Player2Capsule;
@@ -29,7 +31,6 @@ namespace GASHAPWN
         private Figure WinningFigure;
         private string WinningFigureTag;
 
-        private float pathTimer = 0f;
         private Coroutine waitCamCoroutine;
 
         // Store reference to activePlayers PlayerData Components for Camera Effects
@@ -62,6 +63,11 @@ namespace GASHAPWN
                 playerData.OnDamage.AddListener(OnHit);
                 subscribedPlayers.Add(playerData);
             }
+        }
+
+        private void LateUpdate()
+        {
+            UpdateTargetGroup();
         }
 
         public void StartPath(BattleState state)
@@ -153,6 +159,41 @@ namespace GASHAPWN
         private void OnHit(int val)
         {
             StartCoroutine(HitCamEffect(0.65f));
+        }
+
+        // Make sure that MainCameraTargetGroup is only targetting active players
+        private void UpdateTargetGroup()
+        {
+            if (BattleManager.Instance.GetActivePlayers() != null)
+            {
+                List<GameObject> activePlayers = BattleManager.Instance.GetActivePlayers();
+
+                // Clean the list: remove destroyed/null entries
+                activePlayers.RemoveAll(player => player == null);
+
+                Dictionary<Transform, CinemachineTargetGroup.Target> currentTargets = new();
+
+                foreach (var target in targetGroup.Targets)
+                {
+                    if (target.Object != null)
+                        currentTargets[target.Object] = target;
+                }
+
+                List<CinemachineTargetGroup.Target> newTargetList = new();
+
+                foreach (var player in activePlayers)
+                {
+                    Transform playerTransform = player.transform;
+                    newTargetList.Add(new CinemachineTargetGroup.Target
+                    {
+                        Object = playerTransform,
+                        Weight = 2f,
+                        Radius = 30f
+                    });
+                }
+
+                targetGroup.Targets = newTargetList;
+            }
         }
 
         private void OnDisable()

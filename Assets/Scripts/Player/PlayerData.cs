@@ -55,7 +55,7 @@ public class PlayerData : MonoBehaviour
 
     [Header("Player State Flags")]
     public bool isGrounded = false;
-    public bool controlsEnabled = true;
+    public bool controlsEnabled = false;
     public bool hasSlammed = false;
     public bool isCharging = false;
     public bool hasCharged = false;
@@ -111,55 +111,8 @@ public class PlayerData : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
-        SetMaxHealth.Invoke(maxHealth);
-        currentStamina = maxStamina;
-        SetMaxStamina.Invoke(maxStamina);
         rb = GetComponent<Rigidbody>();
 
-        // Find all renderers in the player hierarchy
-        playerRenderers = GetComponentsInChildren<Renderer>();
-        
-        Debug.Log($"Found {playerRenderers.Length} renderers in {gameObject.name}");
-        
-        if (playerRenderers.Length == 0)
-        {
-            Debug.LogError($"No renderers found in {gameObject.name} or its children! Visual effects won't work.");
-        }
-        
-        // Store all original colors
-        originalColors = new Color[playerRenderers.Length];
-        for (int i = 0; i < playerRenderers.Length; i++)
-        {
-            // Create unique material instances to avoid shared material issues
-            if (playerRenderers[i].sharedMaterial != null)
-            {
-                playerRenderers[i].material = new Material(playerRenderers[i].sharedMaterial);
-                // Store the current color (which should be the correct original color)
-                originalColors[i] = playerRenderers[i].material.color;
-                
-                // Debug the original color we're storing
-                Debug.Log($"Original color for renderer {i}: {originalColors[i]}");
-                
-                // Make sure the initial color is not black
-                if (originalColors[i] == Color.black)
-                {
-                    Debug.LogWarning($"Original color for renderer {i} is black, setting to white");
-                    originalColors[i] = Color.white;
-                    playerRenderers[i].material.color = Color.white;
-                }
-            }
-            else
-            {
-                Debug.LogWarning($"Renderer {i} has no shared material!");
-                originalColors[i] = Color.white;
-            }
-        }
-
-        particleEffects = GetComponent<ParticleEffects>();
-        if (particleEffects == null) {
-            Debug.LogWarning("ParticleEffects component not found on " + gameObject.name);
-        }
     }
 
     private void Update()
@@ -197,61 +150,96 @@ public class PlayerData : MonoBehaviour
             PlayerData otherPlayerData = collision.gameObject.GetComponent<PlayerData>();
             if (otherRb == null || otherPlayerData == null) return;
 
+            // Calculate relative velocity between the players
             float relativeSpeed = (rb.linearVelocity - otherRb.linearVelocity).magnitude;
-
+            
+            // Check if either player is using an offensive ability
+            bool selfOffensive = hasSlammed || hasCharged || isBursting;
+            bool otherOffensive = otherPlayerData.hasSlammed || otherPlayerData.hasCharged || otherPlayerData.isBursting;
+            
+            // Calculate speed difference - lower value means more similar speeds
+            float speedDifference = Mathf.Abs(rb.linearVelocity.magnitude - otherRb.linearVelocity.magnitude);
+            
+            // Deflection case - generous criteria but ONLY when:
+            // 1. Both players using offensive abilities (always deflect)
+            // 2. OR neither player is offensive BUT they have similar speeds
+            bool shouldDeflect = 
+                (selfOffensive && otherOffensive) || // Both offensive abilities always deflect
+                (!selfOffensive && !otherOffensive && speedDifference < 3f); // Similar speeds (generous threshold)
+            
             if (relativeSpeed >= minHitSpeed)
             {
                 Vector3 contactPoint = collision.GetContact(0).point;
-                bool isMetalEnd = IsMetalEnd(contactPoint);
-                bool isDeflecting = IsDeflecting(collision.contacts[0].normal);
-
-                if (isMetalEnd)
+                
+                if (shouldDeflect)
                 {
-                    if (isDeflecting)
-                    {
-                        ApplyKnockback(otherRb, deflectKnockbackMultiplier);
-                        particleEffects?.PlayDeflectEffect(contactPoint);
-                        Debug.Log("Deflect! Knockback applied.");
-                    }
-                    else
-                    {
-                        // Determine damage amount based on move type
-                        int damageAmount = CalculateDamageAmount(otherPlayerData);
-                        TakeDamage(damageAmount);
-                        particleEffects?.PlayHitEffect(contactPoint);
-                        Debug.Log("Hit! Damage taken: " + damageAmount);
-                    }
+                    // Both deflect each other with enhanced knockback
+                    Vector3 deflectionDir = (transform.position - collision.transform.position).normalized;
+                    float knockbackForce = deflectKnockbackMultiplier * relativeSpeed;
+                    
+                    // Add some upward component to make deflections more visible and dramatic
+                    Vector3 enhancedDeflection = (deflectionDir + Vector3.up * 0.3f).normalized;
+                    
+                    rb.AddForce(enhancedDeflection * knockbackForce, ForceMode.Impulse);
+                    otherRb.AddForce(-enhancedDeflection * knockbackForce, ForceMode.Impulse);
+                    
+                    particleEffects?.PlayDeflectEffect(contactPoint);
+                    GAME_SFXManager.Instance.Play_ImpactDeflect(transform);
                 }
+                // If I'm using an offensive ability and the other player is not, I win
+                else if (selfOffensive && !otherOffensive)
+                {
+                    // Calculate damage based on offensive ability
+                    int damageAmount = CalculateDamageAmount(relativeSpeed, true); // Using true for offensive ability
+                    
+                    otherPlayerData.TakeDamage(damageAmount);
+                    particleEffects?.PlayHitEffect(contactPoint);
+                    GAME_SFXManager.Instance.Play_ImpactGeneral(transform);
+                }
+                // If the other player is using an offensive ability and I'm not, they win
+                else if (!selfOffensive && otherOffensive)
+                {
+                    // No need to calculate damage here, as the other player's OnCollisionEnter will handle it
+                    // But we need to handle knockback
+                    Vector3 knockbackDir = (transform.position - collision.transform.position).normalized;
+                    rb.AddForce(knockbackDir * deflectKnockbackMultiplier * relativeSpeed, ForceMode.Impulse);
+                }
+                // Neither player is using offensive abilities, and they don't have similar speeds
                 else
                 {
-                    Debug.Log("No damage: Glass side hit or invalid contact.");
+                    // Determine who has higher momentum (mass × velocity)
+                    bool hasHigherMomentum = rb.linearVelocity.magnitude > otherRb.linearVelocity.magnitude;
+                    
+                    if (hasHigherMomentum)
+                    {
+                        // Calculate damage based on speed difference
+                        int damageAmount = CalculateDamageAmount(relativeSpeed, false);
+                        
+                        otherPlayerData.TakeDamage(damageAmount);
+                        particleEffects?.PlayHitEffect(contactPoint);
+                        GAME_SFXManager.Instance.Play_ImpactGeneral(transform);
+                    }
                 }
             }
         }
     }
 
-    // Calculate damage based on the opponent's current move and damage multipliers
-    private int CalculateDamageAmount(PlayerData attacker)
+    // Calculate damage based on speed and offensive abilities
+    private int CalculateDamageAmount(float relativeSpeed, bool isOffensiveAbility)
     {
-        int baseDamage = normalCollisionDamage;
+        // For offensive abilities, deal flat damage
+        if (isOffensiveAbility)
+        {
+            return Mathf.RoundToInt(1.5f);  // Flat 1.5 damage for offensive abilities
+        }
         
-        if (attacker.hasSlammed)
-        {
-            baseDamage = attacker.slamDamage;
-        }
-        else if (attacker.hasCharged)
-        {
-            baseDamage = attacker.chargeRollDamage;
-        }
-        // Burst doesn't deal damage, only knockback, so no case for isBursting
+        // Speed-based damage from 0.5 to 1.25 based on speed
+        float speedDamage = Mathf.Lerp(0.5f, 1.25f, Mathf.Clamp01((relativeSpeed - minHitSpeed) / 10f));
         
         // Apply attacker's damage multiplier
-        float totalDamage = baseDamage * attacker.damageMultiplier;
+        float totalDamage = speedDamage * damageMultiplier;
         
-        // Apply defender's damage reduction
-        totalDamage *= (1 - damageReduction);
-        
-        return Mathf.Max(1, Mathf.RoundToInt(totalDamage)); // Minimum 1 damage
+        return Mathf.Max(1, Mathf.RoundToInt(totalDamage));
     }
 
     private bool IsMetalEnd(Vector3 hitPoint)
@@ -512,5 +500,60 @@ public class PlayerData : MonoBehaviour
         Debug.Log(gameObject.name + " has been eliminated!");
         OnDeath.Invoke(this.gameObject);
         BattleManager.Instance.OnPlayerDeath(this.gameObject);
+    }
+
+    public void InitializePlayerData()
+    {
+        controlsEnabled = true;
+
+        // Set Health and Stamina, GUI as well
+        currentHealth = maxHealth;
+        SetMaxHealth.Invoke(maxHealth);
+        currentStamina = maxStamina;
+        SetMaxStamina.Invoke(maxStamina);
+
+        // Find all renderers in the player hierarchy
+        playerRenderers = GetComponentsInChildren<Renderer>();
+
+        Debug.Log($"Found {playerRenderers.Length} renderers in {gameObject.name}");
+        if (playerRenderers.Length == 0)
+        {
+            Debug.LogError($"No renderers found in {gameObject.name} or its children! Visual effects won't work.");
+        }
+
+        // Store all original colors
+        originalColors = new Color[playerRenderers.Length];
+        for (int i = 0; i < playerRenderers.Length; i++)
+        {
+            // Create unique material instances to avoid shared material issues
+            if (playerRenderers[i].sharedMaterial != null)
+            {
+                playerRenderers[i].material = new Material(playerRenderers[i].sharedMaterial);
+                // Store the current color (which should be the correct original color)
+                originalColors[i] = playerRenderers[i].material.color;
+
+                // Debug the original color we're storing
+                //Debug.Log($"Original color for renderer {i}: {originalColors[i]}");
+
+                // Make sure the initial color is not black
+                if (originalColors[i] == Color.black)
+                {
+                    //Debug.LogWarning($"Original color for renderer {i} is black, setting to white");
+                    originalColors[i] = Color.white;
+                    playerRenderers[i].material.color = Color.white;
+                }
+            }
+            else
+            {
+                //Debug.LogWarning($"Renderer {i} has no shared material!");
+                originalColors[i] = Color.white;
+            }
+        }
+
+        particleEffects = GetComponent<ParticleEffects>();
+        if (particleEffects == null)
+        {
+            Debug.LogWarning("ParticleEffects component not found on " + gameObject.name);
+        }
     }
 }

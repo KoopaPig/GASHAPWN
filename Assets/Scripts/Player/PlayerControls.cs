@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private Vector2 rotationInput;
     
-    [SerializeField] private PlayerData playerData;
+    private PlayerData playerData;
     [SerializeField] private float groundCheckDistance = 0.6f; // Slightly more than sphere radius
     [SerializeField] private LayerMask groundLayer; // Set this in inspector to your ground layer
 
@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
                 coll.material = playerData.sphereMaterial;
             }
         }
+        playerData = GetComponent<PlayerData>();
     }
 
     public void OnMovement(InputAction.CallbackContext context)
@@ -134,6 +135,10 @@ public class PlayerController : MonoBehaviour
     private IEnumerator QuickBreakCoroutine()
     {
         playerData.controlsEnabled = false;
+        
+        // Make player temporarily invincible during quick break
+        bool wasInvincible = playerData.isInvincible;
+        playerData.isInvincible = true;
 
         Vector3 initialVelocity = rb.linearVelocity;
         Vector3 initialAngularVelocity = rb.angularVelocity;
@@ -159,6 +164,12 @@ public class PlayerController : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
         transform.rotation = targetRotation;
 
+        // Restore invincibility state
+        playerData.isInvincible = wasInvincible;
+        
+        // Activate defensive buff after quick break
+        playerData.ActivateDefense(playerData.quickBreakDefenseDuration, 0.5f); // 50% damage reduction
+        
         playerData.controlsEnabled = true;
     }
 
