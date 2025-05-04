@@ -283,8 +283,31 @@ namespace GASHAPWN
                     Save("data",PlayerData);
                 }
             }
-
         }
+
+        private void OnApplicationQuit()
+        {
+            if (!DebugMode)
+            {
+                // Store the collected figures in player data
+                foreach (CollectedFigure figure in Player1Collection)
+                {
+                    PlayerData.collection1CollectedFigureIDs.Add(figure.figure.GetID());
+                    PlayerData.collection1CollectedFigureCounts.Add(figure.amount);
+                }
+
+                foreach (CollectedFigure figure in Player2Collection)
+                {
+                    PlayerData.collection2CollectedFigureIDs.Add(figure.figure.GetID());
+                    PlayerData.collection2CollectedFigureCounts.Add(figure.amount);
+                }
+
+                // Save the data
+                Save("data", PlayerData);
+            }
+            
+        }
+
     }
 
     public enum GameState
