@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using Unity.Mathematics;
+using System.Collections;
 
 namespace GASHAPWN
 {
@@ -244,6 +245,12 @@ namespace GASHAPWN
             }
         }
 
+        private IEnumerator WaitToClearResults()
+        {
+            yield return new WaitForNextFrameUnit();
+            pendingPlayerResults.Clear();
+        }
+
         /// PUBLIC METHODS ///
 
         // Changes the battle state to countdown
@@ -349,6 +356,15 @@ namespace GASHAPWN
             PlayerInputAssigner.Instance.SetBattleControlsActive(false);
             PlayerInputAssigner.Instance.ConsolidatePlayerInput();
             Debug.Log("Battle End!");
+            foreach (var i in pendingPlayerResults)
+            {
+                if (i.isWinner)
+                {
+                    FigureCheck(i.player.tag, i.player.GetComponent<PlayerAttachedFigure>().GetAttachedFigure());
+                    break;
+                }
+            }
+            StartCoroutine(WaitToClearResults());
         }
 
         public void OnPlayerSpawnActions(BattleState state)

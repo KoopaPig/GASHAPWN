@@ -9,6 +9,8 @@ namespace GASHAPWN
     // TODO: Move this back to a general manager position
     public class CameraManager : MonoBehaviour
     {
+        public bool isDebug = false;
+
         [Header("Cameras")]
         private bool isMoving = false;
         private CinemachineGroupFraming framing;
@@ -18,7 +20,7 @@ namespace GASHAPWN
         [SerializeField] private CinemachineCamera battleCam;
         [SerializeField] private CinemachineCamera winCam;
         [SerializeField] private CinemachineCamera machineCam; // within GashaMachine
-
+        [SerializeField] private CinemachineCamera debugCam;
         [SerializeField] private CinemachineTargetGroup targetGroup;
 
         [Header("Player Capsule Prefabs")]
@@ -62,6 +64,39 @@ namespace GASHAPWN
                 var playerData = player.GetComponent<PlayerData>();
                 playerData.OnDamage.AddListener(OnHit);
                 subscribedPlayers.Add(playerData);
+            }
+        }
+
+        private void Update()
+        {
+            // Switch to Debug Camera
+            // 1 -- Player1
+            // 2 -- Player2
+            // 0 -- Back to previous cam
+            if (isDebug)
+            {
+                List<GameObject> activePlayers = BattleManager.Instance.GetActivePlayers();
+                if (Input.GetKeyDown(KeyCode.Alpha1) && activePlayers.Count > 0)
+                {
+                    debugCam.Priority = 100;
+                    // Track Player1
+                    Transform playerTransform = activePlayers[0].transform;
+                    debugCam.Follow = playerTransform;
+                    debugCam.LookAt = playerTransform;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha2) && activePlayers.Count > 0)
+                {
+                    debugCam.Priority = 100;
+                    // Track Player2
+                    Transform playerTransform = activePlayers[1].transform;
+                    debugCam.Follow = playerTransform;
+                    debugCam.LookAt = playerTransform;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha0))
+                {
+                    // '0' pressed, so switch off from this camera
+                    debugCam.Priority = 0;
+                }
             }
         }
 
