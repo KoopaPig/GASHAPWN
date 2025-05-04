@@ -41,7 +41,8 @@ namespace GASHAPWN.Audio
 
         public void HandleDamageSFX(int val)
         {
-            int i = playerData.maxHealth - playerData.currentHealth - 1;
+            
+            int i = Mathf.FloorToInt(playerData.maxHealth - playerData.currentHealth - 1);
             GAME_SFXManager.Instance.Play_OrcHitDamage(playerObject.transform, i);
         }
 

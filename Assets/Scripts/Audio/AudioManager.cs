@@ -249,6 +249,7 @@ namespace GASHAPWN.Audio {
             yield return new WaitUntil(() => !audioSource.isPlaying);
             AudioSourcePool.Instance.ReturnToPool(audioSource);
             Addressables.Release(clip);
+            yield return null;
         }
     }
 }

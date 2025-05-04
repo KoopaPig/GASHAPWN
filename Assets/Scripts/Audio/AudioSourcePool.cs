@@ -79,9 +79,8 @@ namespace GASHAPWN.Audio
         }
 
         // IEnumerator to return audio source to pool after it is done playing
-        public IEnumerator ReturnToPool(AudioSource source)
+        public void ReturnToPool(AudioSource source)
         {
-            yield return new WaitUntil(() => !source.isPlaying);
             source.clip = null;
             source.gameObject.SetActive(false);
             availableSources.Enqueue(source);

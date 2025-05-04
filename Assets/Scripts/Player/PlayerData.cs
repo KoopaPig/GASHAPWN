@@ -52,6 +52,7 @@ public class PlayerData : MonoBehaviour
     public UnityEvent OnAttackBonusActivated = new UnityEvent();
     public UnityEvent OnAttackBonusDeactivated = new UnityEvent();
     public UnityEvent<bool> OnChargeRoll = new UnityEvent<bool>();
+    public UnityEvent OnSlam = new UnityEvent();
 
     [Header("Player State Flags")]
     public bool isGrounded = false;
@@ -60,6 +61,7 @@ public class PlayerData : MonoBehaviour
     public bool isCharging = false;
     public bool hasCharged = false;
     public bool isBursting = false; // Track burst state for invincibility
+    public bool isDead = false;
 
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
@@ -67,6 +69,7 @@ public class PlayerData : MonoBehaviour
     public float minHitSpeed = 3f;
     public float deflectKnockbackMultiplier = 1.5f;
     public float slamAirborneTime = 1f;
+    public float generalImpactSpeedThreshold = 2f;
 
     [Header("Physics Floatiness")]
     public float drag = 0f;
@@ -112,7 +115,6 @@ public class PlayerData : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-
     }
 
     private void Update()
@@ -194,7 +196,6 @@ public class PlayerData : MonoBehaviour
                     
                     otherPlayerData.TakeDamage(damageAmount);
                     particleEffects?.PlayHitEffect(contactPoint);
-                    GAME_SFXManager.Instance.Play_ImpactGeneral(transform);
                 }
                 // If the other player is using an offensive ability and I'm not, they win
                 else if (!selfOffensive && otherOffensive)
@@ -217,10 +218,14 @@ public class PlayerData : MonoBehaviour
                         
                         otherPlayerData.TakeDamage(damageAmount);
                         particleEffects?.PlayHitEffect(contactPoint);
-                        GAME_SFXManager.Instance.Play_ImpactGeneral(transform);
+                        
                     }
                 }
             }
+        }
+        else if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall"))
+        {
+            if (rb.linearVelocity.magnitude > generalImpactSpeedThreshold) GAME_SFXManager.Instance.Play_ImpactGeneral(transform);
         }
     }
 
@@ -267,6 +272,9 @@ public class PlayerData : MonoBehaviour
         }
 
         currentHealth -= damageAmt;
+        // make sure to set health to 0 if it somehow dips into the negative
+        if (currentHealth < 0) currentHealth = 0;
+
         Debug.Log(gameObject.name + " took " + damageAmt + " damage! Current HP: " + currentHealth);
         OnDamage.Invoke(damageAmt);
 
@@ -498,12 +506,14 @@ public class PlayerData : MonoBehaviour
     private void Die()
     {
         Debug.Log(gameObject.name + " has been eliminated!");
+        isDead = true;
         OnDeath.Invoke(this.gameObject);
         BattleManager.Instance.OnPlayerDeath(this.gameObject);
     }
 
     public void InitializePlayerData()
     {
+        isDead = false;
         controlsEnabled = true;
 
         // Set Health and Stamina, GUI as well
