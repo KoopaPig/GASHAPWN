@@ -42,14 +42,16 @@ namespace GASHAPWN
         {
             float speed = rb.linearVelocity.magnitude;
 
-            if (collision.gameObject.CompareTag("Player") && speed >= sparkThreshold)
-            {
-                Instantiate(sparksPrefab, collision.contacts[0].point, Quaternion.identity);
-            }
-            else if (!collision.gameObject.CompareTag("Player") && speed >= dustThreshold)
-            {
-                Instantiate(dustImpactPrefab, collision.contacts[0].point, Quaternion.identity);
-            }
+            // DISABLED FOR NOW BECAUSE NOT PROPERLY MANAGED
+            
+            //if (collision.gameObject.CompareTag("Player") && speed >= sparkThreshold)
+            //{
+            //    Instantiate(sparksPrefab, collision.contacts[0].point, Quaternion.identity);
+            //}
+            //else if (!collision.gameObject.CompareTag("Player") && speed >= dustThreshold)
+            //{
+            //    Instantiate(dustImpactPrefab, collision.contacts[0].point, Quaternion.identity);
+            //}
         }
 
         public void PlayHitEffect(Vector3 position)
