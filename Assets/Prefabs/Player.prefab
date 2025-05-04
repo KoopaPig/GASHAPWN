@@ -867,7 +867,7 @@ MonoBehaviour:
   hitEffectPrefab: {fileID: 4052448785602859403, guid: 3d1d25e4c57e6ab40b7a474eea79caf3, type: 3}
   deflectEffectPrefab: {fileID: 4955433676730161948, guid: 0d7aea3adba095549a83f25d46adeaa5, type: 3}
   sparksPrefab: {fileID: 9014918171341996205, guid: 5fb8b374abdcef04bacc054baa08b4fc, type: 3}
-  dustImpactPrefab: {fileID: 5506443321757553034, guid: b1eaab9f5a521fd408ddb0b6ba36e95c, type: 3}
+  dustImpactPrefab: {fileID: 899695932469785497, guid: e7ed7814b399d1f478a436a27e0dbc4f, type: 3}
   dustTrail: {fileID: 6864236075366678365, guid: e7ed7814b399d1f478a436a27e0dbc4f, type: 3}
   sparkThreshold: 8
   dustThreshold: 6

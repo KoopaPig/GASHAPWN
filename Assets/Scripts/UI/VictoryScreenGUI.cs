@@ -98,7 +98,6 @@ namespace GASHAPWN.UI {
             foreach (var (p, isWinner) in BattleManager.Instance.pendingPlayerResults) {
                 PopulateResultsGivenPlayer(p, isWinner);
             }
-            BattleManager.Instance.pendingPlayerResults.Clear();
             winnerCrownGUI.SetActive(true);
             // Can't figure out how to effectively set position of crown, so position is static
             StartCoroutine(SetCrown());
