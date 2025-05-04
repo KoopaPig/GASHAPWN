@@ -1,3 +1,4 @@
+using GASHAPWN.Audio;
 using UnityEngine;
 
 namespace GASHAPWN {
@@ -29,6 +30,7 @@ namespace GASHAPWN {
             ExplodePart(glassHemisphere, -transform.right);
             ExplodePart(metalHemisphere, transform.right);
             ExplodePart(figurePosition, Vector3.up);
+            GAME_SFXManager.Instance.Play_GlassBreak(transform);
         }
 
         /// <summary>

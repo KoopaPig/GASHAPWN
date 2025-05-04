@@ -41,6 +41,7 @@ public class AirborneIndicator : MonoBehaviour
         if (playerData.isDead)
         {
             airborneLineRenderer.enabled = false;
+            targetProjector.enabled = false;
             return;
         }
 

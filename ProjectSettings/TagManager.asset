@@ -12,6 +12,7 @@ TagManager:
   - P2Metal
   - Ground
   - PlayerSpawn
+  - Wall
   layers:
   - Default
   - TransparentFX
