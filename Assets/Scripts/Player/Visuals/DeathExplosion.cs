@@ -26,16 +26,9 @@ namespace GASHAPWN {
         private void DeathExplode(GameObject obj)
         {
             RefreshParts();
-            if (GetComponent<PlayerData>().currentHealth > 0)
-            {
-                Debug.LogWarning("DeathExplosion: Could not do DeathExplode as Player still has HP");
-
-            } else
-            {
-                ExplodePart(glassHemisphere, -transform.right);
-                ExplodePart(metalHemisphere, transform.right);
-                ExplodePart(figurePosition, Vector3.up);
-            }
+            ExplodePart(glassHemisphere, -transform.right);
+            ExplodePart(metalHemisphere, transform.right);
+            ExplodePart(figurePosition, Vector3.up);
         }
 
         /// <summary>
