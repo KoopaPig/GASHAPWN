@@ -94,6 +94,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator SlamCoroutine()
     {
         playerData.controlsEnabled = false;
+        playerData.OnSlam.Invoke();
         
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;

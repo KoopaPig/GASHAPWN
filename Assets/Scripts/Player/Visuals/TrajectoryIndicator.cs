@@ -1,3 +1,4 @@
+using GASHAPWN;
 using UnityEngine;
 
 public class TrajectoryIndicator : MonoBehaviour
@@ -12,12 +13,6 @@ public class TrajectoryIndicator : MonoBehaviour
     private Rigidbody playerRb;
     private PlayerData playerData;
 
-    [Header("Slam Target")]
-    public GameObject slamTargetPrefab;
-    private GameObject slamTargetInstance;
-    private bool wasGroundedLastFrame = true;
-
-
     private void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
@@ -27,64 +22,35 @@ public class TrajectoryIndicator : MonoBehaviour
     private void Start()
     {
         trajectoryLineRenderer.positionCount = numPoints;
-        trajectoryLineRenderer.gameObject.SetActive(true);
         trajectoryLineRenderer.enabled = false;
-        // Instantiate the slam target once, keep it disabled until needed
-        if (slamTargetPrefab != null)
-        {
-            slamTargetInstance = Instantiate(slamTargetPrefab);
-            slamTargetInstance.SetActive(false);
-        }
     }
 
     private void Update()
     {
-        // Deactivate if !playerData.controlsEnabled
-        if (!playerData.controlsEnabled)
+        // deactivate if player is dead
+        if (playerData.isDead)
         {
-            trajectoryLineRenderer.gameObject.SetActive(false);
-            if (slamTargetInstance != null && slamTargetInstance.activeSelf)
-                slamTargetInstance.SetActive(false);
+            trajectoryLineRenderer.enabled = false;
             return;
         }
 
         // Check for jump start
-        if (!playerData.isGrounded && wasGroundedLastFrame)
+        if (!playerData.isGrounded)
         {
             trajectoryLineRenderer.enabled = true;
-
-            if (slamTargetInstance != null)
-            {
-                slamTargetInstance.SetActive(true);
-                Vector3 groundPos = GetGroundPositionBelowPlayer();
-                slamTargetInstance.transform.position = groundPos + Vector3.up * 0.01f;
-            }
         }
 
         // Update position if airborne
         if (!playerData.isGrounded)
         {
             RenderTrajectory();
-
-            if (slamTargetInstance != null && slamTargetInstance.activeSelf)
-            {
-                Vector3 groundPos = GetGroundPositionBelowPlayer();
-                slamTargetInstance.transform.position = groundPos + Vector3.up * 0.01f;
-            }
         }
 
         // Player has landed
-        if (playerData.isGrounded && !wasGroundedLastFrame)
+        if (playerData.isGrounded)
         {
             trajectoryLineRenderer.enabled = false;
-
-            if (slamTargetInstance != null)
-            {
-                slamTargetInstance.SetActive(false);
-            }
         }
-
-        wasGroundedLastFrame = playerData.isGrounded;
     }
 
 
@@ -127,12 +93,5 @@ public class TrajectoryIndicator : MonoBehaviour
         trajectoryLineRenderer.SetPositions(points);
     }
 
-    private Vector3 GetGroundPositionBelowPlayer()
-    {
-        if (Physics.Raycast(playerRb.position, Vector3.down, out RaycastHit hit, 10f, collisionLayers))
-        {
-            return hit.point;
-        }
-        return playerRb.position;
-    }
+
 }

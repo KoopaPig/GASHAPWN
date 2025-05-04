@@ -202,12 +202,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 5109476824892967461, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 980881425}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8652500208214954744, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 510443622}
   m_SourcePrefab: {fileID: 100100000, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+--- !u!4 &338262482 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5109476824892967461, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
+  m_PrefabInstance: {fileID: 338262481}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &510443610 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8652500208214954744, guid: d6183ac8b1187114381faf6e34bacfc5, type: 3}
@@ -244,7 +252,7 @@ GameObject:
   - component: {fileID: 980881425}
   - component: {fileID: 980881424}
   m_Layer: 0
-  m_Name: Decal Projector
+  m_Name: TargetDecalProjector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -264,15 +272,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 8dbdddd1435448c46b10ddaf48cbceab, type: 2}
   m_DrawDistance: 1000
-  m_FadeScale: 0.9
+  m_FadeScale: 1
   m_StartAngleFade: 180
   m_EndAngleFade: 180
   m_UVScale: {x: 1, y: 1}
   m_UVBias: {x: 0, y: 0}
   m_DecalLayerMask: 1
-  m_ScaleMode: 0
-  m_Offset: {x: 0, y: 0, z: 0.5}
-  m_Size: {x: 1, y: 1, z: 1}
+  m_ScaleMode: 1
+  m_Offset: {x: 0, y: 0, z: 50}
+  m_Size: {x: 2, y: 2, z: 100}
   m_FadeFactor: 1
 --- !u!4 &980881425
 Transform:
@@ -283,11 +291,11 @@ Transform:
   m_GameObject: {fileID: 980881423}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 25.970154, y: -18.414497, z: -51.818554}
+  m_LocalPosition: {x: 0, y: -1.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 338262482}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1079584397
 PrefabInstance:
@@ -729,4 +737,3 @@ SceneRoots:
   - {fileID: 1355620045}
   - {fileID: 338262481}
   - {fileID: 1079584397}
-  - {fileID: 980881425}

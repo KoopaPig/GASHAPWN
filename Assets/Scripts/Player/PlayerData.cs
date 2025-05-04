@@ -52,6 +52,7 @@ public class PlayerData : MonoBehaviour
     public UnityEvent OnAttackBonusActivated = new UnityEvent();
     public UnityEvent OnAttackBonusDeactivated = new UnityEvent();
     public UnityEvent<bool> OnChargeRoll = new UnityEvent<bool>();
+    public UnityEvent OnSlam = new UnityEvent();
 
     [Header("Player State Flags")]
     public bool isGrounded = false;
@@ -60,6 +61,7 @@ public class PlayerData : MonoBehaviour
     public bool isCharging = false;
     public bool hasCharged = false;
     public bool isBursting = false; // Track burst state for invincibility
+    public bool isDead = false;
 
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
@@ -267,6 +269,9 @@ public class PlayerData : MonoBehaviour
         }
 
         currentHealth -= damageAmt;
+        // make sure to set health to 0 if it somehow dips into the negative
+        if (currentHealth < 0) currentHealth = 0;
+
         Debug.Log(gameObject.name + " took " + damageAmt + " damage! Current HP: " + currentHealth);
         OnDamage.Invoke(damageAmt);
 
@@ -498,13 +503,14 @@ public class PlayerData : MonoBehaviour
     private void Die()
     {
         Debug.Log(gameObject.name + " has been eliminated!");
-        controlsEnabled = false;
+        isDead = true;
         OnDeath.Invoke(this.gameObject);
         BattleManager.Instance.OnPlayerDeath(this.gameObject);
     }
 
     public void InitializePlayerData()
     {
+        isDead = false;
         controlsEnabled = true;
 
         // Set Health and Stamina, GUI as well
