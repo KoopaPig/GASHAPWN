@@ -69,6 +69,7 @@ public class PlayerData : MonoBehaviour
     public float minHitSpeed = 3f;
     public float deflectKnockbackMultiplier = 1.5f;
     public float slamAirborneTime = 1f;
+    public float generalImpactSpeedThreshold = 2f;
 
     [Header("Physics Floatiness")]
     public float drag = 0f;
@@ -114,7 +115,6 @@ public class PlayerData : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-
     }
 
     private void Update()
@@ -196,7 +196,6 @@ public class PlayerData : MonoBehaviour
                     
                     otherPlayerData.TakeDamage(damageAmount);
                     particleEffects?.PlayHitEffect(contactPoint);
-                    GAME_SFXManager.Instance.Play_ImpactGeneral(transform);
                 }
                 // If the other player is using an offensive ability and I'm not, they win
                 else if (!selfOffensive && otherOffensive)
@@ -219,10 +218,14 @@ public class PlayerData : MonoBehaviour
                         
                         otherPlayerData.TakeDamage(damageAmount);
                         particleEffects?.PlayHitEffect(contactPoint);
-                        GAME_SFXManager.Instance.Play_ImpactGeneral(transform);
+                        
                     }
                 }
             }
+        }
+        else if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall"))
+        {
+            if (rb.linearVelocity.magnitude > generalImpactSpeedThreshold) GAME_SFXManager.Instance.Play_ImpactGeneral(transform);
         }
     }
 

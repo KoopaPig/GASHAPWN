@@ -728,6 +728,7 @@ MonoBehaviour:
   minHitSpeed: 3
   deflectKnockbackMultiplier: 1.5
   slamAirborneTime: 1
+  generalImpactSpeedThreshold: 2
   drag: 1
   angularDrag: 1
   sphereMaterial: {fileID: 0}

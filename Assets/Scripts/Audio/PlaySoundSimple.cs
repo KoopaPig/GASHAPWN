@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
 
 namespace GASHAPWN.Audio
@@ -19,7 +20,16 @@ namespace GASHAPWN.Audio
             audioSource.clip = clip; // Play the audio clip
             audioSource.Play();
             // Return audio source to pool when done playing
-            StartCoroutine(AudioSourcePool.Instance.ReturnToPool(audioSource));
+            StartCoroutine(ReturnAfterPlay(audioSource, clip));
+        }
+
+        private IEnumerator ReturnAfterPlay(AudioSource audioSource, AudioClip clip)
+        {
+            yield return new WaitUntil(() => !audioSource.isPlaying);
+            AudioSourcePool.Instance.ReturnToPool(audioSource);
+            Addressables.Release(clip);
+            yield return null;
         }
     }
 }
+
