@@ -149,31 +149,61 @@ namespace GASHAPWN
             for(int i = 0; i < 2; i++)
             {
                 List<CollectedFigure> Collection = new();
-                foreach (string ID in playerData.collection1CollectedFigureIDs)
+                if (i == 0)
                 {
-                    CollectedFigure newCollectedFigure = new CollectedFigure(FigureManager.instance.GetFigureByID(ID));
-                    Collection.Add(newCollectedFigure);
+                    foreach (string ID in playerData.collection1CollectedFigureIDs)
+                    {
+                        CollectedFigure newCollectedFigure = new CollectedFigure(FigureManager.instance.GetFigureByID(ID));
+                        Collection.Add(newCollectedFigure);
+                    }
+                    int index = 0;
+                    foreach (CollectedFigure collectedFigure in Collection)
+                    {
+                        collectedFigure.amount = playerData.collection1CollectedFigureCounts[index];
+                        Debug.Log("Amount added to " + collectedFigure.figure.name + " = " + collectedFigure.amount);
+                        index++;
+                    }
+                    Player1Collection = Collection;
                 }
-                int index = 0;
-                foreach (CollectedFigure collectedFigure in Collection)
+                else
                 {
-                    collectedFigure.amount = playerData.collection1CollectedFigureCounts[index];
-                    Debug.Log("Amount added to " + collectedFigure.figure.name + " = " + collectedFigure.amount);
-                    index++;
+                    foreach (string ID in playerData.collection2CollectedFigureIDs)
+                    {
+                        CollectedFigure newCollectedFigure = new CollectedFigure(FigureManager.instance.GetFigureByID(ID));
+                        Collection.Add(newCollectedFigure);
+                    }
+                    int index = 0;
+                    foreach (CollectedFigure collectedFigure in Collection)
+                    {
+                        collectedFigure.amount = playerData.collection2CollectedFigureCounts[index];
+                        Debug.Log("Amount added to " + collectedFigure.figure.name + " = " + collectedFigure.amount);
+                        index++;
+                    }
+                    Player2Collection = Collection;
                 }
-                if (i == 0) Player1Collection = Collection;
-                else Player2Collection = Collection;
             }
         }
 
         // Debug function: Removes all save data in test
         public void DeleteSaveData()
         {
-            TestData.collection1CollectedFigureIDs.Clear();
-            TestData.collection2CollectedFigureIDs.Clear();
-            TestData.collection1CollectedFigureCounts.Clear();
-            TestData.collection2CollectedFigureCounts.Clear();
-            Save("test", TestData);
+            if (!DebugMode)
+            {
+                PlayerData.collection1CollectedFigureIDs.Clear();
+                PlayerData.collection1CollectedFigureCounts.Clear();
+                PlayerData.collection2CollectedFigureIDs.Clear();
+                PlayerData.collection2CollectedFigureCounts.Clear();
+                Save("data", PlayerData);
+            }
+            else
+            {
+                TestData.collection1CollectedFigureIDs.Clear();
+                TestData.collection2CollectedFigureIDs.Clear();
+                TestData.collection1CollectedFigureCounts.Clear();
+                TestData.collection2CollectedFigureCounts.Clear();
+                Save("test", TestData);
+            }
+
         }
 
         public void LoadRandomSaveData(int amountOfFigures)
