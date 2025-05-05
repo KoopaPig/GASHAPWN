@@ -737,6 +737,7 @@ GameObject:
   - component: {fileID: 1188351259255025695}
   - component: {fileID: 3811731703456034869}
   - component: {fileID: 6455137775304450897}
+  - component: {fileID: 4449803461542777008}
   m_Layer: 0
   m_Name: Player1_Old
   m_TagString: Player1
@@ -919,17 +920,25 @@ MonoBehaviour:
   OnAttackBonusDeactivated:
     m_PersistentCalls:
       m_Calls: []
+  OnChargeRoll:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSlam:
+    m_PersistentCalls:
+      m_Calls: []
   isGrounded: 0
   controlsEnabled: 1
   hasSlammed: 0
   isCharging: 0
   hasCharged: 0
   isBursting: 0
+  isDead: 0
   moveSpeed: 35
   jumpForce: 30
   minHitSpeed: 3
   deflectKnockbackMultiplier: 1.5
   slamAirborneTime: 1
+  generalImpactSpeedThreshold: 2
   drag: 1
   angularDrag: 1
   sphereMaterial: {fileID: 0}
@@ -965,10 +974,7 @@ MonoBehaviour:
   collisionLayers:
     serializedVersion: 2
     m_Bits: 64
-  playerRb: {fileID: 4142117433518487193}
-  playerData: {fileID: 2353342533486014850}
   trajectoryLineRenderer: {fileID: 8740269215228465467}
-  slamTargetPrefab: {fileID: 5506443321757553034, guid: b1eaab9f5a521fd408ddb0b6ba36e95c, type: 3}
 --- !u!114 &9209613135761091648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -981,9 +987,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acda3ede1ce6e3c44a476e191bcb20fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {fileID: 2353342533486014850}
   airborneLineRenderer: {fileID: 2776206804501688863}
   maxRayDistance: 100
+  targetProjector: {fileID: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &9128004418399533077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1089,3 +1098,17 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &4449803461542777008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652500208214954744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd2bd891471a2a94db50d49a6601758e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dustParticles: {fileID: 6864236075366678365, guid: e7ed7814b399d1f478a436a27e0dbc4f, type: 3}
+  brakingThreshold: 5

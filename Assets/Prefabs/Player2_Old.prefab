@@ -256,6 +256,7 @@ GameObject:
   - component: {fileID: 5490628909198202488}
   - component: {fileID: 9104563799456527525}
   - component: {fileID: 3536233637417412385}
+  - component: {fileID: 7746452435157518380}
   m_Layer: 0
   m_Name: Player2_Old
   m_TagString: Player2
@@ -438,17 +439,25 @@ MonoBehaviour:
   OnAttackBonusDeactivated:
     m_PersistentCalls:
       m_Calls: []
+  OnChargeRoll:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSlam:
+    m_PersistentCalls:
+      m_Calls: []
   isGrounded: 0
   controlsEnabled: 1
   hasSlammed: 0
   isCharging: 0
   hasCharged: 0
   isBursting: 0
+  isDead: 0
   moveSpeed: 35
   jumpForce: 30
   minHitSpeed: 3
   deflectKnockbackMultiplier: 1.5
   slamAirborneTime: 1
+  generalImpactSpeedThreshold: 2
   drag: 1
   angularDrag: 1
   sphereMaterial: {fileID: 0}
@@ -484,10 +493,7 @@ MonoBehaviour:
   collisionLayers:
     serializedVersion: 2
     m_Bits: 64
-  playerRb: {fileID: 0}
-  playerData: {fileID: 3906117202403509763}
   trajectoryLineRenderer: {fileID: 2297578372157324722}
-  slamTargetPrefab: {fileID: 5506443321757553034, guid: b1eaab9f5a521fd408ddb0b6ba36e95c, type: 3}
 --- !u!114 &4927106659032965687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,9 +506,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acda3ede1ce6e3c44a476e191bcb20fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {fileID: 3906117202403509763}
   airborneLineRenderer: {fileID: 8760738865288471246}
   maxRayDistance: 100
+  targetProjector: {fileID: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &8176632127460708998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -608,6 +617,20 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &7746452435157518380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2356486932853013218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd2bd891471a2a94db50d49a6601758e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dustParticles: {fileID: 6864236075366678365, guid: e7ed7814b399d1f478a436a27e0dbc4f, type: 3}
+  brakingThreshold: 5
 --- !u!1 &4310528249950759623
 GameObject:
   m_ObjectHideFlags: 0
