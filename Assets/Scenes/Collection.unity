@@ -10270,7 +10270,7 @@ MonoBehaviour:
   nextNode: {fileID: 1697850136}
   figureDisplayPoint: {fileID: 1877086544}
   associatedFigure: {fileID: 11400000, guid: 1f815e74ce022c141a8d1c2d5a6232c7, type: 2}
-  isCollected: 1
+  isCollected: 0
   amount: 0
   highlightEffect: {fileID: 1538063429}
   lockedVisual: {fileID: 731630413}
