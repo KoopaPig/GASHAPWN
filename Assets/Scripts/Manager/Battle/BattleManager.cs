@@ -388,19 +388,16 @@ namespace GASHAPWN
         {
             GameManager.CollectedFigure potentialNewFigure = new(PlayerFigure);
 
-            if(WinningTag == "Player1")
+            if (!GameManager.Instance.Player1Collection.Contains(potentialNewFigure))
             {
-                if (!GameManager.Instance.Player1Collection.Contains(potentialNewFigure))
-                {
-                    GameManager.Instance.Player1Collection.Add(potentialNewFigure);
-                    newFigure = true;
-                }
-                else
-                {
-                    int index = GameManager.Instance.Player1Collection.FindIndex(x => x == potentialNewFigure);
-                    GameManager.Instance.Player1Collection[index].amount += 1;
-                    newFigure = false;
-                }
+                GameManager.Instance.Player1Collection.Add(potentialNewFigure);
+                newFigure = true;
+            }
+            else
+            {
+                int index = GameManager.Instance.Player1Collection.FindIndex(x => x == potentialNewFigure);
+                GameManager.Instance.Player1Collection[index].amount += 1;
+                newFigure = false;
             }
             
         }

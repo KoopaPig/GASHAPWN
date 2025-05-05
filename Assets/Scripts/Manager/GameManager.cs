@@ -160,12 +160,14 @@ namespace GASHAPWN
             {
                 PlayerData.collection1CollectedFigureIDs.Clear();
                 PlayerData.collection1CollectedFigureCounts.Clear();
+                Player1Collection.Clear();
                 Save("data", PlayerData);
             }
             else
             {
                 TestData.collection1CollectedFigureIDs.Clear();
                 TestData.collection1CollectedFigureCounts.Clear();
+                Player1Collection.Clear();
                 Save("test", TestData);
             }
 
