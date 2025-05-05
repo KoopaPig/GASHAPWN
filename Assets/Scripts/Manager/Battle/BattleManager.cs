@@ -402,20 +402,7 @@ namespace GASHAPWN
                     newFigure = false;
                 }
             }
-            else
-            {
-                if (!GameManager.Instance.Player2Collection.Contains(potentialNewFigure))
-                {
-                    GameManager.Instance.Player2Collection.Add(potentialNewFigure);
-                    newFigure = true;
-                }
-                else
-                {
-                    int index = GameManager.Instance.Player2Collection.FindIndex(x => x == potentialNewFigure);
-                    GameManager.Instance.Player2Collection[index].amount += 1;
-                    newFigure = false;
-                }
-            }
+            
         }
 
         public List<GameObject> GetActivePlayers()
