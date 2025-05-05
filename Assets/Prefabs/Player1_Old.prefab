@@ -738,6 +738,7 @@ GameObject:
   - component: {fileID: 3811731703456034869}
   - component: {fileID: 6455137775304450897}
   - component: {fileID: 4449803461542777008}
+  - component: {fileID: 7622294063411577959}
   m_Layer: 0
   m_Name: Player1_Old
   m_TagString: Player1
@@ -1112,3 +1113,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dustParticles: {fileID: 6864236075366678365, guid: e7ed7814b399d1f478a436a27e0dbc4f, type: 3}
   brakingThreshold: 5
+--- !u!114 &7622294063411577959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652500208214954744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c29a5b8276032343a32dbb7f7610762, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostTrail: {fileID: 0}
