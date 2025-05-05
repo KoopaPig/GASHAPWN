@@ -38,19 +38,20 @@ namespace GASHAPWN
             }
         }
 
-        void OnCollisionEnter(Collision collision)
-        {
-            float speed = rb.linearVelocity.magnitude;
+        void OnCollisionEnter(Collision collision){
+            float speed = collision.relativeVelocity.magnitude;
 
-            if (collision.gameObject.CompareTag("Player") && speed >= sparkThreshold)
-            {
-                Instantiate(sparksPrefab, collision.contacts[0].point, Quaternion.identity);
+            ContactPoint contact = collision.contacts[0];
+            Quaternion rot = Quaternion.LookRotation(contact.normal);
+
+            if (collision.gameObject.CompareTag("Player") && speed >= sparkThreshold){
+                Instantiate(sparksPrefab, contact.point, rot);
+                Debug.Log("Sparks flew!");
             }
-            else if (!collision.gameObject.CompareTag("Player") && speed >= dustThreshold)
-            {
-                Instantiate(dustImpactPrefab, collision.contacts[0].point, Quaternion.identity);
+            else if (!collision.gameObject.CompareTag("Player") && speed >= dustThreshold){
+                Instantiate(dustImpactPrefab, contact.point, rot);
             }
-        }
+}
 
         public void PlayHitEffect(Vector3 position)
         {
