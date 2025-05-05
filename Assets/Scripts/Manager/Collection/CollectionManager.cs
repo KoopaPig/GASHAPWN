@@ -479,25 +479,35 @@ namespace GASHAPWN {
                 }
                 return;
             }*/
-
-            // Create a lookup for faster access
-            Dictionary<string, GameManager.CollectedFigure> collectedLookup = new Dictionary<string, GameManager.CollectedFigure>();
-            foreach (var item in collectedFigures)
+            if(collectedFigures.Count == 0)
             {
-                if (item.figure != null)
+                foreach(CollectionNode node in collectionNodes)
                 {
-                    collectedLookup[item.figure.GetID()] = item;
+                    node.isCollected = false;
+                    node.UpdateVisualState(false);
                 }
             }
-
-            // Update each node
-            foreach (CollectionNode node in collectionNodes)
+            else
             {
-                if (node.associatedFigure != null)
+                // Create a lookup for faster access
+                Dictionary<string, GameManager.CollectedFigure> collectedLookup = new Dictionary<string, GameManager.CollectedFigure>();
+                foreach (var item in collectedFigures)
                 {
-                    string figureId = node.associatedFigure.GetID();
-                    node.isCollected = collectedLookup.ContainsKey(figureId);
-                    node.UpdateVisualState(false);
+                    if (item.figure != null)
+                    {
+                        collectedLookup[item.figure.GetID()] = item;
+                    }
+                }
+
+                // Update each node
+                foreach (CollectionNode node in collectionNodes)
+                {
+                    if (node.associatedFigure != null)
+                    {
+                        string figureId = node.associatedFigure.GetID();
+                        node.isCollected = collectedLookup.ContainsKey(figureId);
+                        node.UpdateVisualState(false);
+                    }
                 }
             }
         }
