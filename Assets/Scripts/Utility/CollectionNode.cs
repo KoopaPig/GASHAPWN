@@ -26,6 +26,9 @@ namespace GASHAPWN
         [Tooltip("If true, this figure has been collected by the player")]
         public bool isCollected = false;
 
+        [Tooltip("The amount of the figure associated with this note")]
+        public int amount;
+
         [Header("Visual Elements")]
         [Tooltip("GameObject to show when this figure is selected")]
         public GameObject highlightEffect;

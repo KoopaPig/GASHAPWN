@@ -108,7 +108,7 @@ namespace GASHAPWN {
             // Update UI with figure information
             if (collectionGUI != null)
             {
-                collectionGUI.SwitchFigureGUI(currentNode.associatedFigure, currentNode.isCollected);
+                collectionGUI.SwitchFigureGUI(currentNode.associatedFigure, currentNode.isCollected, currentNode.amount);
             }
         }
 
@@ -190,7 +190,7 @@ namespace GASHAPWN {
                 // Update UI
                 if (collectionGUI != null)
                 {
-                    collectionGUI.SwitchFigureGUI(currentNode.associatedFigure, currentNode.isCollected);
+                    collectionGUI.SwitchFigureGUI(currentNode.associatedFigure, currentNode.isCollected, currentNode.amount);
                 }
             }
         }
@@ -247,50 +247,6 @@ namespace GASHAPWN {
                 ForceJumpToNode(0);  // Always select first node
             }
         }
-
-        //private void OnEnable()
-        //{
-        //    // Set up input actions
-        //    if (navigateAction != null && navigateAction.action != null)
-        //    {
-        //        navigateAction.action.performed -= OnNavigate; // Remove any existing
-        //        navigateAction.action.performed += OnNavigate;
-        //        navigateAction.action.Enable();
-        //    }
-
-        //    if (rotateAction != null && rotateAction.action != null)
-        //    {
-        //        rotateAction.action.performed -= OnRotate; // Remove any existing
-        //        rotateAction.action.canceled -= OnRotateCanceled;
-                
-        //        rotateAction.action.performed += OnRotate;
-        //        rotateAction.action.canceled += OnRotateCanceled;
-        //        rotateAction.action.Enable();
-        //    }
-
-        //    if (selectAction != null && selectAction.action != null)
-        //    {
-        //        selectAction.action.performed -= OnSelect; // Remove any existing
-        //        selectAction.action.performed += OnSelect;
-        //        selectAction.action.Enable();
-        //    }
-        //}
-
-        //private void OnDisable()
-        //{
-        //    // Clean up input actions
-        //    if (navigateAction != null && navigateAction.action != null)
-        //        navigateAction.action.performed -= OnNavigate;
-
-        //    if (rotateAction != null && rotateAction.action != null)
-        //    {
-        //        rotateAction.action.performed -= OnRotate;
-        //        rotateAction.action.canceled -= OnRotateCanceled;
-        //    }
-
-        //    if (selectAction != null && selectAction.action != null)
-        //        selectAction.action.performed -= OnSelect;
-        //}
 
         private void Update()
         {
@@ -505,7 +461,11 @@ namespace GASHAPWN {
                     if (node.associatedFigure != null)
                     {
                         string figureId = node.associatedFigure.GetID();
-                        node.isCollected = collectedLookup.ContainsKey(figureId);
+                        if (collectedLookup.ContainsKey(figureId))
+                        {
+                            node.isCollected = true;
+                            node.amount = collectedLookup[figureId].amount;
+                        }
                         node.UpdateVisualState(false);
                     }
                 }
