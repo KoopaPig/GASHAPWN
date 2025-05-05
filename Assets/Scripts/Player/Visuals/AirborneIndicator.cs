@@ -5,6 +5,8 @@ using UnityEngine.Rendering.Universal;
 public class AirborneIndicator : MonoBehaviour
 {
     private PlayerData playerData;
+    private GhostTrailEffect ghostTrailEffect;
+
 
     [Header("Line Renderer Settings")]
     public LineRenderer airborneLineRenderer;
@@ -20,6 +22,7 @@ public class AirborneIndicator : MonoBehaviour
     private void Awake()
     {
         playerData = GetComponent<PlayerData>();
+        ghostTrailEffect = GetComponent<GhostTrailEffect>();
         targetProjectorInitialSize = targetProjector.size;
     }
 
@@ -88,6 +91,10 @@ public class AirborneIndicator : MonoBehaviour
 
     private void HandleTargetEffect()
     {
+        // Start ghost trail effect on slam
+        if (ghostTrailEffect != null){
+            StartCoroutine(SlamTrailEffect(playerData.slamAirborneTime));
+        }
         StartCoroutine(TargetEffect((targetProjector.size * 1.25f), playerData.slamAirborneTime));
     }
 
@@ -110,6 +117,12 @@ public class AirborneIndicator : MonoBehaviour
         targetProjector.size = targetSize; // Ensure exact final size
         yield return null;
         targetProjector.size = targetProjectorInitialSize;
+    }
+
+    private IEnumerator SlamTrailEffect(float duration) {
+        ghostTrailEffect.StartTrail();
+        yield return new WaitForSeconds(duration);
+        ghostTrailEffect.StopTrail();
     }
 
     private void OnDisable()

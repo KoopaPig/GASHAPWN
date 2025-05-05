@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class ChargeRollIndicator : MonoBehaviour
 {
@@ -7,10 +8,16 @@ public class ChargeRollIndicator : MonoBehaviour
     public LineRenderer chargeLineRenderer;
     public float maxLineLength = 10f;
 
+    [Header("Ghost Trail Settings")]
+    public float trailDuration = 0.5f;
+
     private Vector3 chargeDirection;
+    private GhostTrailEffect ghostTrailEffect;
+    private Coroutine trailCoroutine;
 
     private void Start()
     {
+        ghostTrailEffect = GetComponent<GhostTrailEffect>();
         chargeLineRenderer.positionCount = 2;
         chargeLineRenderer.enabled = false;
     }
@@ -31,5 +38,21 @@ public class ChargeRollIndicator : MonoBehaviour
     public void HideIndicator()
     {
         chargeLineRenderer.enabled = false;
+
+        // Start the ghost trail for visual feedback
+        if (ghostTrailEffect != null)
+        {
+            if (trailCoroutine != null)
+                StopCoroutine(trailCoroutine);
+
+            trailCoroutine = StartCoroutine(PlayTrail());
+        }
+    }
+
+    private IEnumerator PlayTrail()
+    {
+        ghostTrailEffect.StartTrail();
+        yield return new WaitForSeconds(trailDuration);
+        ghostTrailEffect.StopTrail();
     }
 }
