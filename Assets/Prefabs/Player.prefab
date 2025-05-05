@@ -527,6 +527,8 @@ GameObject:
   - component: {fileID: 5325374155935492858}
   - component: {fileID: 6455137775304450897}
   - component: {fileID: 6814078848887007008}
+  - component: {fileID: 182709351164466957}
+  - component: {fileID: 2925083717828170999}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player1
@@ -798,6 +800,7 @@ MonoBehaviour:
   playerData: {fileID: 2353342533486014850}
   chargeLineRenderer: {fileID: 7681624290867235483}
   maxLineLength: 10
+  trailDuration: 0.5
 --- !u!135 &8910377567317957572
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1103,6 +1106,33 @@ MonoBehaviour:
   m_DefaultActionMap: BattleControls
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &182709351164466957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652500208214954744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c29a5b8276032343a32dbb7f7610762, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostTrail: {fileID: 0}
+--- !u!114 &2925083717828170999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652500208214954744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd2bd891471a2a94db50d49a6601758e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dustParticles: {fileID: 198606344947820792, guid: 60c086b2cd53e374984f104ff2d8061f, type: 3}
+  brakingThreshold: 5
 --- !u!1001 &1168607910405732285
 PrefabInstance:
   m_ObjectHideFlags: 0

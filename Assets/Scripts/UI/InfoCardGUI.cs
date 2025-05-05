@@ -55,14 +55,14 @@ namespace GASHAPWN.UI
         /// PUBLIC METHODS ///
 
         // Sets all information in Info Card given Figure
-        public void SetFigureInfoCard(Figure figure)
+        public void SetFigureInfoCard(Figure figure, int amt)
         {
             // Set Figure Info
             figureName.text = figure.Name;
             starsGUI.SetStars(figure);
             figureDescription.text = figure.Description;
 
-            // TODO: Need to find out how to set figureAmount (might have to interface with Collection)
+            figureAmount.text = "x " + amt.ToString();
 
             // Set seriesIcon and numberInSeriesText
             seriesIcon.sprite = figure.GetSeries().SeriesIcon;
@@ -155,9 +155,6 @@ namespace GASHAPWN.UI
                     StopCoroutine(slideCoroutine);
                     
                 slideCoroutine = StartCoroutine(SlideCardIn());
-                
-                // Play sound effect
-                UI_SFXManager.Instance.Play_InfoCardGroup();
             }
         }
         
