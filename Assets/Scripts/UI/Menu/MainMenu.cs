@@ -128,6 +128,9 @@ namespace GASHAPWN.UI {
         {
             if (!IsMenuTransition)
             {
+                #if UNITY_EDITOR
+                    UnityEditor.EditorApplication.isPlaying = false;
+                #endif
                 Application.Quit();
                 Debug.Log("Quit game");
             }

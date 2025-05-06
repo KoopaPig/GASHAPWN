@@ -238,7 +238,7 @@ namespace GASHAPWN.UI {
                 playerData.SetMaxHealth.RemoveListener(SetMaxHealthGUI);
                 playerData.SetHealth.RemoveListener(SetHealthSuddenDeathGUI);
 
-                // TODO: Stamina-based Listeners
+                // Stamina-based Listeners
                 playerData.OnStaminaChanged.RemoveListener(SetStaminaGUI_Wrapper);
                 playerData.SetMaxStamina.RemoveListener(SetMaxStaminaGUI);
                 playerData.OnStaminaHardDecrease.RemoveListener(LoseStaminaGUI);

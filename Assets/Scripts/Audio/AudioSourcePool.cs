@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 namespace GASHAPWN.Audio
 {
@@ -16,6 +17,9 @@ namespace GASHAPWN.Audio
 
         private Queue<AudioSource> availableSources;
 
+
+        /// PRIVATE METHODS ///
+        
         private void Awake()
         {
             // Ensure Singleton
@@ -39,11 +43,11 @@ namespace GASHAPWN.Audio
 
             for (int i = 0; i < poolSize; i++)
             {
-                AudioSource newSource = Instantiate(audioSourcePrefab, transform);
-                newSource.gameObject.SetActive(false);  // Disable initially
-                availableSources.Enqueue(newSource);
+                availableSources.Enqueue(CreateNewAudioSource());
             }
         }
+
+        /// PUBLIC METHODS ///
 
         // return AudioSource from front of queue
         public AudioSource GetAudioSource()
@@ -78,9 +82,10 @@ namespace GASHAPWN.Audio
             return newSource;
         }
 
-        // IEnumerator to return audio source to pool after it is done playing
+        // Return audio source to pool after it is done playing
         public void ReturnToPool(AudioSource source)
         {
+            source.Stop();
             source.clip = null;
             source.gameObject.SetActive(false);
             availableSources.Enqueue(source);
@@ -89,6 +94,7 @@ namespace GASHAPWN.Audio
         // Return audio soruce to pool immediately
         public void ReturnToPoolImmediate(AudioSource source)
         {
+            source.Stop();
             source.clip = null;
             source.gameObject.SetActive(false);
             availableSources.Enqueue(source);

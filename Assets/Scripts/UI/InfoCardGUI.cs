@@ -133,19 +133,6 @@ namespace GASHAPWN.UI
                 rotationHint.SetActive(false);
         }
         
-        // Update the control scheme icons for hints
-        public void UpdateControlScheme(ControlScheme scheme)
-        {
-            // Find all IconPicker components in children
-            IconPicker[] iconPickers = GetComponentsInChildren<IconPicker>(true);
-            
-            foreach (var picker in iconPickers)
-            {
-                picker.automaticUpdate = false;
-                picker.ManualSetControlScheme(scheme);
-            }
-        }
-        
         // Public method to slide in the card (starts the coroutine)
         public void SlideIn()
         {

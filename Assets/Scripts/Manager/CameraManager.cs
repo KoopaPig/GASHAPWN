@@ -6,7 +6,6 @@ using UnityEngine.Splines;
 
 namespace GASHAPWN
 {
-    // TODO: Move this back to a general manager position
     public class CameraManager : MonoBehaviour
     {
         public bool isDebug = false;

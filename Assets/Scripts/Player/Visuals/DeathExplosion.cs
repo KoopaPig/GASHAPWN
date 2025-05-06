@@ -11,7 +11,6 @@ namespace GASHAPWN {
 
         [Header("Explosion Controls")]
         [SerializeField] private float explosionForce = 500f;
-        [SerializeField] private float explosionRadius = 2f;
 
         private void OnEnable()
         {

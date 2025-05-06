@@ -23,10 +23,11 @@ namespace GASHAPWN.UI {
             else Debug.Log($"{this.name}.IconPicker is set to automaticUpdate, cannot manually set.");
         }
 
-
-        // TODO: Adjust how this automatic update functions with new system
         private void Update()
         {
+            //controlScheme = ControlScheme.KEYBOARD;
+            //UpdateControlScheme();
+
             if (!automaticUpdate) return;
 
             ControlScheme detectedScheme;
@@ -36,17 +37,9 @@ namespace GASHAPWN.UI {
             if (PlayerInputAssigner.Instance.TryGetPlayerControlScheme("Player1", out detectedScheme) ||
                 PlayerInputAssigner.Instance.TryGetAnyControlScheme(out detectedScheme))
             {
-                if (detectedScheme != controlScheme)
-                {
-                    controlScheme = detectedScheme;
-                    UpdateControlScheme();
-                }
+                controlScheme = detectedScheme;
+                UpdateControlScheme();
             }
-        }
-
-        private void OnValidate()
-        {
-            UpdateControlScheme();
         }
 
         private void UpdateControlScheme()

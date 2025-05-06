@@ -121,9 +121,6 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(QuickBreakCoroutine());
                 playerData.currentStamina -= 2f;
                 playerData.OnStaminaChanged.Invoke(playerData.currentStamina);
-
-                // Activate defensive buff after quick break
-                playerData.ActivateDefense(playerData.quickBreakDefenseDuration, 0.5f); // 50% damage reduction
             }
             else
             {
