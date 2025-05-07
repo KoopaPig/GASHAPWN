@@ -5,26 +5,25 @@ using UnityEngine;
 
 namespace GASHAPWN
 {
+    [DefaultExecutionOrder(-3)]
     public class FigureManager : MonoBehaviour
     {
-
         public FigureDatabase figureDatabase;
 
-        public static FigureManager instance { get; private set; }
+        public static FigureManager Instance { get; private set; }
 
         private void Awake()
         {
-            if(instance != null && instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(this);
                 return;
             }
-
-            instance = this;
+            Instance = this;
 
             DontDestroyOnLoad(this);
 
-            if(figureDatabase == null)
+            if (figureDatabase == null)
             {
                 Debug.Log("Figure database not assigned to FigureManager");
                 return;
@@ -89,7 +88,6 @@ namespace GASHAPWN
         public Figure GetFigureByID(string ID)
         {
             Figure result = null;
-
             List<Figure> figures = new List<Figure>(figureDatabase.figureDictionary.Values);
             foreach(Figure figure in figures)
             {

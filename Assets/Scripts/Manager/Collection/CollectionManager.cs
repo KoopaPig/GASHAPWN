@@ -449,9 +449,9 @@ namespace GASHAPWN {
                 Dictionary<string, GameManager.CollectedFigure> collectedLookup = new Dictionary<string, GameManager.CollectedFigure>();
                 foreach (var item in collectedFigures)
                 {
-                    if (item.figure != null)
+                    if (item.ID != null)
                     {
-                        collectedLookup[item.figure.GetID()] = item;
+                        collectedLookup[item.ID] = item;
                     }
                 }
 
@@ -483,14 +483,14 @@ namespace GASHAPWN {
             for(int i = 0; i < amountOfFigures; i++)
             {
                 GameManager.CollectedFigure randomCollectedFigure = new();
-                Figure newRandomFigure = FigureManager.instance.GetRandomFigure();
+                Figure newRandomFigure = FigureManager.Instance.GetRandomFigure();
 
                 // Check the checking list for duplicate figures
                 if (randomFigures.Contains(newRandomFigure)) continue;
                 else
                 {
                     randomFigures.Add(newRandomFigure);
-                    randomCollectedFigure.figure = newRandomFigure;
+                    randomCollectedFigure.ID = newRandomFigure.GetID();
                     // Generate a random amount collected
                     randomCollectedFigure.amount = UnityEngine.Random.Range(0, 10);
                     randomCollection.Add(randomCollectedFigure);

@@ -1,18 +1,9 @@
-using JetBrains.Annotations;
-using NUnit.Framework;
-using NUnit.Framework.Interfaces;
 using System;
-using System.Data;
-using System.Runtime.CompilerServices;
-using UnityEditor;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Users;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using System.IO;
-using UnityEngine.ProBuilder.MeshOperations;
 
 namespace GASHAPWN
 {
@@ -31,31 +22,24 @@ namespace GASHAPWN
         [System.Serializable]
         public class CollectedFigure
         {
-            public Figure figure;
+            public string ID;
             public int amount;
 
-            public CollectedFigure() { figure = null; amount = 0; }
-            public CollectedFigure(Figure _figure) { figure = _figure; amount = 1; }
+            public CollectedFigure() { ID = null; amount = 0; }
+            public CollectedFigure(Figure _figure) { ID = _figure.GetID(); amount = 1; }
         };
 
         [System.Serializable]
-        public class Data
+        public class CollectionData
         {
-            [SerializeReference]
-            public List<string> collection1CollectedFigureIDs;
+            public List<CollectedFigure> collection1;
+            public CollectionData() { new List<CollectedFigure>(); }
 
-            [SerializeReference]
-            public List<int> collection1CollectedFigureCounts;
-
-            public Data()
-            {
-                collection1CollectedFigureIDs = new();
-                collection1CollectedFigureCounts = new();
-            }
+            public bool IsEmpty() { return collection1.Count == 0; }
         }
 
-        public Data PlayerData;
-        public Data TestData;
+        public CollectionData PlayerData;
+        public CollectionData TestData;
 
         public List<CollectedFigure> Player1Collection = new();
 
@@ -128,45 +112,48 @@ namespace GASHAPWN
         }
 
         // Save the collection to a specific player
-        public void Save(string playerName, Data playerData)
+        public void Save(string playerName, CollectionData playerData)
         {
+            if (playerData.IsEmpty())
+            {
+                Debug.Log($"No data to save, will not overwrite {playerName}.");
+                return;
+            }
             FileManager.Save(playerName, playerData);
         }
 
         // Load the collection from a specific player
         public void Load(string playerName) 
         {
-            Data playerData = FileManager.Load<Data>(playerName);
+            CollectionData playerData = FileManager.Load<CollectionData>(playerName);
             List<CollectedFigure> Collection = new();
-            foreach (string ID in playerData.collection1CollectedFigureIDs)
+            foreach (var colFig in playerData.collection1)
             {
-                CollectedFigure newCollectedFigure = new CollectedFigure(FigureManager.instance.GetFigureByID(ID));
+                CollectedFigure newCollectedFigure = new CollectedFigure(FigureManager.Instance.GetFigureByID(colFig.ID));
                 Collection.Add(newCollectedFigure);
             }
             int index = 0;
             foreach (CollectedFigure collectedFigure in Collection)
             {
-                collectedFigure.amount = playerData.collection1CollectedFigureCounts[index];
-                Debug.Log("Amount added to " + collectedFigure.figure.name + " = " + collectedFigure.amount);
+                collectedFigure.amount = playerData.collection1[index].amount;
+                Debug.Log("Amount added to " + FigureManager.Instance.GetFigureByID(collectedFigure.ID) + " = " + collectedFigure.amount);
                 index++;
             }
             Player1Collection = Collection;
         }
 
-        // Debug function: Removes all save data in test
+        // Debug function: Removes all save data
         public void DeleteSaveData()
         {
             if (!DebugMode)
             {
-                PlayerData.collection1CollectedFigureIDs.Clear();
-                PlayerData.collection1CollectedFigureCounts.Clear();
+                PlayerData.collection1.Clear();
                 Player1Collection.Clear();
                 Save("data", PlayerData);
             }
             else
             {
-                TestData.collection1CollectedFigureIDs.Clear();
-                TestData.collection1CollectedFigureCounts.Clear();
+                TestData.collection1.Clear();
                 Player1Collection.Clear();
                 Save("test", TestData);
             }
@@ -183,14 +170,14 @@ namespace GASHAPWN
             for (int j = 0; j < amountOfFigures; j++)
             {
                 GameManager.CollectedFigure randomCollectedFigure = new();
-                Figure newRandomFigure = FigureManager.instance.GetRandomFigure();
+                Figure newRandomFigure = FigureManager.Instance.GetRandomFigure();
 
                 // Check the checking list for duplicate figures
                 if (randomFigures.Contains(newRandomFigure)) continue;
                 else
                 {
                     randomFigures.Add(newRandomFigure);
-                    randomCollectedFigure.figure = newRandomFigure;
+                    randomCollectedFigure.ID = newRandomFigure.GetID();
                     // Generate a random amount collected
                     randomCollectedFigure.amount = UnityEngine.Random.Range(0, 10);
                     randomCollection.Add(randomCollectedFigure);
@@ -219,8 +206,7 @@ namespace GASHAPWN
                 LoadRandomSaveData(10);
                 foreach (CollectedFigure selectedFigure in Player1Collection)
                 {
-                    TestData.collection1CollectedFigureIDs.Add(selectedFigure.figure.GetID());
-                    TestData.collection1CollectedFigureCounts.Add(selectedFigure.amount);
+                    TestData.collection1.Add(selectedFigure);
                 }
                 Save("test", TestData);
             }
@@ -268,10 +254,9 @@ namespace GASHAPWN
             if (!DebugMode)
             {
                 // Store the collected figures in player data
-                foreach (CollectedFigure figure in Player1Collection)
+                foreach (CollectedFigure colFig in Player1Collection)
                 {
-                    PlayerData.collection1CollectedFigureIDs.Add(figure.figure.GetID());
-                    PlayerData.collection1CollectedFigureCounts.Add(figure.amount);
+                    PlayerData.collection1.Add(colFig);
                 }
 
                 // Save the data

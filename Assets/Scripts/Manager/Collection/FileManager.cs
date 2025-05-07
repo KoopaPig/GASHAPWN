@@ -1,4 +1,5 @@
 using System.IO;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class FileManager : MonoBehaviour
@@ -20,7 +21,8 @@ public class FileManager : MonoBehaviour
     public static void Save<T>(string fileName, T content)
     {
         string filePath = Path.Combine(Application.persistentDataPath, fileName + ".json");
-        string dataAsJson = JsonUtility.ToJson(content);
+        // convert to JSON and keep formatting
+        string dataAsJson = JsonConvert.SerializeObject(content, Formatting.Indented);
 
         File.WriteAllText(filePath, dataAsJson);
         Debug.Log("To " + filePath + ": " + content);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace GASHAPWN
 {
+    [DefaultExecutionOrder(-4)]
     [CreateAssetMenu(fileName = "FigureDatabase", menuName = "Scriptable Objects/Figure/FigureDatabase")]
     public class FigureDatabase : ScriptableObject
     {

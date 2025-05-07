@@ -116,7 +116,7 @@ namespace GASHAPWN
                     activePlayers.Add(player.gameObject);
                     // Generate figures
                     var paf = player.GetComponent<PlayerAttachedFigure>();
-                        paf.SetFigureInCapsule(FigureManager.instance.GetRandomFigureWeighted());
+                        paf.SetFigureInCapsule(FigureManager.Instance.GetRandomFigureWeighted());
                     // Link generated figures to BattleGUI
                     if (player.tag == "Player1") {
                         player1BattleGUI.SetFigureName(paf.GetAttachedFigure().name);
@@ -398,8 +398,7 @@ namespace GASHAPWN
                 int index = GameManager.Instance.Player1Collection.FindIndex(x => x == potentialNewFigure);
                 GameManager.Instance.Player1Collection[index].amount += 1;
                 newFigure = false;
-            }
-            
+            } 
         }
 
         public List<GameObject> GetActivePlayers()

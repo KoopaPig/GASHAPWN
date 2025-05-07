@@ -31,8 +31,8 @@ namespace GASHAPWN
         public void AddFigure(string ID)
         {
             Figure figureToAdd;
-            if (ID == "empty") figureToAdd = FigureManager.instance.GetRandomFigure();
-            else figureToAdd = FigureManager.instance.GetFigureByID(ID);
+            if (ID == "empty") figureToAdd = FigureManager.Instance.GetRandomFigure();
+            else figureToAdd = FigureManager.Instance.GetFigureByID(ID);
 
             // If the current position is equal to the starting position (the first figure),
             if (currentPosition == startingPosition)

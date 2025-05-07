@@ -11,7 +11,6 @@ namespace GASHAPWN
         public bool isDebug = false;
 
         [Header("Cameras")]
-        private bool isMoving = false;
         private CinemachineGroupFraming framing;
         private SplineAnimate dolly;
 
