@@ -85,6 +85,11 @@ namespace GASHAPWN
             return figures[^1]; // fallback
         }
 
+        /// <summary>
+        /// Given ID, return Figure if it exists in figureDatabase
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         public Figure GetFigureByID(string ID)
         {
             Figure result = null;

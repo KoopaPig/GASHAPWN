@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using Unity.Mathematics;
 using System.Collections;
+using System.Linq;
+using static GASHAPWN.GameManager;
 
 namespace GASHAPWN
 {
@@ -386,19 +388,22 @@ namespace GASHAPWN
 
         public void FigureCheck(string WinningTag, Figure PlayerFigure)
         {
-            GameManager.CollectedFigure potentialNewFigure = new(PlayerFigure);
+            // see if figure already exists in collection
+            var existingFigure = GameManager.Instance.Player1Collection
+            .FirstOrDefault(f => f.ID == PlayerFigure.GetID());
 
-            if (!GameManager.Instance.Player1Collection.Contains(potentialNewFigure))
+            // if it doesn't, mark it as new and add to collection
+            if (existingFigure == null)
             {
-                GameManager.Instance.Player1Collection.Add(potentialNewFigure);
+                GameManager.Instance.Player1Collection.Add(new CollectedFigure(PlayerFigure));
                 newFigure = true;
             }
+            // if it does, increment amount
             else
             {
-                int index = GameManager.Instance.Player1Collection.FindIndex(x => x == potentialNewFigure);
-                GameManager.Instance.Player1Collection[index].amount += 1;
+                existingFigure.amount += 1;
                 newFigure = false;
-            } 
+            }
         }
 
         public List<GameObject> GetActivePlayers()
