@@ -10,28 +10,23 @@ namespace GASHAPWN.Audio {
     {
         public static UI_SFXManager Instance { get; private set; }
 
+        [Tooltip("Reference to Music Mixer")]
         [SerializeField] private AudioMixerGroup soundMixer;
 
+        #region SFX Groups
         [Header("Button-Related Groups")]
-        [SerializeField] private SFXGroup menuButtonSelectionGroup;
-
-        [SerializeField] private SFXGroup generalButtonSelectionGroup;
-
-        [SerializeField] private SFXGroup generalSelectionGroup;
-
-        [SerializeField] private SFXGroup buttonDinkyGroup;
-
-        [SerializeField] private SFXGroup buttonFancyGroup;
+            [SerializeField] private SFXGroup menuButtonSelectionGroup;
+            [SerializeField] private SFXGroup generalButtonSelectionGroup;
+            [SerializeField] private SFXGroup generalSelectionGroup;
+            [SerializeField] private SFXGroup buttonDinkyGroup;
+            [SerializeField] private SFXGroup buttonFancyGroup;
 
         [Header("Other UI Groups")]
-        [SerializeField] private SFXGroup capsuleShakeGroup;
-
-        [SerializeField] private SFXGroup staticGroup;
-
-        [SerializeField] private SFXGroup infoCardGroup;
-
-        [SerializeField] private SFXGroup lowStaminaGroup;
-
+            [SerializeField] private SFXGroup capsuleShakeGroup;
+            [SerializeField] private SFXGroup staticGroup;
+            [SerializeField] private SFXGroup infoCardGroup;
+            [SerializeField] private SFXGroup lowStaminaGroup;
+        #endregion
         private void Awake()
         {
             // Check for other instances

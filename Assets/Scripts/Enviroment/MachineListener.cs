@@ -1,19 +1,17 @@
 using UnityEngine;
 using System.Collections;
 
-namespace GASHAPWN {
+namespace GASHAPWN.Environment {
+    /// <summary>
+    /// Perform certain actions on GashaMachine in response to events
+    /// </summary>
     public class MachineListener : MonoBehaviour
     {
-        Animator animator;
+        private Animator animator;
 
         private void Awake() 
         {
             animator = GetComponent<Animator>();
-        }
-
-        public void HandleNewFigureScreen(BattleState state) 
-        {
-            StartCoroutine(WaitToOpenDoor(1f));
         }
 
         private void OnEnable() 
@@ -24,6 +22,11 @@ namespace GASHAPWN {
         private IEnumerator WaitToOpenDoor(float waitDuration) {
             yield return new WaitForSeconds(waitDuration);
             animator.SetTrigger("door-open");
+        }
+
+        private void HandleNewFigureScreen(BattleState state)
+        {
+            StartCoroutine(WaitToOpenDoor(1f));
         }
     }
 }

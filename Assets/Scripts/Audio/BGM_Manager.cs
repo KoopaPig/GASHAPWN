@@ -12,14 +12,15 @@ namespace GASHAPWN.Audio {
     {
         public static BGM_Manager Instance { get; private set; }
 
+        [Tooltip("Reference to Music Mixer")]
         [SerializeField] private AudioMixerGroup musicMixer;
 
         [Header("Addressable Keys for Music")]
-        [SerializeField] private string battleMusicKey;
-        [SerializeField] private string menuMusicKey;
-        [SerializeField] private string levelSelectMusicKey;
-        [SerializeField] private string collectionMusicKey;
-        [SerializeField] private string resultsScreenMusicKey;
+            [SerializeField] private string battleMusicKey;
+            [SerializeField] private string menuMusicKey;
+            [SerializeField] private string levelSelectMusicKey;
+            [SerializeField] private string collectionMusicKey;
+            [SerializeField] private string resultsScreenMusicKey;
 
         private AudioSource mainAudioSource;
 
@@ -150,7 +151,7 @@ namespace GASHAPWN.Audio {
                         // battle music should start playing during countdown
                         audioKey = battleMusicKey;
                         break;
-                    case BattleState.VictoryScreen:
+                    case BattleState.ResultsScreen:
                         StopCurrentMusic();
                         audioKey = resultsScreenMusicKey;
                         break;

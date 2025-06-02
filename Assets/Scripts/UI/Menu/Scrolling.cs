@@ -1,14 +1,22 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Scrolling : MonoBehaviour
+namespace GASHAPWN.UI
 {
-    [SerializeField] private RawImage _img;
-    [SerializeField] private float _x, _y;
-
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// Controls scrolling background
+    /// </summary>
+    public class Scrolling : MonoBehaviour
     {
-        _img.uvRect = new Rect(_img.uvRect.position + new Vector2(_x, _y) * Time.deltaTime, _img.uvRect.size);
+        [Tooltip("Image to scroll")]
+        [SerializeField] private RawImage _img;
+        
+        // Scroll increment
+        [SerializeField] private float _x, _y;
+
+        void Update()
+        {
+            _img.uvRect = new Rect(_img.uvRect.position + new Vector2(_x, _y) * Time.deltaTime, _img.uvRect.size);
+        }
     }
 }

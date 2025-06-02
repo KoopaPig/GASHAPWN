@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace GASHAPWN
 {
+    /// <summary>
+    /// Centralized database of all Figures, stored as a Dictionary
+    /// </summary>
     [DefaultExecutionOrder(-4)]
     [CreateAssetMenu(fileName = "FigureDatabase", menuName = "Scriptable Objects/Figure/FigureDatabase")]
     public class FigureDatabase : ScriptableObject
@@ -15,6 +18,13 @@ namespace GASHAPWN
 
         // internal figureList for database
         private readonly List<Figure> figureList = new();
+
+        private void OnEnable()
+        {
+            // This only needs to be called whenever figures / series are added.
+            // This can eventually move out of OnEnable(), since it is inefficient
+            UpdateFigureDictionary();
+        }
 
         // Update figureDictionary given allSeries
         public void UpdateFigureDictionary()
@@ -36,13 +46,5 @@ namespace GASHAPWN
                 }
             }
         }
-
-        private void OnEnable()
-        {
-            // This only needs to be called whenever figures / series are added.
-            // This can eventually move out of OnEnable(), since it is inefficient
-            UpdateFigureDictionary();
-        }
-
     }
 }

@@ -6,20 +6,28 @@ using UnityEngine.InputSystem.Composites;
 
 namespace GASHAPWN
 {
+    /// <summary>
+    /// Interface between Input and Collection
+    /// </summary>
     [RequireComponent(typeof(CollectionManager))]
     public class CollectionInputController : MonoBehaviour
     {
-        [Header("Debug")]
-        [SerializeField] private bool debugLog = true;
-
+        // reference to CollectionManager
         private CollectionManager collectionManager;
+        // Reference to "Cancel" InputAction
         private InputAction cancelAction;
 
-        private bool isInitialized = false;
         private float rotationValue = 0f;
         private float navigateCooldown = 0.2f;
         private float navigateTimer = 0f;
-        
+
+        [Header("Debug")]
+            // Toggle Debug.Log for CollectionInputController
+            [SerializeField] private bool debugLog = true;
+
+
+        /// PRIVATE METHODS ///
+
         private void Awake()
         {
             collectionManager = GetComponent<CollectionManager>();
@@ -34,11 +42,8 @@ namespace GASHAPWN
             if (!cancelAction.enabled) { cancelAction.Enable(); }
         }
 
-
         private void Update()
         {
-            //if (!isInitialized) return;
-            
             // Update navigation cooldown timer
             if (navigateTimer > 0)
                 navigateTimer -= Time.deltaTime;
@@ -49,12 +54,23 @@ namespace GASHAPWN
                 collectionManager.RotateFigure(rotationValue * Time.deltaTime);
             }
         }
-        
+
+        private void HandleCancel(InputAction.CallbackContext context)
+        {
+            TransitionManager.Instance().Transition("MainMenu", 0);
+            GameManager.Instance.UpdateGameState(GameState.Title);
+        }
+
+        private void OnDisable()
+        {
+            cancelAction.performed -= HandleCancel;
+            cancelAction.Disable();
+        }
+
+        /// PUBLIC METHODS ///
+
         public void OnNavigate(InputAction.CallbackContext context)
         {
-
-            //if (!isInitialized || collectionManager == null) return;
-            
             Vector2 input = context.ReadValue<Vector2>();
             
             // Only navigate when input exceeds threshold and cooldown is complete
@@ -84,35 +100,19 @@ namespace GASHAPWN
             DebugLog($"Rotation value: {rotationValue}");
         }
         
-        private void OnRotateCanceled(InputAction.CallbackContext context)
-        {
-            rotationValue = 0f;
-        }
-        
         public void OnSubmit(InputAction.CallbackContext context)
         {
-            //if (!isInitialized || collectionManager == null) return;
-            
             DebugLog("Selection performed");
             Audio.UI_SFXManager.Instance.Play_GeneralButtonSelection();
         }
 
+
+        /// DEBUG ///
+        
         private void DebugLog(string message)
         {
             if (debugLog)
                 Debug.Log($"CollectionInputController: {message}");
-        }
-
-        private void HandleCancel(InputAction.CallbackContext context)
-        {
-            TransitionManager.Instance().Transition(collectionManager.mainMenuSceneName, collectionManager.collectionTransition, 0);
-            GameManager.Instance.UpdateGameState(GameState.Title);
-        }
-
-        private void OnDisable()
-        {
-            cancelAction.performed -= HandleCancel;
-            cancelAction.Disable();
         }
     }
 }

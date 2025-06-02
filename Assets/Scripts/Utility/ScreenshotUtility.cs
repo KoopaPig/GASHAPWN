@@ -1,16 +1,24 @@
 using System;
-using NUnit.Framework.Constraints;
 using Unity.Cinemachine;
 using UnityEngine;
 
 namespace GASHAPWN.Utility
 {
+    /// <summary>
+    /// Given 2 cameras, take screenshot with '0'
+    /// </summary>
     public class ScreenshotUtility : MonoBehaviour
     {
         [SerializeField] private CinemachineCamera frontCam;
         [SerializeField] private CinemachineCamera topDownCam;
 
+        // Toggle whether using topDownCam or frontCam
         public bool useTopDown = false;
+
+        private void OnValidate()
+        {
+            SwitchCamera();
+        }
 
         private void Update()
         {
@@ -37,11 +45,6 @@ namespace GASHAPWN.Utility
                 frontCam.Priority = 20;
                 topDownCam.Priority = 10;
             }
-        }
-
-        private void OnValidate()
-        {
-            SwitchCamera();
         }
     }
 }

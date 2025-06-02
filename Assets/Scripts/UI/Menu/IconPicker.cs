@@ -8,14 +8,22 @@ using UnityEngine.UI;
 namespace GASHAPWN.UI {
     public class IconPicker : MonoBehaviour
     {
+        [Tooltip("XInput ControlsHelp Object")]
         [SerializeField] private GameObject xInputHelp;
+        [Tooltip("Keyboard ControlsHelp Object")]
         [SerializeField] private GameObject KeyboardHelp;
+        [Tooltip("Current ControlScheme of IconPicker")]
         [SerializeField] private ControlScheme controlScheme;
-        [SerializeField] public bool automaticUpdate = true;
+        [Tooltip("Toggle whether IconPicker should automatically update its visual state")]
+        public bool IsAutomaticUpdate = true;
 
+        /// <summary>
+        /// Manually set ControlScheme
+        /// </summary>
+        /// <param name="cs"></param>
         public void ManualSetControlScheme(ControlScheme cs)
         {
-            if (!automaticUpdate)
+            if (!IsAutomaticUpdate)
             {
                 controlScheme = cs;
                 UpdateControlScheme();
@@ -25,10 +33,7 @@ namespace GASHAPWN.UI {
 
         private void Update()
         {
-            //controlScheme = ControlScheme.KEYBOARD;
-            //UpdateControlScheme();
-
-            if (!automaticUpdate) return;
+            if (!IsAutomaticUpdate) return;
 
             ControlScheme detectedScheme;
 
@@ -42,6 +47,9 @@ namespace GASHAPWN.UI {
             }
         }
 
+        /// <summary>
+        /// Update controller icon according to controlScheme
+        /// </summary>
         private void UpdateControlScheme()
         {
             switch (controlScheme)

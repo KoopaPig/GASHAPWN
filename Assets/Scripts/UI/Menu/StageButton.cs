@@ -1,24 +1,28 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace GASHAPWN.UI {
+    /// <summary>
+    /// Buttons for Stages in LevelSelect
+    /// </summary>
     public class StageButton : MonoBehaviour
     {
+        [Tooltip("Icon for corresponding level")]
         [SerializeField] private Image levelIcon;
-        public GameObject highlightBorder;
 
-        public void SetLevel(Level l)
-        {
-            levelIcon.sprite = l.levelPreviewIconA;
-        }
+        [Tooltip("Border that appears when highlighted")]
+        public GameObject highlightBorder;
 
         private void Awake()
         {
             highlightBorder.SetActive(false);
         }
+
+        // Set levelIcon given Level
+
+        public void SetLevel(Level l)
+        {
+            levelIcon.sprite = l.levelPreviewIconA;
+        }
     }
 }
-
-

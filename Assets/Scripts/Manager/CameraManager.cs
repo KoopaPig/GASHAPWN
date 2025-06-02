@@ -8,33 +8,29 @@ namespace GASHAPWN
 {
     public class CameraManager : MonoBehaviour
     {
+        [Tooltip("Toggle for debug mode")]
         public bool isDebug = false;
 
         [Header("Cameras")]
-        private CinemachineGroupFraming framing;
-        private SplineAnimate dolly;
+            #region Scene Cameras
+            [SerializeField] private CinemachineCamera introCam;
+            [SerializeField] private CinemachineCamera battleCam;
+            [SerializeField] private CinemachineCamera winCam;
+            [SerializeField] private CinemachineCamera machineCam; // within GashaMachine
+            [SerializeField] private CinemachineCamera debugCam;
+            [SerializeField] private CinemachineTargetGroup targetGroup;
+            #endregion
 
-        [SerializeField] private CinemachineCamera introCam;
-        [SerializeField] private CinemachineCamera battleCam;
-        [SerializeField] private CinemachineCamera winCam;
-        [SerializeField] private CinemachineCamera machineCam; // within GashaMachine
-        [SerializeField] private CinemachineCamera debugCam;
-        [SerializeField] private CinemachineTargetGroup targetGroup;
-
-        [Header("Player Capsule Prefabs")]
-        public GameObject Player1Capsule;
-        public GameObject Player2Capsule;
-
-        [Header("Positions")]
-        public Transform machineCapsuleSpawnPos;
-
-        private Figure WinningFigure;
-        private string WinningFigureTag;
+            private CinemachineGroupFraming framing;
+            private SplineAnimate dolly;
 
         private Coroutine waitCamCoroutine;
 
         // Store reference to activePlayers PlayerData Components for Camera Effects
         private List<PlayerData> subscribedPlayers = new();
+
+
+        /// PRIVATE METHODS ///
 
         private void Awake()
         {
@@ -103,78 +99,27 @@ namespace GASHAPWN
             UpdateTargetGroup();
         }
 
-        public void StartPath(BattleState state)
+        private void OnDisable()
         {
-            introCam.Priority = 30;
-            dolly.Play();
-        }
-
-        public void SwitchToWinCam(GameObject player, string tag, Figure figure)
-        {
-            waitCamCoroutine = StartCoroutine(WaitToSwitchCamera(player.transform, tag, figure, 3.0f));
-        }
-
-        public void SwitchToMachineCam(BattleState state)
-        {
-            if (waitCamCoroutine != null) { StopCoroutine(waitCamCoroutine); }
-            // Turn off winCam
-            winCam.Priority = 0;
-            machineCam.Priority = 30;
-
-            // Spawn a player behind the door
-            GameObject PlayerCapsule = null;
-            if (WinningFigureTag == "Player1") PlayerCapsule = Player1Capsule;
-            else if (WinningFigureTag == "Player2") PlayerCapsule = Player2Capsule;
-            else Debug.Log("Unknown Tag");
-            // Spawn in capsule and figure
-            GameObject SpawnedCapsule = Instantiate(PlayerCapsule, machineCapsuleSpawnPos);
-            SpawnedCapsule.GetComponent<PlayerAttachedFigure>().SetFigureInCapsule(WinningFigure, 2.5f);
-
-        }
-
-        // Coroutine to control camera effect when OnDamage event is called
-        public IEnumerator HitCamEffect(float duration)
-        {
-            if (battleCam == null) yield break;
-
-            float halfDuration = duration / 2f;
-            float timer = 0f;
-
-            // get targetDutch value in range from -5 to 5
-            float targetDutch = Random.Range(1f, 5f) * (Random.value > 0.5f ? 1 : -1);
-            float startDutch = battleCam.Lens.Dutch;
-
-            // get targetFOV value in range from -1 to 1
-            float targetFOV = battleCam.Lens.FieldOfView + (Random.value > 0.5f ? 1 : -1);
-            float startFOV = battleCam.Lens.FieldOfView;
-
-            // Interpolate to target
-            while (timer < halfDuration)
+            if (BattleManager.Instance != null)
             {
-                timer += Time.deltaTime;
-                float t = timer / halfDuration;
-                battleCam.Lens.Dutch = Mathf.Lerp(startDutch, targetDutch, 1 - Mathf.Pow(1 - t, 2));
-                battleCam.Lens.FieldOfView = Mathf.Lerp(startFOV, targetFOV, 1 - Mathf.Pow(t, 2));
-                yield return null;
-            }
+                BattleManager.Instance.ChangeToCountdown.RemoveListener(StartPath);
+                BattleManager.Instance.OnWinner.RemoveListener(SwitchToWinCam);
+                BattleManager.Instance.ChangeToNewFigure.RemoveListener(SwitchToMachineCam);
+                BattleManager.Instance.ChangeToBattle.RemoveListener(HandleChangeToBattle);
 
-            // Interpolate back to 0
-            timer = 0f;
-            while (timer < halfDuration)
-            {
-                timer += Time.deltaTime;
-                float t = timer / halfDuration;
-                battleCam.Lens.Dutch = Mathf.Lerp(targetDutch, startDutch, 1 - Mathf.Pow(1 - t, 2));
-                battleCam.Lens.FieldOfView = Mathf.Lerp(targetFOV, startFOV, 1 - Mathf.Pow(t, 2));
-                yield return null;
+                foreach (var playerData in subscribedPlayers)
+                {
+                    if (playerData != null) playerData.OnDamage.RemoveListener(OnHit);
+                }
+                subscribedPlayers.Clear();
             }
         }
 
+        // Wait given duration to switch to winCam
         private IEnumerator WaitToSwitchCamera(Transform transform, string tag, Figure figure, float waitDuration)
         {
             yield return new WaitForSeconds(waitDuration);
-            WinningFigureTag = tag;
-            WinningFigure = figure;
 
             // Set winCam to proper transfrom and set active
             winCam.Follow = transform;
@@ -182,13 +127,15 @@ namespace GASHAPWN
             winCam.Priority = 30;
         }
 
+        // Handle camera management when switching to Battle
+        // Called with BattleManager.ChangeToBattle
         private void HandleChangeToBattle(BattleState state)
         {
             if (!dolly.IsPlaying) { introCam.Priority = 0; }
             if (framing != null) framing.Damping = 2f;
         }
 
-        // Whenever damage is dealt, do HitCamEffect
+        // Whenever OnDamage event, do HitCamEffect
         private void OnHit(int val)
         {
             StartCoroutine(HitCamEffect(0.65f));
@@ -229,20 +176,79 @@ namespace GASHAPWN
             }
         }
 
-        private void OnDisable()
-        {
-            if (BattleManager.Instance != null)
-            {
-                BattleManager.Instance.ChangeToCountdown.RemoveListener(StartPath);
-                BattleManager.Instance.OnWinner.RemoveListener(SwitchToWinCam);
-                BattleManager.Instance.ChangeToNewFigure.RemoveListener(SwitchToMachineCam);
-                BattleManager.Instance.ChangeToBattle.RemoveListener(HandleChangeToBattle);
 
-                foreach (var playerData in subscribedPlayers)
-                {
-                    if (playerData != null) playerData.OnDamage.RemoveListener(OnHit);
-                }
-                subscribedPlayers.Clear();
+        /// PUBLIC METHODS ///
+
+        /// <summary>
+        /// Starts dolly path of introCam
+        /// </summary>
+        // Called with BattleManager.ChangeToCountdown
+        public void StartPath(BattleState state)
+        {
+            introCam.Priority = 30;
+            dolly.Play();
+        }
+
+        /// <summary>
+        /// Switches to winCam
+        /// </summary>
+        // Called with BattleManager.OnWinner
+        public void SwitchToWinCam(GameObject player, string tag, Figure figure)
+        {
+            waitCamCoroutine = StartCoroutine(WaitToSwitchCamera(player.transform, tag, figure, 3.0f));
+        }
+
+        /// <summary>
+        /// Switches to machineCam
+        /// </summary>
+        // Called with BattleManager.ChangeToNewFigure
+        public void SwitchToMachineCam(BattleState state)
+        {
+            if (waitCamCoroutine != null) { StopCoroutine(waitCamCoroutine); }
+            // Turn off winCam
+            winCam.Priority = 0;
+            machineCam.Priority = 30;
+        }
+
+        /// <summary>
+        /// Coroutine to control camera effect when OnDamage event is called
+        /// </summary>
+        /// <param name="duration"></param>
+        /// <returns></returns>
+        public IEnumerator HitCamEffect(float duration)
+        {
+            if (battleCam == null) yield break;
+
+            float halfDuration = duration / 2f;
+            float timer = 0f;
+
+            // get targetDutch value in range from -5 to 5
+            float targetDutch = Random.Range(1f, 5f) * (Random.value > 0.5f ? 1 : -1);
+            float startDutch = battleCam.Lens.Dutch;
+
+            // get targetFOV value in range from -1 to 1
+            float targetFOV = battleCam.Lens.FieldOfView + (Random.value > 0.5f ? 1 : -1);
+            float startFOV = battleCam.Lens.FieldOfView;
+
+            // Interpolate to target
+            while (timer < halfDuration)
+            {
+                timer += Time.deltaTime;
+                float t = timer / halfDuration;
+                battleCam.Lens.Dutch = Mathf.Lerp(startDutch, targetDutch, 1 - Mathf.Pow(1 - t, 2));
+                battleCam.Lens.FieldOfView = Mathf.Lerp(startFOV, targetFOV, 1 - Mathf.Pow(t, 2));
+                yield return null;
+            }
+
+            // Interpolate back to 0
+            timer = 0f;
+            while (timer < halfDuration)
+            {
+                timer += Time.deltaTime;
+                float t = timer / halfDuration;
+                battleCam.Lens.Dutch = Mathf.Lerp(targetDutch, startDutch, 1 - Mathf.Pow(1 - t, 2));
+                battleCam.Lens.FieldOfView = Mathf.Lerp(targetFOV, startFOV, 1 - Mathf.Pow(t, 2));
+                yield return null;
             }
         }
     }

@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using GASHAPWN;
-using Unity.VisualScripting;
 using UnityEngine;
 
+/// <summary>
+/// Manages states of all objects with "ObjectFade" component
+/// </summary>
 public class ObjectFadeManager : MonoBehaviour
 {
     public static ObjectFadeManager Instance;
@@ -28,8 +30,6 @@ public class ObjectFadeManager : MonoBehaviour
 
     private void Update()
     {
-
-
         if (Camera.main == null || BattleManager.Instance == null) return;
 
         HashSet<ObjectFade> objectsToFade = new HashSet<ObjectFade>();
@@ -64,8 +64,5 @@ public class ObjectFadeManager : MonoBehaviour
         {
             foreach (var fade in allFadables) fade.SetFaded(false);
         }
-
-
-
     }
 }

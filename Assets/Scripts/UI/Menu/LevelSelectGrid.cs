@@ -1,16 +1,24 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace GASHAPWN.UI {
+    /// <summary>
+    /// Controller for group of StageButtons on Stage Select Screen
+    /// </summary>
     public class LevelSelectGrid : MonoBehaviour
     {
-        [SerializeField] private List<StageButton> stageButtons;
-        private LevelSelect levelSelect;
-        private StageButton selectedButton;
+        [Tooltip("Level Preview Controller")]
         [SerializeField] private LevelPreviewController levelPreview;
+
+        [Tooltip("List of StageButtons")]
+        [SerializeField] private List<StageButton> stageButtons;
+
+        // currently selected StageButton
+        private StageButton selectedButton;
+
+        // Reference to LevelSelect
+        private LevelSelect levelSelect;
 
         private void Awake()
         {
@@ -32,6 +40,10 @@ namespace GASHAPWN.UI {
             else Debug.LogError("Number of Stage Buttons and Levels does not match.");
         }
 
+        /// <summary>
+        /// Handle Level Selected
+        /// </summary>
+        /// <param name="level"></param>
         public void SelectLevel(Level level)
         {
             levelSelect.selectedLevel = level;
@@ -39,7 +51,10 @@ namespace GASHAPWN.UI {
             Debug.Log("Selected " + level.levelName);
         }
 
-        // Keeps track of currently selected button
+        /// <summary>
+        /// Update and keep track of selected StageButton
+        /// </summary>
+        /// <param name="button"></param>
         public void OnButtonSelected(StageButton button)
         {
             if (selectedButton != null && selectedButton != button)
@@ -51,5 +66,3 @@ namespace GASHAPWN.UI {
         }
     }
 }
-
-

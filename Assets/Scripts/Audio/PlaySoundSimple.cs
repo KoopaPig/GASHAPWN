@@ -6,10 +6,11 @@ using UnityEngine.Audio;
 
 namespace GASHAPWN.Audio
 {
+    // Uses AudioSourcePool to play given sound clip at position of object this script is attached to
     public class PlaySoundSimple : MonoBehaviour
     {
-        // Uses AudioSourcePool to play given sound clip at position of object this script is attached to
         public AudioMixerGroup audioMixer;
+
         public void PlaySound(AudioClip clip)
         {
             // Create a new game object to play the audio clip, and position it at the game object's location
@@ -32,4 +33,3 @@ namespace GASHAPWN.Audio
         }
     }
 }
-

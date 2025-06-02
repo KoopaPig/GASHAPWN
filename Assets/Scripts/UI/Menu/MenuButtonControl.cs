@@ -1,37 +1,40 @@
 using UnityEngine;
-using System.Collections;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using TMPro;
 using Febucci.UI;
-using UnityEngine.Events;
 
-[RequireComponent(typeof(Button))]
-public class MenuButtonControl : GeneralButtonControl
-{
-    [SerializeField] private TextAnimator_TMP textAnimator;
-    [SerializeField] private Image buttonOutline;
-
-    private void Awake()
+namespace GASHAPWN.UI {
+    /// <summary>
+    /// Extends visual status of menu buttons, inherits from GeneralButtonControl
+    /// </summary>
+    [RequireComponent(typeof(Button))]
+    public class MenuButtonControl : GeneralButtonControl
     {
-        textAnimator.SetBehaviorsActive(false);
-    }
+        [Tooltip("Text Animator within button")]
+        [SerializeField] private TextAnimator_TMP textAnimator;
+        [Tooltip("Button Outline Component")]
+        [SerializeField] private Image buttonOutline;
 
-    protected override void Update()
-    {
-        base.Update();
-
-        if (isHighlightDesired && GetComponent<Button>().enabled)
+        private void Awake()
         {
-            //buttonOutline.GetComponent<Animator>().enabled = true;
-            buttonOutline.enabled = true;
-            textAnimator.SetBehaviorsActive(true);
-        }
-        else
-        {
-            buttonOutline.enabled = false;
-            //buttonOutline.GetComponent<Animator>().enabled = false;
             textAnimator.SetBehaviorsActive(false);
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            if (isHighlightDesired && GetComponent<Button>().enabled)
+            {
+                //buttonOutline.GetComponent<Animator>().enabled = true;
+                buttonOutline.enabled = true;
+                textAnimator.SetBehaviorsActive(true);
+            }
+            else
+            {
+                buttonOutline.enabled = false;
+                //buttonOutline.GetComponent<Animator>().enabled = false;
+                textAnimator.SetBehaviorsActive(false);
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+// TODO: Switch levelSceneName for ID for level prefab, separate from outer environment
+
 namespace GASHAPWN
 {
     [CreateAssetMenu(fileName = "Level", menuName = "Scriptable Objects/Level")]

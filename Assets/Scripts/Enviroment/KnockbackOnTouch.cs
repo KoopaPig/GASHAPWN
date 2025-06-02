@@ -1,9 +1,11 @@
 using GASHAPWN.Audio;
 using UnityEngine;
-using UnityEngine.Events;
 
-namespace GASHAPWN
+namespace GASHAPWN.Environment
 {
+    /// <summary>
+    /// Applies knockback force to colliding player object
+    /// </summary>
     public class KnockbackOnTouch : MonoBehaviour
     {
         public float knockbackForce = 10f;
@@ -12,7 +14,7 @@ namespace GASHAPWN
         {
             string tag = collision.collider.tag;
 
-            if (tag == "Player1" || tag == "Player2")
+            if (tag.Contains("Player"))
             {
                 Rigidbody rb = collision.collider.GetComponent<Rigidbody>();
                 if (rb != null)
@@ -26,4 +28,3 @@ namespace GASHAPWN
         }
     }
 }
-

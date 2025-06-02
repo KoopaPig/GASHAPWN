@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d79d26b6b68693245a590b107fc72a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  State: 0
+  DebugMode: 0
   ChangeToTitle:
     m_PersistentCalls:
       m_Calls: []
@@ -57,3 +57,8 @@ MonoBehaviour:
   ChangeToCollection:
     m_PersistentCalls:
       m_Calls: []
+  numPlayers: 2
+  currentBattleTime: 180
+  currentLevel: {fileID: 0}
+  currPlayerCollectionData:
+    collection: []

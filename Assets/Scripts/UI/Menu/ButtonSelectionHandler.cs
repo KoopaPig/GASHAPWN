@@ -1,27 +1,31 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using System.Collections.Generic;
-using System.Collections;
 
 namespace GASHAPWN.UI
 {
+    /// <summary>
+    /// Manages currently selected UI object, triggers certain events if types match
+    /// </summary>
     public class ButtonSelectionHandler : MonoBehaviour
     {
+        // Button-Selection-Related Events
         public UnityEvent OnMenuButtonSelected = new UnityEvent();
         public UnityEvent OnGeneralButtonSelected = new UnityEvent();
         public UnityEvent OnGeneralObjectSelected = new UnityEvent();
 
         private GameObject lastSelected;
 
-        private bool _isAutoNavigate = false;
-
+        /// <summary>
+        /// Flag for whether selection was made automatically (by script, not by player input)
+        /// </summary>
         public bool IsAutoNavigate
         {
             get { return _isAutoNavigate; }
             set { _isAutoNavigate = value; }
         }
+
+        private bool _isAutoNavigate = false;
 
         private void Update()
         {
@@ -29,6 +33,7 @@ namespace GASHAPWN.UI
 
             if (currentSelected != lastSelected && currentSelected != null)
             {
+                // if automatically navigated, return
                 if (IsAutoNavigate) {
                     lastSelected = currentSelected;
                     IsAutoNavigate = false;

@@ -5,6 +5,7 @@ namespace EasyTransition
 {
 
     [CreateAssetMenu(fileName = "TransitionSettings", menuName = "Florian Butz/New Transition Settings", order = 0)]
+    [System.Serializable]
     public class TransitionSettings : ScriptableObject
     {
         [HideInInspector]   public Material multiplyColorMaterial;

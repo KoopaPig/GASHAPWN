@@ -3,10 +3,15 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 namespace GASHAPWN.UI {
+    /// <summary>
+    /// Highlights panel if currently selected
+    /// </summary>
     [RequireComponent(typeof(Image))]
     public class PanelHighlighter : MonoBehaviour
     {
+        [Tooltip("Non-highlighted color")]
         [SerializeField] private Color defaultColor = Color.white;
+        [Tooltip("Highlighted color")]
         [SerializeField] private Color highlightedColor = Color.cyan;
 
         private Image panelImage;
@@ -27,5 +32,3 @@ namespace GASHAPWN.UI {
         }
     }
 }
-
-

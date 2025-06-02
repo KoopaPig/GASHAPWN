@@ -45,12 +45,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54be83986cb53ac48ae224954f5c5569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDebug: 0
   introCam: {fileID: 0}
   battleCam: {fileID: 0}
   winCam: {fileID: 0}
   machineCam: {fileID: 0}
-  Player1Capsule: {fileID: 4122586926673862376, guid: a2b0c0d8dd3af4d5fa7bac724b3144f4, type: 3}
-  Player2Capsule: {fileID: 4122586926673862376, guid: 0ed019027fc924bd3ad29ebd26d15b48, type: 3}
+  debugCam: {fileID: 0}
+  targetGroup: {fileID: 0}
+  Player1MachineCapsule: {fileID: 4122586926673862376, guid: a2b0c0d8dd3af4d5fa7bac724b3144f4, type: 3}
+  Player2MachineCapsule: {fileID: 4122586926673862376, guid: 0ed019027fc924bd3ad29ebd26d15b48, type: 3}
   machineCapsuleSpawnPos: {fileID: 0}
 --- !u!114 &5355333747815541502
 MonoBehaviour:

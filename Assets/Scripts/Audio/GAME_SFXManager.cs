@@ -19,10 +19,12 @@ namespace GASHAPWN.Audio
             Initialize();
         }
 
+        // Get reference to various player components
         public GameObject playerObject { get; set; }
         protected string playerTag { get; set; }
         protected PlayerData playerData { get; set; }
-        // Then probably get playerEffects in here eventually
+        
+        // Get playerEffects in here too?
 
         // For handling the Charge Roll Dynamic Triad SFX
         public SFXGroup_DynamicTriad.TriadState currChargeRollState = SFXGroup_DynamicTriad.TriadState.NONE;
@@ -61,21 +63,25 @@ namespace GASHAPWN.Audio
 
     public class GAME_SFXManager : MonoBehaviour
     {
-        [SerializeField] private AudioMixerGroup soundMixer;
-
         public static GAME_SFXManager Instance { get; private set; }
 
-        private PlayerSFXProfile player1SFXProfile, player2SFXProfile;
+        [Tooltip("Reference to Sound Mixer")]
+        [SerializeField] private AudioMixerGroup soundMixer;
 
-        [SerializeField] private SFXGroup_DynamicTriad chargeRollGroup;
+        #region SFX Groups
+        [Header("SFX Groups")]
+            [SerializeField] private SFXGroup_DynamicTriad chargeRollGroup;
+            [SerializeField] private SFXGroup orcHitDamageGroup;
+            [SerializeField] private SFXGroup impactGroupGeneral;
+            [SerializeField] private SFXGroup impactGroupDeflect;
+            [SerializeField] private SFXGroup impactGroupSlam;
+        #endregion
 
-        [SerializeField] private SFXGroup orcHitDamageGroup;
+        // PlayerSFXProfiles corresponding to each player (fully dynamic in future?)
+        private PlayerSFXProfile _player1SFXProfile, _player2SFXProfile;
 
-        [SerializeField] private SFXGroup impactGroupGeneral;
 
-        [SerializeField] private SFXGroup impactGroupDeflect;
-
-        [SerializeField] private SFXGroup impactGroupSlam;
+        /// PRIVATE METHODS ///
 
         private void Awake()
         {
@@ -92,12 +98,56 @@ namespace GASHAPWN.Audio
         {
             if (BattleManager.Instance != null)
             {
-                player1SFXProfile = new PlayerSFXProfile("Player1");
-                player2SFXProfile = new PlayerSFXProfile("Player2");
+                _player1SFXProfile = new PlayerSFXProfile("Player1");
+                _player2SFXProfile = new PlayerSFXProfile("Player2");
                 Debug.Log("GAME_SFXManager: PlayerSFXProfiles constructed");
             }
             else Debug.Log("GAME_SFXManager: PlayerSFXProfiles not constructed. Not in Battle Scene.");
 
+        }
+
+        // Wait to transition DynamicTriad state from START to HOLD
+        private IEnumerator WaitForStartToFinishThenHold(SFXGroup_DynamicTriad group, PlayerSFXProfile profile)
+        {
+            // This wait time is hard-coded for simplicity
+            yield return new WaitForSeconds(0.7f);
+
+            // Transition to HOLD only if still charging
+            if (profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.START)
+            {
+                AudioManager.Instance.HandleSoundDynamicTriad(group, profile, SFXGroup_DynamicTriad.TriadState.HOLD);
+            }
+        }
+
+
+        /// PUBLIC METHODS ///
+
+        // Handle TriadState changes for Charge Roll given transform, isCharging bool, and PlayerSFXProfile
+        public void HandleChargeRollSFX(Transform transform, bool isCharging, PlayerSFXProfile profile)
+        {
+            if (isCharging)
+            {
+                if (profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.NONE ||
+                    profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.FINISH)
+                {
+                    AudioManager.Instance.HandleSoundDynamicTriad(chargeRollGroup, profile, SFXGroup_DynamicTriad.TriadState.START);
+
+                    if (profile.chargeRollRoutine != null)
+                        StopCoroutine(profile.chargeRollRoutine);
+                    profile.chargeRollRoutine = StartCoroutine(WaitForStartToFinishThenHold(chargeRollGroup, profile));
+                }
+            }
+            else
+            {
+                if (profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.START ||
+                    profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.HOLD)
+                {
+                    if (profile.chargeRollRoutine != null)
+                        StopCoroutine(profile.chargeRollRoutine);
+
+                    AudioManager.Instance.HandleSoundDynamicTriad(chargeRollGroup, profile, SFXGroup_DynamicTriad.TriadState.FINISH);
+                }
+            }
         }
 
         public void Play_OrcHitDamage(Transform transform, int index)
@@ -155,44 +205,5 @@ namespace GASHAPWN.Audio
             AudioManager.Instance.PlayRandomSound(impactGroupDeflect);
         }
 
-        // Handle TriadState changes for Charge Roll given transform, isCharging bool, and PlayerSFXProfile
-        public void HandleChargeRollSFX(Transform transform, bool isCharging, PlayerSFXProfile profile)
-        {
-            if (isCharging)
-            {
-                if (profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.NONE ||
-                    profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.FINISH)
-                {
-                    AudioManager.Instance.HandleSoundDynamicTriad(chargeRollGroup, profile, SFXGroup_DynamicTriad.TriadState.START);
-
-                    if (profile.chargeRollRoutine != null)
-                        StopCoroutine(profile.chargeRollRoutine);
-                    profile.chargeRollRoutine = StartCoroutine(WaitForStartToFinishThenHold(chargeRollGroup, profile));
-                }
-            }
-            else
-            {
-                if (profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.START ||
-                    profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.HOLD)
-                {
-                    if (profile.chargeRollRoutine != null)
-                        StopCoroutine(profile.chargeRollRoutine);
-
-                    AudioManager.Instance.HandleSoundDynamicTriad(chargeRollGroup, profile, SFXGroup_DynamicTriad.TriadState.FINISH);
-                }
-            }
-        }
-
-        private IEnumerator WaitForStartToFinishThenHold(SFXGroup_DynamicTriad group, PlayerSFXProfile profile)
-        {
-            // This wait time is hard-coded for simplicity
-            yield return new WaitForSeconds(0.7f);
-
-            // Transition to HOLD only if still charging
-            if (profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.START)
-            {
-                AudioManager.Instance.HandleSoundDynamicTriad(group, profile, SFXGroup_DynamicTriad.TriadState.HOLD);
-            }
-        }
     }
 }

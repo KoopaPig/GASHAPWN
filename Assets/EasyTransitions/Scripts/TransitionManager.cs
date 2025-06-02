@@ -1,17 +1,32 @@
+// Adapted from EasyTransition, modified
+
+using GASHAPWN;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Events;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace EasyTransition
 {
-
     public class TransitionManager : MonoBehaviour
-    {        
+    {
+        private static TransitionManager instance;
+
+        public static TransitionManager Instance()
+        {
+            if (instance == null)
+                Debug.LogError("You tried to access the instance before it exists.");
+
+            return instance;
+        }
+
         [SerializeField] private GameObject transitionTemplate;
 
+        [Tooltip("Global list of transitionPairs (sceneName, TransitionSettings")]
+        public List<TransitionPair> transitionPairs = new();
+
+        // flag if currently playing transition
         private bool runningTransition;
 
         public UnityAction onTransitionBegin;
@@ -21,19 +36,9 @@ namespace EasyTransition
         //public Image Fillbar;
         //public GameObject LoadingScreen;
 
-        private static TransitionManager instance;
-
         private void Awake()
         {
             instance = this;
-        }
-
-        public static TransitionManager Instance()
-        {
-            if (instance == null)
-                Debug.LogError("You tried to access the instance before it exists.");
-
-            return instance;
         }
 
         /// <summary>
@@ -87,6 +92,47 @@ namespace EasyTransition
 
             runningTransition = true;
             StartCoroutine(Timer(sceneIndex, startDelay, transition));
+        }
+
+        /// <summary>
+        /// Loads the new Scene given TransitionPair
+        /// </summary>
+        /// <param name="transition"></param>
+        /// <param name="startDelay"></param>
+        public void Transition(TransitionPair transition, float startDelay)
+        {
+            Transition(transition.sceneName, transition.settings, startDelay);
+        }
+
+        /// <summary>
+        /// Loads the new Scene given Level
+        /// </summary>
+        /// <param name="level"></param>
+        /// <param name="startDelay"></param>
+        public void Transition(Level level, float startDelay)
+        {
+            TransitionPair matchingTransition = transitionPairs.Find(t => t.sceneName == level.levelSceneName);
+            if (matchingTransition != null)
+            {
+                Transition(matchingTransition, startDelay);
+            }
+            else Debug.LogError($"TransitionManager: Invalid level scene name: {level.levelSceneName}");
+        }
+
+        /// <summary>
+        /// Loads the new Scene given just sceneName
+        /// </summary>
+        /// <param name="sceneName"></param>
+        /// <param name="startDelay"></param>
+        public void Transition(string sceneName, float startDelay)
+        {
+            // make sure sceneName is in transitionPairs
+            TransitionPair matchingTransition = transitionPairs.Find(t => t.sceneName == sceneName);
+            if (matchingTransition != null)
+            {
+                Transition(matchingTransition, startDelay);
+            }
+            else Debug.LogError($"TransitionManager: Invalid scene name: {sceneName}");
         }
 
         /// <summary>
@@ -174,6 +220,19 @@ namespace EasyTransition
             runningTransition = false;
         }
 
+        private IEnumerator Start()
+        {
+            while (this.gameObject.activeInHierarchy)
+            {
+                //Check for multiple instances of the Transition Manager component
+                var managerCount = GameObject.FindObjectsOfType<TransitionManager>(true).Length;
+                if (managerCount > 1)
+                    Debug.LogError($"There are {managerCount.ToString()} Transition Managers in your scene. Please ensure there is only one Transition Manager in your scene or overlapping transitions may occur.");
+
+                yield return new WaitForSecondsRealtime(1f);
+            }
+        }
+
         //public IEnumerator LoadScene(int sceneIndex)
         //{
         //    //Instantiate(LoadingScreen);
@@ -205,19 +264,15 @@ namespace EasyTransition
 
         //    yield return null;
         //}
-
-        private IEnumerator Start()
-        {
-            while (this.gameObject.activeInHierarchy)
-            {
-                //Check for multiple instances of the Transition Manager component
-                var managerCount = GameObject.FindObjectsOfType<TransitionManager>(true).Length;
-                if (managerCount > 1)
-                    Debug.LogError($"There are {managerCount.ToString()} Transition Managers in your scene. Please ensure there is only one Transition Manager in your scene or overlapping transitions may occur.");
-            
-                yield return new WaitForSecondsRealtime(1f);
-            }
-        }
     }
 
+    /// <summary>
+    /// TransitionPair is a pair of (sceneName, TransitionSettings)
+    /// </summary>
+    [System.Serializable]
+    public class TransitionPair
+    {
+        public string sceneName = null;
+        public TransitionSettings settings;
+    }
 }

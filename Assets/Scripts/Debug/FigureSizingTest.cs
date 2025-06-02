@@ -1,29 +1,32 @@
 using UnityEngine;
-using GASHAPWN;
 
-public class FigureSizingTest : MonoBehaviour
-{
-    [SerializeField] public Figure selectedFigure;
-    [SerializeField] private Transform shelfPos;
-
-    private bool figureSet = false;
-    public void SetFigure()
+namespace GASHAPWN {
+    /// <summary>
+    /// Used to test figure sizing in capsule and on shelf
+    /// </summary>
+    public class FigureSizingTest : MonoBehaviour
     {
-        if (!figureSet)
+        [SerializeField] public Figure selectedFigure;
+        [SerializeField] private Transform shelfPos;
+
+        private bool figureSet = false;
+
+        public void SetFigure()
         {
-            FindFirstObjectByType<PlayerAttachedFigure>().SetFigureInCapsule(selectedFigure);
-            Instantiate(selectedFigure.collectionModelPrefab, shelfPos);
-            figureSet = true;
+            if (!figureSet)
+            {
+                FindFirstObjectByType<PlayerAttachedFigure>().SetFigureInCapsule(selectedFigure);
+                Instantiate(selectedFigure.collectionModelPrefab, shelfPos);
+                figureSet = true;
+            }
+            else Debug.LogWarning("Figure already set!");
+
         }
-        else Debug.LogWarning("Figure already set!");
-        
-    }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F))
+        private void Update()
         {
-            SetFigure();
+            // Pressing F sets figure
+            if (Input.GetKeyDown(KeyCode.F)) SetFigure();
         }
     }
 }

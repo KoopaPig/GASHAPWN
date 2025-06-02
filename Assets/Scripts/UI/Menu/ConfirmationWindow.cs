@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.InputSystem;
-using EasyTransition;
-using GASHAPWN.Audio;
 
 namespace GASHAPWN.UI {
+    /// <summary>
+    /// Aggregate class of UI elements for Confirmation Window
+    /// </summary>
     public class ConfirmationWindow : MonoBehaviour
     {
         public Button yesButton;
@@ -13,6 +13,3 @@ namespace GASHAPWN.UI {
         public TextMeshProUGUI messageText;
     }
 }
-
-
-

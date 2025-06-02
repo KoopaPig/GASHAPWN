@@ -1,12 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Users;
-using System.Collections;
-using System.Collections.Generic;
-using static GASHAPWN.PlayerInputAssigner;
 using UnityEngine.InputSystem.UI;
-using Unity.VisualScripting;
-using UnityEngine.EventSystems;
 
 namespace GASHAPWN
 {

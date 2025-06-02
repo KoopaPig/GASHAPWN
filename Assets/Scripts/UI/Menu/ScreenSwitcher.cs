@@ -42,7 +42,7 @@ namespace GASHAPWN.UI {
         public void ShowLevelSelectScreen()
         {
             if (transitionCoroutine != null) return;
-            GetComponent<LevelSelect>().isControlsBindScreen = false;
+            GetComponent<LevelSelect>().IsControlsBindScreen = false;
             transitionCoroutine = StartCoroutine(SlideInLevelSelectScreen());
             PlayerInputManager.instance.DisableJoining();
         }
@@ -50,7 +50,7 @@ namespace GASHAPWN.UI {
         public void ShowControlsBindScreen()
         {
             if (transitionCoroutine != null) return;
-            GetComponent<LevelSelect>().isControlsBindScreen = true;
+            GetComponent<LevelSelect>().IsControlsBindScreen = true;
             transitionCoroutine = StartCoroutine(SlideInControlsBindScreen());
             PlayerInputManager.instance.EnableJoining();
         }

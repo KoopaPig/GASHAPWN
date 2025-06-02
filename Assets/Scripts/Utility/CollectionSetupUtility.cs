@@ -52,6 +52,96 @@ namespace GASHAPWN
         // Store references to the created nodes
         private List<CollectionNode> nodes = new List<CollectionNode>();
 
+
+        /// PRIVATE METHODS ///
+
+        /// <summary>
+        /// Creates a collection node for a specific figure
+        /// </summary>
+        private void CreateNodeForFigure(Figure figure, int index)
+        {
+            // Create the node from the prefab
+            GameObject nodeObj = Instantiate(nodePrefab, nodesParent);
+            nodeObj.name = $"CollectionNode_{figure.Name}";
+
+            // Position the node based on layout type
+            if (autoPositionNodes)
+            {
+                if (circularLayout)
+                {
+                    // Calculate position on a circle
+                    float angle = (360f / figureDatabase.figureDictionary.Count) * index;
+                    float radians = angle * Mathf.Deg2Rad;
+                    float x = Mathf.Sin(radians) * circleRadius;
+                    float z = Mathf.Cos(radians) * circleRadius;
+                    nodeObj.transform.position = nodesParent.position + new Vector3(x, 0, z);
+
+                    // Make node face center
+                    nodeObj.transform.LookAt(new Vector3(nodesParent.position.x, nodeObj.transform.position.y, nodesParent.position.z));
+                }
+                else
+                {
+                    // Linear layout
+                    nodeObj.transform.position = nodesParent.position + alignmentDirection.normalized * index * nodeSpacing;
+                }
+            }
+
+            // Set up the CollectionNode component
+            CollectionNode node = nodeObj.GetComponent<CollectionNode>();
+            if (node == null)
+                node = nodeObj.AddComponent<CollectionNode>();
+
+            // Assign the figure
+            node.associatedFigure = figure;
+
+            // Set display point if it doesn't exist
+            if (node.figureDisplayPoint == null)
+            {
+                GameObject displayPoint = new GameObject("DisplayPoint");
+                displayPoint.transform.SetParent(nodeObj.transform);
+                displayPoint.transform.localPosition = Vector3.zero;
+                node.figureDisplayPoint = displayPoint.transform;
+            }
+
+            // Create camera position
+            GameObject cameraPos = new GameObject("CameraPosition");
+            cameraPos.transform.SetParent(nodeObj.transform);
+            cameraPos.transform.localPosition = new Vector3(0, cameraHeight, -cameraDistance);
+            cameraPos.transform.LookAt(node.figureDisplayPoint);
+
+            // Add to our list
+            nodes.Add(node);
+        }
+
+        /// <summary>
+        /// Links the nodes together in a doubly-linked list
+        /// </summary>
+        private void LinkNodes()
+        {
+            if (nodes.Count == 0)
+                return;
+
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                // Set previous node (null for first node)
+                nodes[i].previousNode = (i > 0) ? nodes[i - 1] : null;
+
+                // Set next node (null for last node)
+                nodes[i].nextNode = (i < nodes.Count - 1) ? nodes[i + 1] : null;
+            }
+
+            // Create circular references if desired
+            if (circularLayout)
+            {
+                // Make last node point to first and first node point to last
+                nodes[0].previousNode = nodes[nodes.Count - 1];
+                nodes[nodes.Count - 1].nextNode = nodes[0];
+            }
+        }
+
+
+        /// PUBLIC METHODS ///
+
         /// <summary>
         /// Method to set up collection nodes for all figures in the database
         /// </summary>
@@ -114,90 +204,6 @@ namespace GASHAPWN
             LinkNodes();
             
             Debug.Log($"CollectionSetupUtility: Created and linked {nodes.Count} collection nodes.");
-        }
-
-        /// <summary>
-        /// Creates a collection node for a specific figure
-        /// </summary>
-        private void CreateNodeForFigure(Figure figure, int index)
-        {
-            // Create the node from the prefab
-            GameObject nodeObj = Instantiate(nodePrefab, nodesParent);
-            nodeObj.name = $"CollectionNode_{figure.Name}";
-            
-            // Position the node based on layout type
-            if (autoPositionNodes)
-            {
-                if (circularLayout)
-                {
-                    // Calculate position on a circle
-                    float angle = (360f / figureDatabase.figureDictionary.Count) * index;
-                    float radians = angle * Mathf.Deg2Rad;
-                    float x = Mathf.Sin(radians) * circleRadius;
-                    float z = Mathf.Cos(radians) * circleRadius;
-                    nodeObj.transform.position = nodesParent.position + new Vector3(x, 0, z);
-                    
-                    // Make node face center
-                    nodeObj.transform.LookAt(new Vector3(nodesParent.position.x, nodeObj.transform.position.y, nodesParent.position.z));
-                }
-                else
-                {
-                    // Linear layout
-                    nodeObj.transform.position = nodesParent.position + alignmentDirection.normalized * index * nodeSpacing;
-                }
-            }
-            
-            // Set up the CollectionNode component
-            CollectionNode node = nodeObj.GetComponent<CollectionNode>();
-            if (node == null)
-                node = nodeObj.AddComponent<CollectionNode>();
-            
-            // Assign the figure
-            node.associatedFigure = figure;
-            
-            // Set display point if it doesn't exist
-            if (node.figureDisplayPoint == null)
-            {
-                GameObject displayPoint = new GameObject("DisplayPoint");
-                displayPoint.transform.SetParent(nodeObj.transform);
-                displayPoint.transform.localPosition = Vector3.zero;
-                node.figureDisplayPoint = displayPoint.transform;
-            }
-            
-            // Create camera position
-            GameObject cameraPos = new GameObject("CameraPosition");
-            cameraPos.transform.SetParent(nodeObj.transform);
-            cameraPos.transform.localPosition = new Vector3(0, cameraHeight, -cameraDistance);
-            cameraPos.transform.LookAt(node.figureDisplayPoint);
-            
-            // Add to our list
-            nodes.Add(node);
-        }
-
-        /// <summary>
-        /// Links the nodes together in a doubly-linked list
-        /// </summary>
-        private void LinkNodes()
-        {
-            if (nodes.Count == 0)
-                return;
-                
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                // Set previous node (null for first node)
-                nodes[i].previousNode = (i > 0) ? nodes[i - 1] : null;
-                
-                // Set next node (null for last node)
-                nodes[i].nextNode = (i < nodes.Count - 1) ? nodes[i + 1] : null;
-            }
-            
-            // Create circular references if desired
-            if (circularLayout)
-            {
-                // Make last node point to first and first node point to last
-                nodes[0].previousNode = nodes[nodes.Count - 1];
-                nodes[nodes.Count - 1].nextNode = nodes[0];
-            }
         }
         
         /// <summary>

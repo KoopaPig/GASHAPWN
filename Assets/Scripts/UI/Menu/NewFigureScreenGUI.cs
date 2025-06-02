@@ -1,8 +1,6 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using EasyTransition;
 using static UnityEngine.InputSystem.InputAction;
 using UnityEngine.InputSystem;
@@ -13,44 +11,63 @@ namespace GASHAPWN.UI
 {
     public class NewFigureScreenGUI : MonoBehaviour
     {
-
+        [Tooltip("Reference to \"Submit\" action")]
         [SerializeField] private InputActionReference submitAction;
 
+        [Tooltip("First button to select on New Figure Screen")]
+        [SerializeField] private GameObject figureScreenFirstButton;
+
+        [Tooltip("Seconds it takes for NewFigureScreen to appear after BattleManager.OnNewFigureScreen is triggered")]
+        [SerializeField] private float waitDuration = 3f;
+
         [Header("Main Components")]
-        [SerializeField] private GameObject figureScreen_BG;
-        [SerializeField] private GameObject figureScreen_FG;
+            [Tooltip("Background GameObject of NewFigureScreen")]
+            [SerializeField] private GameObject figureScreen_BG;
+            [Tooltip("Foreground GameObject of NewFigureScreen")]
+            [SerializeField] private GameObject figureScreen_FG;
 
         [Header("GUI")]
-        [SerializeField] private GameObject figureInfo;
-        [SerializeField] private GameObject newIcon;
-        [SerializeField] TextMeshProUGUI figureName;
-        [SerializeField] private StarsGUI starsGUI;
-        [SerializeField] private GameObject figureScreenFirstButton;
-        [SerializeField] private GameObject buttonPrompt;
-
-        [SerializeField] private float waitDuration = 3f;
-        private int numPresses = 5;
-        private int remainingPresses;
-
+            [Tooltip("Parent GameObject that holds Figure GUI elements")]
+            [SerializeField] private GameObject figureInfo;
+            [Tooltip("\"New\" icon (appears when new figure)")]
+            [SerializeField] private GameObject newIcon;
+            [Tooltip("Figure name region")]
+            [SerializeField] TextMeshProUGUI figureName;
+            [Tooltip("Rarity stars for Figure")]
+            [SerializeField] private StarsGUI starsGUI;
+            [Tooltip("Prompt that appears on New Figure Screen")]
+            [SerializeField] private GameObject buttonPrompt;
 
         [Header("Particles")]
-        [SerializeField] private GameObject backgroundParticles;
+            [Tooltip("Particles that appear in background when capsule is opened")]
+            [SerializeField] private GameObject backgroundParticles;
 
         [Header("Objects")]
-        [SerializeField] private GameObject figureModel;
-        [SerializeField] private GameObject capsule;
+            [Tooltip("Figure model Transform within capsule")]
+            [SerializeField] private GameObject figureModel;
+            [Tooltip("Capsule object which is opened")]
+            [SerializeField] private GameObject capsule;
+            [Tooltip("Light that fades in on New Figure Screen")]
+            [SerializeField] private Light directionalLight;
+
+        // Number of presses to open capsule
+        private int numPresses = 5;
+        // Track remaining presses
+        private int remainingPresses;
+
+        // Animator of capsule to open
         private Animator capsuleAnimator;
+        // Reference to winning player's figure
         private Figure winningFigure;
+        // Reference to winning player's tag
         private string winningPlayerTag;
 
-        [SerializeField] private Light directionalLight;
-
-        [Header("Scene Info")]
-        [SerializeField] private string mainMenuSceneName;
-        [SerializeField] private string collectionSceneName;
-        [SerializeField] private TransitionSettings fromNewFigureTransition;
 
         ///// PUBLIC METHODS /////
+        
+        /// <summary>
+        /// Actions to execute when capsule opens
+        /// </summary>
         public void StartCapsuleOpen()
         {
             buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOff(true);
@@ -58,6 +75,7 @@ namespace GASHAPWN.UI
             backgroundParticles.SetActive(true);
             figureInfo.SetActive(true);
             capsuleAnimator.SetBool("isCapsuleOpen", true);
+
             // Handle whether newIcon should appear
             if (BattleManager.Instance.newFigure) { newIcon.SetActive(true); }
             else { newIcon.SetActive(false); }
@@ -68,15 +86,16 @@ namespace GASHAPWN.UI
 
         public void ToCollection()
         {
-           TransitionManager.Instance().Transition(collectionSceneName, fromNewFigureTransition, 0);
+           TransitionManager.Instance().Transition("Collection", 0);
            GameManager.Instance.UpdateGameState(GameState.Collection);
         }
 
         public void ToMainMenu()
         {
-            TransitionManager.Instance().Transition(mainMenuSceneName, fromNewFigureTransition, 0);
+            TransitionManager.Instance().Transition("MainMenu", 0);
             GameManager.Instance.UpdateGameState(GameState.Title);
         }
+
 
         ///// PRIVATE METHODS /////
 
@@ -96,7 +115,6 @@ namespace GASHAPWN.UI
             figureInfo.SetActive(false);
 
             remainingPresses = numPresses;
-
         }
 
         private void Start()
@@ -108,11 +126,6 @@ namespace GASHAPWN.UI
             }
         }
 
-        private void OnNewFigureScreen(BattleState state)
-        {
-            StartCoroutine(DelayedOnNewFigureScreen(waitDuration));
-        }
-
         private void OnDisable()
         {
             if (BattleManager.Instance != null)
@@ -122,16 +135,24 @@ namespace GASHAPWN.UI
             }
         }
 
-        // Perform OnNewFigureScreen actions after some delay
+        private void OnNewFigureScreen(BattleState state)
+        {
+            StartCoroutine(DelayedOnNewFigureScreen(waitDuration));
+        }
 
+        // Perform OnNewFigureScreen actions after some delay
         private IEnumerator DelayedOnNewFigureScreen(float waitDuration) 
         {
             yield return new WaitForSeconds(waitDuration);
+
             figureScreen_BG.SetActive(true);
             figureScreen_BG.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(true);
+
             figureScreen_FG.SetActive(true);
-            StartCoroutine(LerpLightIntensity(directionalLight, 0, 1, 2.5f));
             figureScreen_FG.GetComponentInParent<CanvasGroup>().interactable = false;
+
+            // Fade in directionalLight
+            StartCoroutine(LerpLightIntensity(directionalLight, 0, 1, 2.5f));
 
             // set up input action here
             submitAction.action.performed += HandleCapsuleOpenInput;
@@ -145,8 +166,10 @@ namespace GASHAPWN.UI
             var obj = Instantiate(winningFigure.capsuleModelPrefab, figureModel.transform);
             FigureResizeHelper.ResizeFigureObject(obj, figureModel.transform, 0.3f);
 
+            // Start sliding in graphics
             GetComponent<Animator>().SetBool("isOverlaySlide", true);
 
+            // Modify capsule model according to winning player
             HandleCapsuleModel();
 
             // Capsule enters frame
@@ -155,8 +178,7 @@ namespace GASHAPWN.UI
             buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(false);
         }
 
-        // Use as a buffer before activating buttons
-        // This should actually be called after Capsule is opened
+        // Used as a buffer before activating buttons, triggered when capsule is opened
         private IEnumerator WaitTurnOnButton(float waitDuration)
         {
             if (figureScreen_FG.GetComponentInParent<CanvasGroup>() == null)
@@ -176,6 +198,7 @@ namespace GASHAPWN.UI
             winningFigure = figure;
         }
 
+        // Handle the submitAction input and opening capsule
         private void HandleCapsuleOpenInput(CallbackContext context)
         {
             if (remainingPresses > 0)
@@ -190,25 +213,7 @@ namespace GASHAPWN.UI
             }
         }
 
-        private IEnumerator LerpLightIntensity(Light light, float startIntensity, float targetIntensity, float duration)
-        {
-            if (light == null)
-            {
-                yield break;
-            }
-
-            float elapsedTime = 0f;
-
-            while (elapsedTime < duration)
-            {
-                elapsedTime += Time.deltaTime;
-                light.intensity = Mathf.Lerp(startIntensity, targetIntensity, elapsedTime / duration);
-                yield return null;
-            }
-
-            light.intensity = targetIntensity;
-        }
-
+        // Set correct metal component of capsule model that corresponds to winning player
         private void HandleCapsuleModel()
         {
             capsule.SetActive(true);
@@ -238,6 +243,23 @@ namespace GASHAPWN.UI
             }
         }
 
+        private IEnumerator LerpLightIntensity(Light light, float startIntensity, float targetIntensity, float duration)
+        {
+            if (light == null)
+            {
+                yield break;
+            }
+
+            float elapsedTime = 0f;
+
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+                light.intensity = Mathf.Lerp(startIntensity, targetIntensity, elapsedTime / duration);
+                yield return null;
+            }
+
+            light.intensity = targetIntensity;
+        }
     }
 }
-

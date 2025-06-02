@@ -12,9 +12,9 @@ namespace GASHAPWN.Utility
         /// <param name="go"></param>
         public static void SetSelectedGameObject(GameObject go)
         {
-            if (go == null) return;
-
             EventSystem.current.SetSelectedGameObject(null); // clear selected object
+
+            if (go == null) return;
 
             ButtonSelectionHandler handler = go.GetComponentInParent<ButtonSelectionHandler>(); 
 
@@ -24,4 +24,3 @@ namespace GASHAPWN.Utility
         }
     }
 }
-

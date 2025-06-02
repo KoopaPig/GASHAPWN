@@ -7,6 +7,9 @@ using UnityEditor;
 
 namespace GASHAPWN
 {
+    /// <summary>
+    /// Series is a set of Figures
+    /// </summary>
     [CreateAssetMenu(fileName = "Series", menuName = "Scriptable Objects/Series")]
     public class Series : ScriptableObject
     {
@@ -15,11 +18,8 @@ namespace GASHAPWN
         public Sprite SeriesIcon = null;
         [SerializeField] private List<Figure> figuresInSeries = new List<Figure>();
 
-        // Returns true if series contains given figure
-        public bool ContainsFigure(Figure figure)
-        {
-            return figuresInSeries.Contains(figure);
-        }
+
+        /// PRIVATE METHODS ///
 
         private void OnValidate()
         {
@@ -29,17 +29,6 @@ namespace GASHAPWN
         private void Awake()
         {
             SetSeriesForFigures();
-        }
-
-        public int Size()
-        {
-            if (figuresInSeries.Count > 0) return figuresInSeries.Count;
-            else return 0;
-        }
-
-        public List<Figure> GetFigures()
-        {
-            return figuresInSeries;
         }
 
         // If figure in series, establish reference in figure.series.
@@ -58,6 +47,25 @@ namespace GASHAPWN
             }
         }
 
+
+        /// PUBLIC METHODS ///
+
+        public int Size()
+        {
+            if (figuresInSeries.Count > 0) return figuresInSeries.Count;
+            else return 0;
+        }
+
+        public List<Figure> GetFigures()
+        {
+            return figuresInSeries;
+        }
+
+        // Returns true if series contains given figure
+        public bool ContainsFigure(Figure figure)
+        {
+            return figuresInSeries.Contains(figure);
+        }
 
     }
 }

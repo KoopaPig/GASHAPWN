@@ -1,57 +1,70 @@
 using System.Collections;
 using UnityEngine;
 
-public class DisappearAfterAnimation : MonoBehaviour
-{
-    private Animator animator;
-    private Renderer objectRenderer;
+namespace GASHAPWN.Environment {
 
-    void Start()
+    /// <summary>
+    /// Call HideObject via an Animation Event to fade out an object with this script
+    /// </summary>
+    [RequireComponent(typeof(Animator))]
+    public class DisappearAfterAnimation : MonoBehaviour
     {
-        objectRenderer = GetComponent<Renderer>();
-        animator = GetComponent<Animator>();
-        if (animator == null)
+        private Renderer objectRenderer;
+
+
+        /// PRIVATE METHODS ///
+        
+        private void Start()
         {
-            Debug.LogError("Animator component missing from object.");
+            objectRenderer = GetComponent<Renderer>();
         }
-    }
 
-    // This function should be called at the end of the animation via an Animation Event
-    public void HideObject()
-    {
-        StartCoroutine(FadeOut(0.2f));
-    }
-
-    private IEnumerator FadeOut(float fadeDuration)
-    {
-        float startAlpha = objectRenderer.material.color.a;
-        float targetAlpha = 0.0f;
-        float time = 0f;
-
-        while (time < fadeDuration)
+        private IEnumerator FadeOut(float fadeDuration)
         {
-            float alpha = Mathf.Lerp(startAlpha, targetAlpha, time / fadeDuration);
+            float startAlpha = objectRenderer.material.color.a;
+            float targetAlpha = 0.0f;
+            float time = 0f;
+
+            while (time < fadeDuration)
+            {
+                float alpha = Mathf.Lerp(startAlpha, targetAlpha, time / fadeDuration);
+                foreach (var mat in objectRenderer.materials)
+                {
+                    Color c = mat.color;
+                    c.a = alpha;
+                    mat.color = c;
+                }
+                time += Time.deltaTime;
+                yield return null;
+            }
+
             foreach (var mat in objectRenderer.materials)
             {
                 Color c = mat.color;
-                c.a = alpha;
+                c.a = targetAlpha;
                 mat.color = c;
             }
-            time += Time.deltaTime;
-            yield return null;
+
+            if (targetAlpha <= 0.01f)
+            {
+                foreach (var mat in objectRenderer.materials)
+                    MaterialObjectFade.MakeFade(mat);
+            }
         }
 
-        foreach (var mat in objectRenderer.materials)
+
+        /// PUBLIC METHODS ///
+
+        // Can be called via Animation Event to fade out object
+        public void HideObject()
         {
-            Color c = mat.color;
-            c.a = targetAlpha;
-            mat.color = c;
+            StartCoroutine(FadeOut(0.2f));
         }
 
-        if (targetAlpha <= 0.01f)
+        // Can be called via Animation Event to disable object
+        public void DisableObject()
         {
-            foreach (var mat in objectRenderer.materials)
-                MaterialObjectFade.MakeFade(mat);
+            this.gameObject.SetActive(false);
         }
     }
 }

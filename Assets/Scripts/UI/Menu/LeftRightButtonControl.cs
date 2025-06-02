@@ -5,10 +5,15 @@ using UnityEngine.UI;
 
 namespace GASHAPWN.UI
 {
+    /// <summary>
+    /// Defines a left/right composite button
+    /// </summary>
     [RequireComponent(typeof(Button))]
     public class LeftRightButtonControl : MonoBehaviour
     {
+        [Tooltip("Left Arrow of LeftRightButton")]
         [SerializeField] private Button leftButton;
+        [Tooltip("Right Arrow of LeftRightButton")]
         [SerializeField] private Button rightButton;
 
         private InputAction navigateAction;
@@ -30,11 +35,12 @@ namespace GASHAPWN.UI
             navigateAction.performed -= OnNavigate;
         }
 
+        // Handle navigation
+        // ISSUE: This does not work very well with joystick
         private void OnNavigate(InputAction.CallbackContext context)
         {
             Vector2 input = context.ReadValue<Vector2>();
 
-            // maybe edit this here
             if (input.x < 0)
             {
                 if (this.gameObject == EventSystem.current.currentSelectedGameObject)

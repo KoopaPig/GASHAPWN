@@ -1,6 +1,4 @@
 using UnityEngine;
-using GASHAPWN;
-using GASHAPWN.Utility;
 
 namespace GASHAPWN
 {
@@ -41,6 +39,9 @@ namespace GASHAPWN
 
         public Transform cameraPosition;
 
+
+        /// PRIVATE METHODS ///
+
         private void Awake()
         {
             // Initialize to correct visual state
@@ -55,6 +56,9 @@ namespace GASHAPWN
                 figureDisplayPoint = displayPointObj.transform;
             }
         }
+
+
+        /// PUBLIC METHODS ///
 
         /// <summary>
         /// Updates the visual state of the node based on selection and collection status

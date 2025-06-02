@@ -1,18 +1,12 @@
 using GASHAPWN.UI;
-using JetBrains.Annotations;
-using NUnit.Framework;
 using System;
-using System.Diagnostics.Tracing;
-using System.Timers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using Unity.Mathematics;
 using System.Collections;
 using System.Linq;
-using static GASHAPWN.GameManager;
 
 namespace GASHAPWN
 {
@@ -33,77 +27,75 @@ namespace GASHAPWN
 
         private static BattleManager _instance;
 
-        // Tracks the current game state
-        public BattleState State { get; private set; }
-
-        public static event Action<BattleState> OnBattleStateChanged;
-
         [Header("Booleans")]
-        // New figure to add to collection or figure is already in collection
-        public bool newFigure = false;
-
-        // Victory screen
-        private bool showVictory = false;
-
-        private bool isPlayerSpawn = false;
-
-        // If isWinner, then battle end
-        [NonSerialized] public bool isWinner = false;
-
-        // Temporary debug bool: if toggled, ignore playerData calling playerDeath
-        [SerializeField] private bool isDebug = false;
+            // New figure to add to collection or figure is already in collection
+            [NonSerialized] public bool newFigure = false;
+            // If isWinner, then battle end
+            [NonSerialized] public bool isWinner = false;
+            // Flag for when players spawn
+            private bool isPlayerSpawn = false;
 
         [Header("Time")]
-        // Time limit of battle (seconds)
-        public float battleTime = 0;
-
-        // Seconds of countdown (should be 6, 1 buffer + 5 countdown)
-        [NonSerialized] public float countDownTime = 6;
-
-        // Used so timer starts only when countdown ends
-        private bool trackTime = false;
-
-        // Debug Bool: Turn off if you want to skip the countdown
-        // Note: only checked in Start()
-        public bool isCountDownOn = true;
+            // Time limit of battle (seconds)
+            public float battleTime = 0;
+            // Seconds of countdown (should be 6, 1 buffer + 5 countdown)
+            [NonSerialized] public float countDownTime = 6;
+            // Debug Bool: Turn off if you want to skip the countdown
+            // Note: only checked in Start()
+            [SerializeField] private bool isCountDownOn = true;
+            // Used so timer starts only when countdown ends
+            private bool trackTime = false;
 
         [Header("Player Reference")]
+            [Tooltip("Player 1 BattleGUI")]
+            public BattleGUIController player1BattleGUI;
 
-        public BattleGUIController player1BattleGUI;
-        public BattleGUIController player2BattleGUI;
-        public Transform player1SpawnPos;
-        public Transform player2SpawnPos;
+            [Tooltip("Player 2 BattleGUI")]
+            public BattleGUIController player2BattleGUI;
 
+            [Tooltip("Player 1 spawn position")]
+            public Transform player1SpawnPos;
+
+            [Tooltip("Player 2 spawn position")]
+            public Transform player2SpawnPos;
+
+        // Queue of defeated players plus winner at top
+        public Queue<(GameObject player, bool isWinner)> pendingPlayerResults = new();
+
+        // List to track current active players (removed when defeated / game end)
         private List<GameObject> activePlayers = new();
 
-        public List<(GameObject player, bool isWinner)> pendingPlayerResults = new();
-
-        [Header("Controls Reference")]
-        public InputActionAsset controls;
-
+        #region Battle State Events
         [Header("Events to Trigger")]
-        // Triggers when countdown initiates
-        public UnityEvent<BattleState> ChangeToCountdown = new();
+            // Triggers when countdown initiates
+            public UnityEvent<BattleState> ChangeToCountdown = new();
 
-        // Triggers after the countdown has finished
-        public UnityEvent<BattleState> ChangeToBattle = new();
+            // Triggers after the countdown has finished
+            public UnityEvent<BattleState> ChangeToBattle = new();
 
-        // Triggers when Sudden Death entered
-        public UnityEvent<BattleState> ChangeToSuddenDeath = new();
+            // Triggers when Sudden Death entered
+            public UnityEvent<BattleState> ChangeToSuddenDeath = new();
 
-        // Triggers when the battle has concluded
-        public UnityEvent<BattleState> ChangeToVictory = new();
+            // Triggers when the battle has concluded
+            public UnityEvent<BattleState> ChangeToResults = new();
+            
+            // Triggers when changing to new figure screen
+            public UnityEvent<BattleState> ChangeToNewFigure = new();
 
-        public UnityEvent<BattleState> ChangeToNewFigure = new();
+            // Triggers when players are spawned into the arena
+            public UnityEvent<BattleState> OnPlayerSpawn = new();
 
-        // Triggers when players are spawned into the arena
-        public UnityEvent<BattleState> OnPlayerSpawn = new();
+            // Triggers when winner has been declared
+            public UnityEvent<GameObject, string, Figure> OnWinner = new();
+        #endregion
 
-        public UnityEvent<GameObject, string, Figure> OnWinner = new();
+        // Tracks the current game state
+        public BattleState State { get; private set; }
+        public static event Action<BattleState> OnBattleStateChanged;
 
-        
+
         /// PRIVATE METHODS ///
-        
+
         private void Awake()
         {
             battleTime = GameManager.Instance.currentBattleTime;
@@ -129,7 +121,6 @@ namespace GASHAPWN
                     } else {
                         Debug.LogError("BattleManager: Invalid Player tag. Could not set BattleGUI.");
                     }
-                    
                 }
             }
             if (activePlayers.Count > GameManager.Instance.numPlayers) {
@@ -174,7 +165,7 @@ namespace GASHAPWN
                 // display victory screen if player died during battle
                 if (isWinner)
                 {
-                    ChangeStateVictoryScreen();
+                    ChangeStateResultsScreen();
                 }
                 // else enter sudden death
                 else if (battleTime <= 0)
@@ -187,20 +178,11 @@ namespace GASHAPWN
                 // display victory screen if player died during sudden death
                 if (isWinner)
                 {
-                    ChangeStateVictoryScreen();
+                    ChangeStateResultsScreen();
                 }
             }
         }
-
-        private bool IsPlayerWin(GameObject player) {
-            if (activePlayers.Count == 1) { return true; }
-            else { 
-                activePlayers.Remove(player);
-                pendingPlayerResults.Add((player, false));
-                return false;
-            }
-        }
-
+        
         private void OnDisable()
         {
             RemoveAllListeners();
@@ -236,6 +218,7 @@ namespace GASHAPWN
             Debug.Log("Battle Start!");
         }
 
+        // Performs actions required when sudden death
         private void SuddenDeathActions()
         {
             Debug.Log("Entered Sudden Death!");
@@ -247,16 +230,29 @@ namespace GASHAPWN
             }
         }
 
+        // Set given player as the winner
+        private bool IsPlayerWin(GameObject player) {
+            if (activePlayers.Count == 1) { return true; }
+            else { 
+                activePlayers.Remove(player);
+                pendingPlayerResults.Enqueue((player, false));
+                return false;
+            }
+        }
+
+        // Wait one frame before clearing playerPendingResults
         private IEnumerator WaitToClearResults()
         {
             yield return new WaitForNextFrameUnit();
             pendingPlayerResults.Clear();
         }
 
+
         /// PUBLIC METHODS ///
 
-        // Changes the battle state to countdown
-        // Only works when the last state was sleep
+        /// <summary>
+        /// Changes the State to Countdown (only when State == Sleep)
+        /// </summary>
         public void ChangeStateCountdown()
         {
             if (State == BattleState.Sleep)
@@ -270,8 +266,9 @@ namespace GASHAPWN
             else Debug.Log("Can not change battle state to countdown");
         }
 
-        // Changes the battle state to Battle
-        // Works if the current battle state is CountDown
+        /// <summary>
+        /// Changes the State to Battle (only when State == Countdown)
+        /// </summary>
         public void ChangeStateBattle()
         {
             if (State == BattleState.CountDown || 
@@ -286,6 +283,9 @@ namespace GASHAPWN
             else Debug.Log("Can not change battle state to battle");
         }
 
+        /// <summary>
+        /// Changes the State to Sudden Death (only when State == Battle)
+        /// </summary>
         public void ChangeStateSuddenDeath()
         {
             if (State == BattleState.Battle)
@@ -299,14 +299,15 @@ namespace GASHAPWN
             else Debug.Log("Can not change battle state to sudden death");
         }
 
-        // Changes the BattleState to VictoryScreen
-        // Works if the current battle state is Battle or SuddenDeath
-        public void ChangeStateVictoryScreen()
+        /// <summary>
+        /// Changes the State to ResultsScreen (only when State == Battle || SuddenDeath)
+        /// </summary>
+        public void ChangeStateResultsScreen()
         {
             if (State == BattleState.Battle || State == BattleState.SuddenDeath)
             {
-                State = BattleState.VictoryScreen;
-                ChangeToVictory.Invoke(State);
+                State = BattleState.ResultsScreen;
+                ChangeToResults.Invoke(State);
                 BattleEndActions();
                 OnBattleStateChanged?.Invoke(State);
                 Debug.Log($"BattleManager: BattleState: {State.ToString()}");
@@ -314,11 +315,12 @@ namespace GASHAPWN
             else Debug.Log("Can not change battle state to victory");
         }
 
-        // Changes the BattleState to NewFigureScreen
-        // Works if current BattleState is VictoryScreen
+        /// <summary>
+        /// Changes the State to NewFigureScreen (only when State == ResultsScreen)
+        /// </summary>
         public void ChangeStateNewFigureScreen()
         {
-            if (State == BattleState.VictoryScreen)
+            if (State == BattleState.ResultsScreen)
             {
                 State = BattleState.NewFigureScreen;
                 ChangeToNewFigure.Invoke(State);
@@ -334,14 +336,14 @@ namespace GASHAPWN
             isWinner = IsPlayerWin(player);
 
             // Store the player results instead of invoking the events immediately
-            pendingPlayerResults.Add((player, isWinner));
+            pendingPlayerResults.Enqueue((player, isWinner));
 
             // if activePlayers is down to 1 after checking if principle player died, 
             // then we know the remaining player has won
             if (activePlayers.Count == 1) {
                 isWinner = IsPlayerWin(activePlayers[0]);
                 // Store results for winning player
-                pendingPlayerResults.Add((activePlayers[0], isWinner));
+                pendingPlayerResults.Enqueue((activePlayers[0], isWinner));
                 // OnWinningFigure called here
                 OnWinner.Invoke(activePlayers[0], activePlayers[0].tag, 
                     activePlayers[0].GetComponent<PlayerAttachedFigure>().GetAttachedFigure());
@@ -369,6 +371,7 @@ namespace GASHAPWN
             StartCoroutine(WaitToClearResults());
         }
 
+        // Performs actions required when players spawn
         public void OnPlayerSpawnActions(BattleState state)
         {
             OnPlayerSpawn.Invoke(state);
@@ -376,6 +379,7 @@ namespace GASHAPWN
             PlayerInputAssigner.Instance.SetBattleControlsActive(false);
         }
 
+        // Reset active players to spawn points
         public void ResetToSpawn()
         {
             foreach (var player in activePlayers)
@@ -386,16 +390,24 @@ namespace GASHAPWN
             }
         }
 
+        // Returns activePlayers
+        public List<GameObject> GetActivePlayers()
+        {
+            if (activePlayers.Count > 0) { return activePlayers; }
+            else return null;
+        }
+
+        // Set newFigure according to if given figure is in Collection
         public void FigureCheck(string WinningTag, Figure PlayerFigure)
         {
             // see if figure already exists in collection
-            var existingFigure = GameManager.Instance.Player1Collection
+            var existingFigure = GameManager.Instance.currPlayerCollectionData.collection
             .FirstOrDefault(f => f.ID == PlayerFigure.GetID());
 
             // if it doesn't, mark it as new and add to collection
             if (existingFigure == null)
             {
-                GameManager.Instance.Player1Collection.Add(new CollectedFigure(PlayerFigure));
+                GameManager.Instance.currPlayerCollectionData.Add(new CollectedFigure(PlayerFigure));
                 newFigure = true;
             }
             // if it does, increment amount
@@ -405,12 +417,6 @@ namespace GASHAPWN
                 newFigure = false;
             }
         }
-
-        public List<GameObject> GetActivePlayers()
-        {
-            if (activePlayers.Count > 0) { return activePlayers; }
-            else return null;
-        }
     }
 
     public enum BattleState
@@ -419,8 +425,7 @@ namespace GASHAPWN
         CountDown,
         Battle,
         SuddenDeath,
-        VictoryScreen,
+        ResultsScreen,
         NewFigureScreen
     }
 }
-

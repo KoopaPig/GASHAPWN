@@ -3,10 +3,15 @@ using UnityEngine.UI;
 
 namespace GASHAPWN.UI
 {
+    /// <summary>
+    /// Controller for displaying Figure rarity in the form of stars
+    /// </summary>
     [RequireComponent(typeof(HorizontalLayoutGroup))]
     public class StarsGUI : MonoBehaviour
     {
+        [Tooltip("Prefab for filled star UI element")]
         [SerializeField] private GameObject filledStarPrefab;
+        [Tooltip("Prefab for empty star UI element")]
         [SerializeField] private GameObject emptyStarPrefab;
 
         // Determines what star values correspond to a given rarity
@@ -19,7 +24,10 @@ namespace GASHAPWN.UI
             return 5;
         }
 
-        // Sets amount of stars given Figure
+        /// <summary>
+        /// Sets amount of stars given Figure
+        /// </summary>
+        /// <param name="figure"></param>
         public void SetStars(Figure figure)
         {
             // Clear previous stars
@@ -45,4 +53,3 @@ namespace GASHAPWN.UI
         }
     }
 }
-

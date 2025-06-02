@@ -1,13 +1,18 @@
 using UnityEngine;
 
-public class ClawHelper : MonoBehaviour
+namespace GASHAPWN.Environment
 {
-    [SerializeField] private Transform playerSpawnPos;
-
-    private void Start()
+    // Ensures claw object is lined up with player spawn position
+    public class ClawHelper : MonoBehaviour
     {
-        // Make sure claw is at same x and z coord of corresponding player spawn position
-        var spawnPos = new Vector3(playerSpawnPos.position.x, transform.position.y, playerSpawnPos.position.z);
-        this.transform.position = spawnPos;
+        [Tooltip("Reference to corresponding player spawn position")]
+        [SerializeField] private Transform playerSpawnPos;
+
+        private void Start()
+        {
+            // Make sure claw is at same x and z coord of corresponding player spawn position
+            var spawnPos = new Vector3(playerSpawnPos.position.x, transform.position.y, playerSpawnPos.position.z);
+            this.transform.position = spawnPos;
+        }
     }
 }

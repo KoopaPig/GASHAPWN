@@ -1919,6 +1919,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6106131448205073792}
   - component: {fileID: 7713825812933937553}
+  - component: {fileID: 943054584234901463}
   - component: {fileID: 7153429701035509182}
   m_Layer: 6
   m_Name: Claw_P2-Alt
@@ -1966,6 +1967,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &943054584234901463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2635031354174465615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d0b113c0fd42484582ebd8a1af49153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7153429701035509182
 MonoBehaviour:
   m_ObjectHideFlags: 0

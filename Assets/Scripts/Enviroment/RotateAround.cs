@@ -1,11 +1,17 @@
 using UnityEngine;
 
-namespace GASHAPWN
+namespace GASHAPWN.Environment
 {
+    /// <summary>
+    /// Attach to object to make in rotate around a point at radius away
+    /// </summary>
     public class RotateAround : MonoBehaviour
     {
-        public float speed = 10f; // Speed of rotation
-        public float radius = 5f; // Distance from the center of the circular path
+        [Tooltip("Speed of rotation")]
+        public float speed = 10f;
+
+        [Tooltip("Distance from the center of the circular path")]
+        public float radius = 5f;
 
         private float angle = 0f;
         private Vector3 centerPoint;
@@ -39,4 +45,3 @@ namespace GASHAPWN
         }
     }
 }
-

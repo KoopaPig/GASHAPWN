@@ -5,12 +5,19 @@ using UnityEngine;
 
 namespace GASHAPWN
 {
+    /// <summary>
+    /// Defines set of methods to return figures from FigureDatabase
+    /// </summary>
     [DefaultExecutionOrder(-3)]
     public class FigureManager : MonoBehaviour
     {
+        public static FigureManager Instance { get; private set; }
+
+        [Tooltip("Reference to main FigureDatabase")]
         public FigureDatabase figureDatabase;
 
-        public static FigureManager Instance { get; private set; }
+
+        /// PRIVATE METHODS ///
 
         private void Awake()
         {
@@ -31,8 +38,12 @@ namespace GASHAPWN
 
         }
 
-        // Generates and returns a random figure from the dictionary
-        // Does not take into consideration series
+
+        /// PUBLIC METHODS ///
+
+        /// <summary>
+        /// Generates and returns a random figure from the dictionary. Does not take into consideration series.
+        /// </summary>
         public Figure GetRandomFigure()
         {
             // Detect if database is null or empty, don't reutrn
@@ -48,8 +59,9 @@ namespace GASHAPWN
             
         }
 
-        // Generates and returns a random figure from the dictionary, considers rarity
-        // Does not take into consideration series
+        /// <summary>
+        /// Generates and returns a random figure from the dictionary, considers rarity. Does not take into consideration series.
+        /// </summary>
         public Figure GetRandomFigureWeighted() {
             // Detect if database is null or empty, don't reutrn
             if (figureDatabase == null || figureDatabase.figureDictionary.Count == 0)
@@ -108,6 +120,4 @@ namespace GASHAPWN
             return result;
         }
     }
-
 }
-
