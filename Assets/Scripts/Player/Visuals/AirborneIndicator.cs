@@ -2,131 +2,137 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class AirborneIndicator : MonoBehaviour
+namespace GASHAPWN
 {
-    private PlayerData playerData;
-    private GhostTrailEffect ghostTrailEffect;
-
-
-    [Header("Line Renderer Settings")]
-    public LineRenderer airborneLineRenderer;
-    public float maxRayDistance = 100f;
-
-    [Header("Slam Target Settings")]
-    [SerializeField] private DecalProjector targetProjector;
-    private float minDistance = 7f;
-    private Vector3 targetProjectorInitialSize;
-
-    [SerializeField] private LayerMask groundLayer;
-
-    private void Awake()
+    public class AirborneIndicator : MonoBehaviour
     {
-        playerData = GetComponent<PlayerData>();
-        ghostTrailEffect = GetComponent<GhostTrailEffect>();
-        targetProjectorInitialSize = targetProjector.size;
-    }
+        private PlayerData playerData;
+        private GhostTrailEffect ghostTrailEffect;
 
-    private void OnEnable()
-    {
-        playerData.OnSlam.AddListener(HandleTargetEffect);
-    }
 
-    private void Start()
-    {
-        airborneLineRenderer.positionCount = 2;
-        airborneLineRenderer.enabled = false;
-        targetProjector.enabled = false;
-    }
+        [Header("Line Renderer Settings")]
+        public LineRenderer airborneLineRenderer;
+        public float maxRayDistance = 100f;
 
-    private void Update()
-    {
-        // Deactivate if player is dead
-        if (playerData.isDead)
+        [Header("Slam Target Settings")]
+        [SerializeField] private DecalProjector targetProjector;
+        private float minDistance = 7f;
+        private Vector3 targetProjectorInitialSize;
+
+        [SerializeField] private LayerMask groundLayer;
+
+        private void Awake()
         {
-            airborneLineRenderer.enabled = false;
-            targetProjector.enabled = false;
-            return;
+            playerData = GetComponent<PlayerData>();
+            ghostTrailEffect = GetComponent<GhostTrailEffect>();
+            targetProjectorInitialSize = targetProjector.size;
         }
 
-        if (!playerData.isGrounded)
+        private void OnEnable()
         {
-            airborneLineRenderer.enabled = true;
+            playerData.OnSlam.AddListener(HandleTargetEffect);
+        }
 
-            Vector3 startPosition = transform.position;
-            Vector3 endPosition;
+        private void Start()
+        {
+            airborneLineRenderer.positionCount = 2;
+            airborneLineRenderer.enabled = false;
+            targetProjector.enabled = false;
+        }
 
-            if (Physics.Raycast(startPosition, Vector3.down, out RaycastHit hit, maxRayDistance, groundLayer))
+        private void Update()
+        {
+            // Deactivate if player is dead
+            if (playerData.isDead)
             {
-                endPosition = hit.point;
+                airborneLineRenderer.enabled = false;
+                targetProjector.enabled = false;
+                return;
+            }
 
-                float distanceToGround = Vector3.Distance(startPosition, endPosition);
+            if (!playerData.isGrounded)
+            {
+                airborneLineRenderer.enabled = true;
 
-                // Only activate targetProjector if certain distance from ground
-                if (distanceToGround > minDistance)
+                Vector3 startPosition = transform.position;
+                Vector3 endPosition;
+
+                if (Physics.Raycast(startPosition, Vector3.down, out RaycastHit hit, maxRayDistance, groundLayer))
                 {
-                    // Activate and position tragetProjector
-                    targetProjector.enabled = true;
-                    targetProjector.transform.SetPositionAndRotation(hit.point + Vector3.down * 0.1f, Quaternion.LookRotation(hit.normal));
-                } else
+                    endPosition = hit.point;
+
+                    float distanceToGround = Vector3.Distance(startPosition, endPosition);
+
+                    // Only activate targetProjector if certain distance from ground
+                    if (distanceToGround > minDistance)
+                    {
+                        // Activate and position tragetProjector
+                        targetProjector.enabled = true;
+                        targetProjector.transform.SetPositionAndRotation(hit.point + Vector3.down * 0.1f, Quaternion.LookRotation(hit.normal));
+                    }
+                    else
+                    {
+                        targetProjector.enabled = false;
+                    }
+                }
+                else
                 {
+                    // no point hit, so set end position based on maxRayDistance
+                    endPosition = startPosition + Vector3.down * maxRayDistance;
                     targetProjector.enabled = false;
                 }
+
+                airborneLineRenderer.SetPosition(0, startPosition);
+                airborneLineRenderer.SetPosition(1, endPosition);
             }
-            else 
+            else // deactivate if grounded
             {
-                // no point hit, so set end position based on maxRayDistance
-                endPosition = startPosition + Vector3.down * maxRayDistance;
+                airborneLineRenderer.enabled = false;
                 targetProjector.enabled = false;
             }
-
-            airborneLineRenderer.SetPosition(0, startPosition);
-            airborneLineRenderer.SetPosition(1, endPosition);
         }
-        else // deactivate if grounded
+
+        private void HandleTargetEffect()
         {
-            airborneLineRenderer.enabled = false;
-            targetProjector.enabled = false;
+            // Start ghost trail effect on slam
+            if (ghostTrailEffect != null)
+            {
+                StartCoroutine(SlamTrailEffect(playerData.slamAirborneTime));
+            }
+            StartCoroutine(TargetEffect((targetProjector.size * 1.25f), playerData.slamAirborneTime));
         }
-    }
-
-    private void HandleTargetEffect()
-    {
-        // Start ghost trail effect on slam
-        if (ghostTrailEffect != null){
-            StartCoroutine(SlamTrailEffect(playerData.slamAirborneTime));
-        }
-        StartCoroutine(TargetEffect((targetProjector.size * 1.25f), playerData.slamAirborneTime));
-    }
 
 
-    // Increases the size of the targetProjector for given duration, then sets back to initial size
-    private IEnumerator TargetEffect(Vector3 targetSize, float duration)
-    {
-        float elapsed = 0f;
-
-        while (elapsed < duration)
+        // Increases the size of the targetProjector for given duration, then sets back to initial size
+        private IEnumerator TargetEffect(Vector3 targetSize, float duration)
         {
-            elapsed += Time.deltaTime;
-            float t = elapsed / duration;
+            float elapsed = 0f;
 
-            // Smooth interpolate
-            targetProjector.size = Vector3.Lerp(targetProjectorInitialSize, targetSize, t);
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / duration;
+
+                // Smooth interpolate
+                targetProjector.size = Vector3.Lerp(targetProjectorInitialSize, targetSize, t);
+                yield return null;
+            }
+
+            targetProjector.size = targetSize; // Ensure exact final size
             yield return null;
+            targetProjector.size = targetProjectorInitialSize;
         }
 
-        targetProjector.size = targetSize; // Ensure exact final size
-        yield return null;
-        targetProjector.size = targetProjectorInitialSize;
-    }
+        private IEnumerator SlamTrailEffect(float duration)
+        {
+            ghostTrailEffect.StartTrail();
+            yield return new WaitForSeconds(duration);
+            ghostTrailEffect.StopTrail();
+        }
 
-    private IEnumerator SlamTrailEffect(float duration) {
-        ghostTrailEffect.StartTrail();
-        yield return new WaitForSeconds(duration);
-        ghostTrailEffect.StopTrail();
-    }
-
-    private void OnDisable()
-    {
-        playerData.OnSlam.RemoveListener(HandleTargetEffect);
+        private void OnDisable()
+        {
+            playerData.OnSlam.RemoveListener(HandleTargetEffect);
+        }
     }
 }

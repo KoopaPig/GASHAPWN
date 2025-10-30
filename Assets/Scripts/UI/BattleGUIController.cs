@@ -1,61 +1,78 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Collections.Generic;
 using System.Collections;
-using static UnityEngine.Rendering.DebugUI;
-using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using GASHAPWN.Audio;
 
 namespace GASHAPWN.UI {
+    /// <summary>
+    /// Controller for Player Battle GUI (Character Icon, Health Bar, Stamina Bar)
+    /// </summary>
     public class BattleGUIController : MonoBehaviour
     {
         [Header("Player Reference")]
-        // Set corresponding tag here: "Player1" or "Player2"
-        [SerializeField] private string playerTag; 
-        // Reference to the specific player's data
-        private PlayerData playerData;
+            [Tooltip("Set corresponding tag here: \"Player1\" or \"Player2\"")]
+            [SerializeField] private string playerTag;
+        
+            // Reference to the specific player's data
+            private PlayerData playerData;
+
 
         [Header("Healthbar GUI Elements")]
-        // Healthbar
-        [SerializeField] private Slider healthSlider;
-        // Healthbar Secondary BG
-        [SerializeField] private Slider healthSliderBG;
-        // Healthbar Gradient
-        [SerializeField] private Gradient healthGradient;
-        // Healthbar Fill
-        [SerializeField] private Image healthFill;
+            [Tooltip("Healthbar")]
+            [SerializeField] private Slider healthSlider;
+
+            [Tooltip("Healthbar Secondary BG")]    
+            [SerializeField] private Slider healthSliderBG;
+
+            [Tooltip("Healthbar Gradient")]
+            [SerializeField] private Gradient healthGradient;
+
+            [Tooltip("Healthbar Fill")]
+            [SerializeField] private Image healthFill;
+
 
         [Header("Staminabar GUI Elements")]
-        // Staminabar
-        [SerializeField] private Slider staminaSlider;
-        // Staminabar Gradient
-        [SerializeField] private Gradient staminaGradient;
-        // Staminabar Fill
-        [SerializeField] private Image staminaFill;
-        // Staminabar Animator
-        [SerializeField] private Animator staminaAnimator;
-        // Staminabar sections
-        [SerializeField] private int staminaBarSections = 6;
+            [Tooltip("Staminabar")]
+            [SerializeField] private Slider staminaSlider;
+
+            [Tooltip("Staminabar Gradient")]
+            [SerializeField] private Gradient staminaGradient;
+
+            [Tooltip("Staminabar Fill")]
+            [SerializeField] private Image staminaFill;
+
+            [Tooltip("Staminabar Animator")]
+            [SerializeField] private Animator staminaAnimator;
+
+            [Tooltip("Staminabar Sections")]
+            [SerializeField] private int staminaBarSections = 6;
 
 
         [Header("Other GUI Elements")]
-        // Icon for Figure
-        [SerializeField] private Image charIcon;
-        // Name of Figure
-        [SerializeField] private TextMeshProUGUI charName;
-        // Healthbar Border
-        [SerializeField] private Image healthBarBorder;
-        // Reference to capsule group GUI
-        [SerializeField] private GameObject capsuleGroup;
+            [Tooltip("Icon for Player Figure")]
+            [SerializeField] private Image charIcon;
+
+            [Tooltip("Name of Player Figure")]
+            [SerializeField] private TextMeshProUGUI charName;
+
+            [Tooltip("Healthbar Border")]
+            [SerializeField] private Image healthBarBorder;
+
+            [Tooltip("Reference to Capsule Group GUI")]
+            [SerializeField] private GameObject capsuleGroup;
+
 
         [Header("Animator for Capsule Group")]
-        [SerializeField] private Animator capsuleAnimator;
+            [SerializeField] private Animator capsuleAnimator;
 
-        [SerializeField] private Color grayColor = Color.gray;
-        [SerializeField] private Color damageColor = Color.red;
-        [SerializeField] private Color healColor = Color.green;
+
+        [Header("Effect Colors")]
+            [SerializeField] private Color grayColor = Color.gray;
+            [SerializeField] private Color damageColor = Color.red;
+            [SerializeField] private Color healColor = Color.green;
+
 
         private Coroutine healthChangeCoroutine;
         private float currHealth;
@@ -189,7 +206,6 @@ namespace GASHAPWN.UI {
         }
 
         // LowStamina (GUI)
-
         public void LowStaminaGUI(float value)
         {
             staminaAnimator.SetTrigger("isStaminaLowEffect");
@@ -200,7 +216,7 @@ namespace GASHAPWN.UI {
 
         ////// PRIVATE METHODS /////
 
-        private void Awake()
+        private void Start()
         {
             // Find the player object with the given tag
             GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
@@ -221,10 +237,6 @@ namespace GASHAPWN.UI {
             {
                 Debug.LogError($"BattleGUIController: No GameObject found with tag {playerTag}");
             }
-        }
-
-        private void Start()
-        {
             staminaInterval = maxStamina / staminaBarSections;
         }
 
@@ -261,7 +273,18 @@ namespace GASHAPWN.UI {
                 playerData.OnStaminaHardDecrease.AddListener(LoseStaminaGUI);
                 playerData.OnStaminaHardIncrease.AddListener(RecoverStaminaGUI);
                 playerData.OnLowStamina.AddListener(LowStaminaGUI);
+
+                RefreshAllGUI();
             }
+        }
+
+        // Refresh All GUI with current values
+        private void RefreshAllGUI()
+        {
+            SetMaxHealthGUI(playerData.maxHealth);
+            SetHealthGUI(playerData.currentHealth);
+            SetMaxStaminaGUI(playerData.maxStamina);
+            SetStaminaGUI(playerData.currentStamina);
         }
 
         // Set Current Health (GUI)
@@ -272,6 +295,7 @@ namespace GASHAPWN.UI {
             healthFill.color = healthGradient.Evaluate(healthSlider.normalizedValue);
         }
 
+        // Set BG of health slider with given value
         private void SetHealthBG_GUI(float value)
         {
             healthSliderBG.value = value;
@@ -366,12 +390,14 @@ namespace GASHAPWN.UI {
             }
         }
 
+        // Set stamina to specific value
         private void SetStaminaGUI(float value)
         {
             staminaSlider.value = value;
             staminaFill.color = staminaGradient.Evaluate(staminaSlider.normalizedValue);
         }
 
+        // Wrapper to handle feedback for stamina change
         private void SetStaminaGUI_Wrapper(float value)
         {
             SetStaminaGUI(value);
@@ -385,12 +411,14 @@ namespace GASHAPWN.UI {
             }
         }
 
+        // Reset "Stamina Interval" Effect
         private IEnumerator ResetIntervalEffect()
         {
             yield return new WaitForSeconds(0.3f);
             staminaAnimator.SetBool("isIntervalEffect", false);
         }
 
+        // Reset "Stamina Low" Effect
         private IEnumerator ResetStaminaLowEffect()
         {
             yield return new WaitForNextFrameUnit();
@@ -415,6 +443,5 @@ namespace GASHAPWN.UI {
                 playerData.OnLowStamina.RemoveListener(LowStaminaGUI);
             }
         }
-
     }
 }

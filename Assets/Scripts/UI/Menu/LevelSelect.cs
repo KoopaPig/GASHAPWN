@@ -29,8 +29,7 @@ namespace GASHAPWN.UI {
             // Current ControlsBindBox index where input is being listened for
             private int currentListeningIndex = 0;
 
-
-        [Tooltip("Button to switch to LevelSelect")]
+            [Tooltip("Button to switch to LevelSelect")]
             [SerializeField] private Button toLevelSelectButton;
 
             // If true, ControlsBindScreen is active
@@ -40,8 +39,8 @@ namespace GASHAPWN.UI {
             [Tooltip("List of all selectable levels (should match number of stageButtons)")]
             public List<Level> levels;
 
-        [Tooltip("Currently selected level (defaults to levels[0]")]
-        public Level selectedLevel;
+            [Tooltip("Currently selected level (defaults to levels[0]")]
+            public Level selectedLevel;
 
         [Header("Battle Time")]
             [Tooltip("Label to display battleTime")]

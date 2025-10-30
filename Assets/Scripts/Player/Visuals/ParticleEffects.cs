@@ -19,7 +19,7 @@ namespace GASHAPWN
 
         private Rigidbody rb;
 
-        void Start()
+        private void Awake()
         {
             rb = GetComponent<Rigidbody>();
             dustTrail.Stop();

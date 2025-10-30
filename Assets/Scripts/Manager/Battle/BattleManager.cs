@@ -1,12 +1,13 @@
 using GASHAPWN.UI;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using System.Collections;
-using System.Linq;
+using UnityEngine.InputSystem.UI;
 
 namespace GASHAPWN
 {
@@ -42,7 +43,7 @@ namespace GASHAPWN
             [NonSerialized] public float countDownTime = 6;
             // Debug Bool: Turn off if you want to skip the countdown
             // Note: only checked in Start()
-            [SerializeField] private bool isCountDownOn = true;
+            public bool IsCountDownOn = true;
             // Used so timer starts only when countdown ends
             private bool trackTime = false;
 
@@ -93,39 +94,22 @@ namespace GASHAPWN
         public BattleState State { get; private set; }
         public static event Action<BattleState> OnBattleStateChanged;
 
+        #region PAUSE GAME VARIABLAES
+            // Flag for whether game is paused
+            public bool IsGamePaused { get; private set; } = false;
+            public event Action<PlayerInput> OnGamePaused;
+            public event Action OnGameUnpaused;
+
+        // Which player paused the game
+        private PlayerInput currentPauser;
+        #endregion
+
 
         /// PRIVATE METHODS ///
 
         private void Awake()
         {
             battleTime = GameManager.Instance.currentBattleTime;
-
-            // Find all active players
-            PlayerData[] allPlayers = FindObjectsByType<PlayerData>(FindObjectsSortMode.InstanceID);
-            foreach (PlayerData player in allPlayers)
-            {
-                if (player != null)
-                {
-                    // Add player to activePlayers
-                    activePlayers.Add(player.gameObject);
-                    // Generate figures
-                    var paf = player.GetComponent<PlayerAttachedFigure>();
-                        paf.SetFigureInCapsule(FigureManager.Instance.GetRandomFigureWeighted());
-                    // Link generated figures to BattleGUI
-                    if (player.tag == "Player1") {
-                        player1BattleGUI.SetFigureName(paf.GetAttachedFigure().name);
-                        player1BattleGUI.SetFigureIcon(paf.GetAttachedFigure().Icon);
-                    } else if (player.tag == "Player2") {
-                        player2BattleGUI.SetFigureName(paf.GetAttachedFigure().name);
-                        player2BattleGUI.SetFigureIcon(paf.GetAttachedFigure().Icon);
-                    } else {
-                        Debug.LogError("BattleManager: Invalid Player tag. Could not set BattleGUI.");
-                    }
-                }
-            }
-            if (activePlayers.Count > GameManager.Instance.numPlayers) {
-                Debug.LogError("BattleManager: Number of active players does not match total number of players.");
-            }
         }
 
         private void Start()
@@ -133,8 +117,12 @@ namespace GASHAPWN
             // Starts dorment and awakes when a battle is initiated
             State = BattleState.Sleep;
 
-            if (isCountDownOn) ChangeStateCountdown();
+            if (IsCountDownOn) ChangeStateCountdown();
             else ChangeStateBattle();
+
+            // Ensure activePlayers matches numPlayers
+            if (activePlayers.Count > GameManager.Instance.numPlayers)
+                Debug.LogError("BattleManager: Number of active players does not match total number of players.");
         }
 
         private void Update()
@@ -250,6 +238,8 @@ namespace GASHAPWN
 
         /// PUBLIC METHODS ///
 
+        #region STATE TRANSITIONS
+
         /// <summary>
         /// Changes the State to Countdown (only when State == Sleep)
         /// </summary>
@@ -272,7 +262,7 @@ namespace GASHAPWN
         public void ChangeStateBattle()
         {
             if (State == BattleState.CountDown || 
-                ((State == BattleState.Sleep) && !isCountDownOn))
+                ((State == BattleState.Sleep) && !IsCountDownOn))
             {
                 State = BattleState.Battle;
                 ChangeToBattle.Invoke(State);
@@ -330,6 +320,39 @@ namespace GASHAPWN
             else Debug.Log("BattleManager: Can not change battle state to newFigureScreen");
         }
 
+        #endregion
+
+        /// <summary>
+        /// Given PlayerData, register a player with the BattleManager
+        /// </summary>
+        public void RegisterPlayer(PlayerData player)
+        {
+            if (player == null) return;
+
+            // Add player to activePlayers
+            activePlayers.Add(player.gameObject);
+
+            // Generate figure
+            var paf = player.GetComponent<PlayerAttachedFigure>();
+            paf.SetFigureInCapsule(FigureManager.Instance.GetRandomFigureWeighted());
+
+            // Link generated figures to BattleGUI
+            if (player.CompareTag("Player1"))
+            {
+                player1BattleGUI.SetFigureName(paf.GetAttachedFigure().name);
+                player1BattleGUI.SetFigureIcon(paf.GetAttachedFigure().Icon);
+            }
+            else if (player.CompareTag("Player2"))
+            {
+                player2BattleGUI.SetFigureName(paf.GetAttachedFigure().name);
+                player2BattleGUI.SetFigureIcon(paf.GetAttachedFigure().Icon);
+            }
+            else
+            {
+                Debug.LogError("BattleManager: Invalid Player tag. Could not set BattleGUI.");
+            }
+        }
+
         // Set winner and loser whenever player dies
         public void OnPlayerDeath(GameObject player)
         {   
@@ -353,22 +376,29 @@ namespace GASHAPWN
             }
         }
 
-        // Performs actions required when the battle ends
-        public void BattleEndActions()
+        /// <summary>
+        /// Set of actions that occurs when battle ends
+        /// </summary>
+        /// <param name="forceEnd">If true, discard results and end battle</param>
+        public void BattleEndActions(bool forceEnd = false)
         {
             trackTime = false;
             PlayerInputAssigner.Instance.SetBattleControlsActive(false);
             PlayerInputAssigner.Instance.ConsolidatePlayerInput();
             Debug.Log("Battle End!");
-            foreach (var i in pendingPlayerResults)
+
+            if (!forceEnd)
             {
-                if (i.isWinner)
+                foreach (var i in pendingPlayerResults)
                 {
-                    FigureCheck(i.player.tag, i.player.GetComponent<PlayerAttachedFigure>().GetAttachedFigure());
-                    break;
+                    if (i.isWinner)
+                    {
+                        FigureCheck(i.player.tag, i.player.GetComponent<PlayerAttachedFigure>().GetAttachedFigure());
+                        break;
+                    }
                 }
+                StartCoroutine(WaitToClearResults());
             }
-            StartCoroutine(WaitToClearResults());
         }
 
         // Performs actions required when players spawn
@@ -417,6 +447,47 @@ namespace GASHAPWN
                 newFigure = false;
             }
         }
+
+
+        #region PAUSE GAME FUNCTIONS
+
+            public void PauseGame(PlayerInput requestingPlayer)
+            {
+                // Return if already paused
+                if (IsGamePaused) return;
+
+                IsGamePaused = true;
+
+                // UI controls activated for player who paused
+                if (requestingPlayer != null)
+                {
+                    currentPauser = requestingPlayer;
+                    PlayerInputAssigner.Instance.SetUIControlsActive(true, currentPauser);
+                }
+    
+                OnGamePaused?.Invoke(currentPauser);
+
+                // Pause time
+                Time.timeScale = 0;
+            }
+
+            public void UnpauseGame()
+            {
+                // Return if already unpaused
+                if (!IsGamePaused) return;
+
+                IsGamePaused = false;
+
+                // Battle controls reactivated for player who paused
+                if (currentPauser != null)
+                    PlayerInputAssigner.Instance.SetUIControlsActive(false, currentPauser);
+
+                OnGameUnpaused?.Invoke();
+
+                // Unpause time
+                Time.timeScale = 1;
+            }
+        #endregion
     }
 
     public enum BattleState

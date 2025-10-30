@@ -22,7 +22,7 @@ namespace GASHAPWN.UI {
         [Tooltip("List of containers with controls info")]
         public List<ControlsItem> controlsItems;
 
-        // Get reference to text of selected controls
+        [Tooltip("Get reference to text of selected controls")]
         [SerializeField] private TextMeshProUGUI controlsLabel;
 
         // Index of currently selected controls

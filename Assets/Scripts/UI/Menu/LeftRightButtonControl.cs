@@ -13,6 +13,7 @@ namespace GASHAPWN.UI
     {
         [Tooltip("Left Arrow of LeftRightButton")]
         [SerializeField] private Button leftButton;
+
         [Tooltip("Right Arrow of LeftRightButton")]
         [SerializeField] private Button rightButton;
 

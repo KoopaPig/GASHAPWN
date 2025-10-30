@@ -1,13 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using GASHAPWN;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
-using UnityEngine.InputSystem.Users;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using MyBox;
 
 namespace GASHAPWN
 {
@@ -17,9 +14,20 @@ namespace GASHAPWN
     {
         public static PlayerInputAssigner Instance { get; private set; }
 
+        // Get reference to a single PlayerInput prefab that should be used in all scenarios outside the battle
+        [SerializeField] private GameObject uiPlayerInputPrefab;
+
         // PlayerInputManager is no longer a singleton.
         // It is permanently connected to PlayerInputAssigner which is a wrapper singleton.
         [HideInInspector] public PlayerInputManager playerInputManager;
+
+        [Space(20)]
+        [Tooltip("If true, controls are auto-assigned")]
+        public bool IsAutoAssignDebug = false;
+
+        [Tooltip("If true, use 2 gamepads for auto-assigning. If false, defaults to P1 = Keyboard & P2 = Gamepad")]
+        [ConditionalField("IsAutoAssignDebug")]
+        [SerializeField] private bool isTwoGamepad = false; 
 
         /// <summary>
         /// PlayerControllerAssignment class holds data linking together player and playerInput
@@ -42,11 +50,6 @@ namespace GASHAPWN
         public static List<PlayerControllerAssignment> playerAssignments = new();
 
         private List<Transform> cachedSpawnPoints;
-
-        // Get reference to a single PlayerInput prefab that should be used in all scenarios outside the battle
-        [SerializeField] private GameObject uiPlayerInputPrefab;
-
-        // NEED TO ADD A DEBUG FUNCTION BACK IN HERE
 
         private void Awake()
         {
@@ -71,11 +74,23 @@ namespace GASHAPWN
             }
         }
 
+        private void Start()
+        {
+            if (IsAutoAssignDebug) Debug_Create2Players(isTwoGamepad);
+        }
+
+        // Fires when PlayerInputManager.onPlayerJoined fires
         private void OnPlayerJoined(PlayerInput input)
         {
             // If not LevelSelect, ignore the body of this function
             if (SceneManager.GetActiveScene().name != "LevelSelect") return;
 
+            AssignPlayer(input);
+        }
+
+        // Setup player given PlayerInput
+        private void AssignPlayer(PlayerInput input)
+        {
             // Find player spawn points, cache them
             if (cachedSpawnPoints != null) cachedSpawnPoints.Clear();
             if (cachedSpawnPoints == null || cachedSpawnPoints.Count == 0)
@@ -103,7 +118,7 @@ namespace GASHAPWN
             Debug.Log($"PlayerInputAssigner: Assigned {playerTag} with {input.devices[0].displayName} input.");
             input.gameObject.tag = playerTag;
             input.gameObject.name = playerTag;
-            
+
             // set input position to cached spawn point
             if (index < cachedSpawnPoints.Count)
             {
@@ -116,6 +131,31 @@ namespace GASHAPWN
             input.DeactivateInput(); // deactivate until battle
         }
 
+        // Setup 2 players with auto-binded controls for debug purposes
+        private void Debug_Create2Players(bool twoGamepad)
+        {
+            if (Gamepad.all.Count == 0) { Debug.LogError("PlayerInputAssigner: Gamepad is not connected. Players not created."); return; }
+
+            DisableJoining(); // Make sure auto-joining is disabled
+
+            var prefab = PlayerInputManager.instance.playerPrefab;
+            if (prefab == null)
+            {
+                Debug.LogError("PlayerInputAssigner: No playerPrefab on PlayerInputManager.");
+                return;
+            }
+
+            var p1 = PlayerInput.Instantiate(prefab, playerIndex: 0, controlScheme: "KeyboardMouse",
+                        splitScreenIndex: -1, pairWithDevice: (Gamepad.all.Count > 1 && twoGamepad) ? Gamepad.all[0] : Keyboard.current);
+            var p2 = PlayerInput.Instantiate(prefab, playerIndex: 1, controlScheme: "Gamepad",
+                        splitScreenIndex: -1, pairWithDevice: (Gamepad.all.Count > 1 && twoGamepad) ? Gamepad.all[1] : Gamepad.all[0]);
+
+            AssignPlayer(p1);
+            AssignPlayer(p2);
+                
+            SetPlayerInputsPersistent();
+        }
+
         private void OnDisable()
         {
             if (PlayerInputManager.instance != null)
@@ -124,19 +164,20 @@ namespace GASHAPWN
             }
         }
 
+
         ///// UTILITY AND HELPER FUNCTIONS /////
 
         // Mark PlayerInputs in playerAssignments as persistent, only call this when transitioning to battle scene
         public void SetPlayerInputsPersistent()
         {
-            if (SceneManager.GetActiveScene().name == "LevelSelect")
+            if (SceneManager.GetActiveScene().name == "LevelSelect" || IsAutoAssignDebug)
             {
                 foreach (var assignment in playerAssignments)
                 {
                     DontDestroyOnLoad(assignment.playerInput);
                 }
             }
-            else Debug.LogError("PlayerInputAssigner: Tried to set PlayerInputs as persistent outside the LevelSelect scene.");
+            else Debug.LogError("PlayerInputAssigner: Tried to set PlayerInputs as persistent outside the LevelSelect scene or outside debug mode.");
         }
         
         // Returns true if IsAssgined = true for PlayerControllerAssingment corresponding to playerTag
@@ -168,25 +209,17 @@ namespace GASHAPWN
         /// <summary>
         /// Activate or deactivate battle controls given specific playerTag
         /// </summary>
-        /// <param name="playerTag"></param>
-        /// <param name="active"></param>
         public void SetBattleControlsActive(bool active, string playerTag)
         {
             if (IsPlayerAssigned(playerTag))
             {
                 var i = playerAssignments.Find(x => x.playerTag == playerTag);
+                var input = i.playerInput;
+
                 if (active)
-                {
-                    i.playerInput.actions.FindActionMap("BattleControls").Enable();
-                    i.playerInput.actions.FindActionMap("UI").Disable();
-                    i.playerInput.SwitchCurrentActionMap("BattleControls");
-                }
+                    input.actions.FindActionMap("BattleControls").Enable();
                 else
-                {
-                    i.playerInput.actions.FindActionMap("BattleControls").Disable();
-                    i.playerInput.actions.FindActionMap("UI").Enable();
-                    i.playerInput.SwitchCurrentActionMap("UI");
-                }
+                    input.actions.FindActionMap("BattleControls").Disable();
             }
             else Debug.LogError($"ControllerManager: Failed to activate or deactive battle controls because {playerTag}" +
                 $" does not have an assigned input.");
@@ -195,7 +228,6 @@ namespace GASHAPWN
         /// <summary>
         /// Activate or deactivate all battle controls
         /// </summary>
-        /// <param name="active"></param>
         public void SetBattleControlsActive(bool active)
         {
             foreach (var i in playerAssignments)
@@ -203,18 +235,11 @@ namespace GASHAPWN
                 if (i.isAssigned && i.playerInput != null)
                 {
                     var input = i.playerInput;
+
                     if (active)
-                    {
                         input.actions.FindActionMap("BattleControls").Enable();
-                        input.actions.FindActionMap("UI").Disable();
-                        input.SwitchCurrentActionMap("BattleControls");
-                    }
                     else
-                    {
                         input.actions.FindActionMap("BattleControls").Disable();
-                        input.actions.FindActionMap("UI").Enable();
-                        input.SwitchCurrentActionMap("UI");
-                    }
                 }
                 else Debug.LogError($"ControllerManager: Failed to activate or deactive battle controls because {i.playerTag}" +
                 $" does not have an assigned input.");
@@ -306,15 +331,45 @@ namespace GASHAPWN
                 GameObject uiInputObj = Instantiate(uiPlayerInputPrefab);
                 PlayerInput uiInput = uiInputObj.GetComponent<PlayerInput>();
 
-                uiInput.SwitchCurrentActionMap("UI");
-                uiInput.camera = Camera.main;
-                uiInput.uiInputModule = FindFirstObjectByType<InputSystemUIInputModule>();
-                uiInput.ActivateInput();
+                SetUIControlsActive(true, uiInput);
             }
             else
             {
                 Debug.LogWarning("UI PlayerInput prefab not assigned.");
             }
+        }
+
+        // Activate UI Controls for given PlayerInput
+        public void SetUIControlsActive(bool active, PlayerInput input)
+        {
+            if (active)
+            {
+                var battleMap = input.actions.FindActionMap("BattleControls");
+                if (battleMap != null) battleMap.Disable();    
+
+                input.SwitchCurrentActionMap("UI");
+                var uiModule = FindFirstObjectByType<InputSystemUIInputModule>();
+                if (uiModule != null) uiModule.actionsAsset = input.actions;
+                input.camera = Camera.main;
+                if (!input.inputIsActive) input.ActivateInput();
+            }
+            else
+            {
+                var battleMap = input.actions.FindActionMap("BattleControls");
+                if (battleMap != null)
+                {
+                    input.SwitchCurrentActionMap("BattleControls");
+                    battleMap.Enable();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reset state of all actions for given PlayerInput
+        /// </summary>
+        public void ClearAllInputs(PlayerInput playerInput)
+        {
+            foreach (var action in playerInput.actions) action.Reset();
         }
     }
 }

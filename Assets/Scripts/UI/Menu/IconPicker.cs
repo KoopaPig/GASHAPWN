@@ -10,10 +10,13 @@ namespace GASHAPWN.UI {
     {
         [Tooltip("XInput ControlsHelp Object")]
         [SerializeField] private GameObject xInputHelp;
+
         [Tooltip("Keyboard ControlsHelp Object")]
         [SerializeField] private GameObject KeyboardHelp;
+
         [Tooltip("Current ControlScheme of IconPicker")]
         [SerializeField] private ControlScheme controlScheme;
+
         [Tooltip("Toggle whether IconPicker should automatically update its visual state")]
         public bool IsAutomaticUpdate = true;
 

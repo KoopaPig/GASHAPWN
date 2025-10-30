@@ -12,17 +12,28 @@ namespace GASHAPWN
         public bool isDebug = false;
 
         [Header("Cameras")]
-            #region Scene Cameras
+        #region Scene Cameras
+            [Tooltip("Cinemachine Cam for intro animation")]
             [SerializeField] private CinemachineCamera introCam;
-            [SerializeField] private CinemachineCamera battleCam;
-            [SerializeField] private CinemachineCamera winCam;
-            [SerializeField] private CinemachineCamera machineCam; // within GashaMachine
-            [SerializeField] private CinemachineCamera debugCam;
-            [SerializeField] private CinemachineTargetGroup targetGroup;
-            #endregion
 
-            private CinemachineGroupFraming framing;
-            private SplineAnimate dolly;
+            [Tooltip("Cinemachine Cam during battle")]
+            [SerializeField] private CinemachineCamera battleCam;
+
+            [Tooltip("Cinemachine Cam to switch to on Results Screen")]
+            [SerializeField] private CinemachineCamera winCam;
+
+            [Tooltip("Camera in GashaMachine, active on NewFigureScreen")]
+            [SerializeField] private CinemachineCamera machineCam;
+
+            [Tooltip("Camera for debug functions")]
+            [SerializeField] private CinemachineCamera debugCam;
+
+            [Tooltip("Target group for players during battle")]
+            [SerializeField] private CinemachineTargetGroup targetGroup;
+        #endregion
+
+        private CinemachineGroupFraming framing;
+        private SplineAnimate dolly;
 
         private Coroutine waitCamCoroutine;
 
@@ -38,9 +49,12 @@ namespace GASHAPWN
             battleCam.Priority = 5;
             winCam.Priority = 0;
             machineCam.Priority = 0;
+
+            dolly = introCam.GetComponent<SplineAnimate>();
+
         }
 
-        private void Start()
+        private void OnEnable()
         {
             BattleManager.Instance.ChangeToCountdown.AddListener(StartPath);
             BattleManager.Instance.OnWinner.AddListener(SwitchToWinCam);
@@ -49,10 +63,10 @@ namespace GASHAPWN
 
             framing = battleCam.GetComponent<CinemachineGroupFraming>();
             framing.Damping = 0f;
+        }
 
-            dolly = introCam.GetComponent<SplineAnimate>();
-            dolly.Duration = BattleManager.Instance.countDownTime;
-
+        private void Start()
+        {
             foreach (var player in BattleManager.Instance.GetActivePlayers())
             {
                 var playerData = player.GetComponent<PlayerData>();
@@ -96,6 +110,8 @@ namespace GASHAPWN
 
         private void LateUpdate()
         {
+            // THIS SHOULD NOT UPDATE EVERY FRAME,
+            // ONLY WHEN BATTLE IS INITIALIZED OR AMOUNT OF PLAYERS UPDATES OR SOME OTHER EVENT TRIGGERS IT
             UpdateTargetGroup();
         }
 
@@ -131,7 +147,7 @@ namespace GASHAPWN
         // Called with BattleManager.ChangeToBattle
         private void HandleChangeToBattle(BattleState state)
         {
-            if (!dolly.IsPlaying) { introCam.Priority = 0; }
+            introCam.Priority = 0;
             if (framing != null) framing.Damping = 2f;
         }
 
@@ -185,6 +201,7 @@ namespace GASHAPWN
         // Called with BattleManager.ChangeToCountdown
         public void StartPath(BattleState state)
         {
+            dolly.Duration = BattleManager.Instance.countDownTime;
             introCam.Priority = 30;
             dolly.Play();
         }

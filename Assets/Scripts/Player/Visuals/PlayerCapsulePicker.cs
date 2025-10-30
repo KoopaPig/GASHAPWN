@@ -1,6 +1,9 @@
 using UnityEngine;
 
 namespace GASHAPWN {
+    /// <summary>
+    /// Sets capsule prefab based on Player tag
+    /// </summary>
     public class PlayerCapsulePicker : MonoBehaviour
     {
         [Header("Capsule Prefabs")]

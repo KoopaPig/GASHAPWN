@@ -1,38 +1,51 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using System.Collections;
 using TMPro;
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
-using System.Linq;
 using Unity.VisualScripting;
 using GASHAPWN.Utility;
 
 namespace GASHAPWN.UI {
+    /// <summary>
+    /// Controller for Results Screen GUI
+    /// </summary>
     public class ResultsScreenGUI : MonoBehaviour
     {
-        [Header("Slide-In Settings")]
-        [SerializeField] private GameObject victoryScreenFirstButton;
-        [SerializeField] private float slideDuration = 0.3f;
-        //[SerializeField] private float offsetInPixels = 200f;
-
-        private Vector2 offscreenRight;
-        private Vector2 onscreenPosition;
-        private RectTransform rectTransform;
+        // IN FUTURE: If I want support for more than 2 players, this needs to be more dynamic
+        [Header("Results Containers")]
+            [Tooltip("Array of ResultsContainers, one per player")]
+            [SerializeField] private ResultsContainer[] resultsContainers;
 
         [Header("Winner Elements")]
-        [SerializeField] private TextMeshProUGUI winnerText;
-        [SerializeField] GameObject winnerCrownGUI;
+            [Tooltip("Reference to text for winner name")]
+            [SerializeField] private TextMeshProUGUI winnerText;
 
-        private Vector3 winnerCrownPosition;
+            [Tooltip("Crown GUI element for winner")]
+            [SerializeField] GameObject winnerCrownGUI;
 
-        [SerializeField] private ResultsContainer[] resultsContainers;
+            // Store position of winnerCrownGUI
+            private Vector3 winnerCrownPosition;
+
+        [Header("Slide-In Settings")]
+            [Tooltip("First button to select on Results Screen")]
+            [SerializeField] private GameObject resultsScreenFirstButton;
+
+            [Tooltip("Duration of slide-in animation")]
+            [SerializeField] private float slideDuration = 0.3f;
+
+            // Define what position is offscreen to the right
+            private Vector2 offscreenRight;
+            // Define what position is onscreen (0,0)
+            private Vector2 onscreenPosition;
+            // Reference to RectTransform of Canvas
+            private RectTransform rectTransform;
+
 
         /// PUBLIC METHODS ///
 
-        // Slide In Victory Screen given waitDuration
-        public IEnumerator SlideInVictoryScreen(float waitDuration)
+        /// <summary> 
+        /// Slide In Results Screen given waitDuration
+        /// </summary>
+        public IEnumerator SlideInResultsScreen(float waitDuration)
         {
             // Stagger in results containers
             StartCoroutine(StaggerFadeInResultsContainers(waitDuration + 1f));
@@ -50,7 +63,7 @@ namespace GASHAPWN.UI {
             GetComponent<RectTransform>().anchoredPosition = onscreenPosition;
             
             // Wait to turn on button
-            StartCoroutine(WaitTurnOnButton(1.5f));
+            StartCoroutine(WaitTurnOnButton(slideDuration + 1.2f));
         }
 
         public void GoToNewFigure()
@@ -59,6 +72,7 @@ namespace GASHAPWN.UI {
             // deactivate this stuff
             GetComponent<GraphicsFaderCanvas>().FadeTurnOff(true);
         }
+
 
         /// PRIVATE METHODS ///
 
@@ -92,6 +106,14 @@ namespace GASHAPWN.UI {
             }
         }
 
+        private void OnDisable()
+        {
+            if (BattleManager.Instance != null)
+            {
+                BattleManager.Instance.OnWinner.RemoveListener(PopulateResults);
+            }
+        }
+
         // PopulateResults called when OnWinningFigure event triggered
 
         private void PopulateResults(GameObject player, string s, Figure f) {
@@ -104,11 +126,7 @@ namespace GASHAPWN.UI {
         }
 
 
-        /// <summary>
-        /// Populate results given player GameObject + isWinner bool
-        /// </summary>
-        /// <param name="player"></param>
-        /// <param name="isWinner"></param>
+        // Populate results given player GameObject + isWinner bool
         private void PopulateResultsGivenPlayer(GameObject player, bool isWinner)
         {
             var fig = player.GetComponent<PlayerAttachedFigure>().GetAttachedFigure();
@@ -134,7 +152,8 @@ namespace GASHAPWN.UI {
             Debug.LogWarning($"VictoryScreenGUI: No ResultsContainer found for player tag: {player.tag}");
         }
 
-        // Slides In Results Container given offset, duration, and wait buffer time
+
+        // Slides In ResultsContainer given offset, duration, and wait buffer time
         private IEnumerator SlideInResultsContainer(RectTransform transform, Vector2 offset, float duration, float waitDuration)
         {
             yield return new WaitForSeconds(waitDuration);
@@ -185,7 +204,7 @@ namespace GASHAPWN.UI {
                 yield break;
             }
             yield return new WaitForSeconds(waitDuration);
-            EventSystemSelectHelper.SetSelectedGameObject(victoryScreenFirstButton); // Set new button here
+            EventSystemSelectHelper.SetSelectedGameObject(resultsScreenFirstButton); // Set new button here
             GetComponentInParent<CanvasGroup>().interactable = true;
         }
 
@@ -193,14 +212,6 @@ namespace GASHAPWN.UI {
             yield return new WaitForNextFrameUnit();
             winnerCrownGUI.GetComponent<Animator>().enabled = true;
             winnerCrownGUI.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(false);
-        }
-
-        private void OnDisable()
-        {
-            if (BattleManager.Instance != null)
-            {
-                BattleManager.Instance.OnWinner.RemoveListener(PopulateResults);
-            }
         }
     }
 }

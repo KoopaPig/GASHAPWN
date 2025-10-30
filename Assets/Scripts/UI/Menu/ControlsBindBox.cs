@@ -18,24 +18,29 @@ namespace GASHAPWN.UI
         [NonSerialized] public bool IsControllerDetected = false;
         // ControlScheme corresponding to this ControlsBindBox
         [NonSerialized] public ControlScheme controlScheme;
-        // Player index corresponding to this object
+
+        [Tooltip("Player index corresponding to this object")]
         public int playerIndex;
 
         [Header("Feedback GUI Elements")]
-        // Image for XInput control scheme
-        public Image xInputImage;
-        // Image for keyboard control scheme
-        public Image keyboardImage;
-        // Reference to feedback text
-        public TextAnimator_TMP feedbackText;
-        // Graphical Elements
-        [SerializeField] private Image background;
-        [SerializeField] private Image border;
-        [SerializeField] private Image gradientDots;
-        [SerializeField] private Image belowBox;
-        // Selection Colors
-        [SerializeField] private Color selectedColorBG;
-        [SerializeField] private Color selectedColorFG;
+            [Tooltip("Image for XInput control scheme")]
+            public Image xInputImage;
+
+            [Tooltip("Image for Keyboard control scheme")]
+            public Image keyboardImage;
+
+            [Tooltip("Reference to feedback text")]
+            public TextAnimator_TMP feedbackText;
+
+            // Graphical Elements
+            [SerializeField] private Image background;
+            [SerializeField] private Image border;
+            [SerializeField] private Image gradientDots;
+            [SerializeField] private Image belowBox;
+
+            // Selection Colors
+            [SerializeField] private Color selectedColorBG;
+            [SerializeField] private Color selectedColorFG;
 
         private Color backgroundColor;
         private Color borderColor;

@@ -67,6 +67,7 @@ namespace GASHAPWN
             cancelAction.Disable();
         }
 
+
         /// PUBLIC METHODS ///
 
         public void OnNavigate(InputAction.CallbackContext context)
