@@ -7,25 +7,30 @@ namespace GASHAPWN
     public class AirborneIndicator : MonoBehaviour
     {
         private PlayerData playerData;
-        private GhostTrailEffect ghostTrailEffect;
-
+        [SerializeField] private GhostTrailEffect ghostTrailEffect;
 
         [Header("Line Renderer Settings")]
-        public LineRenderer airborneLineRenderer;
-        public float maxRayDistance = 100f;
+            public LineRenderer airborneLineRenderer;
+            public float maxRayDistance = 100f;
 
         [Header("Slam Target Settings")]
-        [SerializeField] private DecalProjector targetProjector;
-        private float minDistance = 7f;
-        private Vector3 targetProjectorInitialSize;
+            [SerializeField] private DecalProjector targetProjector;
+            [SerializeField] private float minDistance = 10f;
+            private Vector3 targetProjectorInitialSize;
 
         [SerializeField] private LayerMask groundLayer;
 
+        [SerializeField] private Color baseLineColor;
+        [SerializeField] private Color targetLineColor;
+
+        private float targetAlpha;
+
         private void Awake()
         {
-            playerData = GetComponent<PlayerData>();
-            ghostTrailEffect = GetComponent<GhostTrailEffect>();
+            playerData = GetComponentInParent<PlayerData>();
             targetProjectorInitialSize = targetProjector.size;
+            airborneLineRenderer.startColor = baseLineColor;
+            airborneLineRenderer.endColor = baseLineColor;
         }
 
         private void OnEnable()
@@ -42,6 +47,7 @@ namespace GASHAPWN
 
         private void Update()
         {
+
             // Deactivate if player is dead
             if (playerData.isDead)
             {
@@ -63,6 +69,10 @@ namespace GASHAPWN
 
                     float distanceToGround = Vector3.Distance(startPosition, endPosition);
 
+                    targetAlpha = Mathf.Clamp01(distanceToGround / minDistance);
+                    airborneLineRenderer.startColor = new Color(baseLineColor.r, baseLineColor.g, baseLineColor.b, targetAlpha);
+                    airborneLineRenderer.endColor = new Color(baseLineColor.r, baseLineColor.g, baseLineColor.b, targetAlpha);
+
                     // Only activate targetProjector if certain distance from ground
                     if (distanceToGround > minDistance)
                     {
@@ -79,6 +89,8 @@ namespace GASHAPWN
                 {
                     // no point hit, so set end position based on maxRayDistance
                     endPosition = startPosition + Vector3.down * maxRayDistance;
+                    airborneLineRenderer.startColor = Color.clear;
+                    airborneLineRenderer.endColor = Color.clear;
                     targetProjector.enabled = false;
                 }
 
@@ -115,12 +127,15 @@ namespace GASHAPWN
 
                 // Smooth interpolate
                 targetProjector.size = Vector3.Lerp(targetProjectorInitialSize, targetSize, t);
+                airborneLineRenderer.endColor = Color.Lerp(baseLineColor, targetLineColor, t);
                 yield return null;
             }
 
+            airborneLineRenderer.endColor = targetLineColor;
             targetProjector.size = targetSize; // Ensure exact final size
             yield return null;
             targetProjector.size = targetProjectorInitialSize;
+            airborneLineRenderer.endColor = baseLineColor;
         }
 
         private IEnumerator SlamTrailEffect(float duration)

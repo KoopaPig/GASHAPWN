@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7810409205633532874}
   - component: {fileID: 3499382402623062507}
   - component: {fileID: 8012452833802943089}
+  - component: {fileID: 10073309969699326}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -57,15 +58,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b919d41d816199f4eadce86107e30440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newFigure: 0
-  isDebug: 0
   battleTime: 180
-  isCountDownOn: 1
+  IsCountDownOn: 1
   player1BattleGUI: {fileID: 0}
   player2BattleGUI: {fileID: 0}
   player1SpawnPos: {fileID: 0}
   player2SpawnPos: {fileID: 0}
-  controls: {fileID: -944628639613478452, guid: a4813de7deb37dd40b927e6d190544bb, type: 3}
   ChangeToCountdown:
     m_PersistentCalls:
       m_Calls:
@@ -99,7 +97,7 @@ MonoBehaviour:
   ChangeToSuddenDeath:
     m_PersistentCalls:
       m_Calls: []
-  ChangeToVictory:
+  ChangeToResults:
     m_PersistentCalls:
       m_Calls: []
   ChangeToNewFigure:
@@ -123,3 +121,16 @@ MonoBehaviour:
   OnWinner:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &10073309969699326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6748602134496478548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78c71804989edf24dac3081b349a8571, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crownPrefab: {fileID: 5062768710083030732, guid: bf36934f31eeab14791016607ebed9c1, type: 3}

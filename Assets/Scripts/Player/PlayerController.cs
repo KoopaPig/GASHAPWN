@@ -66,7 +66,7 @@ namespace GASHAPWN {
                 GAME_SFXManager.Instance.Play_SlamImpact(this.transform);
             }
 
-            if (_pPlayerData.isGrounded && !_pPlayerData.isCharging)
+            if (_pPlayerData.isGrounded && !_pPlayerData.isCharging && !_pPlayerData.isDefending)
             {
                 _rb.linearDamping = _pPlayerData.drag;
                 _rb.angularDamping = _pPlayerData.angularDrag;
@@ -107,8 +107,14 @@ namespace GASHAPWN {
         // Actions for "Movement" input
         public void OnMovement(InputAction.CallbackContext context)
         {
-            if (_pPlayerData.isCharging) return;
-            moveInput = context.ReadValue<Vector2>();
+            if (_pPlayerData == null || _pPlayerData.isCharging || _pPlayerData.isDefending)
+            {
+                return;
+            } 
+            else
+            {
+                moveInput = context.ReadValue<Vector2>();
+            }
         }
 
         // Actions for "Jump" input
@@ -123,8 +129,7 @@ namespace GASHAPWN {
         // Actions for "Slam" input
         public void OnSlam(InputAction.CallbackContext context)
         {
-            if (_pPlayerData == null || !_pPlayerData.controlsEnabled || _pPlayerData.isGrounded || _pPlayerData.hasSlammed || _pPlayerData.isCharging)
-                return;
+            if (_pPlayerData == null) return;
 
             if (context.performed) _pSpecialMoveHandler.TryUseSpecialMove("Slam");
         }
@@ -132,10 +137,10 @@ namespace GASHAPWN {
         // Actions for "QuickBreak" input
         public void OnQuickBreak(InputAction.CallbackContext context)
         {
-            if (_pPlayerData == null)
-                return;
+            if (_pPlayerData == null) return;
 
             if (context.performed) _pSpecialMoveHandler.TryUseSpecialMove("QuickBreak");
+            if (context.canceled) _pSpecialMoveHandler.TryCancelSpecialMove("QuickBreak");
         }
 
         // Actions for "RotateChargeDirection" input
@@ -147,20 +152,20 @@ namespace GASHAPWN {
         }
 
         // Actions for "ChargeRoll" input
-        public void OnChargeRoll(InputAction.CallbackContext context)
-        {
-            if (_pPlayerData == null || !_pPlayerData.controlsEnabled || _pPlayerData.isCharging || _pPlayerData.hasCharged)
-                return;
+        //public void OnChargeRoll(InputAction.CallbackContext context)
+        //{
+        //    if (_pPlayerData == null || !_pPlayerData.controlsEnabled || _pPlayerData.isCharging || _pPlayerData.hasCharged)
+        //        return;
 
-            if (context.started)
-            {
-                _pSpecialMoveHandler.TryUseSpecialMove("ChargeRoll");
-            }
-            else if (context.canceled && _pPlayerData.isCharging)
-            {
-                _pSpecialMoveHandler.TryCancelSpecialMove("ChargeRoll");
-            }
-        }
+        //    if (context.started)
+        //    {
+        //        _pSpecialMoveHandler.TryUseSpecialMove("ChargeRoll");
+        //    }
+        //    else if (context.canceled && _pPlayerData.isCharging)
+        //    {
+        //        _pSpecialMoveHandler.TryCancelSpecialMove("ChargeRoll");
+        //    }
+        //}
 
         // Actions for "Pause" input
         public void OnPause(InputAction.CallbackContext context)

@@ -443,7 +443,11 @@ namespace GASHAPWN
             // if it does, increment amount
             else
             {
-                existingFigure.amount += 1;
+                // only increment if less than max amount
+                if (existingFigure.amount < FigureManager.MAX_AMOUNT_PER_FIGURE)
+                {
+                    existingFigure.amount += 1;
+                }
                 newFigure = false;
             }
         }

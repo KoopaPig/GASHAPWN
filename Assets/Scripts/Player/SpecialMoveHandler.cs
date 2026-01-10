@@ -16,6 +16,12 @@ public class SpecialMoveHandler : MonoBehaviour
     // Reference to Special Move Host
     private MonoBehaviour host;
 
+    // Single corotoutine ensures only one special move can execute at a time
+    private Coroutine _specialMoveCoroutine = null;
+
+    // Currently active special move
+    private ISpecialMove _activeSpecialMove = null;
+
     private void Awake()
     {
         // Register Special Moves here
@@ -41,7 +47,11 @@ public class SpecialMoveHandler : MonoBehaviour
         {
             if (move.CanExecute(playerData))
             {
-                move.Execute(playerData, host);
+                if (_activeSpecialMove != move && _activeSpecialMove != null) _activeSpecialMove.Cancel(playerData, host);
+                if (_specialMoveCoroutine != null) StopCoroutine(_specialMoveCoroutine); 
+
+                _specialMoveCoroutine = StartCoroutine(move.Execute(playerData, host));
+
                 Debug.Log($"Executed: {move.Name}");
             }
             else
@@ -71,7 +81,8 @@ public class SpecialMoveHandler : MonoBehaviour
     {
         if (moveSet.TryGetValue(moveName, out ISpecialMove move))
         {
-            move.Cancel();
+            if (move.CanCancel(playerData))
+                move.Cancel(playerData, host);
         }
     }
 }

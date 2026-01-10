@@ -20,6 +20,9 @@ namespace GASHAPWN.UI
         [Tooltip("Slide-In direction")]
         [SerializeField] protected SlideDirection slideDirection = SlideDirection.Left;
 
+        [Tooltip("Offset to add to slide direction")]
+        [SerializeField] protected float offset = 0f;
+
         // Define what position is offscreen
         protected Vector2 offscreenPosition;
         // Define what position is onscreen (0,0)
@@ -71,22 +74,22 @@ namespace GASHAPWN.UI
             // Screen starts offscreen
             float screenWidth = rectTransform.rect.width;
             onscreenPosition = rectTransform.anchoredPosition;
-            offscreenPosition = GetOffscreenPosition(slideDirection);
+            offscreenPosition = GetOffscreenPosition(slideDirection, offset);
             rectTransform.anchoredPosition = offscreenPosition;
         }
 
         // Returns offscreen position given SlideDirection
-        protected Vector2 GetOffscreenPosition(SlideDirection dir)
+        protected Vector2 GetOffscreenPosition(SlideDirection dir, float offset = 0f)
         {
             float width = rectTransform.rect.width;
             float height = rectTransform.rect.height;
 
             return dir switch
             {
-                SlideDirection.Right => onscreenPosition + new Vector2(width, 0),
-                SlideDirection.Left => onscreenPosition + new Vector2(-width, 0),
-                SlideDirection.Up => onscreenPosition + new Vector2(0, height),
-                SlideDirection.Down => onscreenPosition + new Vector2(0, -height),
+                SlideDirection.Right => onscreenPosition + new Vector2(width + offset, 0),
+                SlideDirection.Left => onscreenPosition + new Vector2(-width - offset, 0),
+                SlideDirection.Up => onscreenPosition + new Vector2(0, height + offset),
+                SlideDirection.Down => onscreenPosition + new Vector2(0, -height - offset),
                 _ => onscreenPosition
             };
         }

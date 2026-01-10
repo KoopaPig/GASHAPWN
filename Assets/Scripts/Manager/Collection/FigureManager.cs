@@ -16,6 +16,8 @@ namespace GASHAPWN
         [Tooltip("Reference to main FigureDatabase")]
         public FigureDatabase figureDatabase;
 
+        [HideInInspector] public const int MAX_AMOUNT_PER_FIGURE = 99;
+
 
         /// PRIVATE METHODS ///
 

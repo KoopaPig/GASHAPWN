@@ -42,17 +42,26 @@ namespace GASHAPWN
             return playerData.controlsEnabled &&
                    !playerData.isCharging &&
                    playerData.isGrounded &&
+                   !playerData.isDefending &&
                    playerData.currentStamina >= StaminaCost;
         }
 
-        public void Execute(PlayerData playerData, MonoBehaviour host)
+        public bool CanCancel(PlayerData playerData)
+        {
+            return playerData.controlsEnabled &&
+                    playerData.isDefending;
+        }
+
+        public IEnumerator Execute(PlayerData playerData, MonoBehaviour host)
         {
             playerData.currentStamina -= StaminaCost;
             playerData.OnStaminaChanged?.Invoke(playerData.currentStamina);
 
-            playerData.StartCoroutine(playerData.QuickBreakCoroutine(quickBreakDuration, quickBreakDefenseDuration));
+            return playerData.QuickBreakCoroutine(quickBreakDuration, quickBreakDefenseDuration);
         }
 
-        public void Cancel() { }
+        public void Cancel(PlayerData playerData, MonoBehaviour host) {
+            playerData.QuickBreak_Cancel();
+        }
     }
 }

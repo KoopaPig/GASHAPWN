@@ -1,4 +1,5 @@
 using GASHAPWN.Audio;
+using System.Collections;
 using UnityEngine;
 
 namespace GASHAPWN
@@ -41,7 +42,9 @@ namespace GASHAPWN
                !playerData.isCharging;
         }
 
-        public void Execute(PlayerData playerData, MonoBehaviour host)
+        public bool CanCancel(PlayerData playerData) { return true; }
+
+        public IEnumerator Execute(PlayerData playerData, MonoBehaviour host)
         {
             Rigidbody rb = playerData.rb;
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -50,8 +53,10 @@ namespace GASHAPWN
             playerData.OnStaminaChanged?.Invoke(playerData.currentStamina);
 
             GAME_SFXManager.Instance.Play_Jump(playerData.transform);
+
+            yield return null;
         }
 
-        public void Cancel() { }
+        public void Cancel(PlayerData playerData, MonoBehaviour host) { }
     }
 }

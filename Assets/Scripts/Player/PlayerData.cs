@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using GASHAPWN.Audio;
 
+// TO DO: Move flash-related effects to new script
+
+
 namespace GASHAPWN
 {
     /// <summary>
@@ -55,40 +58,31 @@ namespace GASHAPWN
             [HideInInspector] public bool isCharging = false;
             [HideInInspector] public bool hasCharged = false;
             [HideInInspector] public bool isBursting = false; // Track burst state for invincibility
+            [HideInInspector] public bool isDefending = false;
             [HideInInspector] public bool isDead = false;
 
         [Header("Movement Settings")]
-        public float moveSpeed = 5f;
-        public float minHitSpeed = 3f;
-        public float deflectKnockbackMultiplier = 1.5f;
-        public float slamAirborneTime = 1f;
-        public float generalImpactSpeedThreshold = 2f;
+            public float moveSpeed = 5f;
+            public float minHitSpeed = 3f;
+            public float deflectKnockbackMultiplier = 1.5f;
+            public float slamAirborneTime = 1f;
+            public float generalImpactSpeedThreshold = 2f;
 
         [Header("Physics Floatiness")]
-        public float drag = 0f;
-        public float angularDrag = 0.05f;
+            public float drag = 0f;
+            public float angularDrag = 0.05f;
 
         [Header("Physic Material (optional)")]
-        public PhysicsMaterial sphereMaterial;
+            public PhysicsMaterial sphereMaterial;
 
         [Header("Air Control Settings")]
-        public float airTorque = 5f;
+            public float airTorque = 5f;
 
-        public Vector2 rotationInput;
-        [HideInInspector] public ChargeRollIndicator chargeRollIndicator;
+            public Vector2 rotationInput;
+            [HideInInspector] public ChargeRollIndicator chargeRollIndicator;
 
         [Header("Burst Settings")]
-        public float burstInvincibilityDuration = 1.2f; // Invincibility duration during burst
-
-        [Header("Visual Feedback")]
-        public Color flashColor = Color.red; // Color to flash during i-frames
-        public Color defenseColor = Color.blue; // Color to show during defense boost
-        public Color attackColor = Color.yellow; // Color to show during attack boost
-        public float flashSpeed = 0.1f; // How fast to flash
-
-        // Multiple renderer support
-        private Renderer[] playerRenderers;
-        private Color[] originalColors;
+            public float burstInvincibilityDuration = 1.2f; // Invincibility duration during burst
 
         private ParticleEffects particleEffects;
 
@@ -269,17 +263,6 @@ namespace GASHAPWN
             }
         }
 
-        // Activate defense boost
-        public void ActivateDefense(float duration, float reduction)
-        {
-            Debug.Log($"Defense activated on {gameObject.name} for {duration} seconds with {reduction * 100}% reduction");
-
-            damageReduction = Mathf.Clamp01(reduction); // Clamp between 0-1
-            defenseTimer = duration;
-            OnDefenseActivated.Invoke();
-            StartCoroutine(DefenseVisualEffect(duration));
-        }
-
         /// <summary>
         /// Activate attack boost given duration and multiplier
         /// </summary>
@@ -290,7 +273,7 @@ namespace GASHAPWN
             damageMultiplier = multiplier;
             attackBonusTimer = duration;
             OnAttackBonusActivated.Invoke();
-            StartCoroutine(AttackVisualEffect(duration));
+            //StartCoroutine(AttackVisualEffect(duration));
         }
 
         // Used when performing burst move
@@ -299,7 +282,7 @@ namespace GASHAPWN
             Debug.Log($"Burst invincibility activated on {gameObject.name}");
 
             isBursting = true;
-            StartCoroutine(BurstInvincibility());
+            //StartCoroutine(BurstInvincibility());
         }
 
         private IEnumerator BurstInvincibility()
@@ -308,7 +291,7 @@ namespace GASHAPWN
             Debug.Log(gameObject.name + " entered Burst Invincibility!");
 
             // Store reference to the coroutine
-            Coroutine visualEffect = StartCoroutine(BurstVisualEffect());
+            //Coroutine visualEffect = StartCoroutine(BurstVisualEffect());
 
             yield return new WaitForSeconds(burstInvincibilityDuration);
 
@@ -317,167 +300,71 @@ namespace GASHAPWN
             Debug.Log(gameObject.name + " exited Burst Invincibility!");
 
             // Stop the visual effect if it's still running
-            if (visualEffect != null)
-                StopCoroutine(visualEffect);
+            //if (visualEffect != null)
+            //    StopCoroutine(visualEffect);
 
             // Reset all renderers to original colors
-            ResetAllRenderersToOriginalColors();
+            //ResetAllRenderersToOriginalColors();
         }
 
         private IEnumerator ActivateIFrames()
         {
             isInvincible = true;
             Debug.Log(gameObject.name + " entered I-Frames! No damage can be taken.");
-
-            StartCoroutine(FlashEffect());
-
             yield return new WaitForSeconds(invincibilityDuration);
-
             isInvincible = false;
             Debug.Log(gameObject.name + " exited I-Frames! Can take damage again.");
-
-            // Reset all renderers to original colors
-            ResetAllRenderersToOriginalColors();
         }
 
-        private IEnumerator FlashEffect()
-        {
-            if (playerRenderers.Length == 0)
-                yield break;
+        //private IEnumerator AttackVisualEffect(float duration)
+        //{
+        //    if (playerRenderers.Length == 0)
+        //        yield break;
 
-            Debug.Log($"Starting flash effect on {gameObject.name}");
+        //    // Apply attack color to all renderers
+        //    for (int i = 0; i < playerRenderers.Length; i++)
+        //    {
+        //        if (playerRenderers[i] != null)
+        //        {
+        //            Color lerpedColor = Color.Lerp(originalColors[i], attackColor, 0.7f);
+        //            playerRenderers[i].material.color = lerpedColor;
+        //        }
+        //    }
 
-            // Track how many flashes we've done
-            int flashCount = 0;
+        //    yield return new WaitForSeconds(duration);
 
-            while (isInvincible && flashCount < 20) // Limit to 20 flashes as a safety
-            {
-                // Change all renderers to flash color
-                for (int i = 0; i < playerRenderers.Length; i++)
-                {
-                    if (playerRenderers[i] != null)
-                    {
-                        playerRenderers[i].material.color = flashColor;
-                    }
-                }
+        //    // Only reset colors if not in another state (like invincibility)
+        //    if (!isInvincible && defenseTimer <= 0 && attackBonusTimer <= 0)
+        //    {
+        //        //ResetAllRenderersToOriginalColors();
+        //    }
+        //}
 
-                yield return new WaitForSeconds(flashSpeed);
+        //private IEnumerator BurstVisualEffect()
+        //{
+        //    if (playerRenderers.Length == 0)
+        //        yield break;
 
-                // Change all renderers back to original color
-                for (int i = 0; i < playerRenderers.Length; i++)
-                {
-                    if (playerRenderers[i] != null)
-                    {
-                        playerRenderers[i].material.color = originalColors[i];
-                    }
-                }
+        //    float elapsedTime = 0f;
 
-                yield return new WaitForSeconds(flashSpeed);
-                flashCount++;
-            }
+        //    while (elapsedTime < burstInvincibilityDuration)
+        //    {
+        //        // Pulse between white and yellow for burst
+        //        float pulseValue = Mathf.PingPong(elapsedTime * 8f, 1f);
 
-            Debug.Log($"Flash effect ended on {gameObject.name} after {flashCount} flashes");
+        //        for (int i = 0; i < playerRenderers.Length; i++)
+        //        {
+        //            if (playerRenderers[i] != null)
+        //            {
+        //                playerRenderers[i].material.color = Color.Lerp(Color.white, defenseColor, pulseValue);
+        //            }
+        //        }
 
-            // Ensure colors are reset at the end
-            ResetAllRenderersToOriginalColors();
-        }
+        //        elapsedTime += Time.deltaTime;
+        //        yield return null;
+        //    }
+        //}
 
-        private IEnumerator DefenseVisualEffect(float duration)
-        {
-            if (playerRenderers.Length == 0)
-                yield break;
-
-            // Apply defense color to all renderers
-            for (int i = 0; i < playerRenderers.Length; i++)
-            {
-                if (playerRenderers[i] != null)
-                {
-                    Color lerpedColor = Color.Lerp(originalColors[i], defenseColor, 0.7f);
-                    playerRenderers[i].material.color = lerpedColor;
-                }
-            }
-
-            yield return new WaitForSeconds(duration);
-
-            // Only reset colors if not in another state (like invincibility)
-            if (!isInvincible && defenseTimer <= 0 && attackBonusTimer <= 0)
-            {
-                ResetAllRenderersToOriginalColors();
-            }
-        }
-
-        private IEnumerator AttackVisualEffect(float duration)
-        {
-            if (playerRenderers.Length == 0)
-                yield break;
-
-            // Apply attack color to all renderers
-            for (int i = 0; i < playerRenderers.Length; i++)
-            {
-                if (playerRenderers[i] != null)
-                {
-                    Color lerpedColor = Color.Lerp(originalColors[i], attackColor, 0.7f);
-                    playerRenderers[i].material.color = lerpedColor;
-                }
-            }
-
-            yield return new WaitForSeconds(duration);
-
-            // Only reset colors if not in another state (like invincibility)
-            if (!isInvincible && defenseTimer <= 0 && attackBonusTimer <= 0)
-            {
-                ResetAllRenderersToOriginalColors();
-            }
-        }
-
-        private IEnumerator BurstVisualEffect()
-        {
-            if (playerRenderers.Length == 0)
-                yield break;
-
-            float elapsedTime = 0f;
-
-            while (elapsedTime < burstInvincibilityDuration)
-            {
-                // Pulse between white and yellow for burst
-                float pulseValue = Mathf.PingPong(elapsedTime * 8f, 1f);
-
-                for (int i = 0; i < playerRenderers.Length; i++)
-                {
-                    if (playerRenderers[i] != null)
-                    {
-                        playerRenderers[i].material.color = Color.Lerp(Color.white, defenseColor, pulseValue);
-                    }
-                }
-
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-        }
-
-        // Helper method to reset all renderers to original colors
-        private void ResetAllRenderersToOriginalColors()
-        {
-            //Debug.Log($"Resetting all renderers to original colors on {gameObject.name}");
-            for (int i = 0; i < playerRenderers.Length; i++)
-            {
-                if (playerRenderers[i] != null)
-                {
-                    playerRenderers[i].material.color = originalColors[i];
-                    //Debug.Log($"Reset renderer {i} to color: {originalColors[i]}");
-
-                    // Force update material
-                    Material currentMat = playerRenderers[i].material;
-                    playerRenderers[i].material = currentMat;
-                }
-            }
-        }
-
-        // Add OnDisable to ensure colors get reset when the object is disabled
-        private void OnDisable()
-        {
-            ResetAllRenderersToOriginalColors();
-        }
 
         public void SetHP(int value)
         {
@@ -488,6 +375,8 @@ namespace GASHAPWN
 
         private void Die()
         {
+            if (isDead) return;
+
             Debug.Log(gameObject.name + " has been eliminated!");
             isDead = true;
             OnDeath.Invoke(this.gameObject);
@@ -504,54 +393,11 @@ namespace GASHAPWN
             SetMaxHealth.Invoke(maxHealth);
             currentStamina = maxStamina;
             SetMaxStamina.Invoke(maxStamina);
-
-            // Find all renderers in the player hierarchy
-            playerRenderers = GetComponentsInChildren<Renderer>();
-
-            Debug.Log($"Found {playerRenderers.Length} renderers in {gameObject.name}");
-            if (playerRenderers.Length == 0)
-            {
-                Debug.LogError($"No renderers found in {gameObject.name} or its children! Visual effects won't work.");
-            }
-
-            // Store all original colors
-            originalColors = new Color[playerRenderers.Length];
-            for (int i = 0; i < playerRenderers.Length; i++)
-            {
-                // Create unique material instances to avoid shared material issues
-                if (playerRenderers[i].sharedMaterial != null)
-                {
-                    playerRenderers[i].material = new Material(playerRenderers[i].sharedMaterial);
-                    // Store the current color (which should be the correct original color)
-                    originalColors[i] = playerRenderers[i].material.color;
-
-                    // Debug the original color we're storing
-                    //Debug.Log($"Original color for renderer {i}: {originalColors[i]}");
-
-                    // Make sure the initial color is not black
-                    if (originalColors[i] == Color.black)
-                    {
-                        //Debug.LogWarning($"Original color for renderer {i} is black, setting to white");
-                        originalColors[i] = Color.white;
-                        playerRenderers[i].material.color = Color.white;
-                    }
-                }
-                else
-                {
-                    //Debug.LogWarning($"Renderer {i} has no shared material!");
-                    originalColors[i] = Color.white;
-                }
-            }
-
-            particleEffects = GetComponent<ParticleEffects>();
-            if (particleEffects == null)
-            {
-                Debug.LogWarning("ParticleEffects component not found on " + gameObject.name);
-            }
         }
 
 
-        /// PUBLIC SPECIAL MOVE COROUTINES ///
+        /// PUBLIC SPECIAL MOVE COROUTINES ///        
+
 
         public IEnumerator SlamCoroutine(float slamForce, float slamAirborneTime)
         {
@@ -572,10 +418,7 @@ namespace GASHAPWN
 
         public IEnumerator QuickBreakCoroutine(float quickBreakDuration, float quickBreakDefenseDuration)
         {
-            controlsEnabled = false;
-
             // Make player temporarily invincible during quick break
-            bool wasInvincible = isInvincible;
             isInvincible = true;
 
             Vector3 initialVelocity = rb.linearVelocity;
@@ -584,6 +427,7 @@ namespace GASHAPWN
             Quaternion initialRotation = transform.rotation;
             Quaternion targetRotation = Quaternion.FromToRotation(-transform.up, Vector3.up) * transform.rotation;
 
+            // Break
             float elapsed = 0f;
             while (elapsed < quickBreakDuration)
             {
@@ -598,17 +442,27 @@ namespace GASHAPWN
                 yield return null;
             }
 
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            transform.rotation = targetRotation;
+            // Activate defense
+            isDefending = true;
+            OnDefenseActivated.Invoke();
 
-            // Restore invincibility state
-            isInvincible = wasInvincible;
+            elapsed = 0f;
+            while (elapsed < quickBreakDefenseDuration)
+            {
+                elapsed += Time.deltaTime;
+                damageReduction = Mathf.Clamp01(0.5f); // 50% damage reduction
+                yield return null;
+            }
 
-            // Activate defensive buff after quick break
-            ActivateDefense(quickBreakDefenseDuration, 0.5f); // 50% damage reduction
+            if (isDefending) QuickBreak_Cancel();
+        }
 
-            controlsEnabled = true;
+        public void QuickBreak_Cancel()
+        {
+            //// Restore invincibility state
+            isInvincible = false;
+            isDefending = false;
+            OnDefenseDeactivated?.Invoke();
         }
 
     }

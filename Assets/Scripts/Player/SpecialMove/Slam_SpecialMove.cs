@@ -1,4 +1,5 @@
 using GASHAPWN.Audio;
+using System.Collections;
 using UnityEngine;
 
 namespace GASHAPWN
@@ -44,7 +45,9 @@ namespace GASHAPWN
                    playerData.currentStamina >= StaminaCost;
         }
 
-        public void Execute(PlayerData playerData, MonoBehaviour host)
+        public bool CanCancel(PlayerData playerData) { return true; }
+
+        public IEnumerator Execute(PlayerData playerData, MonoBehaviour host)
         {
             playerData.currentStamina -= StaminaCost;
             playerData.OnStaminaChanged?.Invoke(playerData.currentStamina);
@@ -52,9 +55,9 @@ namespace GASHAPWN
             playerData.ActivateAttackBoost(1.0f, DamageMultiplier);
 
             // Delegate coroutine to Player Data (Monobehaviour)
-            playerData.StartCoroutine(playerData.SlamCoroutine(slamForce, slamDelay));
+            return playerData.SlamCoroutine(slamForce, slamDelay);
         }
 
-        public void Cancel() { }
+        public void Cancel(PlayerData playerData, MonoBehaviour host) { }
     }
 }

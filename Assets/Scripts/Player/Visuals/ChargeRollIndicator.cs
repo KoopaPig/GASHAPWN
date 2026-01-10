@@ -6,7 +6,7 @@ namespace GASHAPWN
     public class ChargeRollIndicator : MonoBehaviour
     {
         [Header("Charge Roll Settings")]
-        public PlayerData playerData;
+        private PlayerData playerData;
         public LineRenderer chargeLineRenderer;
         public float maxLineLength = 10f;
 
@@ -14,12 +14,17 @@ namespace GASHAPWN
         public float trailDuration = 0.5f;
 
         private Vector3 chargeDirection;
-        private GhostTrailEffect ghostTrailEffect;
+        [SerializeField] private GhostTrailEffect ghostTrailEffect;
         private Coroutine trailCoroutine;
+
+
+        private void Awake()
+        {
+            playerData = GetComponentInParent<PlayerData>();
+        }
 
         private void Start()
         {
-            ghostTrailEffect = GetComponent<GhostTrailEffect>();
             chargeLineRenderer.positionCount = 2;
             chargeLineRenderer.enabled = false;
         }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace GASHAPWN
@@ -17,17 +18,20 @@ namespace GASHAPWN
         bool CanExecute(PlayerData playerData);
 
         /// <summary>
+        /// Returns true if move is cancellable after checks in body of function
+        /// </summary>
+        bool CanCancel(PlayerData playerData);
+
+        /// <summary>
         /// Actions to take when executing move (context.performed or context.started)
         /// </summary>
         /// <param name="playerData"></param>
         /// <param name="host">Host MonoBehavior when Coroutines are necessary</param>
-        void Execute(PlayerData playerData, MonoBehaviour host);
+        IEnumerator Execute(PlayerData playerData, MonoBehaviour host);
 
         /// <summary>
         /// For context.canceled or interruptions
         /// </summary>
-        void Cancel();
-
-        // maybe extend this to cover effects?
+        void Cancel(PlayerData playerData, MonoBehaviour host);
     }
 }

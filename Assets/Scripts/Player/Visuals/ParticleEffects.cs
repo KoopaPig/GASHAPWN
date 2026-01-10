@@ -21,7 +21,7 @@ namespace GASHAPWN
 
         private void Awake()
         {
-            rb = GetComponent<Rigidbody>();
+            rb = GetComponentInParent<Rigidbody>();
             dustTrail.Stop();
         }
 

@@ -64,7 +64,9 @@ namespace GASHAPWN
                    playerData.currentStamina >= StaminaCost;
         }
 
-        public void Execute(PlayerData data, MonoBehaviour host)
+        public bool CanCancel(PlayerData playerData) { return false; }
+
+        public IEnumerator Execute(PlayerData data, MonoBehaviour host)
         {
             playerData = data;
             hostMono = host;
@@ -75,11 +77,13 @@ namespace GASHAPWN
             playerData.currentStamina -= StaminaCost;
             playerData.OnStaminaChanged?.Invoke(playerData.currentStamina);
 
-            activeCoroutine = host.StartCoroutine(ChargeRollCoroutine());
+            //activeCoroutine = host.StartCoroutine(ChargeRollCoroutine());
+
+            return ChargeRollCoroutine();
         }
 
         // Cancel in this case handles Charge Roll release
-        public void Cancel()
+        public void Cancel(PlayerData playerData, MonoBehaviour host)
         {
             if (!playerData.isCharging) return;
             playerData.isCharging = false;

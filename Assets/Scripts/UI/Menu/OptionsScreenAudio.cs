@@ -19,42 +19,42 @@ namespace GASHAPWN.UI
         // References to slider labels
         public TextMeshProUGUI masterLabel, musicLabel, soundLabel;
 
-        void Start()
+        private void Start()
         {
-            float vol;
-
-            theMixer.GetFloat("MasterVol", out vol);
-            masterSlider.value = vol;
-            theMixer.GetFloat("MusicVol", out vol);
-            musicSlider.value = vol;
-            theMixer.GetFloat("SoundVol", out vol);
-            soundSlider.value = vol;
-
-            masterLabel.text = Mathf.RoundToInt(masterSlider.value + 80).ToString();
-            musicLabel.text = Mathf.RoundToInt(musicSlider.value + 80).ToString();
-            soundLabel.text = Mathf.RoundToInt(soundSlider.value + 80).ToString();
-
+            LoadVolume("MasterVol", masterSlider, masterLabel);
+            LoadVolume("MusicVol", musicSlider, musicLabel);
+            LoadVolume("SoundVol", soundSlider, soundLabel);
         }
 
-        public void SetMasterVol()
+        private void LoadVolume(string param, Slider slider, TMP_Text label)
         {
-            masterLabel.text = Mathf.RoundToInt(masterSlider.value + 80).ToString();
-            theMixer.SetFloat("MasterVol", masterSlider.value);
-            PlayerPrefs.SetFloat("MasterVol", masterSlider.value);
+            float linear = PlayerPrefs.GetFloat(param, 1f); // default 100%
+            slider.value = linear;
+            label.text = Mathf.RoundToInt(linear * 100f).ToString();
+            SetMixerVolume(param, linear);
         }
 
-        public void SetMusicVol()
+        private void UpdateVolume(string param, Slider slider, TMP_Text label)
         {
-            musicLabel.text = Mathf.RoundToInt(musicSlider.value + 80).ToString();
-            theMixer.SetFloat("MusicVol", musicSlider.value);
-            PlayerPrefs.SetFloat("MusicVol", musicSlider.value);
+            float linear = slider.value;
+            label.text = Mathf.RoundToInt(linear * 100f).ToString();
+
+            SetMixerVolume(param, linear);
+            PlayerPrefs.SetFloat(param, linear);
         }
 
-        public void SetSoundVol()
+        private void SetMixerVolume(string param, float linear)
         {
-            soundLabel.text = Mathf.RoundToInt(soundSlider.value + 80).ToString();
-            theMixer.SetFloat("SoundVol", soundSlider.value);
-            PlayerPrefs.SetFloat("SoundVol", soundSlider.value);
+            if (linear <= 0f)
+                theMixer.SetFloat(param, -80f);
+            else
+                theMixer.SetFloat(param, Mathf.Log10(linear) * 20f);
         }
+
+        public void SetMasterVol() => UpdateVolume("MasterVol", masterSlider, masterLabel);
+
+        public void SetMusicVol() => UpdateVolume("MusicVol", musicSlider, musicLabel);
+
+        public void SetSoundVol() => UpdateVolume("SoundVol", soundSlider, soundLabel);
     }
 }

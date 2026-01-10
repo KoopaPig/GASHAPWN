@@ -15,8 +15,8 @@ public class TrajectoryIndicator : MonoBehaviour
 
     private void Awake()
     {
-        playerRb = GetComponent<Rigidbody>();
-        playerData = GetComponent<PlayerData>();
+        playerRb = GetComponentInParent<Rigidbody>();
+        playerData = GetComponentInParent<PlayerData>();
     }
 
     private void Start()
