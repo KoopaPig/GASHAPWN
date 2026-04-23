@@ -16,7 +16,7 @@ namespace GASHAPWN.Environment
 
             if (tag.Contains("Player"))
             {
-                Rigidbody rb = collision.collider.GetComponent<Rigidbody>();
+                Rigidbody rb = collision.collider.GetComponent<PlayerController>().rb;
                 if (rb != null)
                 {
                     Vector3 direction = (collision.transform.position - transform.position).normalized;

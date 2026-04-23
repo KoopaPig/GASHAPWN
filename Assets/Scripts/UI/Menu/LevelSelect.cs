@@ -317,8 +317,8 @@ namespace GASHAPWN.UI {
             // Only set PlayerInputs persistent before transitioning to battle scene
             PlayerInputAssigner.Instance.SetPlayerInputsPersistent();
 
-            // Transition to level scene
-            TransitionManager.Instance().Transition(selectedLevel, 0);
+            // Transition to battle scene
+            TransitionManager.Instance().Transition("Battle", 0);
 
             // Update GameManager global variables
             GameManager.Instance.currentBattleTime = selectedTime;

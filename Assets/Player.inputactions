@@ -15,15 +15,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "RotateChargeDirection",
-                    "type": "Value",
-                    "id": "e79fc03f-0304-47ef-8422-ec0e805b2f7a",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "71bcbabb-1572-4f69-afbc-3fb1fc3d6f0b",
@@ -42,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "QuickBreak",
+                    "name": "QuickBrake",
                     "type": "Button",
                     "id": "70cb2017-94bc-45c7-8154-5a8696b56037",
                     "expectedControlType": "",
@@ -137,72 +128,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "WASD",
-                    "id": "5eeee9f4-e9f7-4c28-ae06-6e962fac2204",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateChargeDirection",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "d9efef2f-8024-4fa6-84e4-f96cf7a3f15a",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateChargeDirection",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "9a0406ad-1b5a-42b0-a4d4-8d364589e9fb",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateChargeDirection",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "8d63c7f0-4cf5-488e-ac85-c52be5809247",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateChargeDirection",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "88e02457-7766-40d6-b8ee-1c8eee0657ed",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateChargeDirection",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "fa47ea31-c00c-4493-a199-3948670093c2",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateChargeDirection",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "",
                     "id": "cfd33352-ee08-4a5f-9c92-1866df15a3b5",
                     "path": "<Keyboard>/space",
@@ -253,7 +178,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "QuickBreak",
+                    "action": "QuickBrake",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -264,7 +189,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "QuickBreak",
+                    "action": "QuickBrake",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

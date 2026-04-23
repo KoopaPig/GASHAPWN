@@ -10,37 +10,24 @@ namespace GASHAPWN
 
         [Header("Particle Effects")]
         public GameObject sparksPrefab;
-        public GameObject dustImpactPrefab;
-        public ParticleSystem dustTrail;
 
         public float sparkThreshold = 8f;
         public float dustThreshold = 6f;
         public float trailSpeedThreshold = 10f;
 
-        private Rigidbody rb;
+        private Rigidbody _rb;
+
+        private PlayerEffectsHub _pEffectsHub;
 
         private void Awake()
         {
-            rb = GetComponentInParent<Rigidbody>();
-            dustTrail.Stop();
-        }
-
-        void Update()
-        {
-            if (rb.linearVelocity.magnitude >= trailSpeedThreshold)
-            {
-                if (!dustTrail.isPlaying)
-                dustTrail.Play();
-            }
-            else
-            {
-                if (dustTrail.isPlaying) dustTrail.Stop();
-            }
+            _pEffectsHub = GetComponent<PlayerEffectsHub>();
+            _rb = _pEffectsHub.rb;
         }
 
         void OnCollisionEnter(Collision collision)
         {
-            float speed = rb.linearVelocity.magnitude;
+            float speed = _rb.linearVelocity.magnitude;
 
             // DISABLED FOR NOW BECAUSE NOT PROPERLY MANAGED
             
@@ -63,18 +50,6 @@ namespace GASHAPWN
             else
             {
                 Debug.LogWarning("Hit effect prefab is not assigned!");
-            }
-        }
-
-        public void PlayDeflectEffect(Vector3 position)
-        {
-            if (deflectEffectPrefab != null)
-            {
-                Instantiate(deflectEffectPrefab, position, Quaternion.identity);
-            }
-            else
-            {
-                Debug.LogWarning("Deflect effect prefab is not assigned!");
             }
         }
     }

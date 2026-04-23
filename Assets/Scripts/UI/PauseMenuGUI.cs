@@ -10,12 +10,13 @@ public class PauseMenuGUI : SlideableScreenGUI
 {
     public static PauseMenuGUI Instance;
 
+    [Tooltip("Reference to text component to display which player paused")]
+    [SerializeField] private TextAnimator_TMP pausedPlayerText;
+
     // Reference to "Cancel" InputAction
     private InputAction cancelAction;
 
     private Animator animator;
-
-    [SerializeField] private TextAnimator_TMP pausedPlayerText;
 
 
     /// PROTECTED / PRIVATE METHODS ///

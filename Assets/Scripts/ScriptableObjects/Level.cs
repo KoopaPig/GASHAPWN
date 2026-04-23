@@ -10,8 +10,11 @@ namespace GASHAPWN
     {
         [Header("Atrributes")]
         public string levelName = null;
-        public string levelSceneName = null;
+        //public string levelSceneName = null;
         public Sprite levelPreviewIconA = null;
         public Sprite levelPreviewIconB = null;
+
+        [Header("Level Content")]
+        public GameObject levelPrefab;
     }
 }

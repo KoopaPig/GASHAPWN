@@ -10872,6 +10872,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 231553765972983372, guid: e5c1d3bb95058c0469e6ce6e0fe29086, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4122586926673862376, guid: e5c1d3bb95058c0469e6ce6e0fe29086, type: 3}
       propertyPath: m_Name
       value: PlayerCapsule

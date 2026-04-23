@@ -70,7 +70,7 @@ namespace GASHAPWN
             foreach (var player in BattleManager.Instance.GetActivePlayers())
             {
                 var playerData = player.GetComponent<PlayerData>();
-                playerData.OnDamage.AddListener(OnHit);
+                playerData.healthEvents.OnDamage.AddListener(OnHit);
                 subscribedPlayers.Add(playerData);
             }
         }
@@ -126,7 +126,7 @@ namespace GASHAPWN
 
                 foreach (var playerData in subscribedPlayers)
                 {
-                    if (playerData != null) playerData.OnDamage.RemoveListener(OnHit);
+                    if (playerData != null) playerData.healthEvents.OnDamage.RemoveListener(OnHit);
                 }
                 subscribedPlayers.Clear();
             }
@@ -184,7 +184,7 @@ namespace GASHAPWN
                     {
                         Object = playerTransform,
                         Weight = 2f,
-                        Radius = 30f
+                        Radius = 0.19f
                     });
                 }
 

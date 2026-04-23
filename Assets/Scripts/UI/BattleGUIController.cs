@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections;
 using Unity.VisualScripting;
 using GASHAPWN.Audio;
+using MyBox;
 
 namespace GASHAPWN.UI {
     /// <summary>
@@ -73,6 +74,11 @@ namespace GASHAPWN.UI {
             [SerializeField] private Color damageColor = Color.red;
             [SerializeField] private Color healColor = Color.green;
 
+        [Header("Debug")]
+            [Tooltip("Toggle to display debug info about player states")]
+            [InitializationField, SerializeField] private bool IsDisplayDebugInfo;
+
+        [ConditionalField("IsDisplayDebugInfo"), SerializeField] private PlayerInfoDebugGUI playerInfoDebug;
 
         private Coroutine healthChangeCoroutine;
         private float currHealth;
@@ -246,33 +252,44 @@ namespace GASHAPWN.UI {
             if (playerData != null)
             {
                 // Unsubscribe from previous player's health-based events
-                playerData.OnDamage.RemoveListener(TakeDamageGUI);
-                playerData.SetMaxHealth.RemoveListener(SetMaxHealthGUI);
-                playerData.SetHealth.RemoveListener(SetHealthSuddenDeathGUI);
+                playerData.healthEvents.OnDamage.RemoveListener(TakeDamageGUI);
+                playerData.healthEvents.SetMaxHealth.RemoveListener(SetMaxHealthGUI);
+                playerData.healthEvents.SetHealth.RemoveListener(SetHealthSuddenDeathGUI);
 
                 // Stamina-based Listeners
-                playerData.OnStaminaChanged.RemoveListener(SetStaminaGUI_Wrapper);
-                playerData.SetMaxStamina.RemoveListener(SetMaxStaminaGUI);
-                playerData.OnStaminaHardDecrease.RemoveListener(LoseStaminaGUI);
-                playerData.OnStaminaHardIncrease.RemoveListener(RecoverStaminaGUI);
-                playerData.OnLowStamina.RemoveListener(LowStaminaGUI);
+                playerData.staminaEvents.OnStaminaChanged.RemoveListener(SetStaminaGUI_Wrapper);
+                playerData.staminaEvents.SetMaxStamina.RemoveListener(SetMaxStaminaGUI);
+                playerData.staminaEvents.OnStaminaHardDecrease.RemoveListener(LoseStaminaGUI);
+                playerData.staminaEvents.OnStaminaHardIncrease.RemoveListener(RecoverStaminaGUI);
+                playerData.staminaEvents.OnLowStamina.RemoveListener(LowStaminaGUI);
             }
 
             playerData = player;
 
+            if (IsDisplayDebugInfo)
+            {
+                playerInfoDebug.Initialize(player.GetComponent<PlayerController>(),
+                player,
+                player.GetComponent<SpecialMoveHandler>(),
+                player.GetComponent<PlayerCollisionHandler>()
+                );
+                playerInfoDebug.gameObject.SetActive(true);
+            }
+            else playerInfoDebug.gameObject.SetActive(false);
+
             if (playerData != null)
             {
                 // Subscribe to the new player's health-based events
-                playerData.OnDamage.AddListener(TakeDamageGUI);
-                playerData.SetMaxHealth.AddListener(SetMaxHealthGUI);
-                playerData.SetHealth.AddListener(SetHealthSuddenDeathGUI);
+                playerData.healthEvents.OnDamage.AddListener(TakeDamageGUI);
+                playerData.healthEvents.SetMaxHealth.AddListener(SetMaxHealthGUI);
+                playerData.healthEvents.SetHealth.AddListener(SetHealthSuddenDeathGUI);
 
                 // Stamina-based Listeners
-                playerData.OnStaminaChanged.AddListener(SetStaminaGUI_Wrapper);
-                playerData.SetMaxStamina.AddListener(SetMaxStaminaGUI);
-                playerData.OnStaminaHardDecrease.AddListener(LoseStaminaGUI);
-                playerData.OnStaminaHardIncrease.AddListener(RecoverStaminaGUI);
-                playerData.OnLowStamina.AddListener(LowStaminaGUI);
+                playerData.staminaEvents.OnStaminaChanged.AddListener(SetStaminaGUI_Wrapper);
+                playerData.staminaEvents.SetMaxStamina.AddListener(SetMaxStaminaGUI);
+                playerData.staminaEvents.OnStaminaHardDecrease.AddListener(LoseStaminaGUI);
+                playerData.staminaEvents.OnStaminaHardIncrease.AddListener(RecoverStaminaGUI);
+                playerData.staminaEvents.OnLowStamina.AddListener(LowStaminaGUI);
 
                 RefreshAllGUI();
             }
@@ -431,16 +448,16 @@ namespace GASHAPWN.UI {
             if (playerData != null)
             {
                 // Health-based listeners
-                playerData.OnDamage.RemoveListener(TakeDamageGUI);
-                playerData.SetMaxHealth.RemoveListener(SetMaxHealthGUI);
-                playerData.SetHealth.RemoveListener(SetHealthSuddenDeathGUI);
+                playerData.healthEvents.OnDamage.RemoveListener(TakeDamageGUI);
+                playerData.healthEvents.SetMaxHealth.RemoveListener(SetMaxHealthGUI);
+                playerData.healthEvents.SetHealth.RemoveListener(SetHealthSuddenDeathGUI);
 
                 // Stamina-based Listeners
-                playerData.OnStaminaChanged.RemoveListener(SetStaminaGUI_Wrapper);
-                playerData.SetMaxStamina.RemoveListener(SetMaxStaminaGUI);
-                playerData.OnStaminaHardDecrease.RemoveListener(LoseStaminaGUI);
-                playerData.OnStaminaHardIncrease.RemoveListener(RecoverStaminaGUI);
-                playerData.OnLowStamina.RemoveListener(LowStaminaGUI);
+                playerData.staminaEvents.OnStaminaChanged.RemoveListener(SetStaminaGUI_Wrapper);
+                playerData.staminaEvents.SetMaxStamina.RemoveListener(SetMaxStaminaGUI);
+                playerData.staminaEvents.OnStaminaHardDecrease.RemoveListener(LoseStaminaGUI);
+                playerData.staminaEvents.OnStaminaHardIncrease.RemoveListener(RecoverStaminaGUI);
+                playerData.staminaEvents.OnLowStamina.RemoveListener(LowStaminaGUI);
             }
         }
     }

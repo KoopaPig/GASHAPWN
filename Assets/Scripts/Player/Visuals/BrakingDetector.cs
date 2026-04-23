@@ -11,7 +11,7 @@ namespace GASHAPWN {
 
         private void Start()
         {
-            rb = GetComponent<Rigidbody>();
+            rb = GetComponentInParent<Rigidbody>();
             lastVelocity = rb.linearVelocity;
         }
 

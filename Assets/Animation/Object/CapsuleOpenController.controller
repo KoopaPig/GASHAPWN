@@ -168,7 +168,7 @@ AnimatorStateMachine:
     m_Position: {x: 350, y: 270, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2641404738472981343}
-    m_Position: {x: 340, y: 110, z: 0}
+    m_Position: {x: 340, y: 140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 9075652579839680414}
     m_Position: {x: 30, y: 320, z: 0}
@@ -192,12 +192,6 @@ AnimatorController:
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: isCapsuleOpen
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: isNew
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0

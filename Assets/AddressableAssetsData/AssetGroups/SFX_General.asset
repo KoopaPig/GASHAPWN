@@ -265,6 +265,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bdb4b397a3fc25b4298ebc286c741966
+    m_Address: SFX_Dizzybirds
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c890b72ab1fd8de458687e8e02d55c9b
     m_Address: SFX_Damage_Metal_21
     m_ReadOnly: 0

@@ -20,10 +20,11 @@ public class Crown : MonoBehaviour
     }
 
     private void InitializeCrown(GameObject player, string name, Figure figure) => StartCoroutine(SpawnCrown(player, 1.5f));
+
     private IEnumerator SpawnCrown(GameObject player, float waitDuration)
     {
         yield return new WaitForSeconds(waitDuration);
-        yield return StartCoroutine(PlayerHelpers.RotateUpDirectionCoroutine(player.GetComponent<Rigidbody>(), player.transform, Vector3.up, 0.25f));
+        yield return StartCoroutine(PlayerHelpers.RotateUpDirectionCoroutine(player.GetComponent<PlayerController>().rb, player.transform, Vector3.up, 0.25f));
 
         Renderer playerRenderer = player.GetComponentInChildren<Renderer>();
 

@@ -1,10 +1,11 @@
+using MyBox;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using MyBox;
 
 namespace GASHAPWN
 {
@@ -105,7 +106,7 @@ namespace GASHAPWN
             int index = playerAssignments.Count;
             string playerTag = $"Player{index + 1}"; // Construct playerTag
 
-            var controlScheme = StringToControlScheme(input.currentControlScheme);
+            var controlScheme = GetControlSchemeFromInput(input);
 
             var assignment = new PlayerControllerAssignment(playerTag)
             {
@@ -256,14 +257,24 @@ namespace GASHAPWN
             };
         }
 
-        public static ControlScheme StringToControlScheme(string str)
+        //public static ControlScheme StringToControlScheme(string str)
+        //{
+        //    return str switch
+        //    {
+        //        "KeyboardMouse" => ControlScheme.KEYBOARD,
+        //        "Gamepad" => ControlScheme.XINPUT,
+        //        _ => throw new System.Exception($"PlayerInputAssigner: Unknown string \"{str}\", could not convert to ControlScheme")
+        //    };
+        //}
+
+        public static ControlScheme GetControlSchemeFromInput(PlayerInput input)
         {
-            return str switch
-            {
-                "KeyboardMouse" => ControlScheme.KEYBOARD,
-                "Gamepad" => ControlScheme.XINPUT,
-                _ => throw new System.Exception("PlayerInputAssigner: Unknown string, could not convert to ControlScheme")
-            };
+            var dev = input.devices[0];
+            if (dev is Gamepad)
+                return ControlScheme.XINPUT;
+            else if (dev is Keyboard)
+                return ControlScheme.KEYBOARD;
+            else throw new System.Exception($"PlayerInputAssigner: Unknown device \"{dev.displayName}\"; could not convert to ControlScheme");
         }
 
         // Returns true if found a ControlScheme corresponding to playerTag in playerAssignments
@@ -288,7 +299,7 @@ namespace GASHAPWN
             {
                 try
                 {
-                    scheme = StringToControlScheme(input.currentControlScheme);
+                    scheme = GetControlSchemeFromInput(input);
                     return true;
                 }
                 catch { }

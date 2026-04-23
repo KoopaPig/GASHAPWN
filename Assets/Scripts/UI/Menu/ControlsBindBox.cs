@@ -1,11 +1,12 @@
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using System.Collections;
-using UnityEngine.EventSystems;
-using System;
-using GASHAPWN.Utility;
+using DG.Tweening;
 using Febucci.UI;
+using GASHAPWN.Utility;
+using System;
+using System.Collections;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace GASHAPWN.UI
 {
@@ -29,8 +30,8 @@ namespace GASHAPWN.UI
             [Tooltip("Image for Keyboard control scheme")]
             public Image keyboardImage;
 
-            [Tooltip("Reference to feedback text")]
-            public TextAnimator_TMP feedbackText;
+        [Tooltip("Reference to feedback text controls help element")]
+        [SerializeField] private ControlsBindFeedbackText feedbackText;
 
             // Graphical Elements
             [SerializeField] private Image background;
@@ -62,7 +63,6 @@ namespace GASHAPWN.UI
         {
             xInputImage.gameObject.SetActive(false);
             keyboardImage.gameObject.SetActive(false);
-            feedbackText.SetBehaviorsActive(true);
         }
 
         private IEnumerator LerpColor(Image targetImage, Color startColor, Color endColor, float duration)
@@ -106,14 +106,13 @@ namespace GASHAPWN.UI
 
             if (!IsControllerDetected)
             {
-                feedbackText.SetText("Deactivated");
+                feedbackText.SetState(ControlsBindFeedbackText.FeedbackState.Waiting, playerIndex);
                 xInputImage.gameObject.SetActive(false);
                 keyboardImage.gameObject.SetActive(false);
             }
             else 
             {
-                feedbackText.SetText($"Player {playerIndex+1} Ready!");
-                feedbackText.SetBehaviorsActive(false);
+                feedbackText.SetState(ControlsBindFeedbackText.FeedbackState.Connected, playerIndex);
                 // Device name could be fetched from ControllerManager if needed
             }
         }
@@ -166,7 +165,7 @@ namespace GASHAPWN.UI
             Debug.Log($"ControlsBindBox: Starting controller detection for Player {playerIndex+1}");
 
             // TODO: This feedback should be more specific
-            feedbackText.SetText("Press [Join] button...");
+            feedbackText.SetState(ControlsBindFeedbackText.FeedbackState.Prompting, playerIndex);
         }
     }
 }

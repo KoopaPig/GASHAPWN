@@ -20,7 +20,6 @@ namespace GASHAPWN {
         public void SetFigureInCapsule(Figure figure, float scaleFactor = 1f) {
             attachedFigure = figure;
 
-            // Ensure the scale of the model matches the world scale
             var obj = Instantiate(figure.capsuleModelPrefab);
             FigureResizeHelper.ResizeFigureObject(obj, capsPos, scaleFactor);
         }

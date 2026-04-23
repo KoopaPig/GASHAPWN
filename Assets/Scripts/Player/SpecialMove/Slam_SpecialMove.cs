@@ -1,5 +1,7 @@
 using GASHAPWN.Audio;
+using System;
 using System.Collections;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace GASHAPWN
@@ -18,12 +20,15 @@ namespace GASHAPWN
         public float StaminaCost => 1f;
 
         // Damage Multiplier
-        public float DamageMultiplier => 1.5f;
+        public float DamageMultiplier => 1f;
+
+        // No substates for Slam
+        public Enum GetSubState() => null;
 
         /// SPECIALIZED VARIABLES ///
 
-        public float slamForce = 80f;
-        public float slamDelay = 0.4f;
+        public float slamForce = 0.45f;
+        public float slamDelay = 0.45f;
 
 
         /// METHODS ///
@@ -36,28 +41,65 @@ namespace GASHAPWN
             this.slamDelay = slamDelay;
         }
 
-        public bool CanExecute(PlayerData playerData)
+        public bool CanExecute(SpecialMoveHandler spMoveHandler)
         {
-            return playerData.controlsEnabled &&
-                   !playerData.isCharging &&
-                   !playerData.isGrounded &&
-                   !playerData.hasSlammed &&
-                   playerData.currentStamina >= StaminaCost;
+            return spMoveHandler.pController.ControlsEnabled &&
+                   !spMoveHandler.IsCharging &&
+                   !spMoveHandler.HasCharged &&
+                   !spMoveHandler.IsBursting &&
+                   !spMoveHandler.pController.IsGrounded &&
+                   !spMoveHandler.HasSlammed &&
+                   spMoveHandler.pData.currentStamina >= StaminaCost;
         }
 
-        public bool CanCancel(PlayerData playerData) { return true; }
+        public bool CanCancel(SpecialMoveHandler specialMoveHandler) { return true; }
 
-        public IEnumerator Execute(PlayerData playerData, MonoBehaviour host)
+        public IEnumerator Execute(SpecialMoveHandler spMoveHandler)
         {
-            playerData.currentStamina -= StaminaCost;
-            playerData.OnStaminaChanged?.Invoke(playerData.currentStamina);
+            // Handle stamina
+            spMoveHandler.pData.currentStamina -= StaminaCost;
+            spMoveHandler.pData.staminaEvents.OnStaminaChanged?.Invoke(spMoveHandler.pData.currentStamina);
 
-            playerData.ActivateAttackBoost(1.0f, DamageMultiplier);
+            // Activate attack boost
+            spMoveHandler.pData.ActivateAttackBoost(1.1f, DamageMultiplier);
 
-            // Delegate coroutine to Player Data (Monobehaviour)
-            return playerData.SlamCoroutine(slamForce, slamDelay);
+            // Delegate coroutine to Special Move Handler
+            return SlamCoroutine(spMoveHandler);
         }
 
-        public void Cancel(PlayerData playerData, MonoBehaviour host) { }
+        // Can't cancel slam
+        public void Cancel(SpecialMoveHandler spMoveHandler) { }
+
+        #region SPECIAL MOVE COROUTINES
+        public IEnumerator SlamCoroutine(SpecialMoveHandler spMoveHandler)
+        {
+            if (spMoveHandler.HasSlammed) yield break;
+
+            spMoveHandler.pController.ControlsEnabled = false;
+            spMoveHandler.Events.OnSlam.Invoke();
+            Rigidbody _rb = spMoveHandler.pController.rb;
+            _rb.linearVelocity = Vector3.zero;
+            _rb.angularVelocity = Vector3.zero;
+            _rb.useGravity = false;
+
+            spMoveHandler.HasSlammed = true;
+
+            // Rotate player so metal faces down
+            Quaternion initialRotation = _rb.transform.rotation;
+            Quaternion targetRotation = Quaternion.FromToRotation(-_rb.transform.up, Vector3.down) * _rb.transform.rotation;
+
+            float elapsed = 0f;
+            while (elapsed < slamDelay)
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / slamDelay);
+                _rb.transform.rotation = Quaternion.Slerp(initialRotation, targetRotation, t);
+                yield return null;
+            }
+            GAME_SFXManager.Instance.Play_Drop(spMoveHandler.transform);
+            _rb.useGravity = true;
+            _rb.AddForce(Vector3.down * slamForce, ForceMode.Impulse);
+        }
+        #endregion
     }
 }

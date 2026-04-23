@@ -1,4 +1,5 @@
 using GASHAPWN.Audio;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -19,10 +20,12 @@ namespace GASHAPWN
         // Damage Multiplier (does not apply for Jump)
         public float DamageMultiplier => 1f;
 
+        // No substates for Jump
+        public Enum GetSubState() => null;
 
         /// SPECIALIZED VARIABLES ///
 
-        public float jumpForce = 30f;
+        public float JumpForce = 0.5f;
 
 
         /// METHODS ///
@@ -31,32 +34,56 @@ namespace GASHAPWN
 
         public Jump_SpecialMove(float jumpForce)
         {
-            this.jumpForce = jumpForce;
+            JumpForce = jumpForce;
         }
 
-        public bool CanExecute(PlayerData playerData)
+        public bool CanExecute(SpecialMoveHandler spMoveHandler)
         {
-            return playerData.controlsEnabled &&
-               playerData.isGrounded &&
-               playerData.currentStamina >= StaminaCost &&
-               !playerData.isCharging;
+            return spMoveHandler.pController.ControlsEnabled &&
+               spMoveHandler.pController.IsGrounded &&
+               !spMoveHandler.HasJumped &&
+               spMoveHandler.pData.currentStamina >= StaminaCost &&
+               !spMoveHandler.IsCharging &&
+               !spMoveHandler.HasCharged &&
+               !spMoveHandler.IsBursting;
         }
 
-        public bool CanCancel(PlayerData playerData) { return true; }
+        public bool CanCancel(SpecialMoveHandler spMoveHandler) { return true; }
 
-        public IEnumerator Execute(PlayerData playerData, MonoBehaviour host)
+        public IEnumerator Execute(SpecialMoveHandler spMoveHandler)
         {
-            Rigidbody rb = playerData.rb;
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            Rigidbody rb = spMoveHandler.pController.rb;
+            Vector3 vel = rb.linearVelocity;
 
-            playerData.currentStamina -= StaminaCost;
-            playerData.OnStaminaChanged?.Invoke(playerData.currentStamina);
+            rb.linearVelocity = new Vector3(vel.x, 0f, vel.z);
+            
+            rb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse); // Apply jump
 
-            GAME_SFXManager.Instance.Play_Jump(playerData.transform);
+            // Handle stamina
+            spMoveHandler.pData.currentStamina -= StaminaCost;
+            spMoveHandler.pData.staminaEvents.OnStaminaChanged?.Invoke(spMoveHandler.pData.currentStamina);
+
+            GAME_SFXManager.Instance.Play_Jump(spMoveHandler.pData.transform);
+
+            // Set flags
+            spMoveHandler.HasJumped = true;
 
             yield return null;
         }
 
-        public void Cancel(PlayerData playerData, MonoBehaviour host) { }
+        public void Cancel(SpecialMoveHandler spMoveHandler) 
+        {
+            Rigidbody rb = spMoveHandler.pController.rb;
+
+            // Only cut jump if still going up
+            if (rb.linearVelocity.y > 0f)
+            {
+                rb.linearVelocity = new Vector3(
+                    rb.linearVelocity.x,
+                    rb.linearVelocity.y * 0.4f,
+                    rb.linearVelocity.z
+                );
+            }
+        }
     }
 }

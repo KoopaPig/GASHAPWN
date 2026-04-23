@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Stage4
   m_EditorClassIdentifier: 
   levelName: King of the Ramp
-  levelSceneName: Stage4_Ramp
   levelPreviewIconA: {fileID: 21300000, guid: a1a1b331cbd7c774a9fd1ff3e71c93fd, type: 3}
   levelPreviewIconB: {fileID: 21300000, guid: 04427110f9881614780f5f1c5d23bd3c, type: 3}
+  levelPrefab: {fileID: 5006202636716020243, guid: 5301906d4c5a1fc4cbfa94acfd6c480d, type: 3}

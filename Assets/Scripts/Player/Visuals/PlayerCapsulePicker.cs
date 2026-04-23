@@ -10,6 +10,13 @@ namespace GASHAPWN {
         [SerializeField] private GameObject player1CapsulePrefab;
         [SerializeField] private GameObject player2CapsulePrefab;
 
+        private ProgressiveCracking _progCracking;
+
+        private void Awake()
+        {
+            _progCracking = GetComponent<ProgressiveCracking>();
+        }
+
         private void Start()
         {
             SetCapsuleBasedOnTag();
@@ -17,7 +24,7 @@ namespace GASHAPWN {
 
         private void SetCapsuleBasedOnTag()
         {
-            string tag = gameObject.tag;
+            string tag = transform.parent.tag;
             Transform oldCapsule = transform.Find("PlayerCapsule");
 
             if (oldCapsule != null) Destroy(oldCapsule.gameObject);
@@ -35,19 +42,15 @@ namespace GASHAPWN {
                 newCapsule.name = "PlayerCapsule";
 
                 // Assign Renderer from GlassSphere to ProgressiveCracking
-                var cracking = GetComponent<ProgressiveCracking>();
-                if (cracking != null)
+                Transform glassSphere = newCapsule.transform.Find("GlassSphere");
+                if (glassSphere != null)
                 {
-                    Transform glassSphere = newCapsule.transform.Find("GlassSphere");
-                    if (glassSphere != null)
-                    {
-                        Renderer glassRenderer = glassSphere.GetComponent<Renderer>();
-                        cracking.SetRenderer(glassRenderer);
-                    }
-                    else
-                    {
-                        Debug.LogWarning("PlayerCapsulePicker: 'GlassSphere' not found in new capsule.");
-                    }
+                    Renderer glassRenderer = glassSphere.GetComponent<Renderer>();
+                    _progCracking.SetRenderer(glassRenderer);
+                }
+                else
+                {
+                    Debug.LogWarning("PlayerCapsulePicker: 'GlassSphere' not found in new capsule.");
                 }
             }
             else

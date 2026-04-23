@@ -1991,7 +1991,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9800b21693ff4b548973d7730011d48d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpawnPos: {fileID: 0}
+  machineController: {fileID: 0}
+  targetPlayer: 1
 --- !u!1 &2762864283015736191
 GameObject:
   m_ObjectHideFlags: 0
@@ -10871,6 +10872,10 @@ PrefabInstance:
     - target: {fileID: 231553765972983372, guid: e5c1d3bb95058c0469e6ce6e0fe29086, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 231553765972983372, guid: e5c1d3bb95058c0469e6ce6e0fe29086, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 726539275008811389, guid: e5c1d3bb95058c0469e6ce6e0fe29086, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

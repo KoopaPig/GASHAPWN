@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -15,23 +16,39 @@ namespace GASHAPWN
         /// <summary>
         /// Returns true if move can execute after checks in body of function
         /// </summary>
-        bool CanExecute(PlayerData playerData);
+        bool CanExecute(SpecialMoveHandler spMoveHandler);
 
         /// <summary>
         /// Returns true if move is cancellable after checks in body of function
         /// </summary>
-        bool CanCancel(PlayerData playerData);
+        bool CanCancel(SpecialMoveHandler spMoveHandler);
 
         /// <summary>
         /// Actions to take when executing move (context.performed or context.started)
         /// </summary>
-        /// <param name="playerData"></param>
-        /// <param name="host">Host MonoBehavior when Coroutines are necessary</param>
-        IEnumerator Execute(PlayerData playerData, MonoBehaviour host);
+        IEnumerator Execute(SpecialMoveHandler spMoveHandler);
 
         /// <summary>
         /// For context.canceled or interruptions
         /// </summary>
-        void Cancel(PlayerData playerData, MonoBehaviour host);
+        void Cancel(SpecialMoveHandler spMoveHandler);
+
+        /// <summary>
+        /// Depending on the special move, it might be necessary to split into states for functional clarity
+        /// </summary>
+        Enum GetSubState();
+
+        /// <summary>
+        /// Many special moves require context from the player controller
+        /// </summary>
+        public struct SpecialMoveContext
+        {
+            public Vector2 moveInput;
+
+            public SpecialMoveContext(Vector2 moveInput_)
+            {
+                this.moveInput = moveInput_;
+            }
+        }
     }
 }

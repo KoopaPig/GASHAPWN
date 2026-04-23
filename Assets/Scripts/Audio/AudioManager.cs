@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using static Unity.VisualScripting.Member;
 
 namespace GASHAPWN.Audio {
     /// <summary>
@@ -169,6 +170,7 @@ namespace GASHAPWN.Audio {
             {
                 if (handle.Status == AsyncOperationStatus.Succeeded)
                 {
+                    audioSource.gameObject.SetActive(true);
                     audioSource.clip = handle.Result;
                     audioSource.Play();
 
@@ -243,13 +245,42 @@ namespace GASHAPWN.Audio {
             }
         }
 
-        // Safely release clip from addressables after it 
+        /// <summary>
+        /// Returns an already playing sound to the audio source pool after fading out
+        /// </summary>
+        public void ReturnAfterFadeout(AudioSource audioSource, float fadeoutDuration)
+        {
+            if (audioSource.clip == null) return;
+            StartCoroutine(FadeOutAndReturn(audioSource, audioSource.clip, fadeoutDuration));
+        }
+
+        // Safely release clip from addressables after it plays
         private IEnumerator ReturnAfterPlay(AudioSource audioSource, AudioClip clip)
         {
             yield return new WaitUntil(() => !audioSource.isPlaying);
             AudioSourcePool.Instance.ReturnToPool(audioSource);
             Addressables.Release(clip);
             yield return null;
+        }
+
+        // Safely release clip from addressables after it fades out
+        private IEnumerator FadeOutAndReturn(AudioSource source, AudioClip clip, float duration)
+        {
+            float startVolume = source.volume;
+
+            float t = 0f;
+            while (t < duration)
+            {
+                t += Time.deltaTime;
+                source.volume = Mathf.Lerp(startVolume, 0f, t / duration);
+                yield return null;
+            }
+
+            source.Stop();
+            source.volume = startVolume;
+
+            AudioSourcePool.Instance.ReturnAudioSource(source);
+            Addressables.Release(clip);
         }
     }
 }

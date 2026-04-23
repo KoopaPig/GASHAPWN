@@ -1,4 +1,5 @@
 using GASHAPWN.Audio;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -19,27 +20,29 @@ namespace GASHAPWN
 
         public float DamageMultiplier => 2f;
 
+        public Enum GetSubState() => _state;
+
 
         /// SPECIALIZED VARIABLES ///
 
-        public float minForce = 15f;
-        public float maxForce = 45f;
-        public float maxDuration = 2f;
+        private ChargeRollState _state;
+
+        public float minForce = 0.1f;
+        public float maxForce = 1f;
+        public float maxChargeDuration = 2f;
+        public float maxHoldDuration = 4f;
+
         public float spinSpeed = 1000f;
         // Duration of attack boost after charge
-        public float attackBoostDuration = 2f;
+        public float attackBoostDuration = 1.5f;
 
-
-        private Coroutine activeCoroutine;
-        private MonoBehaviour hostMono;
-        private PlayerData playerData;
         private Transform playerTransform;
-        private Rigidbody rb;
-        private ChargeRollIndicator chargeIndicator;
+        private Rigidbody _rb;
         private Quaternion chargeRotation;
         private float chargeStartTime;
 
-        private Vector2 rotationInput => playerData.rotationInput; // Assuming this is exposed
+        // Need to figure out a way for this special move to get access to rotation input per frame
+        private Vector2 chargeDirection;
 
 
         /// METHODS ///
@@ -51,117 +54,192 @@ namespace GASHAPWN
         {
             this.minForce = minForce;
             this.maxForce = maxForce;
-            this.maxDuration = maxDuration;
+            this.maxChargeDuration = maxDuration;
             this.spinSpeed = spinSpeed;
             this.attackBoostDuration = attackBoostDuration;
         }
 
-        public bool CanExecute(PlayerData playerData)
+        public bool CanExecute(SpecialMoveHandler spMoveHandler)
         {
-            return playerData.controlsEnabled &&
-                   !playerData.isCharging &&
-                   !playerData.hasCharged &&
-                   playerData.currentStamina >= StaminaCost;
+            return spMoveHandler.pController.ControlsEnabled &&
+                   !spMoveHandler.IsCharging &&
+                   !spMoveHandler.HasCharged &&
+                   !spMoveHandler.IsBursting &&
+                   !spMoveHandler.IsDefending &&
+                   spMoveHandler.pData.currentStamina >= StaminaCost;
         }
 
-        public bool CanCancel(PlayerData playerData) { return false; }
-
-        public IEnumerator Execute(PlayerData data, MonoBehaviour host)
-        {
-            playerData = data;
-            hostMono = host;
-            rb = playerData.rb;
-            playerTransform = playerData.transform;
-            chargeIndicator = playerData.chargeRollIndicator;
-
-            playerData.currentStamina -= StaminaCost;
-            playerData.OnStaminaChanged?.Invoke(playerData.currentStamina);
-
-            //activeCoroutine = host.StartCoroutine(ChargeRollCoroutine());
-
-            return ChargeRollCoroutine();
+        // Can only cancel if charging or holding
+        public bool CanCancel(SpecialMoveHandler spMoveHandler) {
+            return spMoveHandler.IsCharging || spMoveHandler.HasCharged; 
         }
 
-        // Cancel in this case handles Charge Roll release
-        public void Cancel(PlayerData playerData, MonoBehaviour host)
+        public IEnumerator Execute(SpecialMoveHandler spMoveHandler)
         {
-            if (!playerData.isCharging) return;
-            playerData.isCharging = false;
-            playerData.OnChargeRoll.Invoke(false);
+            _rb = spMoveHandler.pController.rb;
+            playerTransform = _rb.transform;
+
+            // Handle stamina
+            spMoveHandler.pData.currentStamina -= StaminaCost;
+            spMoveHandler.pData.staminaEvents.OnStaminaChanged?.Invoke(spMoveHandler.pData.currentStamina);
+
+            return ChargeRollCoroutine(spMoveHandler);
+        }
+
+        // Cancel in this case handles Charge Roll burst
+        public void Cancel(SpecialMoveHandler spMoveHandler)
+        {
+            spMoveHandler.StartCoroutine(BurstCoroutine(spMoveHandler));
+        }
+
+        // BIG ISSUE: Other moves are possible to perform during charge and burst, completely breaking states.
+
+
+        // Handles what occurs during the burst after a charge roll
+        private IEnumerator BurstCoroutine(SpecialMoveHandler spMoveHandler)
+        {
+            Debug.Log("here in Burst coroutine");
+            spMoveHandler.IsCharging = false;
+            spMoveHandler.HasCharged = false;
+            spMoveHandler.IsBursting = true;
+            _state = ChargeRollState.Burst;
+            spMoveHandler.Events.OnChargeRoll.Invoke(_state);
+            
+            // Technically might have to be IsDefending as the appropriate collision handling would then happen
 
             float chargeDuration = Time.time - chargeStartTime;
-            float chargePercent = Mathf.Clamp01(chargeDuration / maxDuration);
+            float chargePercent = Mathf.Clamp01(chargeDuration / maxChargeDuration);
 
-            playerTransform.rotation = chargeRotation;
+            //playerTransform.rotation = chargeRotation;
 
             float forceMagnitude = Mathf.Lerp(minForce, maxForce, chargePercent);
-            rb.AddForce(playerTransform.forward * forceMagnitude, ForceMode.Impulse);
+            _rb.AddForce(playerTransform.forward * forceMagnitude, ForceMode.Impulse);
+            spMoveHandler.chargeRollIndicator?.HideIndicator();
+            spMoveHandler.pData.ActivateAttackBoost(1.1f, DamageMultiplier);
+
+            // Burst duration scales with charge
+            //float burstDuration = Mathf.Lerp(0.1f, 0.6f, chargePercent);
+            float burstDuration = 1f;
+            float elapsed = 0f;
+
+            while (elapsed < burstDuration)
+            {
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            // Exit burst
+            Reset(spMoveHandler);
         }
 
         // Handles what occurs before and during a Charge Roll
-        private IEnumerator ChargeRollCoroutine()
+        private IEnumerator ChargeRollCoroutine(SpecialMoveHandler spMoveHandler)
         {
-            playerData.isCharging = true;
-            playerData.controlsEnabled = false;
-            playerData.OnChargeRoll.Invoke(true);
+            spMoveHandler.IsCharging = true;
+            spMoveHandler.pController.ControlsEnabled = false;
+            _state = ChargeRollState.Charge;
+            spMoveHandler.Events.OnChargeRoll.Invoke(_state);
 
             Vector3 baseDirection = new Vector3(playerTransform.forward.x, 0, playerTransform.forward.z).normalized;
             chargeRotation = Quaternion.LookRotation(baseDirection);
 
-            bool originalGravity = rb.useGravity;
-            float originalDrag = rb.linearDamping;
-            float originalAngularDrag = rb.angularDamping;
+            bool originalGravity = _rb.useGravity;
+            float originalDrag = _rb.linearDamping;
+            float originalAngularDrag = _rb.angularDamping;
 
-            // Ease into stop
-            float stopDuration = 0.3f;
-            float elapsed = 0f;
-            Vector3 initialVelocity = rb.linearVelocity;
-            Vector3 initialAngularVelocity = rb.angularVelocity;
+            #region STOP PHASE
+                float stopDuration = 0.3f;
+                float elapsed = 0f;
+                Vector3 initialVelocity = _rb.linearVelocity;
+                Vector3 initialAngularVelocity = _rb.angularVelocity;
 
-            while (elapsed < stopDuration)
-            {
-                elapsed += Time.deltaTime;
-                float t = elapsed / stopDuration;
-                rb.linearVelocity = Vector3.Lerp(initialVelocity, Vector3.zero, t);
-                rb.angularVelocity = Vector3.Lerp(initialAngularVelocity, Vector3.zero, t);
-                yield return null;
-            }
+                while (elapsed < stopDuration)
+                {
+                    elapsed += Time.deltaTime;
+                    float t = elapsed / stopDuration;
+                    _rb.linearVelocity = Vector3.Lerp(initialVelocity, Vector3.zero, t);
+                    _rb.angularVelocity = Vector3.Lerp(initialAngularVelocity, Vector3.zero, t);
+                    yield return null;
+                }
 
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            rb.useGravity = false;
-            rb.linearDamping = 5f;
-            rb.angularDamping = 5f;
+                _rb.linearVelocity = Vector3.zero;
+                _rb.angularVelocity = Vector3.zero;
+                _rb.useGravity = false;
+            #endregion
+            #region CHARGE PHASE
+                
+                // Need to rotate the player to the charge direction
 
-            chargeStartTime = Time.time;
+                chargeStartTime = Time.time;
 
-            while (playerData.isCharging)
-            {
-                float chargeTime = Time.time - chargeStartTime;
-                float chargePercent = Mathf.Clamp01(chargeTime / maxDuration);
+                elapsed = 0f;
+                while (elapsed <= maxChargeDuration)
+                {
+                    chargeDirection = new Vector2(spMoveHandler.pController.MovementForward.x, spMoveHandler.pController.MovementForward.z);
 
-                float yRotation = rotationInput.x * 100f * Time.deltaTime;
-                float xzRotation = rotationInput.y * 100f * Time.deltaTime;
-                chargeRotation *= Quaternion.Euler(xzRotation, yRotation, 0f);
+                    elapsed += Time.deltaTime;
+                    float chargePercent = Mathf.Clamp01((Time.time - chargeStartTime) / maxChargeDuration);
 
-                Vector3 targetDirection = chargeRotation * Vector3.forward;
-                Vector3 torqueDirection = Vector3.Cross(playerTransform.forward, targetDirection);
-                rb.AddTorque(torqueDirection * spinSpeed * chargePercent);
+                    //playerTransform.rotation = chargeRotation;
 
-                chargeIndicator?.UpdateIndicator(chargePercent, targetDirection);
-                yield return null;
-            }
+                    spMoveHandler.chargeRollIndicator?.UpdateIndicator(chargePercent, chargeDirection);
+                    yield return null;
+                }
+            #endregion
 
-            rb.useGravity = originalGravity;
-            rb.linearDamping = originalDrag;
-            rb.angularDamping = originalAngularDrag;
-            chargeIndicator?.HideIndicator();
+            #region HOLD PHASE
+                spMoveHandler.IsCharging = false;
+                spMoveHandler.HasCharged = true;
+                _state = ChargeRollState.Hold;
+                spMoveHandler.Events.OnChargeRoll.Invoke(_state);
 
-            playerData.controlsEnabled = true;
-            playerData.hasCharged = true;
+                elapsed = 0f;
+                bool timedOut = true;
 
-            float boost = Mathf.Lerp(1.2f, 2.0f, Mathf.Clamp01((Time.time - chargeStartTime) / maxDuration));
-            playerData.ActivateAttackBoost(attackBoostDuration, boost);
+                while (elapsed < maxHoldDuration)
+                {
+                    if (spMoveHandler.IsBursting || !spMoveHandler.HasCharged)
+                    {
+                        timedOut = false;
+                        break;
+                    }
+
+                    elapsed += Time.deltaTime;
+                    yield return null;
+                }
+
+                if (timedOut)
+                {
+                    Debug.Log("in here");
+                    spMoveHandler.ApplyStun(3f);
+                    Reset(spMoveHandler);
+                }
+            #endregion
+        }
+
+        // Resets booleans and state
+        private void Reset(SpecialMoveHandler spMoveHandler)
+        {
+            spMoveHandler.pController.ControlsEnabled = true;
+
+            spMoveHandler.IsCharging = false;
+            spMoveHandler.HasCharged = false;
+            spMoveHandler.IsBursting = false;
+            spMoveHandler.chargeRollIndicator?.HideIndicator();
+
+            if (_rb != null)
+                _rb.useGravity = true;
+
+            _state = ChargeRollState.None;
+            spMoveHandler.Events.OnChargeRoll.Invoke(_state);
+        }
+
+        public enum ChargeRollState
+        {
+            None,
+            Charge,
+            Hold,
+            Burst
         }
     }
 }

@@ -15,20 +15,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Collection.unity
     guid: dd53892a531323746bfa757bfd3b9438
   - enabled: 1
-    path: Assets/Scenes/Stages/Stage1_Flat.unity
-    guid: fcf51580f57d34940a1fb901d416a911
-  - enabled: 1
-    path: Assets/Scenes/Stages/Stage2_Roomba.unity
-    guid: c891c8f1ad6f7974782c74682844ddb7
-  - enabled: 1
-    path: Assets/Scenes/Stages/Stage3_Pillars.unity
-    guid: 1bdaf2c7d467be8469e981f1c42536f3
-  - enabled: 1
-    path: Assets/Scenes/Stages/Stage4_Ramp.unity
-    guid: 2ab18dcdbb9dfa24bb72772118c847a9
-  - enabled: 1
-    path: Assets/Scenes/GAMEPLAY_TEST.unity
-    guid: 1bac176f394ab324d8c379abd71be48a
+    path: Assets/Scenes/Battle.unity
+    guid: 9ec106f949ae53542b71f1d9247b8a78
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: fdd9a7d8f02a0184e894c7ec53dc24a9, type: 2}
     com.unity.dt.app-ui: {fileID: 11400000, guid: 99f9c9493070a9d4c979a8fec7c5a8d3, type: 2}

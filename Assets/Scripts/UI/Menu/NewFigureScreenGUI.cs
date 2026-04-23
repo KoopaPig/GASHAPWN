@@ -28,7 +28,7 @@ namespace GASHAPWN.UI
 
         [Header("GUI")]
             [Tooltip("Parent GameObject that holds Figure GUI elements")]
-            [SerializeField] private GameObject figureInfo;
+            [SerializeField] private GameObject newFigureInfo;
             [Tooltip("\"New\" icon (appears when new figure)")]
             [SerializeField] private GameObject newIcon;
             [Tooltip("Figure name region")]
@@ -43,10 +43,9 @@ namespace GASHAPWN.UI
             [SerializeField] private GameObject backgroundParticles;
 
         [Header("Objects")]
-            [Tooltip("Figure model Transform within capsule")]
-            [SerializeField] private GameObject figureModel;
-            [Tooltip("Capsule object which is opened")]
-            [SerializeField] private GameObject capsule;
+            [SerializeField] private PlayerAttachedFigure attachedFigure;
+            [Tooltip("Container of all capsule-opening elements")]
+            [SerializeField] private GameObject capsuleContainer;
             [Tooltip("Light that fades in on New Figure Screen")]
             [SerializeField] private Light directionalLight;
 
@@ -56,7 +55,9 @@ namespace GASHAPWN.UI
         private int remainingPresses;
 
         // Animator of capsule to open
-        private Animator capsuleAnimator;
+        private Animator _capsuleAnimator;
+        // Animator of new figure UI
+        private Animator _newFigureAnimator;
         // Reference to winning player's figure
         private Figure winningFigure;
         // Reference to winning player's tag
@@ -71,10 +72,11 @@ namespace GASHAPWN.UI
         public void StartCapsuleOpen()
         {
             buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOff(true);
-            capsule.SetActive(true);
+            capsuleContainer.SetActive(true);
             backgroundParticles.SetActive(true);
-            figureInfo.SetActive(true);
-            capsuleAnimator.SetBool("isCapsuleOpen", true);
+            newFigureInfo.SetActive(true);
+            _capsuleAnimator.SetBool("isCapsuleOpen", true);
+            _newFigureAnimator.SetBool("isCapsuleOpen", true);
 
             // Handle whether newIcon should appear
             if (BattleManager.Instance.newFigure) { newIcon.SetActive(true); }
@@ -101,20 +103,18 @@ namespace GASHAPWN.UI
 
         private void Awake()
         {
-            capsuleAnimator = capsule.GetComponent<Animator>();
+            _capsuleAnimator = capsuleContainer.GetComponent<Animator>();
+            _newFigureAnimator = newFigureInfo.GetComponent<Animator>();
+            directionalLight.gameObject.SetActive(false);
 
-            if (!figureModel.transform.IsChildOf(capsule.transform))
-            {
-                Debug.LogError("NewFigureScreenGUI: FigureModel must be child of Capsule");
-            }
-
-            capsule.SetActive(false);
+            capsuleContainer.SetActive(false);
             backgroundParticles.SetActive(false);
             figureScreen_BG.SetActive(false);
             figureScreen_FG.SetActive(false);
-            figureInfo.SetActive(false);
+            newFigureInfo.SetActive(false);
 
             remainingPresses = numPresses;
+            
         }
 
         private void Start()
@@ -152,7 +152,7 @@ namespace GASHAPWN.UI
             figureScreen_FG.GetComponentInParent<CanvasGroup>().interactable = false;
 
             // Fade in directionalLight
-            StartCoroutine(LerpLightIntensity(directionalLight, 0, 1, 2.5f));
+            StartCoroutine(LerpLightIntensity(directionalLight, 0, 0.7f, 2.5f));
 
             // set up input action here
             submitAction.action.performed += HandleCapsuleOpenInput;
@@ -163,8 +163,7 @@ namespace GASHAPWN.UI
             starsGUI.SetStars(winningFigure);
 
             // need to make the model a child of Capsule
-            var obj = Instantiate(winningFigure.capsuleModelPrefab, figureModel.transform);
-            FigureResizeHelper.ResizeFigureObject(obj, figureModel.transform, 0.3f);
+            attachedFigure.SetFigureInCapsule(winningFigure);
 
             // Start sliding in graphics
             GetComponent<Animator>().SetBool("isOverlaySlide", true);
@@ -173,8 +172,8 @@ namespace GASHAPWN.UI
             HandleCapsuleModel();
 
             // Capsule enters frame
-            capsuleAnimator.SetBool("isCapsuleOpen", false);
-            capsuleAnimator.SetTrigger("capsuleEnter");
+            _capsuleAnimator.SetBool("isCapsuleOpen", false);
+            _capsuleAnimator.SetTrigger("capsuleEnter");
             buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(false);
         }
 
@@ -203,7 +202,7 @@ namespace GASHAPWN.UI
         {
             if (remainingPresses > 0)
             {
-                capsuleAnimator.Play("capsule-shake", 0, 0f);
+                _capsuleAnimator.Play("capsule-shake", 0, 0f);
                 UI_SFXManager.Instance.Play_CapsuleShake();
                 remainingPresses -= 1;
             } else
@@ -216,9 +215,9 @@ namespace GASHAPWN.UI
         // Set correct metal component of capsule model that corresponds to winning player
         private void HandleCapsuleModel()
         {
-            capsule.SetActive(true);
+            capsuleContainer.SetActive(true);
 
-            var metal = capsule.transform.Find("PlayerCapsule/Metal");
+            var metal = capsuleContainer.transform.Find("PlayerCapsule/CapsuleModel/Metal");
             if (metal == null)
             {
                 Debug.LogError("NewFigureScreenGUI: Metal object not found in PlayerCapsule.");
@@ -249,6 +248,7 @@ namespace GASHAPWN.UI
             {
                 yield break;
             }
+            light.gameObject.SetActive(true);
 
             float elapsedTime = 0f;
 

@@ -1,50 +1,45 @@
 using UnityEngine;
-using System.Collections;
 
 namespace GASHAPWN.Environment
 {
-	public class UpDownMover : MonoBehaviour
-	{
-		[Tooltip("How far up object moves")]
-		public float moveDistance = 7f;
+    public class UpDownMover : MonoBehaviour
+    {
+        [Header("Base Movement")]
+            [SerializeField] private float moveDistance = 0.03f;
+            [SerializeField] private float moveSpeed = 0.95f;
 
-		[Tooltip("Speed of object")]
-		public float moveSpeed = 4f;
+            private Vector3 startPosition;
+            private float timeOffset;
+            private float baseOffset;
 
-		private Vector3 startPosition;
 
-		private void Start()
-		{
-			startPosition = transform.position;
-			StartCoroutine(MoveRoutine());
-		}
+        private void Start()
+        {
+            startPosition = transform.position;
 
-		private IEnumerator MoveRoutine()
-		{
-			while (true)
-			{
-				float waitTime = Random.Range(0f, 15f);
-				yield return new WaitForSeconds(waitTime);
+            // Start at random point in cycle
+            timeOffset = Random.Range(0f, Mathf.PI * 2f);
+        }
 
-				yield return StartCoroutine(MoveObject(startPosition, startPosition + Vector3.up * moveDistance));
-				yield return StartCoroutine(MoveObject(startPosition + Vector3.up * moveDistance, startPosition));
-			}
-		}
+        private void Update()
+        {
+            HandleOscillation();
+            ApplyFinalPosition();
+        }
 
-		private IEnumerator MoveObject(Vector3 from, Vector3 to)
-		{
-			float elapsed = 0f;
-			float duration = Vector3.Distance(from, to) / moveSpeed;
+        private void HandleOscillation()
+        {
+            float t = Time.time * moveSpeed + timeOffset;
+            float yOffset = Mathf.Sin(t) * moveDistance;
 
-			while (elapsed < duration)
-			{
-				transform.position = Vector3.Lerp(from, to, elapsed / duration);
-				elapsed += Time.deltaTime;
-				yield return null;
-			}
+            baseOffset = yOffset;
+        }
 
-			transform.position = to;
-		}
-	}
-
+        private void ApplyFinalPosition()
+        {
+            Vector3 pos = startPosition;
+            pos.y += baseOffset;
+            transform.position = pos;
+        }
+    }
 }

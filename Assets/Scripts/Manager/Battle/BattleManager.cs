@@ -1,3 +1,4 @@
+using GASHAPWN.Environment;
 using GASHAPWN.UI;
 using System;
 using System.Collections;
@@ -54,11 +55,9 @@ namespace GASHAPWN
             [Tooltip("Player 2 BattleGUI")]
             public BattleGUIController player2BattleGUI;
 
-            [Tooltip("Player 1 spawn position")]
-            public Transform player1SpawnPos;
-
-            [Tooltip("Player 2 spawn position")]
-            public Transform player2SpawnPos;
+        [Header("Machine Reference")]
+            [Tooltip("Reference to main controller script on Gasha machine")]
+            [SerializeField] private MachineController machineController;
 
         // Queue of defeated players plus winner at top
         public Queue<(GameObject player, bool isWinner)> pendingPlayerResults = new();
@@ -365,6 +364,8 @@ namespace GASHAPWN
             // then we know the remaining player has won
             if (activePlayers.Count == 1) {
                 isWinner = IsPlayerWin(activePlayers[0]);
+                // Make sure player is invinible now that they've won
+                activePlayers[0].GetComponent<PlayerData>().IsInvincible = true;
                 // Store results for winning player
                 pendingPlayerResults.Enqueue((activePlayers[0], isWinner));
                 // OnWinningFigure called here
@@ -414,8 +415,8 @@ namespace GASHAPWN
         {
             foreach (var player in activePlayers)
             {
-                if (player.tag == "Player1") player.gameObject.transform.position = player1SpawnPos.position;
-                else if (player.tag == "Player2") player.gameObject.transform.position = player2SpawnPos.position;
+                if (player.tag == "Player1") player.gameObject.transform.position = machineController.Player1SpawnPos.position;
+                else if (player.tag == "Player2") player.gameObject.transform.position = machineController.Player2SpawnPos.position;
                 else Debug.LogError("BattleManager: Invalid Player tag. Could not set spawn positions.");
             }
         }
@@ -490,6 +491,16 @@ namespace GASHAPWN
 
                 // Unpause time
                 Time.timeScale = 1;
+            }
+        #endregion
+
+        #region DEBUG
+            public void SimulatePlayer2Win()
+            {
+                if (State != BattleState.Battle) return;
+                if (IsGamePaused) return;
+
+                OnPlayerDeath(activePlayers.First());
             }
         #endregion
     }

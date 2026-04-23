@@ -3,23 +3,14 @@ using UnityEngine;
 namespace GASHAPWN.Utility {
     public static class FigureResizeHelper
     {
-        // Given an object, resize it to worldspace scale according the parent's scale
+        // Given a figure object, scale it up or down in relation to the parent transform
         public static void ResizeFigureObject(GameObject obj, Transform parentTransform, float scaleFactor = 1f)
         {
-            Vector3 originalScale = obj.transform.lossyScale;
             obj.transform.SetParent(parentTransform, false);
+
             obj.transform.localPosition = Vector3.zero;
             obj.transform.localRotation = Quaternion.identity;
-
-            // Restore world scale by recalculating local scale relative to parent
-            Transform parent = obj.transform.parent;
-            Vector3 parentScale = parent.lossyScale;
-            obj.transform.localScale = new Vector3(
-                originalScale.x / parentScale.x,
-                originalScale.y / parentScale.y,
-                originalScale.z / parentScale.z
-            );
-            obj.transform.localScale *= scaleFactor;
+            obj.transform.localScale = obj.transform.localScale * scaleFactor;
         }
     }
 }

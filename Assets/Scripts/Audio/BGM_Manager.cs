@@ -48,7 +48,6 @@ namespace GASHAPWN.Audio {
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;
             // Wait until BattleManager is present to subscribe
-            StartCoroutine(WaitForBattleManagerAndSubscribe());
         }
         private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
@@ -59,7 +58,7 @@ namespace GASHAPWN.Audio {
             {
                 Debug.Log("BGM_Manager: BattleManager has changed! Updating subscription.");
                 UnsubscribeFromBattleManager();
-                SubscribeToBattleManager(BattleManager.Instance);
+                StartCoroutine(WaitForBattleManagerAndSubscribe());
             }
         }
 

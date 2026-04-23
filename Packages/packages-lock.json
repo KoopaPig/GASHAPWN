@@ -9,6 +9,18 @@
       },
       "hash": "efb08f2318b887f8155fe654463a7669733e6611"
     },
+    "com.sisus.hierarchy-folders": {
+      "version": "file:com.sisus.hierarchy-folders",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.sisus.shared": {
+      "version": "file:com.sisus.shared",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,

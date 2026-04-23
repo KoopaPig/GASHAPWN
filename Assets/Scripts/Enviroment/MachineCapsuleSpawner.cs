@@ -64,6 +64,6 @@ public class MachineCapsuleSpawner : MonoBehaviour
 
         // Spawn in capsule and figure
         GameObject SpawnedCapsule = Instantiate(PlayerCapsule, machineCapsuleSpawnPos);
-        SpawnedCapsule.GetComponent<PlayerAttachedFigure>().SetFigureInCapsule(WinningFigure, 2.5f);
+        SpawnedCapsule.GetComponent<PlayerAttachedFigure>().SetFigureInCapsule(WinningFigure);
     }
 }

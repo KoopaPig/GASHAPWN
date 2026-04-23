@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Stage2
   m_EditorClassIdentifier: 
   levelName: Roombarena
-  levelSceneName: Stage2_Roomba
   levelPreviewIconA: {fileID: 21300000, guid: 89dd41af925582d468dcf09ea1bfc572, type: 3}
   levelPreviewIconB: {fileID: 21300000, guid: 42df2c358678bcb4f921d05361f4a4d5, type: 3}
+  levelPrefab: {fileID: 5006202636716020243, guid: 50dd66bfe7ccc194788b8120bc35ec1c, type: 3}

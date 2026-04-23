@@ -20,7 +20,7 @@ namespace GASHAPWN.Environment
             string tag = collision.gameObject.tag;
             if (tag.Contains("Player"))
             {
-                Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
+                Rigidbody playerRb = collision.gameObject.GetComponent<PlayerController>().rb;
                 if (playerRb != null)
                 {
                     // Calculate direction from angles

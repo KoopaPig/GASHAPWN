@@ -1,4 +1,3 @@
-using GASHAPWN.UI;
 using System.Collections;
 using UnityEngine;
 
@@ -6,6 +5,9 @@ namespace GASHAPWN
 {
     public class ColorEffects : MonoBehaviour
     {
+        [Tooltip("Reference to parent container of Player Capsule")]
+        [SerializeField] private Transform playerCapsuleRoot;
+
         [Header("Color Effect Settings")]
             [Tooltip("Flash Effect for damage")]
             [SerializeField] private FlashEffect damageEffect;
@@ -16,7 +18,8 @@ namespace GASHAPWN
             [Tooltip("Hold Effect for charge")]
             [SerializeField] private HoldEffect chargeEffect;
 
-        private PlayerData _playerData;
+        // Get reference to higher-level player components through Player Effects Hub
+        private PlayerEffectsHub _pEffectsHub;
 
         // Current coroutine for color effect
         private Coroutine effectCoroutine;
@@ -159,10 +162,9 @@ namespace GASHAPWN
             }
         }
 
-
         private void CacheRenderers()
         {
-            playerRenderers = transform.Find("PlayerCapsule").GetComponentsInChildren<MeshRenderer>();
+            playerRenderers = playerCapsuleRoot.Find("PlayerCapsule").GetComponentsInChildren<MeshRenderer>();
             originalColors = new Color[playerRenderers.Length];
             for (int i = 0; i < playerRenderers.Length; i++)
                 originalColors[i] = playerRenderers[i].material.color;
@@ -177,16 +179,16 @@ namespace GASHAPWN
 
         private void Awake()
         {
-            _playerData = GetComponentInParent<PlayerData>();
+            _pEffectsHub = GetComponent<PlayerEffectsHub>();
         }
 
         private void OnEnable()
         {
-            // Add listeners for Player Data events
-            _playerData.OnDamage.AddListener((int amt) => TriggerEffect(damageEffect));
-            _playerData.OnDefenseActivated.AddListener(() => TriggerEffect(defenseEffect));
-            _playerData.OnDefenseDeactivated.AddListener(() => TriggerEffect(defenseEffect));
-            _playerData.OnChargeRoll.AddListener((bool state) => TriggerEffect(chargeEffect));
+            // Add listeners for events
+            _pEffectsHub.pData.healthEvents.OnDamage.AddListener((int amt) => TriggerEffect(damageEffect));
+            _pEffectsHub.pSpecialMoveHandler.Events.OnDefenseActivated.AddListener(() => TriggerEffect(defenseEffect));
+            _pEffectsHub.pSpecialMoveHandler.Events.OnDefenseDeactivated.AddListener(() => TriggerEffect(defenseEffect));
+            //_pSpecialMoveHandler.Events.OnChargeRoll.AddListener((ChargeRoll_SpecialMove.ChargeRollState state) => TriggerEffect(chargeEffect));
         }
 
         private void Start()
@@ -196,11 +198,11 @@ namespace GASHAPWN
 
         private void OnDisable()
         {
-            // Remove listeners for Player Data events
-            _playerData.OnDamage.RemoveAllListeners();
-            _playerData.OnDefenseActivated.RemoveAllListeners();
-            _playerData.OnDefenseDeactivated.RemoveAllListeners();
-            _playerData.OnChargeRoll.RemoveAllListeners();
+            // Remove listeners for events
+            _pEffectsHub.pData.healthEvents.OnDamage.RemoveAllListeners();
+            _pEffectsHub.pSpecialMoveHandler.Events.OnDefenseActivated.RemoveAllListeners();
+            _pEffectsHub.pSpecialMoveHandler.Events.OnDefenseDeactivated.RemoveAllListeners();
+            //_pSpecialMoveHandler.Events.OnChargeRoll.RemoveAllListeners();
             ResetAllRenderersToOriginalColors();
         }
 
