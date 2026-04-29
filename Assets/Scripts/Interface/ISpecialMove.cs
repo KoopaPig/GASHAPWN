@@ -31,7 +31,7 @@ namespace GASHAPWN
         /// <summary>
         /// For context.canceled or interruptions
         /// </summary>
-        void Cancel(SpecialMoveHandler spMoveHandler);
+        ISpecialMove Cancel(SpecialMoveHandler spMoveHandler);
 
         /// <summary>
         /// Depending on the special move, it might be necessary to split into states for functional clarity

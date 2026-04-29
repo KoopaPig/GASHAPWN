@@ -14,34 +14,31 @@ namespace GASHAPWN
         {
             arrow.gameObject.SetActive(false);
             if (arrow.drawMode != SpriteDrawMode.Sliced)
-                Debug.LogError("CHARGE ROLL INDICATOR: Arrow is not set up with a sliced draw mode.");
+                Debug.LogError($"{nameof(ChargeRollIndicator)}: Arrow is not set up with a sliced draw mode.");
             _height = arrow.size.y;
         }
 
-        // This should work differently: The directional input should apply a rotation force to it,
-        // otherwise when using keyboard, it can only snap to 8 directions.
-
         public void UpdateIndicator(float percent, Vector2 chargeDirection)
         {
-            Debug.Log("updating indicator: " + percent);
-
-            if (!arrow.gameObject.activeSelf) 
+            if (!arrow.gameObject.activeSelf)
                 arrow.gameObject.SetActive(true);
 
-            float angle = Mathf.Atan2(chargeDirection.x, chargeDirection.y) * Mathf.Rad2Deg;
-
             arrow.size = new Vector2(Mathf.Lerp(0.1f, maxWidth, percent), _height);
-            Vector3 dir = new Vector3(chargeDirection.x, 0f, chargeDirection.y);
-            arrow.transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
+
+            // Get ground normal
+            Vector3 groundNormal = Vector3.up;
+
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 2f))
+                groundNormal = hit.normal;
+
+            // Direction projected onto ground
+            Vector3 dir = new Vector3(chargeDirection.x, 0f, chargeDirection.y).normalized;
+            Vector3 projectedDir = Vector3.ProjectOnPlane(dir, groundNormal).normalized;
+
+            // Rotation aligned to ground
+            Quaternion lookRot = Quaternion.LookRotation(projectedDir, groundNormal);
+            arrow.transform.rotation = lookRot * Quaternion.Euler(90f, -90f, 0f);
         }
-
-        [SerializeField] private float radius = 0.02f;
-
-        private float currentAngle;
-
-
-
-        [SerializeField] private float rotationSpeed = 180f;
 
         public void HideIndicator()
         {

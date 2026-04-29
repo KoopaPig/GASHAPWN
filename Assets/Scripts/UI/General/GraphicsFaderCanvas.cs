@@ -44,7 +44,7 @@ namespace GASHAPWN.UI
         {
             if (canvasGroup == null)
             {
-                Debug.LogWarning("UIFader: CanvasGroup is missing!");
+                Debug.LogWarning($"{nameof(GraphicsFaderCanvas)}: CanvasGroup is missing!");
                 yield break;
             }
 
@@ -91,7 +91,7 @@ namespace GASHAPWN.UI
         {
             if (canvasGroup == null)
             {
-                Debug.LogWarning("UIFader: CanvasGroup is missing!");
+                Debug.LogWarning($"{nameof(GraphicsFaderCanvas)}: CanvasGroup is missing!");
                 yield break;
             }
 

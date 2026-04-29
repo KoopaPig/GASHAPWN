@@ -35,7 +35,7 @@ namespace GASHAPWN.Environment {
 
         private IEnumerator WaitToOpenDoor(float waitDuration) {
             yield return new WaitForSeconds(waitDuration);
-            animator.SetTrigger("door-open");
+            animator.SetTrigger(AnimationStrings.machineDoorOpen);
         }
 
         private void HandleNewFigureScreen(BattleState state)

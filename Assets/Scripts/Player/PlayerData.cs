@@ -32,8 +32,6 @@ namespace GASHAPWN
         [Header("Events")]
             public HealthEvents healthEvents;
             public StaminaEvents staminaEvents;
-            
-            
 
         #region PLAYER STATE FLAGS
             [HideInInspector] public bool IsDead = false;
@@ -41,8 +39,6 @@ namespace GASHAPWN
 
         [Header("Burst Settings")]
             public float burstInvincibilityDuration = 1.2f; // Invincibility duration during burst
-
-        //private ParticleEffects particleEffects;
 
         private void Update()
         {
@@ -76,7 +72,7 @@ namespace GASHAPWN
             // make sure to set health to 0 if it somehow dips into the negative
             if (currentHealth < 0) currentHealth = 0;
 
-            Debug.Log(gameObject.name + " took " + damageAmt + " damage! Current HP: " + currentHealth);
+            Debug.Log($"{nameof(PlayerData)}: {gameObject.name} took {damageAmt} damage! Current HP: {currentHealth}");
             healthEvents.OnDamage.Invoke(damageAmt);
 
             if (currentHealth <= 0)
@@ -94,7 +90,7 @@ namespace GASHAPWN
         /// </summary>
         public void ActivateAttackBoost(float duration, float multiplier)
         {
-            Debug.Log($"Attack boost activated on {gameObject.name} for {duration} seconds with {multiplier}x multiplier");
+            Debug.Log($"{nameof(PlayerData)}: Attack boost activated on {gameObject.name} for {duration} seconds with {multiplier}x multiplier");
 
             damageMultiplier = multiplier;
             attackBonusTimer = duration;
@@ -103,26 +99,26 @@ namespace GASHAPWN
         private IEnumerator ActivateIFrames()
         {
             IsInvincible = true;
-            Debug.Log(gameObject.name + " entered I-Frames! No damage can be taken.");
+            Debug.Log($"{nameof(PlayerData)}: {gameObject.name} entered I-Frames! No damage can be taken.");
 
-            // Activate visual effect here
+            // Activate potential visual effect here
 
             yield return new WaitForSeconds(invincibilityDuration);
             IsInvincible = false;
-            Debug.Log(gameObject.name + " exited I-Frames! Can take damage again.");
+            Debug.Log($"{nameof(PlayerData)}: {gameObject.name} exited I-Frames! Can take damage again.");
         }
 
         public void SetHP(int value)
         {
             if (value > 0 && value <= maxHealth) { currentHealth = value; }
-            else Debug.LogError("Value must be set between 0 and maxHealth.");
+            else Debug.LogError($"{nameof(PlayerData)}: Value must be set between 0 and maxHealth.");
             healthEvents.SetHealth.Invoke(currentHealth);
         }
 
         private void Die()
         {
             if (IsDead) return;
-            Debug.Log(gameObject.name + " has been eliminated!");
+            Debug.Log($"{nameof(PlayerData)}: {gameObject.name} has been eliminated!");
             IsDead = true;
             healthEvents.OnDeath.Invoke(this.gameObject);
             BattleManager.Instance.OnPlayerDeath(this.gameObject);

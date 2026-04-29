@@ -1,56 +1,76 @@
+using GASHAPWN.Utility;
+using System.Collections;
 using UnityEngine;
 
 namespace GASHAPWN
 {
+    /// <summary>
+    /// Controller for impact-related graphic and particle effects
+    /// </summary>
     public class ParticleEffects : MonoBehaviour
     {
-        [Header("Impact Effects")]
-        public GameObject hitEffectPrefab;
-        public GameObject deflectEffectPrefab;
+        [Header("Graphic Effects")]
+            [SerializeField] private GraphicEffect strikeEffectPrefab;
+            [SerializeField] private GraphicEffect shieldEffectPrefab;
 
         [Header("Particle Effects")]
-        public GameObject sparksPrefab;
-
-        public float sparkThreshold = 8f;
-        public float dustThreshold = 6f;
-        public float trailSpeedThreshold = 10f;
-
-        private Rigidbody _rb;
+            [SerializeField] ParticleSystem hitSparksPrefab;
+            [SerializeField] ParticleSystem deflectSparksPrefab;
 
         private PlayerEffectsHub _pEffectsHub;
 
         private void Awake()
         {
             _pEffectsHub = GetComponent<PlayerEffectsHub>();
-            _rb = _pEffectsHub.rb;
         }
 
-        void OnCollisionEnter(Collision collision)
+        private void OnEnable()
         {
-            float speed = _rb.linearVelocity.magnitude;
-
-            // DISABLED FOR NOW BECAUSE NOT PROPERLY MANAGED
-            
-            //if (collision.gameObject.CompareTag("Player") && speed >= sparkThreshold)
-            //{
-            //    Instantiate(sparksPrefab, collision.contacts[0].point, Quaternion.identity);
-            //}
-            //else if (!collision.gameObject.CompareTag("Player") && speed >= dustThreshold)
-            //{
-            //    Instantiate(dustImpactPrefab, collision.contacts[0].point, Quaternion.identity);
-            //}
+            _pEffectsHub.pData.healthEvents.OnDeflect.AddListener(SpawnShield);
+            _pEffectsHub.pData.healthEvents.OnHit.AddListener(SpawnStrike);
         }
 
-        public void PlayHitEffect(Vector3 position)
+        private void OnDisable()
         {
-            if (hitEffectPrefab != null)
-            {
-                Instantiate(hitEffectPrefab, position, Quaternion.identity);
-            }
-            else
-            {
-                Debug.LogWarning("Hit effect prefab is not assigned!");
-            }
+            _pEffectsHub.pData.healthEvents.OnDeflect.RemoveListener(SpawnShield);
+            _pEffectsHub.pData.healthEvents.OnHit.RemoveListener(SpawnStrike);
+        }
+
+        private void SpawnShield(ContactPoint contactPoint, Transform other) { 
+            shieldEffectPrefab.SpawnAtContact(contactPoint, other, 0.3f, true);
+            shieldEffectPrefab.FlashAndShrink(0.2f);
+
+            // Configure deflect sparks
+            GameObject obj = Instantiate(deflectSparksPrefab.gameObject, contactPoint.point, Quaternion.identity);
+
+            var ps = obj.GetComponent<ParticleSystem>();
+
+            // Direction away from the other object
+            Vector3 dir = (contactPoint.point - other.position).normalized;
+
+            obj.transform.rotation = Quaternion.LookRotation(dir);
+
+            ps.Play();
+            StartCoroutine(PlayerHelpers.DestroyParticleSystemWhenDone(ps));
+        }
+
+        private void SpawnStrike(ContactPoint contactPoint, Transform other)
+        {
+            strikeEffectPrefab.SpawnAtContact(contactPoint, other, 0.5f, true);
+            strikeEffectPrefab.FlashAndShrink(0.25f);
+
+            // Configure hit sparks
+            GameObject obj = Instantiate(hitSparksPrefab.gameObject, contactPoint.point, Quaternion.identity);
+
+            var ps = obj.GetComponent<ParticleSystem>();
+
+            // Direction away from the other object
+            Vector3 dir = (contactPoint.point - other.position).normalized;
+
+            obj.transform.rotation = Quaternion.LookRotation(dir);
+
+            ps.Play();
+            StartCoroutine(PlayerHelpers.DestroyParticleSystemWhenDone(ps));
         }
     }
 }

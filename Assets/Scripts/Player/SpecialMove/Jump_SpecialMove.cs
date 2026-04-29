@@ -41,8 +41,7 @@ namespace GASHAPWN
         {
             return spMoveHandler.pController.ControlsEnabled &&
                spMoveHandler.pController.IsGrounded &&
-               !spMoveHandler.HasJumped &&
-               spMoveHandler.pData.currentStamina >= StaminaCost &&
+               !spMoveHandler.HasJumped && 
                !spMoveHandler.IsCharging &&
                !spMoveHandler.HasCharged &&
                !spMoveHandler.IsBursting;
@@ -71,7 +70,7 @@ namespace GASHAPWN
             yield return null;
         }
 
-        public void Cancel(SpecialMoveHandler spMoveHandler) 
+        public ISpecialMove Cancel(SpecialMoveHandler spMoveHandler) 
         {
             Rigidbody rb = spMoveHandler.pController.rb;
 
@@ -84,6 +83,8 @@ namespace GASHAPWN
                     rb.linearVelocity.z
                 );
             }
+            // if nothing happens after cancel, return null
+            return null;
         }
     }
 }

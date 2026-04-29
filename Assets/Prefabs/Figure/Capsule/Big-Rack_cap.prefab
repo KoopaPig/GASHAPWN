@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7089157322836917816}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Big-Rack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7799188137449814913}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Big-Rack_cap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 8844663219963265863}
   - component: {fileID: 9108178835079982836}
   - component: {fileID: 2445042734905488296}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Moose Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}

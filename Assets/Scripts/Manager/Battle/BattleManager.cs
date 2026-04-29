@@ -8,7 +8,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.UI;
 
 namespace GASHAPWN
 {
@@ -121,7 +120,7 @@ namespace GASHAPWN
 
             // Ensure activePlayers matches numPlayers
             if (activePlayers.Count > GameManager.Instance.numPlayers)
-                Debug.LogError("BattleManager: Number of active players does not match total number of players.");
+                Debug.LogError($"{nameof(BattleManager)}: Number of active players does not match total number of players.");
         }
 
         private void Update()
@@ -202,13 +201,13 @@ namespace GASHAPWN
         {
             trackTime = true;
             PlayerInputAssigner.Instance.SetBattleControlsActive(true); // activate controls
-            Debug.Log("Battle Start!");
+            Debug.Log($"{nameof(BattleManager)}: Battle Start!");
         }
 
         // Performs actions required when sudden death
         private void SuddenDeathActions()
         {
-            Debug.Log("Entered Sudden Death!");
+            Debug.Log($"{nameof(BattleManager)}: Entered Sudden Death!");
             ResetToSpawn(); // set players back to spawn points
             // Set HP of all active players to 1
             foreach (var player in activePlayers)
@@ -249,10 +248,10 @@ namespace GASHAPWN
                 State = BattleState.CountDown;
                 ChangeToCountdown.Invoke(State);
                 OnBattleStateChanged?.Invoke(State);
-                Debug.Log($"BattleManager: BattleState: {State.ToString()}");
-                Debug.Log("Countdown from " + countDownTime + " begins");
+                Debug.Log($"{nameof(BattleManager)}: BattleState: {State.ToString()}");
+                Debug.Log($"{nameof(BattleManager)}: Countdown from {countDownTime} begins.");
             }
-            else Debug.Log("Can not change battle state to countdown");
+            else Debug.Log($"{nameof(BattleManager)}: Can not change battle state to countdown.");
         }
 
         /// <summary>
@@ -267,9 +266,9 @@ namespace GASHAPWN
                 ChangeToBattle.Invoke(State);
                 OnBattleStateChanged?.Invoke(State);
                 BattleStartActions();
-                Debug.Log($"BattleManager: BattleState: {State.ToString()}");
+                Debug.Log($"{nameof(BattleManager)}: BattleState: {State.ToString()}");
             }
-            else Debug.Log("Can not change battle state to battle");
+            else Debug.Log($"{nameof(BattleManager)}: Can not change battle state to battle.");
         }
 
         /// <summary>
@@ -283,9 +282,9 @@ namespace GASHAPWN
                 ChangeToSuddenDeath.Invoke(State);
                 SuddenDeathActions();
                 OnBattleStateChanged?.Invoke(State);
-                Debug.Log($"BattleManager: BattleState: {State.ToString()}");
+                Debug.Log($"{nameof(BattleManager)}: BattleState: {State.ToString()}");
             }
-            else Debug.Log("Can not change battle state to sudden death");
+            else Debug.Log($"{nameof(BattleManager)}: Can not change battle state to sudden death.");
         }
 
         /// <summary>
@@ -299,9 +298,9 @@ namespace GASHAPWN
                 ChangeToResults.Invoke(State);
                 BattleEndActions();
                 OnBattleStateChanged?.Invoke(State);
-                Debug.Log($"BattleManager: BattleState: {State.ToString()}");
+                Debug.Log($"{nameof(BattleManager)}: BattleState: {State.ToString()}");
             }
-            else Debug.Log("Can not change battle state to victory");
+            else Debug.Log($"{nameof(BattleManager)}: Can not change battle state to victory.");
         }
 
         /// <summary>
@@ -314,9 +313,9 @@ namespace GASHAPWN
                 State = BattleState.NewFigureScreen;
                 ChangeToNewFigure.Invoke(State);
                 OnBattleStateChanged?.Invoke(State);
-                Debug.Log($"BattleManager: BattleState: {State.ToString()}");
+                Debug.Log($"{nameof(BattleManager)}: BattleState: {State.ToString()}");
             }
-            else Debug.Log("BattleManager: Can not change battle state to newFigureScreen");
+            else Debug.Log($"{nameof(BattleManager)}: Can not change battle state to newFigureScreen.");
         }
 
         #endregion
@@ -348,7 +347,7 @@ namespace GASHAPWN
             }
             else
             {
-                Debug.LogError("BattleManager: Invalid Player tag. Could not set BattleGUI.");
+                Debug.LogError($"{nameof(BattleManager)}: Invalid Player tag. Could not set BattleGUI.");
             }
         }
 
@@ -373,7 +372,7 @@ namespace GASHAPWN
                     activePlayers[0].GetComponent<PlayerAttachedFigure>().GetAttachedFigure());
                 activePlayers.Clear();
             } else {
-                Debug.LogError($"BattleManager: Remaining Players: {activePlayers.Count}");
+                Debug.LogError($"{nameof(BattleManager)}: Remaining Players: {activePlayers.Count}");
             }
         }
 
@@ -417,7 +416,7 @@ namespace GASHAPWN
             {
                 if (player.tag == "Player1") player.gameObject.transform.position = machineController.Player1SpawnPos.position;
                 else if (player.tag == "Player2") player.gameObject.transform.position = machineController.Player2SpawnPos.position;
-                else Debug.LogError("BattleManager: Invalid Player tag. Could not set spawn positions.");
+                else Debug.LogError($"{nameof(BattleManager)}: Invalid Player tag {player.tag}. Could not set spawn positions.");
             }
         }
 

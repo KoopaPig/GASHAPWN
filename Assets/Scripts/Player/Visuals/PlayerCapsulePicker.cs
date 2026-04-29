@@ -50,12 +50,12 @@ namespace GASHAPWN {
                 }
                 else
                 {
-                    Debug.LogWarning("PlayerCapsulePicker: 'GlassSphere' not found in new capsule.");
+                    Debug.LogWarning($"{nameof(PlayerCapsulePicker)}: 'GlassSphere' not found in new capsule.");
                 }
             }
             else
             {
-                Debug.LogWarning($"PlayerCapsulePicker: No prefab found for tag {tag}.");
+                Debug.LogWarning($"{nameof(PlayerCapsulePicker)}: No prefab found for tag {tag}.");
             }
         }
     }

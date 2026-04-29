@@ -13,7 +13,7 @@ using UnityEngine.Events;
 public class SpecialMoveHandler : MonoBehaviour
 {
     // Currently active special move
-    public ISpecialMove activeSpecialMove { private set; get; } = null;
+    public ISpecialMove activeSpecialMove { set; get; } = null;
 
     // Dictionary of Special Moves
     public Dictionary<string, ISpecialMove> moveSet;
@@ -28,7 +28,7 @@ public class SpecialMoveHandler : MonoBehaviour
     private Coroutine _specialMoveCoroutine = null;
 
     #region LOCAL DEFENSE VARIABLES
-        public float ShieldTimer { get; private set; } = 0f;
+    public float ShieldTimer { get; private set; } = 0f;
         public float MaxShieldDuration { get; private set; }
         private float _shieldRechargeRate;
     #endregion
@@ -79,20 +79,17 @@ public class SpecialMoveHandler : MonoBehaviour
         }
     }
 
-
     private void Update()
     {
         // Handle defense shield duration and recharge
-        if (IsDefending)
+        if (IsDefending && ShieldTimer > 0)
         {
-            if (ShieldTimer > 0)
+            ShieldTimer -= Time.deltaTime;
+
+            if (ShieldTimer <= 0)
             {
-                ShieldTimer -= Time.deltaTime;
-                if (ShieldTimer <= 0)
-                {
-                    TryCancelSpecialMove("QuickBrake");
-                    ApplyStun(3f);
-                }
+                TryCancelSpecialMove("QuickBrake");
+                ApplyStun(3f);
             }
         }
         else
@@ -157,37 +154,41 @@ public class SpecialMoveHandler : MonoBehaviour
             // If in cooldown, cannot execute
             if (_isCooldown)
             {
-                Debug.Log($"Cannot execute {move.Name}. Special move cooldown has not finished.");
+                Debug.Log($"{nameof(SpecialMoveHandler)}: Cannot execute {move.Name}. Special move cooldown has not finished.");
                 return;
             }
-            // If execution conditions are met, execute
+
+            // If execution conditions are met (independent of stamina requirement)
             if (move.CanExecute(this))
             {
-                if (activeSpecialMove != move && activeSpecialMove != null) activeSpecialMove.Cancel(this);
-                if (_specialMoveCoroutine != null) StopCoroutine(_specialMoveCoroutine); 
-
-                _specialMoveCoroutine = StartCoroutine(move.Execute(this));
-                activeSpecialMove = move;
-                _specialMoveCooldownTimer = 0f;
-                Debug.Log($"Executed: {move.Name}");
-            }
-            // If cannot execute, stamina must be low
-            else
-            {
-                if (pData.currentStamina < move.StaminaCost)
+                // If stamina requirement is met
+                if (pData.currentStamina >= move.StaminaCost)
                 {
-                    pData.staminaEvents.OnLowStamina.Invoke(pData.currentStamina);
-                    Debug.Log($"Not enough stamina to execute move: {move.Name}");
+                    if (activeSpecialMove != move && activeSpecialMove != null) activeSpecialMove.Cancel(this);
+                    if (_specialMoveCoroutine != null) StopCoroutine(_specialMoveCoroutine);
+
+                    _specialMoveCoroutine = StartCoroutine(move.Execute(this));
+                    activeSpecialMove = move;
+                    _specialMoveCooldownTimer = 0f;
+                    Debug.Log($"{nameof(SpecialMoveHandler)}: Executed {move.Name}");
                 }
+                // Low stamina
                 else
                 {
-                    Debug.Log($"Cannot execute move: {move.Name} (other conditions failed)");
+                    pData.staminaEvents.OnLowStamina.Invoke(pData.currentStamina);
+                    Debug.Log($"{nameof(SpecialMoveHandler)}: Not enough stamina to execute move {move.Name}");
                 }
             }
+            // Move conditions failed
+            else
+            {
+                Debug.Log($"{nameof(SpecialMoveHandler)}: Cannot execute move {move.Name} (other conditions failed)");
+            }
         }
+        // Move not found
         else
         {
-            Debug.LogWarning($"Move not found: {moveName}");
+            Debug.LogWarning($"{nameof(SpecialMoveHandler)}: Move not found \"{moveName}\"");
         }
     }
 
@@ -200,8 +201,7 @@ public class SpecialMoveHandler : MonoBehaviour
         {
             if (move.CanCancel(this))
             {
-                move.Cancel(this);
-                activeSpecialMove = null;
+                activeSpecialMove = move.Cancel(this);
             } 
         }
     }
@@ -213,6 +213,19 @@ public class SpecialMoveHandler : MonoBehaviour
         IsStunned = true;
     }
 
+    /// <summary>
+    /// Try to start sub-coroutine of a special move; sub-coroutine becomes active _specialMoveCoroutine
+    /// </summary>
+    /// <param name="move">The special move whose sub-coroutine must run</param>
+    /// <param name="coroutine">The special move's sub-coroutine</param>
+    public void TrySpecialMoveSubCoroutine(ISpecialMove move, IEnumerator coroutine)
+    {
+        // Ignore completely if given special move is not the active move
+        if (activeSpecialMove != move && activeSpecialMove != null) return;
+
+        if (_specialMoveCoroutine != null) StopCoroutine(_specialMoveCoroutine);
+        _specialMoveCoroutine = StartCoroutine(coroutine);
+    }
 
     [System.Serializable]
     public class SpecialMoveEvents

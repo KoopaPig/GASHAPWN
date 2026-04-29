@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4661890913514240}
   - component: {fileID: 198963633311594780}
   - component: {fileID: 199754306969395316}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: DustTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

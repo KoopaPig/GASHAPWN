@@ -1,9 +1,6 @@
-using GASHAPWN.Audio;
 using System;
 using System.Collections;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace GASHAPWN
 {
@@ -54,8 +51,7 @@ namespace GASHAPWN
                    !spMoveHandler.HasCharged &&
                    !spMoveHandler.IsBursting &&
                    spMoveHandler.pController.IsGrounded &&
-                   !spMoveHandler.IsDefending &&
-                   spMoveHandler.pData.currentStamina >= StaminaCost;
+                   !spMoveHandler.IsDefending;
         }
 
         public bool CanCancel(SpecialMoveHandler spMoveHandler)
@@ -73,10 +69,13 @@ namespace GASHAPWN
             return QuickBrakeCoroutine(spMoveHandler);
         }
 
-        public void Cancel(SpecialMoveHandler spMoveHandler) {
+        public ISpecialMove Cancel(SpecialMoveHandler spMoveHandler) {
             spMoveHandler.pData.IsInvincible = false;
             spMoveHandler.IsDefending = false;
             spMoveHandler.Events.OnDefenseDeactivated?.Invoke();
+
+            // if nothing happens after cancel, return null
+            return null;
         }
 
         private IEnumerator QuickBrakeCoroutine(SpecialMoveHandler spMoveHandler)
@@ -113,6 +112,9 @@ namespace GASHAPWN
             elapsed = 0f;
             while (elapsed < maxShieldDuration)
             {
+                if (!spMoveHandler.IsDefending)
+                    yield break;
+
                 elapsed += Time.deltaTime;
                 yield return null;
             }

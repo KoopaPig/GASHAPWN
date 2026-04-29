@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6388829055556768248}
   - component: {fileID: 3140050039509564381}
   - component: {fileID: 6387859690596044406}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sunglasses_01_Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5087323936488333182}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1901147153133866274}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Konkon_cap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 7552030360184291473}
   - component: {fileID: 2303030787261595523}
   - component: {fileID: 1461496495305591233}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fox Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -249,7 +249,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5253590330967832496}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Konkon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

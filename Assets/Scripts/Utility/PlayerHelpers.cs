@@ -32,7 +32,6 @@ namespace GASHAPWN.Utility
             }
         }
 
-
         /// <summary>
         /// Snaps target to given up vector
         /// </summary>
@@ -42,6 +41,26 @@ namespace GASHAPWN.Utility
         {
             Quaternion delta = Quaternion.FromToRotation(target.up, desiredUp);
             target.rotation = delta * target.rotation;
+        }
+
+        /// <summary>
+        /// Destroys particle system when finished or given max lifetime
+        /// </summary>
+        /// <param name="particleSystem"></param>
+        /// <param name="maxLifetime"></param>
+        /// <returns></returns>
+        public static IEnumerator DestroyParticleSystemWhenDone(ParticleSystem particleSystem, float maxLifetime = 5f)
+        {
+            float timer = 0f;
+
+            while (particleSystem != null && particleSystem.IsAlive(true) && timer < maxLifetime)
+            {
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            if (particleSystem != null)
+                GameObject.Destroy(particleSystem.gameObject);
         }
     }
 }

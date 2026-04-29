@@ -453,13 +453,13 @@ namespace GASHAPWN {
             if (introCamAnimator != null)
             {
                 introCamAnimator.enabled = true;
-                introCamAnimator.SetBool("isCamIntro", true);
+                introCamAnimator.SetBool(AnimationStrings.isCamIntro, true);
             }
 
             // Open door
             if (doorAnimator != null)
             {
-                doorAnimator.SetTrigger("openDoor");
+                doorAnimator.SetTrigger(AnimationStrings.roomDoorOpen);
             }
 
             // Initialize collection while animations are still playing

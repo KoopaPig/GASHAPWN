@@ -68,11 +68,11 @@ namespace GASHAPWN.UI {
 
             if (remainingTime < redThreshold && remainingTime > 0)
             {
-                timerAnimator.SetBool("isWarningEffect", true); // Start the warning effect
+                timerAnimator.SetBool(AnimationStrings.isWarningEffect, true); // Start the warning effect
             }
             else
             {
-                timerAnimator.SetBool("isWarningEffect", false); // Stop the warning effect
+                timerAnimator.SetBool(AnimationStrings.isWarningEffect, false); // Stop the warning effect
             }
 
             // proportionally fill the timer circle

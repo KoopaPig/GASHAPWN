@@ -137,7 +137,6 @@ namespace GASHAPWN
 
             if (myWin)
             {
-
                 int damageAmount = otherPlayerData.CalculateDamageAmount(relativeSpeed, myOffensive, this);
                 otherPlayerData.TakeDamage(damageAmount);
                 ApplyHitKnockback(otherRb, _rb, relativeSpeed);

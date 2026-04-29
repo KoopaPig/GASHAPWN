@@ -75,8 +75,8 @@ namespace GASHAPWN.UI
             capsuleContainer.SetActive(true);
             backgroundParticles.SetActive(true);
             newFigureInfo.SetActive(true);
-            _capsuleAnimator.SetBool("isCapsuleOpen", true);
-            _newFigureAnimator.SetBool("isCapsuleOpen", true);
+            _capsuleAnimator.SetBool(AnimationStrings.isCapsuleOpen_Obj, true);
+            _newFigureAnimator.SetBool(AnimationStrings.isCapsuleOpen_UI, true);
 
             // Handle whether newIcon should appear
             if (BattleManager.Instance.newFigure) { newIcon.SetActive(true); }
@@ -166,14 +166,14 @@ namespace GASHAPWN.UI
             attachedFigure.SetFigureInCapsule(winningFigure);
 
             // Start sliding in graphics
-            GetComponent<Animator>().SetBool("isOverlaySlide", true);
+            GetComponent<Animator>().SetBool(AnimationStrings.isOverlaySlide, true);
 
             // Modify capsule model according to winning player
             HandleCapsuleModel();
 
             // Capsule enters frame
-            _capsuleAnimator.SetBool("isCapsuleOpen", false);
-            _capsuleAnimator.SetTrigger("capsuleEnter");
+            _capsuleAnimator.SetBool(AnimationStrings.isCapsuleOpen_Obj, false);
+            _capsuleAnimator.SetTrigger(AnimationStrings.capsuleEnter_Obj);
             buttonPrompt.GetComponent<GraphicsFaderCanvas>().FadeTurnOn(false);
         }
 
@@ -202,7 +202,7 @@ namespace GASHAPWN.UI
         {
             if (remainingPresses > 0)
             {
-                _capsuleAnimator.Play("capsule-shake", 0, 0f);
+                _capsuleAnimator.Play(AnimationStrings.capsuleShake_Obj, 0, 0f);
                 UI_SFXManager.Instance.Play_CapsuleShake();
                 remainingPresses -= 1;
             } else

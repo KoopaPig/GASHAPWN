@@ -42,7 +42,7 @@ namespace GASHAPWN
             else if (this.series != series)
             {
                 // Warn if figure is already part of another series
-                Debug.LogWarning($"{Name} already belongs to {series.SeriesName}. Remove {Name} from {series.SeriesName} and try SetFigure again.");
+                Debug.LogWarning($"{nameof(Figure)}: {Name} already belongs to {series.SeriesName}. Remove {Name} from {series.SeriesName} and try SetFigure again.");
             }
             #if UNITY_EDITOR
             EditorUtility.SetDirty(this);

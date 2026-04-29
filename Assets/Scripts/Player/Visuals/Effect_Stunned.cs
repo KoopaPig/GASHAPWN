@@ -57,7 +57,7 @@ namespace GASHAPWN
         {
             if (stunDuration < 0.5f)
             {
-                Debug.LogWarning("STUNNED EFFECT: Stunned durtion was less than 0.5 seconds. Did not play stunned effect.");
+                Debug.LogWarning($"{nameof(Effect_Stunned)}: Stunned durtion was less than 0.5 seconds. Did not play stunned effect.");
                 return;
             }
             StartCoroutine(Stun(stunDuration));
@@ -67,18 +67,18 @@ namespace GASHAPWN
         {
             _isStunned = true;
             dizzyRing.SetActive(true);
-            _pEffectsHub.CapsuleAnimator.SetBool("IsStunned", true);
+            _pEffectsHub.CapsuleAnimator.SetBool(AnimationStrings.isStunned, true);
             GAME_SFXManager.Instance.Play_Stunned(this.transform);
-            transform.localScale = Vector3.zero;
-            transform.DOScale(1f, 0.15f);
+            dizzyRing.transform.localScale = Vector3.zero;
+            dizzyRing.transform.DOScale(1f, 0.15f);
             yield return new WaitForSeconds(stunDuration - 0.3f);
 
-            transform.DOScale(0f, 0.15f);
+            dizzyRing.transform.DOScale(0f, 0.15f);
             yield return new WaitForSeconds(0.2f);
 
             _isStunned = false;
             dizzyRing.SetActive(false);
-            _pEffectsHub.CapsuleAnimator.SetBool("IsStunned", false);
+            _pEffectsHub.CapsuleAnimator.SetBool(AnimationStrings.isStunned, false);
         }
     }
 }

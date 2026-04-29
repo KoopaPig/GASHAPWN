@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace GASHAPWN
@@ -5,20 +6,18 @@ namespace GASHAPWN
     [RequireComponent(typeof(PlayerEffectsHub))]
     public class Effect_ChargeGlow : MonoBehaviour
     {
-        private PlayerEffectsHub _pEffectsHub;
-
+        [Tooltip("Reference to \"Charge Lines\" Particle System")]
         [SerializeField] private ParticleSystem chargeLines;
 
-
-        [Header("Emission Settings")]
+        [Tooltip("Maximum particle emission on full charge")]
         [SerializeField] private float maxEmission = 40f;
 
+        private PlayerEffectsHub _pEffectsHub;
         private ParticleSystem.EmissionModule _emission;
         private float _currentEmission;
         private bool _isCharging;
-        private bool _isHolding;
-
-        private float chargeSpeed = 2f;
+        private float _chargeDuration = 2f;
+        private float _chargeElapsed = 0f;
 
         private void Awake()
         {
@@ -37,13 +36,17 @@ namespace GASHAPWN
             if (_isCharging)
             {
                 // Ramp up emission
-                _currentEmission = Mathf.MoveTowards(
-                    _currentEmission,
-                    maxEmission,
-                    chargeSpeed * maxEmission * Time.deltaTime
-                );
+                _currentEmission = Mathf.MoveTowards(_currentEmission, maxEmission,
+                (maxEmission / _chargeDuration) * Time.deltaTime);
 
                 ApplyEmission();
+
+                _chargeElapsed += Time.deltaTime;
+                float chargePercent = Mathf.Clamp01(_chargeElapsed / _chargeDuration);
+
+                // Ramp up spin speed
+                float spin = Mathf.Lerp(1f, 5f, chargePercent);
+                _pEffectsHub.CapsuleAnimator.SetFloat(AnimationStrings.chargeSpeed, spin);
             }
         }
 
@@ -59,36 +62,34 @@ namespace GASHAPWN
             _emission.rateOverTime = rate;
         }
 
+        // Change particle state based on Charge Roll State
         private void UpdateState(ChargeRoll_SpecialMove.ChargeRollState state)
         {
             switch (state)
             {
                 case ChargeRoll_SpecialMove.ChargeRollState.Charge:
-                    chargeLines.gameObject.SetActive(true);
-
                     _isCharging = true;
-                    _isHolding = false;
+                    chargeLines.gameObject.SetActive(true);
+                    chargeLines.Play();
+                    _pEffectsHub.CapsuleAnimator.SetBool(AnimationStrings.isCharging, true);
                     break;
 
                 case ChargeRoll_SpecialMove.ChargeRollState.Hold:
                     _isCharging = false;
-                    _isHolding = true;
-
                     _currentEmission = maxEmission;
                     ApplyEmission();
                     break;
 
                 default:
                     _isCharging = false;
-                    _isHolding = false;
-
                     _currentEmission = 0f;
+                    _chargeElapsed = 0f;
                     ApplyEmission();
-
+                    chargeLines.Stop();
+                    _pEffectsHub.CapsuleAnimator.SetBool(AnimationStrings.isCharging, false);
                     chargeLines.gameObject.SetActive(false);
                     break;
             }
         }
     }
-
 }

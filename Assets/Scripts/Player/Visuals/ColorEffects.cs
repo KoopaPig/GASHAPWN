@@ -9,14 +9,15 @@ namespace GASHAPWN
         [SerializeField] private Transform playerCapsuleRoot;
 
         [Header("Color Effect Settings")]
-            [Tooltip("Flash Effect for damage")]
-            [SerializeField] private FlashEffect damageEffect;
+        [Tooltip("Flash Effect for damage")]
+        [SerializeField] private FlashEffect damageEffect;
 
-            [Tooltip("Hold Effect for defense")]
-            [SerializeField] private HoldEffect defenseEffect;
+        [Tooltip("Hold Effect for defense")]
+        [SerializeField] private HoldEffect defenseEffect;
 
-            [Tooltip("Hold Effect for charge")]
-            [SerializeField] private HoldEffect chargeEffect;
+        [Tooltip("Hold Effect for charge")]
+        [SerializeField] private HoldEffect chargeEffect;
+        private bool _isChargeEffectOn = false;
 
         // Get reference to higher-level player components through Player Effects Hub
         private PlayerEffectsHub _pEffectsHub;
@@ -146,6 +147,8 @@ namespace GASHAPWN
                 SetRendererColor(j, effect.EffectColor);
         }
 
+        #region RENDERER HELPERS
+
         // Helper method to reset all renderers to original colors
         private void ResetAllRenderersToOriginalColors()
         {
@@ -177,6 +180,33 @@ namespace GASHAPWN
             r.material.color = color;
         }
 
+        #endregion
+
+        #region SPECIAL HELPERS
+
+            // Specialized function to handle color states for charge roll
+            private void HandleCharge(ChargeRoll_SpecialMove.ChargeRollState state, HoldEffect chargeEffect)
+            {
+                switch (state)
+                {
+                    case ChargeRoll_SpecialMove.ChargeRollState.Charge:
+                        TriggerEffect(chargeEffect);
+                        _isChargeEffectOn = true;
+                        break;
+                    case ChargeRoll_SpecialMove.ChargeRollState.Hold:
+                        break;
+                    default:
+                        if (_isChargeEffectOn)
+                        {
+                            TriggerEffect(chargeEffect);
+                            _isChargeEffectOn = false;
+                        }
+                        break;
+                }
+            }
+
+        #endregion
+
         private void Awake()
         {
             _pEffectsHub = GetComponent<PlayerEffectsHub>();
@@ -188,7 +218,7 @@ namespace GASHAPWN
             _pEffectsHub.pData.healthEvents.OnDamage.AddListener((int amt) => TriggerEffect(damageEffect));
             _pEffectsHub.pSpecialMoveHandler.Events.OnDefenseActivated.AddListener(() => TriggerEffect(defenseEffect));
             _pEffectsHub.pSpecialMoveHandler.Events.OnDefenseDeactivated.AddListener(() => TriggerEffect(defenseEffect));
-            //_pSpecialMoveHandler.Events.OnChargeRoll.AddListener((ChargeRoll_SpecialMove.ChargeRollState state) => TriggerEffect(chargeEffect));
+            _pEffectsHub.pSpecialMoveHandler.Events.OnChargeRoll.AddListener((ChargeRoll_SpecialMove.ChargeRollState state) => HandleCharge(state, chargeEffect));
         }
 
         private void Start()
@@ -202,7 +232,7 @@ namespace GASHAPWN
             _pEffectsHub.pData.healthEvents.OnDamage.RemoveAllListeners();
             _pEffectsHub.pSpecialMoveHandler.Events.OnDefenseActivated.RemoveAllListeners();
             _pEffectsHub.pSpecialMoveHandler.Events.OnDefenseDeactivated.RemoveAllListeners();
-            //_pSpecialMoveHandler.Events.OnChargeRoll.RemoveAllListeners();
+            _pEffectsHub.pSpecialMoveHandler.Events.OnChargeRoll.RemoveAllListeners();
             ResetAllRenderersToOriginalColors();
         }
 

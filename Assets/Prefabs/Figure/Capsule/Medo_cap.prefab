@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3792629412974675378}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4241996096760920900}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Medo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1141234755500045768}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 204723878100756791}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Medo_cap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5459203003633482197}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1148033607361480289}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2644271025800970252}
   - component: {fileID: 7764970860039558330}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,7 +295,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7891070614304111605}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone.003_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -326,7 +326,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7297927992313231392}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -360,7 +360,7 @@ GameObject:
   - component: {fileID: 2397080510864452496}
   - component: {fileID: 3030187103788449386}
   - component: {fileID: 4910004346317860623}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Whiskers
   m_TagString: Untagged
   m_Icon: {fileID: 0}

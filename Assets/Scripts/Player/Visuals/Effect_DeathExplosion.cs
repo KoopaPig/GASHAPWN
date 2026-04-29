@@ -5,14 +5,16 @@ namespace GASHAPWN {
     [RequireComponent(typeof(PlayerEffectsHub))]
     public class Effect_DeathExplosion : MonoBehaviour
     {
+        [Tooltip("Reference to figure container")]
         [SerializeField] private GameObject figurePosition;
+        [Tooltip("Force of death explosion")]
         [SerializeField] private float explosionForce = 3f;
-
-        private GameObject glassHemisphere;
-        private GameObject metalHemisphere;
 
         // Get reference to higher-level player components through Player Effects Hub
         private PlayerEffectsHub _pEffectsHub;
+
+        private GameObject _glassHemisphere;
+        private GameObject _metalHemisphere;
 
         private void OnEnable()
         {
@@ -28,14 +30,12 @@ namespace GASHAPWN {
         private void DeathExplode(GameObject obj)
         {
             RefreshParts();
-            ExplodePart(glassHemisphere, -transform.right);
-            ExplodePart(metalHemisphere, transform.right);
-            ExplodePart(figurePosition, Vector3.up);
+            ExplodePart(_glassHemisphere, -transform.right);
+            ExplodePart(_metalHemisphere, transform.right);
+            var meshObj = figurePosition.GetComponentInChildren<MeshRenderer>()?.gameObject;
+            ExplodePart(meshObj, Vector3.up);
             GAME_SFXManager.Instance.Play_GlassBreak(transform);
         }
-
-
-        // ISSUE: This just isn't working correctly, colliders acting weird and too much force being applied
 
         /// <summary>
         /// Handle explosion of individual parts given Vector3 direction
@@ -58,10 +58,19 @@ namespace GASHAPWN {
                     part.AddComponent<BoxCollider>();
                 }
             }
+            part.layer = LayerMask.NameToLayer("Debris");
 
             // If rigidbody not present, add it
             if (!part.TryGetComponent(out Rigidbody rb))
+            {
                 rb = part.AddComponent<Rigidbody>();
+            }
+
+            // Configure rb
+            rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+            rb.interpolation = RigidbodyInterpolation.Interpolate;
+            rb.angularVelocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
 
             // Add up and outward force
             rb.AddForce((direction + Vector3.up) * explosionForce);
@@ -71,10 +80,10 @@ namespace GASHAPWN {
         private void RefreshParts()
         {
             // Find hemispheres
-            glassHemisphere = _pEffectsHub.PlayerCapsuleRoot.Find("PlayerCapsule")?.Find("GlassSphere")?.gameObject;
-            metalHemisphere = _pEffectsHub.PlayerCapsuleRoot.Find("PlayerCapsule")?.Find("MetalSphere")?.gameObject;
-            if (glassHemisphere == null || metalHemisphere == null)
-                Debug.LogWarning("DeathExplosion: Could not find hemispheres on capsule. Check if the object names match.");
+            _glassHemisphere = _pEffectsHub.PlayerCapsuleRoot.Find("PlayerCapsule")?.Find("GlassSphere")?.gameObject;
+            _metalHemisphere = _pEffectsHub.PlayerCapsuleRoot.Find("PlayerCapsule")?.Find("MetalSphere")?.gameObject;
+            if (_glassHemisphere == null || _metalHemisphere == null)
+                Debug.LogWarning($"{nameof(Effect_DeathExplosion)}: Could not find hemispheres on capsule. Check if the object names match.");
         }
     }
 }

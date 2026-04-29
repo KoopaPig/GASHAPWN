@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 379415664681080280}
   - component: {fileID: 243794556416305347}
   - component: {fileID: 7431920552356893556}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: sled
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 7706981349221585668}
   - component: {fileID: 502235543417488473}
   - component: {fileID: 1862217696893107437}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sledbear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3107286915239893327}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sledbear_cap
   m_TagString: Untagged
   m_Icon: {fileID: 0}

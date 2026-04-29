@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4898651393235053735}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beanie_cap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3176845459962161004}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beanie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 8083944062837670764}
   - component: {fileID: 1723658429540065179}
   - component: {fileID: 1870621822557119187}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wolf Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 76976688290930346}
   - component: {fileID: 3912736754174217860}
   - component: {fileID: 7385881961554954920}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: winter hat
   m_TagString: Untagged
   m_Icon: {fileID: 0}

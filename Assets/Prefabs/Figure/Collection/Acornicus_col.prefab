@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2545770107728623823}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Acornicus_col
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,9 +93,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7537711021715026620, guid: 92c19fbbe760b4f998d29a341582bc5f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -2336075298114873045, guid: 92c19fbbe760b4f998d29a341582bc5f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 92c19fbbe760b4f998d29a341582bc5f, type: 3}
       propertyPath: m_Name
       value: acornicus
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 92c19fbbe760b4f998d29a341582bc5f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557674659389025594, guid: 92c19fbbe760b4f998d29a341582bc5f, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

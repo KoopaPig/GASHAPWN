@@ -151,18 +151,18 @@ namespace GASHAPWN.UI
             // If the box is already assigned, don't do anything
             if (IsControllerDetected)
             {
-                Debug.Log($"ControlsBindBox: Player {playerIndex+1} already has a controller assigned");
+                Debug.Log($"{nameof(ControlsBindBox)}: Player {playerIndex+1} already has a controller assigned");
                 return;
             }
 
             // Make sure LevelSelect exists
             if (LevelSelect.Instance == null)
             {
-                Debug.LogError("ControlsBindBox: LevelSelect.Instance is null!");
+                Debug.LogError($"{nameof(ControlsBindBox)}: LevelSelect.Instance is null!");
                 return;
             }
 
-            Debug.Log($"ControlsBindBox: Starting controller detection for Player {playerIndex+1}");
+            Debug.Log($"{nameof(ControlsBindBox)}: Starting controller detection for Player {playerIndex+1}");
 
             // TODO: This feedback should be more specific
             feedbackText.SetState(ControlsBindFeedbackText.FeedbackState.Prompting, playerIndex);

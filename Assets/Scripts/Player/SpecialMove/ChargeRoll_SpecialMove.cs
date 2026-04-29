@@ -27,36 +27,32 @@ namespace GASHAPWN
 
         private ChargeRollState _state;
 
-        public float minForce = 0.1f;
-        public float maxForce = 1f;
+        public float minForce = 0.02f;
+        public float maxForce = 0.5f;
         public float maxChargeDuration = 2f;
         public float maxHoldDuration = 4f;
+        public float maxBurstDuration = 1.1f;
 
-        public float spinSpeed = 1000f;
-        // Duration of attack boost after charge
-        public float attackBoostDuration = 1.5f;
 
-        private Transform playerTransform;
+
         private Rigidbody _rb;
         private Quaternion chargeRotation;
-        private float chargeStartTime;
+        private float _chargeStartTime;
 
         // Need to figure out a way for this special move to get access to rotation input per frame
-        private Vector2 chargeDirection;
+        private Vector2 _chargeDirection;
 
 
         /// METHODS ///
 
         public ChargeRoll_SpecialMove() {}
 
-        public ChargeRoll_SpecialMove(float minForce, float maxForce, float maxDuration, float spinSpeed, 
-            float attackBoostDuration)
+        public ChargeRoll_SpecialMove(float minForce, float maxForce, float maxChargeDuration, float maxBurstDuration)
         {
             this.minForce = minForce;
             this.maxForce = maxForce;
-            this.maxChargeDuration = maxDuration;
-            this.spinSpeed = spinSpeed;
-            this.attackBoostDuration = attackBoostDuration;
+            this.maxChargeDuration = maxChargeDuration;
+            this.maxBurstDuration = maxChargeDuration;
         }
 
         public bool CanExecute(SpecialMoveHandler spMoveHandler)
@@ -65,8 +61,7 @@ namespace GASHAPWN
                    !spMoveHandler.IsCharging &&
                    !spMoveHandler.HasCharged &&
                    !spMoveHandler.IsBursting &&
-                   !spMoveHandler.IsDefending &&
-                   spMoveHandler.pData.currentStamina >= StaminaCost;
+                   !spMoveHandler.IsDefending;
         }
 
         // Can only cancel if charging or holding
@@ -76,8 +71,7 @@ namespace GASHAPWN
 
         public IEnumerator Execute(SpecialMoveHandler spMoveHandler)
         {
-            _rb = spMoveHandler.pController.rb;
-            playerTransform = _rb.transform;
+            if (_rb == null) _rb = spMoveHandler.pController.rb;
 
             // Handle stamina
             spMoveHandler.pData.currentStamina -= StaminaCost;
@@ -86,51 +80,51 @@ namespace GASHAPWN
             return ChargeRollCoroutine(spMoveHandler);
         }
 
-        // Cancel in this case handles Charge Roll burst
-        public void Cancel(SpecialMoveHandler spMoveHandler)
+        // Cancel in this case handles Charge Roll burst if charging
+        public ISpecialMove Cancel(SpecialMoveHandler spMoveHandler)
         {
-            spMoveHandler.StartCoroutine(BurstCoroutine(spMoveHandler));
+            spMoveHandler.TrySpecialMoveSubCoroutine(this, BurstCoroutine(spMoveHandler));
+            return this;
         }
-
-        // BIG ISSUE: Other moves are possible to perform during charge and burst, completely breaking states.
-
 
         // Handles what occurs during the burst after a charge roll
         private IEnumerator BurstCoroutine(SpecialMoveHandler spMoveHandler)
         {
-            Debug.Log("here in Burst coroutine");
-            spMoveHandler.IsCharging = false;
-            spMoveHandler.HasCharged = false;
-            spMoveHandler.IsBursting = true;
-            _state = ChargeRollState.Burst;
-            spMoveHandler.Events.OnChargeRoll.Invoke(_state);
-            
-            // Technically might have to be IsDefending as the appropriate collision handling would then happen
-
-            float chargeDuration = Time.time - chargeStartTime;
-            float chargePercent = Mathf.Clamp01(chargeDuration / maxChargeDuration);
-
-            //playerTransform.rotation = chargeRotation;
-
-            float forceMagnitude = Mathf.Lerp(minForce, maxForce, chargePercent);
-            _rb.AddForce(playerTransform.forward * forceMagnitude, ForceMode.Impulse);
-            spMoveHandler.chargeRollIndicator?.HideIndicator();
-            spMoveHandler.pData.ActivateAttackBoost(1.1f, DamageMultiplier);
-
-            // Burst duration scales with charge
-            //float burstDuration = Mathf.Lerp(0.1f, 0.6f, chargePercent);
-            float burstDuration = 1f;
-            float elapsed = 0f;
-
-            while (elapsed < burstDuration)
+            if (_chargeStartTime > 0f)
             {
-                elapsed += Time.deltaTime;
-                yield return null;
+                spMoveHandler.IsCharging = false;
+                spMoveHandler.HasCharged = false;
+                spMoveHandler.IsBursting = true;
+                _state = ChargeRollState.Burst;
+                spMoveHandler.Events.OnChargeRoll.Invoke(_state);
+
+                float chargeDuration = Time.time - _chargeStartTime;
+                float chargePercent = Mathf.Clamp01(chargeDuration / maxChargeDuration);
+
+                // Apply force
+                float forceMagnitude = Mathf.Lerp(minForce, maxForce, chargePercent);
+                Vector3 dir = new Vector3(_chargeDirection.x, 0f, _chargeDirection.y).normalized;
+                _rb.AddForce(dir * forceMagnitude, ForceMode.Impulse);
+
+                // Burst duration and attack boost scales with charge
+                float burstDuration = Mathf.Lerp(0.3f, maxBurstDuration, chargePercent);
+                spMoveHandler.pData.ActivateAttackBoost(burstDuration, DamageMultiplier);
+
+                spMoveHandler.chargeRollIndicator?.HideIndicator();
+
+                float elapsed = 0f;
+
+                while (elapsed < burstDuration)
+                {
+                    elapsed += Time.deltaTime;
+                    yield return null;
+                }
             }
 
             // Exit burst
             Reset(spMoveHandler);
         }
+
 
         // Handles what occurs before and during a Charge Roll
         private IEnumerator ChargeRollCoroutine(SpecialMoveHandler spMoveHandler)
@@ -140,7 +134,7 @@ namespace GASHAPWN
             _state = ChargeRollState.Charge;
             spMoveHandler.Events.OnChargeRoll.Invoke(_state);
 
-            Vector3 baseDirection = new Vector3(playerTransform.forward.x, 0, playerTransform.forward.z).normalized;
+            Vector3 baseDirection = new Vector3(_rb.transform.forward.x, 0, _rb.transform.forward.z).normalized;
             chargeRotation = Quaternion.LookRotation(baseDirection);
 
             bool originalGravity = _rb.useGravity;
@@ -170,19 +164,17 @@ namespace GASHAPWN
                 
                 // Need to rotate the player to the charge direction
 
-                chargeStartTime = Time.time;
+                _chargeStartTime = Time.time;
 
                 elapsed = 0f;
                 while (elapsed <= maxChargeDuration)
                 {
-                    chargeDirection = new Vector2(spMoveHandler.pController.MovementForward.x, spMoveHandler.pController.MovementForward.z);
+                    _chargeDirection = new Vector2(spMoveHandler.pController.MovementForward.x, spMoveHandler.pController.MovementForward.z);
 
                     elapsed += Time.deltaTime;
-                    float chargePercent = Mathf.Clamp01((Time.time - chargeStartTime) / maxChargeDuration);
+                    float chargePercent = Mathf.Clamp01((Time.time - _chargeStartTime) / maxChargeDuration);
 
-                    //playerTransform.rotation = chargeRotation;
-
-                    spMoveHandler.chargeRollIndicator?.UpdateIndicator(chargePercent, chargeDirection);
+                    spMoveHandler.chargeRollIndicator?.UpdateIndicator(chargePercent, _chargeDirection);
                     yield return null;
                 }
             #endregion
@@ -210,7 +202,6 @@ namespace GASHAPWN
 
                 if (timedOut)
                 {
-                    Debug.Log("in here");
                     spMoveHandler.ApplyStun(3f);
                     Reset(spMoveHandler);
                 }
@@ -225,6 +216,7 @@ namespace GASHAPWN
             spMoveHandler.IsCharging = false;
             spMoveHandler.HasCharged = false;
             spMoveHandler.IsBursting = false;
+            _chargeStartTime = 0f;
             spMoveHandler.chargeRollIndicator?.HideIndicator();
 
             if (_rb != null)
@@ -232,6 +224,8 @@ namespace GASHAPWN
 
             _state = ChargeRollState.None;
             spMoveHandler.Events.OnChargeRoll.Invoke(_state);
+
+            spMoveHandler.activeSpecialMove = null;
         }
 
         public enum ChargeRollState

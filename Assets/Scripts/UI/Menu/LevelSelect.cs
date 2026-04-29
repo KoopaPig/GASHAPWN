@@ -213,7 +213,7 @@ namespace GASHAPWN.UI {
         {
             if (currentListeningIndex >= controlsBindBoxes.Count)
             {
-                Debug.LogWarning("LevelSelect: All player slots filled.");
+                Debug.LogWarning($"{nameof(LevelSelect)}: All player slots filled.");
                 return;
             }
 

@@ -36,7 +36,6 @@ namespace GASHAPWN.UI {
                 levelSelectScreen.anchoredPosition = offscreenRight; // Start levelSelectScreen off-screen
                 //levelSelectScreen.GetComponent<CanvasGroup>().interactable = false;
             }
-            
         }
 
         public void ShowLevelSelectScreen()

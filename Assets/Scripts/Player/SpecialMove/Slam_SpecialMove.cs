@@ -48,8 +48,7 @@ namespace GASHAPWN
                    !spMoveHandler.HasCharged &&
                    !spMoveHandler.IsBursting &&
                    !spMoveHandler.pController.IsGrounded &&
-                   !spMoveHandler.HasSlammed &&
-                   spMoveHandler.pData.currentStamina >= StaminaCost;
+                   !spMoveHandler.HasSlammed;
         }
 
         public bool CanCancel(SpecialMoveHandler specialMoveHandler) { return true; }
@@ -67,8 +66,12 @@ namespace GASHAPWN
             return SlamCoroutine(spMoveHandler);
         }
 
-        // Can't cancel slam
-        public void Cancel(SpecialMoveHandler spMoveHandler) { }
+        // Nothing happens if slam is cancelled
+        public ISpecialMove Cancel(SpecialMoveHandler spMoveHandler) 
+        {
+            // if nothing happens after cancel, return null
+            return null;
+        }
 
         #region SPECIAL MOVE COROUTINES
         public IEnumerator SlamCoroutine(SpecialMoveHandler spMoveHandler)

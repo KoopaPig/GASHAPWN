@@ -22,11 +22,11 @@ TagManager:
   - UI
   - Ground
   - Player
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Debris
+  - NPC
+  - Object
+  - Environment
+  - Effect
   - 
   - 
   - 

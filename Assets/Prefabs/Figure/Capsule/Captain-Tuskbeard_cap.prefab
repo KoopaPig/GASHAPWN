@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6669596898251574858}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Captain-Tuskbeard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 314529285931603751}
   - component: {fileID: 1906635191157430158}
   - component: {fileID: 3095390482750698344}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Boar Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 1264685361348362312}
   - component: {fileID: 1202467182604342098}
   - component: {fileID: 6936485529933224086}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mu8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6401043977644479314}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Captain-Tuskbeard_cap
   m_TagString: Untagged
   m_Icon: {fileID: 0}

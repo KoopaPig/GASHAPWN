@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2993241784516796725}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Chicken_col
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,9 +155,49 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7961838025997192566, guid: 8cf8a54080bb0b64983d36bb379ad6d5, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6053026181013756029, guid: 8cf8a54080bb0b64983d36bb379ad6d5, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -5983109107926507294, guid: 8cf8a54080bb0b64983d36bb379ad6d5, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -1860718312804986736, guid: 8cf8a54080bb0b64983d36bb379ad6d5, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8cf8a54080bb0b64983d36bb379ad6d5, type: 3}
       propertyPath: m_Name
       value: Chicken
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8cf8a54080bb0b64983d36bb379ad6d5, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750564153565852523, guid: 8cf8a54080bb0b64983d36bb379ad6d5, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2224958006154782626, guid: 8cf8a54080bb0b64983d36bb379ad6d5, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3720585532278955338, guid: 8cf8a54080bb0b64983d36bb379ad6d5, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4518815898109463145, guid: 8cf8a54080bb0b64983d36bb379ad6d5, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411902604444728970, guid: 8cf8a54080bb0b64983d36bb379ad6d5, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

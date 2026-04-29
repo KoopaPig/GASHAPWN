@@ -123,7 +123,7 @@ namespace GASHAPWN.UI {
             float targetHealth = currHealth - damage;
             if (targetHealth < currHealth)
             {
-                capsuleAnimator.SetBool("isDamageShake", true);
+                capsuleAnimator.SetBool(AnimationStrings.isDamageShake, true);
                 StartCoroutine(FlashGUI(damageColor, 0.1f));
             }
 
@@ -183,7 +183,7 @@ namespace GASHAPWN.UI {
         {
             if (newValue < currStamina)
             {
-                staminaAnimator.SetBool("isIntervalEffect", true);
+                staminaAnimator.SetBool(AnimationStrings.isIntervalEffect, true);
             }
 
             SetStaminaGUI(newValue);
@@ -200,7 +200,7 @@ namespace GASHAPWN.UI {
         {
             if (newValue > currStamina)
             {
-                staminaAnimator.SetBool("isIntervalEffect", true);
+                staminaAnimator.SetBool(AnimationStrings.isIntervalEffect, true);
             }
             SetStaminaGUI(newValue);
 
@@ -214,7 +214,7 @@ namespace GASHAPWN.UI {
         // LowStamina (GUI)
         public void LowStaminaGUI(float value)
         {
-            staminaAnimator.SetTrigger("isStaminaLowEffect");
+            staminaAnimator.SetTrigger(AnimationStrings.isStaminaLowEffect);
             UI_SFXManager.Instance.Play_StaminaLow();
             StartCoroutine(ResetStaminaLowEffect());
         }
@@ -339,7 +339,7 @@ namespace GASHAPWN.UI {
             SetHealthBG_GUI(currHealth);
             UpdateGUIColor(currHealth);
 
-            capsuleAnimator.SetBool("isDamageShake", false);
+            capsuleAnimator.SetBool(AnimationStrings.isDamageShake, false);
             healthChangeCoroutine = null;
         }
 
@@ -363,7 +363,7 @@ namespace GASHAPWN.UI {
             currStamina = targetValue;
             SetStaminaGUI(currStamina);
 
-            staminaAnimator.SetBool("isIntervalEffect", false);
+            staminaAnimator.SetBool(AnimationStrings.isIntervalEffect, false);
             staminaChangeCoroutine = null;
         }
 
@@ -421,7 +421,7 @@ namespace GASHAPWN.UI {
             int currentIntervalIndex = Mathf.FloorToInt(value / staminaInterval);
             if (currentIntervalIndex != lastIntervalIndex)
             {
-                staminaAnimator.SetBool("isIntervalEffect", true);
+                staminaAnimator.SetBool(AnimationStrings.isIntervalEffect, true);
                 lastIntervalIndex = currentIntervalIndex;
 
                 StartCoroutine(ResetIntervalEffect());
@@ -432,14 +432,14 @@ namespace GASHAPWN.UI {
         private IEnumerator ResetIntervalEffect()
         {
             yield return new WaitForSeconds(0.3f);
-            staminaAnimator.SetBool("isIntervalEffect", false);
+            staminaAnimator.SetBool(AnimationStrings.isIntervalEffect, false);
         }
 
         // Reset "Stamina Low" Effect
         private IEnumerator ResetStaminaLowEffect()
         {
             yield return new WaitForNextFrameUnit();
-            staminaAnimator.ResetTrigger("isStaminaLowEffect");
+            staminaAnimator.ResetTrigger(AnimationStrings.isStaminaLowEffect);
         }
 
         private void OnDisable()

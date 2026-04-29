@@ -104,7 +104,7 @@ namespace GASHAPWN.UI
             {
                 if (GetComponentInParent<CanvasGroup>() == null)
                 {
-                    Debug.LogError("SlideableScreenGUI: CanvasGroup is missing.");
+                    Debug.LogError($"{nameof(SlideableScreenGUI)}: CanvasGroup is missing.");
                     yield break;
                 }
                 yield return new WaitForSeconds(buttonActivationWaitTime);
@@ -124,7 +124,7 @@ namespace GASHAPWN.UI
             {
                 if (GetComponentInParent<CanvasGroup>() == null)
                 {
-                    Debug.LogError("SlideableScreenGUI: CanvasGroup is missing.");
+                    Debug.LogError($"{nameof(SlideableScreenGUI)}: CanvasGroup is missing.");
                     yield break;
                 }
                 GetComponentInParent<CanvasGroup>().interactable = false;

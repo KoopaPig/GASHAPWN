@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3204925214947165290}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7829047166222776200}
   - component: {fileID: 2090687168080441130}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 1546634829365729670}
   - component: {fileID: 4123038380859749443}
   - component: {fileID: 2713052723189028168}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +223,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4024385358284226232}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone.005_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,7 +254,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5505066016896882309}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone.003_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -287,7 +287,7 @@ GameObject:
   - component: {fileID: 714398150981393867}
   - component: {fileID: 5891275745901838781}
   - component: {fileID: 397372050819610104}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: NintendoDS_1349
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -374,7 +374,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1945169316859468351}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone.007_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -405,7 +405,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6850130008572121668}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -440,7 +440,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1296988355910429197}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -472,7 +472,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8651999910538360690}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Meldin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -509,7 +509,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 457836676142551034}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -541,7 +541,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2389831960059980828}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -575,7 +575,7 @@ GameObject:
   - component: {fileID: 5548634629625763313}
   - component: {fileID: 2868333351995088631}
   - component: {fileID: 5185037406643476702}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -659,7 +659,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6970413129853097963}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Meldin_cap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -691,7 +691,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2273273253195271190}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -723,7 +723,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3668347758730112084}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -755,7 +755,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5394879842065438343}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -789,7 +789,7 @@ GameObject:
   - component: {fileID: 6292044307003928202}
   - component: {fileID: 8322857065092869625}
   - component: {fileID: 6384546636660497009}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -873,7 +873,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4553775487642590404}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone.001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -904,7 +904,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3389179583117641382}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}

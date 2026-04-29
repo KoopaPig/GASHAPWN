@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3718601110192906756}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2689776609298681443}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FrontLeg.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1600880710748196639}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Dog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5376061242318075468}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: AnimalArmature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8259618464142895273}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1824170563344177660}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BackLeg.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,7 +203,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2836935204403726103}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FrontLeg.L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7313109995344722027}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FrontLeg.R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -265,7 +265,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8176573220538396104}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BackLeg.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -297,7 +297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2729918655055197876}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BackLeg.L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -328,7 +328,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6613839826235012379}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BackLeg.R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -359,7 +359,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5104464248457665498}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tail_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -390,7 +390,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 274178950968102781}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Head_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -421,7 +421,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4379534650337314061}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: All
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -458,7 +458,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8483168557077946978}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Root_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,7 +489,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7930800290417241195}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Dog_cap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -521,7 +521,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 871511162582938659}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FrontLeg.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -553,7 +553,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3421545692326249811}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -586,7 +586,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2483549417219151575}
   - component: {fileID: 2402419587036681040}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Dog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -682,7 +682,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2901317864939690618}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

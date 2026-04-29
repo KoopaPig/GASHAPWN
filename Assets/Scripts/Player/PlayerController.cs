@@ -30,7 +30,6 @@ namespace GASHAPWN {
 
         [Header("Air Control Settings")]
             [Range(0.2f, 5f)] public float AirDrag = 2f;
-            //public float airTorque = 5f;
 
         // Reference to playerData
         private PlayerData _pData;
@@ -72,11 +71,12 @@ namespace GASHAPWN {
 
             #region CAPTURE VARIABLES
             bool isCharging = _pSpecialMoveHandler.IsCharging;
+            bool hasCharged = _pSpecialMoveHandler.HasCharged;
             bool isDefending = _pSpecialMoveHandler.IsDefending;
             bool isStunned = _pSpecialMoveHandler.IsStunned;
             bool hasSlammed = _pSpecialMoveHandler.HasSlammed;
 
-            bool canMoveGrounded = IsGrounded && !isCharging && !isDefending && !isStunned;
+            bool canMoveGrounded = IsGrounded && !isCharging && !hasCharged && !isDefending && !isStunned;
             bool isAirborne = !IsGrounded && !hasSlammed;
             #endregion
 

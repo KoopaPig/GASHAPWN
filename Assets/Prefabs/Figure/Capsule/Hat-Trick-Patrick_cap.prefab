@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8537425635979680196}
   - component: {fileID: 2698036286342464125}
   - component: {fileID: 603704187254542067}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hare Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1274027645691197040}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hat-Trick-Patrick_cap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3570935324348626094}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 3463109357622538895}
   - component: {fileID: 785474970397473489}
   - component: {fileID: 2718092876795231584}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +248,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8806241641882593245}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hat-Trick-Patrick
   m_TagString: Untagged
   m_Icon: {fileID: 0}

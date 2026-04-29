@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3897952733522648394}
   - component: {fileID: 1538984775371277321}
   - component: {fileID: 2750480644429228304}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ConfettiExplosionOrange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4734,7 +4734,7 @@ GameObject:
   - component: {fileID: 5107864985946127297}
   - component: {fileID: 214868006671821100}
   - component: {fileID: 1960872919886539868}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ConfettiExplosionPurple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9457,7 +9457,7 @@ GameObject:
   - component: {fileID: 7622128488327205489}
   - component: {fileID: 340626694120036689}
   - component: {fileID: 2375242930466092009}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ConfettiExplosionMixEdit
   m_TagString: Untagged
   m_Icon: {fileID: 0}

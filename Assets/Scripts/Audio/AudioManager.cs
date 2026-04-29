@@ -141,6 +141,7 @@ namespace GASHAPWN.Audio {
             {
                 if (handle.Status == AsyncOperationStatus.Succeeded)
                 {
+                    audioSource.gameObject.SetActive(true);
                     audioSource.clip = handle.Result;
                     audioSource.Play();
 

@@ -19,7 +19,7 @@ public class Crown : MonoBehaviour
         BattleManager.Instance.OnWinner.AddListener(InitializeCrown);
     }
 
-    private void InitializeCrown(GameObject player, string name, Figure figure) => StartCoroutine(SpawnCrown(player, 1.5f));
+    private void InitializeCrown(GameObject player, string name, Figure figure) => StartCoroutine(SpawnCrown(player, 2f));
 
     private IEnumerator SpawnCrown(GameObject player, float waitDuration)
     {
@@ -36,8 +36,8 @@ public class Crown : MonoBehaviour
         _crownAnimator = _crownInstance.GetComponent<Animator>();
 
         int randomAnim = Random.Range(1, 2);
-        _crownAnimator.SetBool("Spawn", true);
-        _crownAnimator.SetInteger("RandomSpawn", randomAnim);
+        _crownAnimator.SetBool(AnimationStrings.crownSpawn, true);
+        _crownAnimator.SetInteger(AnimationStrings.crownRandomSpawn, randomAnim);
     }
 
 
@@ -48,11 +48,5 @@ public class Crown : MonoBehaviour
             BattleManager.Instance.OnWinner.RemoveListener(InitializeCrown);
         }
         Destroy(_crownInstance);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

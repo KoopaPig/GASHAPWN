@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3751878541241123740}
   - component: {fileID: 8826922116131806760}
   - component: {fileID: 8570907461306060237}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: StarsHit
   m_TagString: Untagged
   m_Icon: {fileID: 0}

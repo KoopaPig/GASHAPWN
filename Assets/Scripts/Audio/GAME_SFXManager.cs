@@ -84,10 +84,6 @@ namespace GASHAPWN.Audio
         // PlayerSFXProfiles corresponding to each player (fully dynamic in future?)
         private PlayerSFXProfile _player1SFXProfile, _player2SFXProfile;
 
-        //#region Audio Source Refs for looping sounds
-        //    private AudioSource _stunnedLoop;
-        //#endregion
-
 
         /// PRIVATE METHODS ///
 

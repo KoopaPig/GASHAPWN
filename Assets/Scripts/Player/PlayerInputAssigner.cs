@@ -116,7 +116,7 @@ namespace GASHAPWN
             };
 
             playerAssignments.Add(assignment);
-            Debug.Log($"PlayerInputAssigner: Assigned {playerTag} with {input.devices[0].displayName} input.");
+            Debug.Log($"{nameof(PlayerInputAssigner)}: Assigned {playerTag} with {input.devices[0].displayName} input.");
             input.gameObject.tag = playerTag;
             input.gameObject.name = playerTag;
 
@@ -126,7 +126,7 @@ namespace GASHAPWN
                 Transform spawnPoint = cachedSpawnPoints[index];
                 input.transform.position = spawnPoint.position;
             }
-            else Debug.LogWarning($"PlayerInputAssigner: No spawn point available for {playerTag}. " +
+            else Debug.LogWarning($"{nameof(PlayerInputAssigner)}: No spawn point available for {playerTag}. " +
                 $"Total available: {cachedSpawnPoints.Count}");
 
             input.DeactivateInput(); // deactivate until battle
@@ -135,14 +135,14 @@ namespace GASHAPWN
         // Setup 2 players with auto-binded controls for debug purposes
         private void Debug_Create2Players(bool twoGamepad)
         {
-            if (Gamepad.all.Count == 0) { Debug.LogError("PlayerInputAssigner: Gamepad is not connected. Players not created."); return; }
+            if (Gamepad.all.Count == 0) { Debug.LogError($"{nameof(PlayerInputAssigner)}: Gamepad is not connected. Players not created."); return; }
 
             DisableJoining(); // Make sure auto-joining is disabled
 
             var prefab = PlayerInputManager.instance.playerPrefab;
             if (prefab == null)
             {
-                Debug.LogError("PlayerInputAssigner: No playerPrefab on PlayerInputManager.");
+                Debug.LogError($"{nameof(PlayerInputAssigner)}: No playerPrefab on PlayerInputManager.");
                 return;
             }
 
@@ -178,7 +178,7 @@ namespace GASHAPWN
                     DontDestroyOnLoad(assignment.playerInput);
                 }
             }
-            else Debug.LogError("PlayerInputAssigner: Tried to set PlayerInputs as persistent outside the LevelSelect scene or outside debug mode.");
+            else Debug.LogError($"{nameof(PlayerInputAssigner)}: Tried to set PlayerInputs as persistent outside the LevelSelect scene or outside debug mode.");
         }
         
         // Returns true if IsAssgined = true for PlayerControllerAssingment corresponding to playerTag
@@ -222,7 +222,7 @@ namespace GASHAPWN
                 else
                     input.actions.FindActionMap("BattleControls").Disable();
             }
-            else Debug.LogError($"ControllerManager: Failed to activate or deactive battle controls because {playerTag}" +
+            else Debug.LogError($"{nameof(PlayerInputAssigner)}: Failed to activate or deactive battle controls because {playerTag}" +
                 $" does not have an assigned input.");
         }
 
@@ -242,7 +242,7 @@ namespace GASHAPWN
                     else
                         input.actions.FindActionMap("BattleControls").Disable();
                 }
-                else Debug.LogError($"ControllerManager: Failed to activate or deactive battle controls because {i.playerTag}" +
+                else Debug.LogError($"{nameof(PlayerInputAssigner)}: Failed to activate or deactive battle controls because {i.playerTag}" +
                 $" does not have an assigned input.");
             }
         }
@@ -274,7 +274,7 @@ namespace GASHAPWN
                 return ControlScheme.XINPUT;
             else if (dev is Keyboard)
                 return ControlScheme.KEYBOARD;
-            else throw new System.Exception($"PlayerInputAssigner: Unknown device \"{dev.displayName}\"; could not convert to ControlScheme");
+            else throw new System.Exception($"{nameof(PlayerInputAssigner)}: Unknown device \"{dev.displayName}\"; could not convert to ControlScheme");
         }
 
         // Returns true if found a ControlScheme corresponding to playerTag in playerAssignments
@@ -346,7 +346,7 @@ namespace GASHAPWN
             }
             else
             {
-                Debug.LogWarning("UI PlayerInput prefab not assigned.");
+                Debug.LogWarning($"{nameof(PlayerInputAssigner)}: UI PlayerInput prefab not assigned.");
             }
         }
 

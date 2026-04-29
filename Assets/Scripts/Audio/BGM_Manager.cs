@@ -56,7 +56,7 @@ namespace GASHAPWN.Audio {
             SetMusicStates();
             if (BattleManager.Instance != _previousBattleManager)
             {
-                Debug.Log("BGM_Manager: BattleManager has changed! Updating subscription.");
+                Debug.Log($"{nameof(BGM_Manager)}: BattleManager has changed! Updating subscription.");
                 UnsubscribeFromBattleManager();
                 StartCoroutine(WaitForBattleManagerAndSubscribe());
             }
@@ -94,7 +94,7 @@ namespace GASHAPWN.Audio {
         private IEnumerator WaitForBattleManagerAndSubscribe()
         {
             yield return new WaitUntil(() => BattleManager.Instance != null);
-            Debug.Log("BGM_Manager: BattleManager instance found, subscribing to events");
+            Debug.Log($"{nameof(BGM_Manager)}: BattleManager instance found, subscribing to events");
             SubscribeToBattleManager(BattleManager.Instance);
         }
 
@@ -124,7 +124,7 @@ namespace GASHAPWN.Audio {
                     audioKey = collectionMusicKey;
                     break;
                 default:
-                    Debug.LogWarning("BGM_Manager: No music key set for current GameState.");
+                    Debug.LogWarning($"{nameof(BGM_Manager)}: No music key set for current GameState.");
                     return;
             }
 
@@ -163,7 +163,7 @@ namespace GASHAPWN.Audio {
                         // nothing here
                         break;
                     default:
-                        Debug.LogWarning("BGM_Manager: No music key set for current BattleState.");
+                        Debug.LogWarning($"{nameof(BGM_Manager)}: No music key set for current BattleState.");
                         return;
                 }
 
@@ -197,7 +197,7 @@ namespace GASHAPWN.Audio {
                         AudioClip clip = handle.Result;
                         if (clip == null)
                         {
-                            Debug.LogError("BGM_Manager: Loaded AudioClip is NULL!");
+                            Debug.LogError($"{nameof(BGM_Manager)}: Loaded AudioClip is NULL!");
                             return;
                         }
 
@@ -208,7 +208,7 @@ namespace GASHAPWN.Audio {
                     }
                     else
                     {
-                        Debug.LogError($"BGM_Manager: Failed to load music: {addressableKey}");
+                        Debug.LogError($"{nameof(BGM_Manager)}: Failed to load music: {addressableKey}");
                     }
                 };
             }
@@ -221,7 +221,7 @@ namespace GASHAPWN.Audio {
                 mainAudioSource.Stop();
             } else
             {
-                Debug.LogWarning("BGM_Manager: There is no music to stop");
+                Debug.LogWarning($"{nameof(BGM_Manager)}: There is no music to stop");
             }
         }
 
@@ -230,13 +230,13 @@ namespace GASHAPWN.Audio {
         {
             if (mainAudioSource == null)
             {
-                Debug.LogWarning("BGM_Manager: FadeOutMusic: AudioSource is null.");
+                Debug.LogWarning($"{nameof(BGM_Manager)}: FadeOutMusic: AudioSource is null.");
                 yield break;
             }
 
             if (!mainAudioSource.isPlaying)
             {
-                Debug.LogWarning("BGM_Manager: FadeOutMusic: AudioSource is not playing.");
+                Debug.LogWarning($"{nameof(BGM_Manager)}: FadeOutMusic: AudioSource is not playing.");
                 yield break;
             }
 
@@ -276,7 +276,7 @@ namespace GASHAPWN.Audio {
                 mainAudioSource.volume = 0.6f;
                 mainAudioSource.outputAudioMixerGroup = musicMixer;
                 DontDestroyOnLoad(newAudioObject);
-                Debug.Log("BGM_Manager: Created new persistent AudioSource.");
+                Debug.Log($"{nameof(BGM_Manager)}: Created new persistent AudioSource.");
             }
         }
     }
