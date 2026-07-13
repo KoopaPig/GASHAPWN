@@ -1,13 +1,16 @@
+using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
+using UnityEngine.InputSystem;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
-using static UnityEngine.Rendering.DebugUI.Table;
-using GASHAPWN;
-using System.Collections;
 
 namespace GASHAPWN.Audio {
+    /// <summary>
+    /// Manages background music based on game states
+    /// </summary>
     public class BGM_Manager : MonoBehaviour
     {
         public static BGM_Manager Instance { get; private set; }
@@ -27,6 +30,7 @@ namespace GASHAPWN.Audio {
         private AsyncOperationHandle<AudioClip> currentHandle;
 
         private BattleManager _previousBattleManager = null;
+        private Tween _musicFadeTween;
 
         private void Awake()
         {
@@ -80,6 +84,9 @@ namespace GASHAPWN.Audio {
             _previousBattleManager = battleManager;
 
             BattleManager.OnBattleStateChanged += SetMusicBattleState;
+            BattleManager.Instance.OnGamePaused += HandleGamePaused;
+            BattleManager.Instance.OnGameUnpaused += HandleGameUnpaused;
+            SetMusicBattleState(battleManager.State);
         }
         
         private void UnsubscribeFromBattleManager()
@@ -88,6 +95,8 @@ namespace GASHAPWN.Audio {
             if (_previousBattleManager != null)
             {
                 BattleManager.OnBattleStateChanged -= SetMusicBattleState;
+                BattleManager.Instance.OnGamePaused -= HandleGamePaused;
+                BattleManager.Instance.OnGameUnpaused -= HandleGameUnpaused;
             }
         }
 
@@ -98,8 +107,6 @@ namespace GASHAPWN.Audio {
             SubscribeToBattleManager(BattleManager.Instance);
         }
 
-
-
         private void SetMusicStates()
         {
             SetMusicGameState(GameManager.Instance.State);
@@ -107,12 +114,14 @@ namespace GASHAPWN.Audio {
 
         private void SetMusicGameState(GameState state)
         {
+            //Debug.Log($"{nameof(BGM_Manager)}: Setting Game Music State to {state.ToString()}");
             string audioKey = "";
 
             // Set the addressable key based on the game state
             switch (state)
             {
                 case GameState.Battle:
+                    // Battle BGM is handled in SetMusicBattleState
                     break;
                 case GameState.Title:
                     audioKey = menuMusicKey;
@@ -133,7 +142,7 @@ namespace GASHAPWN.Audio {
 
         private void SetMusicBattleState(BattleState state)
         {
-            //Debug.Log("here in SetMusicBattleState");
+            //Debug.Log($"{nameof(BGM_Manager)}: Setting Battle Music State to {state.ToString()}");
             string audioKey = "";
 
             // Set the addressable key based on the battle state
@@ -155,9 +164,8 @@ namespace GASHAPWN.Audio {
                         audioKey = resultsScreenMusicKey;
                         break;
                     case BattleState.NewFigureScreen:
-                        // no music
-                        //StartCoroutine(FadeOutMusic(1.5f));
-                        StopCurrentMusic();
+                        // fade out results screen music
+                        FadeOutMusic(3f);
                         break;
                     case BattleState.SuddenDeath:
                         // nothing here
@@ -173,6 +181,7 @@ namespace GASHAPWN.Audio {
 
         }
 
+        // need to revise this
         private void LoadAndPlayMusic(string addressableKey)
         {
             FindOrCreateAudioSource(); // Ensure AudioSource exists
@@ -226,32 +235,46 @@ namespace GASHAPWN.Audio {
         }
 
         // FadeOutMusic given duration
-        private IEnumerator FadeOutMusic(float fadeDuration)
+        private void FadeOutMusic(float fadeDuration)
         {
             if (mainAudioSource == null)
             {
-                Debug.LogWarning($"{nameof(BGM_Manager)}: FadeOutMusic: AudioSource is null.");
-                yield break;
+                Debug.LogWarning($"{nameof(BGM_Manager)}: AudioSource is null.");
+                return;
             }
 
             if (!mainAudioSource.isPlaying)
             {
-                Debug.LogWarning($"{nameof(BGM_Manager)}: FadeOutMusic: AudioSource is not playing.");
-                yield break;
+                Debug.LogWarning($"{nameof(BGM_Manager)}: AudioSource is not playing.");
+                return;
             }
 
-            float startVolume = mainAudioSource.volume;
-            float elapsedTime = 0f;
-            while (elapsedTime < fadeDuration)
-            {
-                elapsedTime += Time.deltaTime;
-                mainAudioSource.volume = Mathf.Lerp(startVolume, 0f, elapsedTime / fadeDuration);
-                yield return null;
-            }
+            _musicFadeTween?.Kill();
 
-            mainAudioSource.volume = 0f;
-            mainAudioSource.Stop(); // Stop the music after fade-out
+            _musicFadeTween = mainAudioSource
+                .DOFade(0f, fadeDuration)
+                .SetEase(Ease.InOutSine)
+                .OnComplete(() =>
+                {
+                    mainAudioSource.Stop();
+                    mainAudioSource.volume = 1f; // reset for next track
+                });
+        }
 
+        // Handle music when game paused
+        private void HandleGamePaused(PlayerInput input)
+        {
+            if (mainAudioSource == null) return;
+            if (!mainAudioSource.isPlaying) return;
+            mainAudioSource.Pause();
+        }
+
+        // Handle music when game unpaused
+        private void HandleGameUnpaused()
+        {
+            if (mainAudioSource == null) return;
+            if (mainAudioSource.isPlaying) return;
+            mainAudioSource.UnPause();
         }
 
         // CONSIDER: support for stings, and then afterwards the normal music continues.

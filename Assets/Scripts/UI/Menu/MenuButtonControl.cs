@@ -1,9 +1,6 @@
 using Febucci.UI;
 using MyBox;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 namespace GASHAPWN.UI {

@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 namespace GASHAPWN

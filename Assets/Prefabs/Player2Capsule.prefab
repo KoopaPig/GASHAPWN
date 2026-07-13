@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4387026872445597840}
   - component: {fileID: 2357276531722493715}
   - component: {fileID: 2055449121536756492}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MetalSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8472679648445714088}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player2Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 7929753833682180851}
   - component: {fileID: 8240257112130878832}
   - component: {fileID: 5650769305798388079}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GlassSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}

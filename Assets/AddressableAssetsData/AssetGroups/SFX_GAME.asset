@@ -1,0 +1,239 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: SFX_GAME
+  m_EditorClassIdentifier: 
+  m_GroupName: SFX_GAME
+  m_GUID: 215ec0b8ae06c49088966d3867f8d77d
+  m_SerializeEntries:
+  - m_GUID: 088a016fd0d136746aa40cf3d4a667fb
+    m_Address: SFX_Ref_Whistle
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 17b1bda6cc353cf46a21b9ae7ba17c68
+    m_Address: SFX_SMB2_Boing
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ea59fffd53510b4f9433ed987751c1c
+    m_Address: SFX_Jump_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 222224fa96fad9f418b5caf70b9b639d
+    m_Address: SFX_Damage_Metal_22
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 265a2ee688348ef41822aea7a72d949d
+    m_Address: SFX_Basketball_3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2a6a7322a3402694cb22c52a7c520f36
+    m_Address: SFX_Deflect_6
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2c74bf60c77392a49b0158fa24031e37
+    m_Address: SFX_Charge_Roll_End
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 33c3ba37ec746974aa31e10b994e3872
+    m_Address: SFX_Damage_Metal_18
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 33d2c9a00d6f48e46988ddc865b8667c
+    m_Address: SFX_Hammer_Hit_5
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3455120b3dc133a49aa5e68e61e5131c
+    m_Address: SFX_Damage_Metal_19
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 38f57bf125a9cf84a903b022cd287caa
+    m_Address: SFX_Basketball_2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 47241829e9776374b9f9f2f76fddda55
+    m_Address: SFX_Drop_3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4cd73f7230dd3744da216fc02499d709
+    m_Address: SFX_Dash_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4d3b22c9bf1066e42936952478e6ea3c
+    m_Address: SFX_Remove_10
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ed04a4077def47faa855ba253562227
+    m_Address: SFX_Capsule_Open
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52b8e59c4b39975449882c5768258527
+    m_Address: SFX_Damage_Punch_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5dadd252310ada943a4991bfd4eaeec0
+    m_Address: SFX_Boing_2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5eae2903ad7a1437ba6cf75e1b59d7ef
+    m_Address: SFX_Capsule_Stretch
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c36e662ba77a43c2b3a0dcd12f22e7e
+    m_Address: SFX_Orc_Hit_3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 70092a436cb113a4b8559735662eedf4
+    m_Address: SFX_Pot_Smash_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 86d5bee14bfc345d098b8c1570c0858d
+    m_Address: SFX_Orc_Hit_4
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 88eb3227031e90348b8bfa2d4c59ed1d
+    m_Address: SFX_Hammer_Hit_2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8c4cc1a29b018e540a4b6967c240dd0f
+    m_Address: SFX_Lightning_Instant_Cast_Spell_C
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9036298c50021f343b4f6e7a19a57ca9
+    m_Address: SFX_Deflect_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 958112bb0d6c44031917616199645d34
+    m_Address: SFX_Orc_Hit_5
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a2849aa8a4e524665926e0f7052d10cf
+    m_Address: SFX_Orc_Hit_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aba58f9c511cd40829ee174bd9c38b7f
+    m_Address: SFX_Orc_Hit_2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: afa7e3312629440e0be60b72bf99b082
+    m_Address: SFX_Orc_Hit_6
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b9c7c331ffdccc14fbd97d4d3db0b19a
+    m_Address: SFX_Damage_Metal_20
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bdb4b397a3fc25b4298ebc286c741966
+    m_Address: SFX_Dizzybirds
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c890b72ab1fd8de458687e8e02d55c9b
+    m_Address: SFX_Damage_Metal_21
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: caea46cfd630f22478f57d4d6263f105
+    m_Address: SFX_Charge_Roll_Up
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cfb4dbd05fe109545b7f0e71657d2090
+    m_Address: SFX_Basketball_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d004c8de437d6224089e5980838182ba
+    m_Address: SFX_STGR_Win_Reaction
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eaad8fc6fd51c42469c125ab5d75036c
+    m_Address: SFX_Firework_Explosion_3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ebd06b82106ef7a468e2e30371172694
+    m_Address: SFX_Firework_Explosion_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX_GAME
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e9835048b3a0d3d43b2c01420d8afcc4, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: d79267d353c4147e19bc8b0ab0040032, type: 2}
+    - {fileID: 11400000, guid: f007745d144ea45819e83b54e4426172, type: 2}

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace GASHAPWN
 {
     // ControlScheme used to let UI elements know the active control scheme

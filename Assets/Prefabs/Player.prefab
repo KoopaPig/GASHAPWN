@@ -556,7 +556,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acda3ede1ce6e3c44a476e191bcb20fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ghostTrailEffect: {fileID: 0}
   airborneLineRenderer: {fileID: 2776206804501688863}
   maxRayDistance: 100
   targetProjector: {fileID: 1806252991970013330}
@@ -707,13 +706,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4334402704591174071}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.02, z: 0}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0.025, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5109476824892967461}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &1806252991970013330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -733,8 +732,8 @@ MonoBehaviour:
   m_EndAngleFade: 180
   m_UVScale: {x: 1, y: 1}
   m_UVBias: {x: 0, y: 0}
-  m_DecalLayerMask: 1
-  m_ScaleMode: 1
+  m_DecalLayerMask: 256
+  m_ScaleMode: 0
   m_Offset: {x: 0, y: 0, z: 0.5}
   m_Size: {x: 0.034, y: 0.034, z: 1}
   m_FadeFactor: 1
@@ -2179,7 +2178,7 @@ MonoBehaviour:
   maxHealth: 5
   maxStamina: 6
   staminaRegenRate: 0.55
-  invincibilityDuration: 1.2
+  invincibilityDuration: 1.5
   healthEvents:
     OnDamage:
       m_PersistentCalls:
@@ -2216,7 +2215,6 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   IsDead: 0
-  burstInvincibilityDuration: 1.2
 --- !u!114 &9007113325433767500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2296,7 +2294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b753381c04673164f8eee0a4027e8f4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitSpeedThreshold: 0.15
+  hitSpeedThreshold: 0.16
   generalImpactSpeedThreshold: 0.09
   bounceRatio: 0.5
   knockbackReductionRatio: 0.3
@@ -2400,9 +2398,9 @@ MonoBehaviour:
   playerCapsuleRoot: {fileID: 2436660130265009289}
   damageEffect:
     EffectColor: {r: 0.8039216, g: 0.25882354, b: 0.37254903, a: 1}
-    FadeDuration: 0.2
+    FadeDuration: 0.16
     HoldDuration: 0
-    Repetitions: 2
+    Repetitions: 4
   defenseEffect:
     EffectColor: {r: 0.45490196, g: 0.40392157, b: 0.68235296, a: 1}
     FadeDuration: 0.3

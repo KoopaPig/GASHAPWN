@@ -1,5 +1,4 @@
 using GASHAPWN.Utility;
-using System.Collections;
 using UnityEngine;
 
 namespace GASHAPWN

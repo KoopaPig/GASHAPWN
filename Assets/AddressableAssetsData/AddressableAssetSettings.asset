@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 37fc074d652e67a47ab33d945fb9f5f4
   m_currentHash:
     serializedVersion: 2
-    Hash: f7a63d70fc09c7d4f5611de120877a93
+    Hash: f7269d9741b58dd2afd6f0d30fde6fd2
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -102,6 +102,9 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - SFX_GAME
+    - SFX_UI
+    - MUSIC
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: be74124f013927b439eaa85e082ca445, type: 2}

@@ -243,6 +243,8 @@ namespace GASHAPWN.UI {
             {
                 PlayerInputManager.instance.DisableJoining();
             }
+
+            UI_SFXManager.Instance.Play_ControllerDetected();
         }
 
         /// <summary>

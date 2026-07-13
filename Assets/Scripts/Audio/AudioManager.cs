@@ -1,14 +1,14 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.AppUI.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using static Unity.VisualScripting.Member;
+using UnityEngine.ResourceManagement.ResourceLocations;
+using UnityEngine.SceneManagement;
 
-namespace GASHAPWN.Audio {
+namespace GASHAPWN.Audio
+{
     /// <summary>
     /// SFXGroup is used for returning a random sound from a group of sounds
     /// </summary>
@@ -61,15 +61,13 @@ namespace GASHAPWN.Audio {
     /// Note: PlayerSFXProfile holds data for functionality of DynamicTriad
     /// </summary>
     [System.Serializable]
-    public class  SFXGroup_DynamicTriad : SFXGroup
+    public class SFXGroup_DynamicTriad : SFXGroup
     {
         public enum TriadState { NONE, START, HOLD, FINISH }
 
         public void SetTriadState(TriadState state) { _currState = state; }
 
         public TriadState GetTriadState() { return _currState; }
-
-        private void OnValidate() { Debug.LogAssertion(addressableKeys.Count == 3); }
 
         private SFXGroup_DynamicTriad() { _currState = TriadState.NONE; }
 
@@ -86,6 +84,8 @@ namespace GASHAPWN.Audio {
         public AudioMixerGroup SFXMixer;
         public AudioMixerGroup MusicMixer;
 
+        private Dictionary<string, AudioClip> _clipCache = new();
+
         private void Awake()
         {
             // Check for other instances
@@ -99,7 +99,9 @@ namespace GASHAPWN.Audio {
                 Destroy(gameObject);
             }
 
-            // Subscribe to GameManager stuff here
+            PreloadAllAudio("SFX_UI");
+            PreloadAllAudio("SFX_GAME");
+            // Music handled separately in BGM_Manager
         }
 
         private void Start()
@@ -118,10 +120,50 @@ namespace GASHAPWN.Audio {
             }
         }
 
-        private void OnDisable()
-        {
-            // unsub from GameManager stuff here
-        }
+        #region AUDIO PRELOADING
+            public void PreloadAudio(string key)
+            {
+                if (_clipCache.ContainsKey(key)) return;
+
+                Addressables.LoadAssetAsync<AudioClip>(key).Completed += handle =>
+                {
+                    if (handle.Status == AsyncOperationStatus.Succeeded)
+                    {
+                        _clipCache[key] = handle.Result;
+                    }
+                };
+            }
+
+            public void PreloadAllAudio(string label)
+            {
+                Debug.Log($"{nameof(AudioManager)}: Loading all audio from {label}.");
+                Addressables.LoadResourceLocationsAsync(label, typeof(AudioClip)).Completed += handle =>
+                {
+                    if (handle.Status != AsyncOperationStatus.Succeeded)
+                    {
+                        Debug.LogError($"{nameof(AudioManager)}: Failed to load SFX locations");
+                        return;
+                    }
+
+                    IList<IResourceLocation> locations = handle.Result;
+
+                    foreach (var loc in locations)
+                    {
+                        Addressables.LoadAssetAsync<AudioClip>(loc).Completed += clipHandle =>
+                        {
+                            if (clipHandle.Status == AsyncOperationStatus.Succeeded)
+                            {
+                                var clip = clipHandle.Result;
+
+                                // Key is usually loc.PrimaryKey or loc.InternalId
+                                _clipCache[loc.PrimaryKey] = clip;
+                            }
+                        };
+                    }
+                };
+            }
+
+        #endregion
 
         /// <summary>
         /// Plays sound given key, pitch, and loop
@@ -137,17 +179,15 @@ namespace GASHAPWN.Audio {
             audioSource.transform.position = transform.position;
             audioSource.pitch = pitch;
 
-            Addressables.LoadAssetAsync<AudioClip>(addressableKey).Completed += handle =>
+            if (_clipCache.TryGetValue(addressableKey, out var clip))
             {
-                if (handle.Status == AsyncOperationStatus.Succeeded)
-                {
-                    audioSource.gameObject.SetActive(true);
-                    audioSource.clip = handle.Result;
-                    audioSource.Play();
-
-                    StartCoroutine(ReturnAfterPlay(audioSource, handle.Result));
-                }
-            };
+                audioSource.clip = clip;
+                audioSource.Play();
+            }
+            else
+            {
+                Debug.LogWarning($"{nameof(AudioManager)}: Clip not preloaded: \"{addressableKey}\"");
+            }
             return audioSource;
         }
 
@@ -167,20 +207,18 @@ namespace GASHAPWN.Audio {
             audioSource.loop = loop;
             audioSource.pitch = pitch;
 
-            Addressables.LoadAssetAsync<AudioClip>(addressableKey).Completed += handle =>
+            if (_clipCache.TryGetValue(addressableKey, out var clip))
             {
-                if (handle.Status == AsyncOperationStatus.Succeeded)
-                {
-                    audioSource.gameObject.SetActive(true);
-                    audioSource.clip = handle.Result;
-                    audioSource.Play();
+                audioSource.clip = clip;
+                audioSource.Play();
 
-                    if (!loop)
-                    {
-                        StartCoroutine(ReturnAfterPlay(audioSource, handle.Result));
-                    }
-                }
-            };
+                if (!loop)
+                    StartCoroutine(ReturnAfterPlay(audioSource, clip));
+            }
+            else
+            {
+                Debug.LogWarning($"{nameof(AudioManager)}: Clip not preloaded: \"{addressableKey}\"");
+            }
             return audioSource;
         }
 
@@ -232,17 +270,51 @@ namespace GASHAPWN.Audio {
                 profile.currentChargeRollSource = null;
             }
 
-            switch (state)
+            // Validate range
+            if (dynTriad.addressableKeys.Count < 1 || dynTriad.addressableKeys.Count > 3)
             {
-                case SFXGroup_DynamicTriad.TriadState.START:
-                    profile.currentChargeRollSource = PlaySound(dynTriad.addressableKeys[0], profile.playerObject.transform);
-                    break;
-                case SFXGroup_DynamicTriad.TriadState.HOLD:
-                    profile.currentChargeRollSource = PlaySound(dynTriad.addressableKeys[1], profile.playerObject.transform, loop: true);
-                    break;
-                case SFXGroup_DynamicTriad.TriadState.FINISH:
-                    profile.currentChargeRollSource = PlaySound(dynTriad.addressableKeys[2], profile.playerObject.transform);
-                    break;
+                Debug.LogError($"{nameof(AudioManager)}: Could not handle Sound Dynamic Triad as adressableKeys.Count is outside the valid range of 1 to 3.");
+                return;
+            }
+
+            // Handle one key
+            if (dynTriad.addressableKeys.Count == 1)
+            {
+                profile.currentChargeRollSource = PlaySound(dynTriad.addressableKeys[0], profile.playerObject.transform);
+                return;
+            }
+            // Handle 2 keys
+            else if (dynTriad.addressableKeys.Count == 2)
+            {
+                switch (state)
+                {
+                    case SFXGroup_DynamicTriad.TriadState.START:
+                        profile.currentChargeRollSource = PlaySound(dynTriad.addressableKeys[0], profile.playerObject.transform);
+                        break;
+                    case SFXGroup_DynamicTriad.TriadState.HOLD:
+                        Debug.LogWarning($"{nameof(AudioManager)}: Sound Dynamic Triad: Cannot switch to \"HOLD\" state when only 2 adressable keys are available");
+                        break;
+                    case SFXGroup_DynamicTriad.TriadState.FINISH:
+                        profile.currentChargeRollSource = PlaySound(dynTriad.addressableKeys[1], profile.playerObject.transform);
+                        break;
+
+                }
+            }
+            // Handle 3 keys
+            else
+            {
+                switch (state)
+                {
+                    case SFXGroup_DynamicTriad.TriadState.START:
+                        profile.currentChargeRollSource = PlaySound(dynTriad.addressableKeys[0], profile.playerObject.transform);
+                        break;
+                    case SFXGroup_DynamicTriad.TriadState.HOLD:
+                        profile.currentChargeRollSource = PlaySound(dynTriad.addressableKeys[1], profile.playerObject.transform, loop: true);
+                        break;
+                    case SFXGroup_DynamicTriad.TriadState.FINISH:
+                        profile.currentChargeRollSource = PlaySound(dynTriad.addressableKeys[2], profile.playerObject.transform);
+                        break;
+                }
             }
         }
 
@@ -255,16 +327,16 @@ namespace GASHAPWN.Audio {
             StartCoroutine(FadeOutAndReturn(audioSource, audioSource.clip, fadeoutDuration));
         }
 
-        // Safely release clip from addressables after it plays
+        // Safely release clip from audio pool after is is done playing
         private IEnumerator ReturnAfterPlay(AudioSource audioSource, AudioClip clip)
         {
             yield return new WaitUntil(() => !audioSource.isPlaying);
             AudioSourcePool.Instance.ReturnToPool(audioSource);
-            Addressables.Release(clip);
+            //Addressables.Release(clip);
             yield return null;
         }
 
-        // Safely release clip from addressables after it fades out
+        // Safely release clip from audio pool after it fades out
         private IEnumerator FadeOutAndReturn(AudioSource source, AudioClip clip, float duration)
         {
             float startVolume = source.volume;
@@ -281,7 +353,7 @@ namespace GASHAPWN.Audio {
             source.volume = startVolume;
 
             AudioSourcePool.Instance.ReturnAudioSource(source);
-            Addressables.Release(clip);
+            //Addressables.Release(clip);
         }
     }
 }

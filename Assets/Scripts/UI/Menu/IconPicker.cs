@@ -1,9 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
-using UnityEngine.UI;
 
 namespace GASHAPWN.UI {
     public class IconPicker : MonoBehaviour

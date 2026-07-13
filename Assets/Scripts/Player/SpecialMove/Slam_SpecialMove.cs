@@ -1,7 +1,6 @@
 using GASHAPWN.Audio;
 using System;
 using System.Collections;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace GASHAPWN
@@ -20,7 +19,7 @@ namespace GASHAPWN
         public float StaminaCost => 1f;
 
         // Damage Multiplier
-        public float DamageMultiplier => 1f;
+        public float DamageMultiplier => 2f;
 
         // No substates for Slam
         public Enum GetSubState() => null;
@@ -60,7 +59,7 @@ namespace GASHAPWN
             spMoveHandler.pData.staminaEvents.OnStaminaChanged?.Invoke(spMoveHandler.pData.currentStamina);
 
             // Activate attack boost
-            spMoveHandler.pData.ActivateAttackBoost(1.1f, DamageMultiplier);
+            spMoveHandler.pData.ActivateAttackBoost(1.15f, DamageMultiplier);
 
             // Delegate coroutine to Special Move Handler
             return SlamCoroutine(spMoveHandler);

@@ -43,6 +43,9 @@ namespace GASHAPWN {
         // Public getter for main player rigidbody
         public Rigidbody rb { get; private set; }
 
+        // Public getter for main player collider
+        public SphereCollider sphereCollider { get; private set; }
+
         // Vector for movement input
         public Vector2 MoveInput { get; private set; }
 
@@ -121,7 +124,6 @@ namespace GASHAPWN {
 
             _pSpecialMoveHandler.HasSlammed = false;
             _pSpecialMoveHandler.HasCharged = false;
-            _pSpecialMoveHandler.IsBursting = false;
             _pSpecialMoveHandler.HasJumped = false;
 
             if (MoveInput.sqrMagnitude > 0.01f)
@@ -170,6 +172,7 @@ namespace GASHAPWN {
             ControlsEnabled = true;
 
             rb = GetComponent<Rigidbody>();
+            sphereCollider = GetComponent<SphereCollider>();
             _pData = GetComponent<PlayerData>();
             _pSpecialMoveHandler = GetComponent<SpecialMoveHandler>();
             _pCollisionHandler = GetComponent<PlayerCollisionHandler>();

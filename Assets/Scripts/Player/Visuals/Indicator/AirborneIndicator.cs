@@ -7,7 +7,6 @@ namespace GASHAPWN
     public class AirborneIndicator : MonoBehaviour
     {
         private SpecialMoveHandler specialMoveHandler;
-        [SerializeField] private GhostTrailEffect ghostTrailEffect;
 
         [Header("Line Renderer Settings")]
             public LineRenderer airborneLineRenderer;
@@ -78,7 +77,9 @@ namespace GASHAPWN
                     {
                         // Activate and position tragetProjector
                         targetProjector.enabled = true;
-                        targetProjector.transform.SetPositionAndRotation(hit.point + Vector3.down * 0.1f, Quaternion.LookRotation(hit.normal));
+                        // position it just above the ground
+                        targetProjector.transform.position = hit.point + Vector3.up * 0.05f;
+                        targetProjector.transform.rotation = Quaternion.LookRotation(Vector3.down, Vector3.forward);
                     }
                     else
                     {
@@ -106,11 +107,6 @@ namespace GASHAPWN
 
         private void HandleTargetEffect()
         {
-            // Start ghost trail effect on slam
-            //if (ghostTrailEffect != null)
-            //{
-            //    StartCoroutine(SlamTrailEffect(playerData.slamAirborneTime));
-            //}
             if (specialMoveHandler.moveSet.TryGetValue("Slam", out ISpecialMove move))
             {
                 Slam_SpecialMove slamMove = move as Slam_SpecialMove;
@@ -143,13 +139,6 @@ namespace GASHAPWN
             yield return null;
             targetProjector.size = targetProjectorInitialSize;
             airborneLineRenderer.endColor = baseLineColor;
-        }
-
-        private IEnumerator SlamTrailEffect(float duration)
-        {
-            ghostTrailEffect.StartTrail();
-            yield return new WaitForSeconds(duration);
-            ghostTrailEffect.StopTrail();
         }
 
         private void OnDisable()

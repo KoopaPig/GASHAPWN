@@ -1,9 +1,6 @@
 using GASHAPWN.Utility;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.ProBuilder;
-using UnityEngine.UI;
 
 namespace GASHAPWN.UI
 {

@@ -1,7 +1,4 @@
-using DG.Tweening;
-using MyBox;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 /// <summary>
 /// Controller for defense shield bubble

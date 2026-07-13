@@ -1,4 +1,3 @@
-using GASHAPWN.Audio;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -108,6 +107,7 @@ namespace GASHAPWN
 
                 // Burst duration and attack boost scales with charge
                 float burstDuration = Mathf.Lerp(0.3f, maxBurstDuration, chargePercent);
+
                 spMoveHandler.pData.ActivateAttackBoost(burstDuration, DamageMultiplier);
 
                 spMoveHandler.chargeRollIndicator?.HideIndicator();

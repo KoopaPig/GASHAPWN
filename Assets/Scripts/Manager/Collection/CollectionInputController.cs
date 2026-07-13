@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections;
 using EasyTransition;
-using UnityEngine.InputSystem.Composites;
 
 namespace GASHAPWN
 {

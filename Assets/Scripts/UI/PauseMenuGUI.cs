@@ -1,6 +1,7 @@
 using EasyTransition;
 using Febucci.UI;
 using GASHAPWN;
+using GASHAPWN.Audio;
 using GASHAPWN.UI;
 using System.Collections;
 using UnityEngine;
@@ -77,6 +78,8 @@ public class PauseMenuGUI : SlideableScreenGUI
         StartCoroutine(EnableCancelNextFrame());
 
         pausedPlayerText.SetText("Paused by " + currentPauser.tag);
+
+        UI_SFXManager.Instance.Play_Pause();
     }
 
     private void OnDisable()

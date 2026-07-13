@@ -1,9 +1,7 @@
 using System.Collections;
 using GASHAPWN.Utility;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 namespace GASHAPWN.UI {
     public class ScreenSwitcher : MonoBehaviour

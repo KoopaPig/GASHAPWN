@@ -1,7 +1,5 @@
 using GASHAPWN.Utility;
 using UnityEngine;
-using UnityEngine.Android;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 namespace GASHAPWN
 {

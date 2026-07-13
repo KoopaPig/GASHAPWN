@@ -29,8 +29,13 @@ namespace GASHAPWN.Environment {
 
         private void OnEnable() 
         {
-            BattleManager.Instance.ChangeToNewFigure.AddListener(HandleNewFigureScreen);
+            if (BattleManager.Instance != null) BattleManager.Instance.ChangeToNewFigure.AddListener(HandleNewFigureScreen);
             SpawnLevel();
+        }
+
+        private void OnDisable()
+        {
+            if (BattleManager.Instance != null) BattleManager.Instance.ChangeToNewFigure.RemoveListener(HandleNewFigureScreen);
         }
 
         private IEnumerator WaitToOpenDoor(float waitDuration) {
@@ -48,13 +53,18 @@ namespace GASHAPWN.Environment {
 
         public void SpawnLevel()
         {
-            var lvl = GameManager.Instance.currentLevel;
-
-            if (lvl == null)
+            Level lvl;
+            if (GameManager.Instance != null)
             {
-                Debug.LogWarning("MACHINE LISTENER: No level selected! Falling back to default level.");
-                lvl = defaultLevel;
+                lvl = GameManager.Instance.currentLevel;
+
+                if (lvl == null)
+                {
+                    Debug.LogWarning("MACHINE LISTENER: No level selected! Falling back to default level.");
+                    lvl = defaultLevel;
+                }
             }
+            else lvl = defaultLevel;
 
             // Cleanup previous
             if (currentLevelInstance != null)

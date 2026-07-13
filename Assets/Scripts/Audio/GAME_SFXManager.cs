@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -47,7 +46,6 @@ namespace GASHAPWN.Audio
 
         public void HandleDamageSFX(int val)
         {
-            
             int i = Mathf.FloorToInt(playerData.maxHealth - playerData.currentHealth - 1);
             GAME_SFXManager.Instance.Play_OrcHitDamage(playerObject.transform, i);
         }
@@ -137,9 +135,9 @@ namespace GASHAPWN.Audio
                 case ChargeRoll_SpecialMove.ChargeRollState.Charge:
                     AudioManager.Instance.HandleSoundDynamicTriad(chargeRollGroup, profile, SFXGroup_DynamicTriad.TriadState.START);
 
-                    if (profile.chargeRollRoutine != null)
-                        StopCoroutine(profile.chargeRollRoutine);
-                    profile.chargeRollRoutine = StartCoroutine(WaitForStartToFinishThenHold(chargeRollGroup, profile));
+                    //if (profile.chargeRollRoutine != null)
+                    //    StopCoroutine(profile.chargeRollRoutine);
+                    //profile.chargeRollRoutine = StartCoroutine(WaitForStartToFinishThenHold(chargeRollGroup, profile));
                     break;
                 case ChargeRoll_SpecialMove.ChargeRollState.Hold:
                     break;
@@ -208,7 +206,7 @@ namespace GASHAPWN.Audio
             AudioManager.Instance.PlaySound("SFX_SMB2_Boing", transform);
         }
 
-        public void Play_BouncePad(Transform transform)
+        public void Play_LaunchPad(Transform transform)
         {
             AudioManager.Instance.PlaySound("SFX_Dash_1", transform);
         }
@@ -232,6 +230,5 @@ namespace GASHAPWN.Audio
         {
             AudioManager.Instance.PlaySound("SFX_Dizzybirds", transform);
         }
-
     }
 }

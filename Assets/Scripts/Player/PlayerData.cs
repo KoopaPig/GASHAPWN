@@ -1,10 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using GASHAPWN.Audio;
-
-// TO DO: Move flash-related effects to new script
-
 
 namespace GASHAPWN
 {
@@ -37,9 +33,6 @@ namespace GASHAPWN
             [HideInInspector] public bool IsDead = false;
         #endregion
 
-        [Header("Burst Settings")]
-            public float burstInvincibilityDuration = 1.2f; // Invincibility duration during burst
-
         private void Update()
         {
             // Update attack timer
@@ -60,7 +53,6 @@ namespace GASHAPWN
             // Deal damage based on special move's damage multipler
             if (isOffensiveAbility && attackBonusTimer > 0)
                 return Mathf.RoundToInt(BaseDamage * damageMultiplier);
-
             return BaseDamage;
         }
 
@@ -91,7 +83,6 @@ namespace GASHAPWN
         public void ActivateAttackBoost(float duration, float multiplier)
         {
             Debug.Log($"{nameof(PlayerData)}: Attack boost activated on {gameObject.name} for {duration} seconds with {multiplier}x multiplier");
-
             damageMultiplier = multiplier;
             attackBonusTimer = duration;
         }

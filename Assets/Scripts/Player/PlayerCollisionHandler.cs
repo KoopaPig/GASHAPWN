@@ -1,5 +1,4 @@
 using GASHAPWN.Audio;
-using MyBox;
 using Unity.AppUI.UI;
 using UnityEngine;
 
@@ -137,7 +136,7 @@ namespace GASHAPWN
 
             if (myWin)
             {
-                int damageAmount = otherPlayerData.CalculateDamageAmount(relativeSpeed, myOffensive, this);
+                int damageAmount = _pData.CalculateDamageAmount(relativeSpeed, myOffensive, this);
                 otherPlayerData.TakeDamage(damageAmount);
                 ApplyHitKnockback(otherRb, _rb, relativeSpeed);
                 otherPlayerData.healthEvents.OnHit.Invoke(contactPoint, otherRb.transform);
@@ -146,7 +145,7 @@ namespace GASHAPWN
 
             if (otherWin)
             {
-                int damageAmount = _pData.CalculateDamageAmount(relativeSpeed, otherOffensive, otherPlayerData.GetComponent<PlayerCollisionHandler>());
+                int damageAmount = otherPlayerData.CalculateDamageAmount(relativeSpeed, otherOffensive, otherPlayerData.GetComponent<PlayerCollisionHandler>());
                 _pData.TakeDamage(damageAmount);
                 ApplyHitKnockback(_rb, otherRb, relativeSpeed);
                 _pData.healthEvents.OnHit.Invoke(contactPoint, _rb.transform);

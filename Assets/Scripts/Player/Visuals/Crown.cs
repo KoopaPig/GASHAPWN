@@ -26,13 +26,15 @@ public class Crown : MonoBehaviour
         yield return new WaitForSeconds(waitDuration);
         yield return StartCoroutine(PlayerHelpers.RotateUpDirectionCoroutine(player.GetComponent<PlayerController>().rb, player.transform, Vector3.up, 0.25f));
 
-        Renderer playerRenderer = player.GetComponentInChildren<Renderer>();
-
-        Vector3 topOfPlayer = playerRenderer.bounds.center + player.transform.up * playerRenderer.bounds.extents.y;
+        SphereCollider sphere = player.GetComponent<PlayerController>().sphereCollider;
+        Bounds bounds = sphere.bounds;
+        Vector3 topOfPlayer = bounds.center + player.transform.up * bounds.extents.y;
 
         Quaternion crownRotation = Quaternion.LookRotation(player.transform.forward, player.transform.up);
 
-        _crownInstance = Instantiate(crownPrefab, topOfPlayer, crownRotation, player.transform);
+        _crownInstance = Instantiate(crownPrefab, player.transform);
+        _crownInstance.transform.rotation = crownRotation;
+        _crownInstance.transform.position = topOfPlayer;
         _crownAnimator = _crownInstance.GetComponent<Animator>();
 
         int randomAnim = Random.Range(1, 2);
