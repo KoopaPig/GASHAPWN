@@ -1,6 +1,6 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
-using TMPro;
 using UnityEngine.UI;
 
 namespace GASHAPWN.UI
@@ -34,6 +34,12 @@ namespace GASHAPWN.UI
             SetMixerVolume(param, linear);
         }
 
+        private void LoadVolume(string param)
+        {
+            float linear = PlayerPrefs.GetFloat(param, 1f); // default 100%
+            SetMixerVolume(param, linear);
+        }
+
         private void UpdateVolume(string param, Slider slider, TMP_Text label)
         {
             float linear = slider.value;
@@ -56,5 +62,12 @@ namespace GASHAPWN.UI
         public void SetMusicVol() => UpdateVolume("MusicVol", musicSlider, musicLabel);
 
         public void SetSoundVol() => UpdateVolume("SoundVol", soundSlider, soundLabel);
+
+        public void LoadAllVolume() 
+        {
+            LoadVolume("MasterVol");
+            LoadVolume("MusicVol");
+            LoadVolume("SoundVol");
+        }
     }
 }

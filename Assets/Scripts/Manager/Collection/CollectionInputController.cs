@@ -101,8 +101,7 @@ namespace GASHAPWN
         
         public void OnSubmit(InputAction.CallbackContext context)
         {
-            DebugLog("Selection performed");
-            Audio.UI_SFXManager.Instance.Play_GeneralButtonSelection();
+            DebugLog("Selection performed - Not implemented");
         }
 
 
