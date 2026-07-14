@@ -1,9 +1,5 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace GASHAPWN.Audio {
     public class UI_SFXManager : MonoBehaviour
@@ -66,6 +62,16 @@ namespace GASHAPWN.Audio {
         public void Play_FancyButton()
         {
             AudioManager.Instance.PlayRandomSound(buttonFancyGroup);
+        }
+
+        public void Play_ControllerDetected()
+        {
+            AudioManager.Instance.PlaySound("SFX_UI_Controller_Detected");
+        }
+
+        public void Play_Pause()
+        {
+            AudioManager.Instance.PlaySound("SFX_UI_Pause");
         }
 
         public void Play_GameEnd()

@@ -15,15 +15,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "RotateChargeDirection",
-                    "type": "Value",
-                    "id": "e79fc03f-0304-47ef-8422-ec0e805b2f7a",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "71bcbabb-1572-4f69-afbc-3fb1fc3d6f0b",
@@ -42,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "QuickBreak",
+                    "name": "QuickBrake",
                     "type": "Button",
                     "id": "70cb2017-94bc-45c7-8154-5a8696b56037",
                     "expectedControlType": "",
@@ -54,6 +45,15 @@
                     "name": "ChargeRoll",
                     "type": "Button",
                     "id": "ec9bd26a-2556-4bd4-8bf4-16b9062fd805",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "b1f25d15-ccb7-415b-be82-d0eeb501c1b6",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -128,72 +128,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "WASD",
-                    "id": "5eeee9f4-e9f7-4c28-ae06-6e962fac2204",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateChargeDirection",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "d9efef2f-8024-4fa6-84e4-f96cf7a3f15a",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateChargeDirection",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "9a0406ad-1b5a-42b0-a4d4-8d364589e9fb",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateChargeDirection",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "8d63c7f0-4cf5-488e-ac85-c52be5809247",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateChargeDirection",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "88e02457-7766-40d6-b8ee-1c8eee0657ed",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateChargeDirection",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "fa47ea31-c00c-4493-a199-3948670093c2",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateChargeDirection",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "",
                     "id": "cfd33352-ee08-4a5f-9c92-1866df15a3b5",
                     "path": "<Keyboard>/space",
@@ -244,7 +178,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "QuickBreak",
+                    "action": "QuickBrake",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -255,7 +189,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "QuickBreak",
+                    "action": "QuickBrake",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -278,6 +212,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "ChargeRoll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "88e6a4bd-2b4c-40e2-8ff6-5ec883592a2c",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "737d797e-abce-421f-8c58-ceaca7ec7c55",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -381,6 +337,15 @@
                     "name": "Join",
                     "type": "Button",
                     "id": "eb85d651-53d9-4713-b820-66810d63790f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Unpause",
+                    "type": "Button",
+                    "id": "ee2eaf47-0ca0-49c4-8901-0ca9931991db",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -847,6 +812,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "535a763a-aab1-49a3-ae25-afda85988fe4",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Unpause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

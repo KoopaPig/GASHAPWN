@@ -37,7 +37,7 @@ namespace GASHAPWN.UI {
                 SelectLevel(levelSelect.levels[0]);
                 selectedButton = stageButtons[0];
             }
-            else Debug.LogError("Number of Stage Buttons and Levels does not match.");
+            else Debug.LogError($"{nameof(LevelSelectGrid)}: Number of Stage Buttons and Levels does not match.");
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace GASHAPWN.UI {
         {
             levelSelect.selectedLevel = level;
             levelPreview.SetLevelPreview(level);
-            Debug.Log("Selected " + level.levelName);
+            Debug.Log($"{nameof(LevelSelectGrid)}: Selected {level.levelName}");
         }
 
         /// <summary>

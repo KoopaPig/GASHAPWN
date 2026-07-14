@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace GASHAPWN.UI {
     public class OverlayGUI : MonoBehaviour
@@ -44,7 +43,7 @@ namespace GASHAPWN.UI {
             battleEndGUI.SetActive(true);
             battleEndGUI.GetComponent<Animator>().enabled = true;
             victoryScreenSubPanel.SetActive(true);
-            StartCoroutine(victoryScreenSubPanel.GetComponentInParent<ResultsScreenGUI>().SlideInVictoryScreen(3f));
+            StartCoroutine(victoryScreenSubPanel.GetComponentInParent<ResultsScreenGUI>().SlideInResultsScreen(3f));
         }
 
         public void SuddenDeathGUI()

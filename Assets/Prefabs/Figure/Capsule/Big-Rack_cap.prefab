@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7089157322836917816}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Big-Rack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,9 +25,9 @@ Transform:
   m_GameObject: {fileID: 508907784064058566}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -1.4, z: 0.1}
-  m_LocalScale: {x: 210, y: 210, z: 210}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: -0.01, z: 0}
+  m_LocalScale: {x: 1.55, y: 1.55, z: 1.55}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8844663219963265863}
   m_Father: {fileID: 7799188137449814913}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7799188137449814913}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Big-Rack_cap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7089157322836917816}
   m_Father: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 8844663219963265863}
   - component: {fileID: 9108178835079982836}
   - component: {fileID: 2445042734905488296}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Moose Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}

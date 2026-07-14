@@ -24,6 +24,8 @@ namespace GASHAPWN.Utility
         {
             SwitchCamera();
             // Press '0' to take screenshot
+            // Saves to the root folder of the Unity project, from there they can be edited in external software
+            // For now, crop to 4:3 and half the resolution
             if (Input.GetKeyDown(KeyCode.Alpha0))
             {
                 string filename = "levelScreenshot-" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".png";

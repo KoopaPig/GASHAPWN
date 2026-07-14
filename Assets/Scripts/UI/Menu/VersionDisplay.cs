@@ -10,6 +10,6 @@ public class VersionDisplay : MonoBehaviour
     private void Awake()
     {
         TMP_Text text = GetComponent<TMP_Text>();
-        text.text = Application.version;
+        text.text = "v" + Application.version;
     }
 }

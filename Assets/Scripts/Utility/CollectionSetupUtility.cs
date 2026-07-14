@@ -214,7 +214,7 @@ namespace GASHAPWN
         {
             if (collectionCamera == null)
             {
-                Debug.LogError("CollectionSetupUtility: Collection camera is required!");
+                Debug.LogError($"{nameof(CollectionSetupUtility)}: Collection camera is required!");
                 return;
             }
             
@@ -225,7 +225,7 @@ namespace GASHAPWN
                 
                 if (nodes.Count == 0)
                 {
-                    Debug.LogError("CollectionSetupUtility: No collection nodes found!");
+                    Debug.LogError($"{nameof(CollectionSetupUtility)}: No collection nodes found!");
                     return;
                 }
             }
@@ -245,7 +245,7 @@ namespace GASHAPWN
                 Transform cameraPos = node.transform.Find("CameraPosition");
                 if (cameraPos == null)
                 {
-                    Debug.LogWarning($"No CameraPosition found for {node.name}");
+                    Debug.LogWarning($"{nameof(CollectionSetupUtility)}: No CameraPosition found for {node.name}");
                     continue;
                 }
                 
@@ -267,7 +267,7 @@ namespace GASHAPWN
             EditorUtility.ClearProgressBar();
             #endif
             
-            Debug.Log("CollectionSetupUtility: Camera view test complete");
+            Debug.Log($"{nameof(CollectionSetupUtility)}: Camera view test complete");
         }
         
         /// <summary>
@@ -294,7 +294,7 @@ namespace GASHAPWN
             }
             
             nodes.Clear();
-            Debug.Log("CollectionSetupUtility: Cleared all nodes");
+            Debug.Log($"{nameof(CollectionSetupUtility)}: Cleared all nodes");
             #endif
         }
     }

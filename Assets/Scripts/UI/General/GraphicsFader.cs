@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -114,5 +113,3 @@ namespace GASHAPWN.UI
         }
     }
 }
-
-

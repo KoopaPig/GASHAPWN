@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4898651393235053735}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beanie_cap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3176845459962161004}
   m_Father: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3176845459962161004}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Beanie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,9 +57,9 @@ Transform:
   m_GameObject: {fileID: 2625503385678904191}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: -1.3, z: 0.17}
-  m_LocalScale: {x: 210, y: 210, z: 210}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: -0.01, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 76976688290930346}
   - {fileID: 8083944062837670764}
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 8083944062837670764}
   - component: {fileID: 1723658429540065179}
   - component: {fileID: 1870621822557119187}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wolf Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 76976688290930346}
   - component: {fileID: 3912736754174217860}
   - component: {fileID: 7385881961554954920}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: winter hat
   m_TagString: Untagged
   m_Icon: {fileID: 0}

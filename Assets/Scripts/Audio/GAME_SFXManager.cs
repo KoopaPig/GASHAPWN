@@ -16,6 +16,7 @@ namespace GASHAPWN.Audio
             playerTag = tag;
             playerObject = GameObject.FindGameObjectWithTag(playerTag);
             playerData = playerObject.GetComponent<PlayerData>();
+            specialMoveHandler = playerObject.GetComponent<SpecialMoveHandler>();
             Initialize();
         }
 
@@ -23,6 +24,8 @@ namespace GASHAPWN.Audio
         public GameObject playerObject { get; set; }
         protected string playerTag { get; set; }
         protected PlayerData playerData { get; set; }
+
+        protected SpecialMoveHandler specialMoveHandler { get; set; }
         
         // Get playerEffects in here too?
 
@@ -35,29 +38,28 @@ namespace GASHAPWN.Audio
         {
             if (playerData != null)
             {
-                playerData.OnDamage.AddListener(HandleDamageSFX);
-                playerData.OnChargeRoll.AddListener(HandleChargeRollSFX);
+                playerData.healthEvents.OnDamage.AddListener(HandleDamageSFX);
+                specialMoveHandler.Events.OnChargeRoll.AddListener(HandleChargeRollSFX);
                 // Add more listeners here
             }
         }
 
         public void HandleDamageSFX(int val)
         {
-            
             int i = Mathf.FloorToInt(playerData.maxHealth - playerData.currentHealth - 1);
             GAME_SFXManager.Instance.Play_OrcHitDamage(playerObject.transform, i);
         }
 
 
-        public void HandleChargeRollSFX(bool isCharging)
+        public void HandleChargeRollSFX(ChargeRoll_SpecialMove.ChargeRollState state_)
         {
-            GAME_SFXManager.Instance.HandleChargeRollSFX(playerObject.transform, isCharging, this);
+            GAME_SFXManager.Instance.HandleChargeRollSFX(playerObject.transform, state_, this);
         }
 
         ~PlayerSFXProfile()
         {
-            playerData.OnDamage.RemoveListener(HandleDamageSFX);
-            playerData.OnChargeRoll.RemoveListener(HandleChargeRollSFX);
+            playerData.healthEvents.OnDamage.RemoveListener(HandleDamageSFX);
+            specialMoveHandler.Events.OnChargeRoll.RemoveListener(HandleChargeRollSFX);
         }
     }
 
@@ -123,31 +125,50 @@ namespace GASHAPWN.Audio
         /// PUBLIC METHODS ///
 
         // Handle TriadState changes for Charge Roll given transform, isCharging bool, and PlayerSFXProfile
-        public void HandleChargeRollSFX(Transform transform, bool isCharging, PlayerSFXProfile profile)
+        public void HandleChargeRollSFX(Transform transform, ChargeRoll_SpecialMove.ChargeRollState state_, PlayerSFXProfile profile)
         {
-            if (isCharging)
+            switch (state_)
             {
-                if (profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.NONE ||
-                    profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.FINISH)
-                {
+                case ChargeRoll_SpecialMove.ChargeRollState.None: 
+                    AudioManager.Instance.HandleSoundDynamicTriad(chargeRollGroup, profile, SFXGroup_DynamicTriad.TriadState.NONE);
+                    break;
+                case ChargeRoll_SpecialMove.ChargeRollState.Charge:
                     AudioManager.Instance.HandleSoundDynamicTriad(chargeRollGroup, profile, SFXGroup_DynamicTriad.TriadState.START);
 
-                    if (profile.chargeRollRoutine != null)
-                        StopCoroutine(profile.chargeRollRoutine);
-                    profile.chargeRollRoutine = StartCoroutine(WaitForStartToFinishThenHold(chargeRollGroup, profile));
-                }
-            }
-            else
-            {
-                if (profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.START ||
-                    profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.HOLD)
-                {
-                    if (profile.chargeRollRoutine != null)
-                        StopCoroutine(profile.chargeRollRoutine);
-
+                    //if (profile.chargeRollRoutine != null)
+                    //    StopCoroutine(profile.chargeRollRoutine);
+                    //profile.chargeRollRoutine = StartCoroutine(WaitForStartToFinishThenHold(chargeRollGroup, profile));
+                    break;
+                case ChargeRoll_SpecialMove.ChargeRollState.Hold:
+                    break;
+                case ChargeRoll_SpecialMove.ChargeRollState.Burst:
                     AudioManager.Instance.HandleSoundDynamicTriad(chargeRollGroup, profile, SFXGroup_DynamicTriad.TriadState.FINISH);
-                }
+                    break;
+
             }
+            //if (isCharging)
+            //{
+            //    if (profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.NONE ||
+            //        profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.FINISH)
+            //    {
+            //        AudioManager.Instance.HandleSoundDynamicTriad(chargeRollGroup, profile, SFXGroup_DynamicTriad.TriadState.START);
+
+            //        if (profile.chargeRollRoutine != null)
+            //            StopCoroutine(profile.chargeRollRoutine);
+            //        profile.chargeRollRoutine = StartCoroutine(WaitForStartToFinishThenHold(chargeRollGroup, profile));
+            //    }
+            //}
+            //else
+            //{
+            //    if (profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.START ||
+            //        profile.currChargeRollState == SFXGroup_DynamicTriad.TriadState.HOLD)
+            //    {
+            //        if (profile.chargeRollRoutine != null)
+            //            StopCoroutine(profile.chargeRollRoutine);
+
+            //        AudioManager.Instance.HandleSoundDynamicTriad(chargeRollGroup, profile, SFXGroup_DynamicTriad.TriadState.FINISH);
+            //    }
+            //}
         }
 
         public void Play_OrcHitDamage(Transform transform, int index)
@@ -185,7 +206,7 @@ namespace GASHAPWN.Audio
             AudioManager.Instance.PlaySound("SFX_SMB2_Boing", transform);
         }
 
-        public void Play_BouncePad(Transform transform)
+        public void Play_LaunchPad(Transform transform)
         {
             AudioManager.Instance.PlaySound("SFX_Dash_1", transform);
         }
@@ -205,5 +226,9 @@ namespace GASHAPWN.Audio
             AudioManager.Instance.PlayRandomSound(impactGroupDeflect);
         }
 
+        public void Play_Stunned(Transform transform)
+        {
+            AudioManager.Instance.PlaySound("SFX_Dizzybirds", transform);
+        }
     }
 }

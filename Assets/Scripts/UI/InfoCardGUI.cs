@@ -2,32 +2,35 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
-using GASHAPWN.Audio;
 
 namespace GASHAPWN.UI
 {
+    /// <summary>
+    /// InfoCard is GUI for Figure data, including: name, rarity, amount, description, series icon, and number in series
+    /// </summary>
     public class InfoCardGUI : MonoBehaviour
     {
         [Header("Info Card")]
-        [SerializeField] TextMeshProUGUI figureName;
-        [SerializeField] StarsGUI starsGUI;
-        [SerializeField] TextMeshProUGUI figureAmount;
-        [SerializeField] TextMeshProUGUI figureDescription;
+            [SerializeField] TextMeshProUGUI figureName;
+            [SerializeField] StarsGUI starsGUI;
+            [SerializeField] TextMeshProUGUI figureAmount;
+            [SerializeField] TextMeshProUGUI figureDescription;
 
-        [SerializeField] Image seriesIcon;
-        [SerializeField] TextMeshProUGUI numberInSeriesText;
+            [SerializeField] Image seriesIcon;
+            [SerializeField] TextMeshProUGUI numberInSeriesText;
         
+        // NOT IMPLEMENTED
         [Header("Collection Specific Elements")]
-        [SerializeField] private GameObject newFigureBadge;
-        [SerializeField] private TextMeshProUGUI collectionCountText;
-        [SerializeField] private GameObject leftNavigationHint;
-        [SerializeField] private GameObject rightNavigationHint;
-        [SerializeField] private GameObject rotationHint;
+            [SerializeField] private GameObject newFigureBadge;
+            [SerializeField] private TextMeshProUGUI collectionCountText;
+            [SerializeField] private GameObject leftNavigationHint;
+            [SerializeField] private GameObject rightNavigationHint;
+            [SerializeField] private GameObject rotationHint;
 
         [Header("Slide-In Settings")]
-        [SerializeField] private float slideDuration = 0.3f;
-        [SerializeField] private float yOffsetInPixels = -1000f;
-        [SerializeField] private AnimationCurve slideCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+            [SerializeField] private float slideDuration = 0.3f;
+            [SerializeField] private float yOffsetInPixels = -1000f;
+            [SerializeField] private AnimationCurve slideCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
         
         private Vector2 offscreenPosition;
         private Vector2 onscreenPosition;
@@ -36,6 +39,9 @@ namespace GASHAPWN.UI
         private bool isSliding = false;
         private Coroutine slideCoroutine;
         public bool isVisible = false;
+
+
+        /// PRIVATE METHODS ///
 
         private void Awake()
         {
@@ -52,28 +58,11 @@ namespace GASHAPWN.UI
                 newFigureBadge.SetActive(false);
         }
 
-        /// PUBLIC METHODS ///
-
-        // Sets all information in Info Card given Figure
-        public void SetFigureInfoCard(Figure figure, int amt)
-        {
-            // Set Figure Info
-            figureName.text = figure.Name;
-            starsGUI.SetStars(figure);
-            figureDescription.text = figure.Description;
-
-            figureAmount.text = "x " + amt.ToString();
-
-            // Set seriesIcon and numberInSeriesText
-            seriesIcon.sprite = figure.GetSeries().SeriesIcon;
-            numberInSeriesText.text = string.Format("{0:000} / {1:000}", figure.GetNumberInSeries(), figure.GetSeries().Size());
-        }
-
         // Slide in card from offscreen position
-        public IEnumerator SlideCardIn()
+        private IEnumerator SlideCardIn()
         {
             isSliding = true;
-            float elapsedTime =.0f;
+            float elapsedTime = .0f;
 
             while (elapsedTime < slideDuration)
             {
@@ -87,9 +76,9 @@ namespace GASHAPWN.UI
             isSliding = false;
             isVisible = true;
         }
-        
+
         // Slide out card to offscreen position
-        public IEnumerator SlideCardOut()
+        private IEnumerator SlideCardOut()
         {
             isSliding = true;
             float elapsedTime = 0f;
@@ -106,8 +95,30 @@ namespace GASHAPWN.UI
             isSliding = false;
             isVisible = false;
         }
-        
-        // Show navigation hints for collection browsing
+
+
+        /// PUBLIC METHODS ///
+
+        /// <summary>
+        /// Sets all information in Info Card given Figure and amount
+        /// </summary>
+        public void SetFigureInfoCard(Figure figure, int amt)
+        {
+            // Set Figure Info
+            figureName.text = figure.Name;
+            starsGUI.SetStars(figure);
+            figureDescription.text = figure.Description;
+
+            figureAmount.text = "x " + amt.ToString();
+
+            // Set seriesIcon and numberInSeriesText
+            seriesIcon.sprite = figure.GetSeries().SeriesIcon;
+            numberInSeriesText.text = string.Format("{0:000} / {1:000}", figure.GetNumberInSeries(), figure.GetSeries().Size());
+        }
+
+        /// <summary>
+        /// Show navigation hints for collection browsing
+        /// </summary>
         public void ShowNavigationHints(bool hasLeftNode, bool hasRightNode)
         {
             if (leftNavigationHint != null)
@@ -120,7 +131,9 @@ namespace GASHAPWN.UI
                 rotationHint.SetActive(true);
         }
         
-        // Hide all navigation hints
+        /// <summary>
+        /// Hide all navigation hints
+        /// </summary>
         public void HideNavigationHints()
         {
             if (leftNavigationHint != null)
@@ -133,7 +146,9 @@ namespace GASHAPWN.UI
                 rotationHint.SetActive(false);
         }
         
-        // Public method to slide in the card (starts the coroutine)
+        /// <summary>
+        /// Public method to slide in the card (starts the coroutine)
+        /// </summary>
         public void SlideIn()
         {
             if (!isVisible && !isSliding)
@@ -145,7 +160,9 @@ namespace GASHAPWN.UI
             }
         }
         
-        // Public method to slide out the card (starts the coroutine)
+        /// <summary>
+        /// Public method to slide out the card (starts the coroutine)
+        /// </summary>
         public void SlideOut()
         {
             if (isVisible && !isSliding)

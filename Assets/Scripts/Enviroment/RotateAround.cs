@@ -7,24 +7,24 @@ namespace GASHAPWN.Environment
     /// </summary>
     public class RotateAround : MonoBehaviour
     {
-        [Tooltip("Speed of rotation")]
-        public float speed = 10f;
-
-        [Tooltip("Distance from the center of the circular path")]
-        public float radius = 5f;
+        [Header("Rotation Settings")]
+            [Tooltip("Speed of rotation")]
+            public float speed = 1f;
+            [Tooltip("Distance from the center of the circular path")]
+            public float radius = 0.2f;
 
         private float angle = 0f;
         private Vector3 centerPoint;
         private Vector3 previousPosition;
 
-        void Start()
+        protected virtual void Start()
         {
             // Store the initial position as the center point
             centerPoint = transform.position;
             previousPosition = transform.position + new Vector3(radius, 0, 0); // Initial offset
         }
 
-        void Update()
+        protected virtual void Update()
         {
             angle += speed * Time.deltaTime; // Increase the angle over time
             float x = Mathf.Cos(angle) * radius;

@@ -13,10 +13,12 @@ namespace GASHAPWN.UI
     {
         [Tooltip("Left Arrow of LeftRightButton")]
         [SerializeField] private Button leftButton;
+
         [Tooltip("Right Arrow of LeftRightButton")]
         [SerializeField] private Button rightButton;
 
         private InputAction navigateAction;
+        private bool _uiStickInUse = false;
 
         private void OnEnable()
         {
@@ -39,21 +41,35 @@ namespace GASHAPWN.UI
         // ISSUE: This does not work very well with joystick
         private void OnNavigate(InputAction.CallbackContext context)
         {
-            Vector2 input = context.ReadValue<Vector2>();
+            Vector2 dir = context.ReadValue<Vector2>();
 
-            if (input.x < 0)
+            // Deadzone threshold
+            const float threshold = 0.5f;
+
+            if (dir.magnitude < threshold)
+            {
+                _uiStickInUse = false;
+                return;
+            }
+
+            if (_uiStickInUse)
+                return;
+
+            if (dir.x <= -threshold)
             {
                 if (this.gameObject == EventSystem.current.currentSelectedGameObject)
                 {
                     leftButton.onClick.Invoke();
                 }
+                _uiStickInUse = true;
             }
-            else if (input.x > 0)
+            else if (dir.x >= threshold)
             {
                 if (this.gameObject == EventSystem.current.currentSelectedGameObject)
                 {
                     rightButton.onClick.Invoke();
                 }
+                _uiStickInUse = true;
             }
         }
     }

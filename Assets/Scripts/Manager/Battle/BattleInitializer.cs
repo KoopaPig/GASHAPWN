@@ -36,7 +36,9 @@ namespace GASHAPWN
                 assignment.playerInput.ActivateInput();
 
                 // Initialize playerData component now that input is initialized and we are in battle scene
-                playerObj.GetComponent<PlayerData>().InitializePlayerData();
+                playerObj.GetComponent<PlayerData>().Initialize();
+
+                BattleManager.Instance.RegisterPlayer(playerObj.GetComponent<PlayerData>());
             }
         }
     }

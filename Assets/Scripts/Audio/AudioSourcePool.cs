@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
-using UnityEngine.SceneManagement;
 
 namespace GASHAPWN.Audio
 {
@@ -72,6 +69,7 @@ namespace GASHAPWN.Audio
         {
             source.Stop();
             source.clip = null;
+            source.loop = false;
             source.gameObject.SetActive(false);
             _availableSources.Enqueue(source);
         }
@@ -88,6 +86,8 @@ namespace GASHAPWN.Audio
         public void ReturnToPool(AudioSource source)
         {
             source.Stop();
+            source.loop = false;
+            source.pitch = audioSourcePrefab.pitch;
             source.clip = null;
             source.gameObject.SetActive(false);
             _availableSources.Enqueue(source);

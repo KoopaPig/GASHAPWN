@@ -88,7 +88,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 0415e25de87fde44a8ab4006ef6113fc, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -240,6 +240,8 @@ MonoBehaviour:
   textHighlightedColor: {r: 0.2901961, g: 0.1882353, b: 0.32156864, a: 1}
   textAnimator: {fileID: 2585397214166869453}
   buttonOutline: {fileID: 7119476039531427819}
+  _hasIcon: 0
+  buttonIcon: {fileID: 0}
 --- !u!114 &7018257455669219315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,7 +408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typewriterStartsAutomatically: 0
   animationLoop: 0
-  timeScale: 0
+  timeScale: 1
   _text: Button
   useDynamicScaling: 1
   referenceFontSize: 10

@@ -1,61 +1,84 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Collections.Generic;
 using System.Collections;
-using static UnityEngine.Rendering.DebugUI;
-using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using GASHAPWN.Audio;
+using MyBox;
 
 namespace GASHAPWN.UI {
+    /// <summary>
+    /// Controller for Player Battle GUI (Character Icon, Health Bar, Stamina Bar)
+    /// </summary>
     public class BattleGUIController : MonoBehaviour
     {
         [Header("Player Reference")]
-        // Set corresponding tag here: "Player1" or "Player2"
-        [SerializeField] private string playerTag; 
-        // Reference to the specific player's data
-        private PlayerData playerData;
+            [Tooltip("Set corresponding tag here: \"Player1\" or \"Player2\"")]
+            [SerializeField] private string playerTag;
+        
+            // Reference to the specific player's data
+            private PlayerData playerData;
+
 
         [Header("Healthbar GUI Elements")]
-        // Healthbar
-        [SerializeField] private Slider healthSlider;
-        // Healthbar Secondary BG
-        [SerializeField] private Slider healthSliderBG;
-        // Healthbar Gradient
-        [SerializeField] private Gradient healthGradient;
-        // Healthbar Fill
-        [SerializeField] private Image healthFill;
+            [Tooltip("Healthbar")]
+            [SerializeField] private Slider healthSlider;
+
+            [Tooltip("Healthbar Secondary BG")]    
+            [SerializeField] private Slider healthSliderBG;
+
+            [Tooltip("Healthbar Gradient")]
+            [SerializeField] private Gradient healthGradient;
+
+            [Tooltip("Healthbar Fill")]
+            [SerializeField] private Image healthFill;
+
 
         [Header("Staminabar GUI Elements")]
-        // Staminabar
-        [SerializeField] private Slider staminaSlider;
-        // Staminabar Gradient
-        [SerializeField] private Gradient staminaGradient;
-        // Staminabar Fill
-        [SerializeField] private Image staminaFill;
-        // Staminabar Animator
-        [SerializeField] private Animator staminaAnimator;
-        // Staminabar sections
-        [SerializeField] private int staminaBarSections = 6;
+            [Tooltip("Staminabar")]
+            [SerializeField] private Slider staminaSlider;
+
+            [Tooltip("Staminabar Gradient")]
+            [SerializeField] private Gradient staminaGradient;
+
+            [Tooltip("Staminabar Fill")]
+            [SerializeField] private Image staminaFill;
+
+            [Tooltip("Staminabar Animator")]
+            [SerializeField] private Animator staminaAnimator;
+
+            [Tooltip("Staminabar Sections")]
+            [SerializeField] private int staminaBarSections = 6;
 
 
         [Header("Other GUI Elements")]
-        // Icon for Figure
-        [SerializeField] private Image charIcon;
-        // Name of Figure
-        [SerializeField] private TextMeshProUGUI charName;
-        // Healthbar Border
-        [SerializeField] private Image healthBarBorder;
-        // Reference to capsule group GUI
-        [SerializeField] private GameObject capsuleGroup;
+            [Tooltip("Icon for Player Figure")]
+            [SerializeField] private Image charIcon;
+
+            [Tooltip("Name of Player Figure")]
+            [SerializeField] private TextMeshProUGUI charName;
+
+            [Tooltip("Healthbar Border")]
+            [SerializeField] private Image healthBarBorder;
+
+            [Tooltip("Reference to Capsule Group GUI")]
+            [SerializeField] private GameObject capsuleGroup;
+
 
         [Header("Animator for Capsule Group")]
-        [SerializeField] private Animator capsuleAnimator;
+            [SerializeField] private Animator capsuleAnimator;
 
-        [SerializeField] private Color grayColor = Color.gray;
-        [SerializeField] private Color damageColor = Color.red;
-        [SerializeField] private Color healColor = Color.green;
+
+        [Header("Effect Colors")]
+            [SerializeField] private Color grayColor = Color.gray;
+            [SerializeField] private Color damageColor = Color.red;
+            [SerializeField] private Color healColor = Color.green;
+
+        [Header("Debug")]
+            [Tooltip("Toggle to display debug info about player states")]
+            [InitializationField, SerializeField] private bool IsDisplayDebugInfo;
+
+        [ConditionalField("IsDisplayDebugInfo"), SerializeField] private PlayerInfoDebugGUI playerInfoDebug;
 
         private Coroutine healthChangeCoroutine;
         private float currHealth;
@@ -100,7 +123,7 @@ namespace GASHAPWN.UI {
             float targetHealth = currHealth - damage;
             if (targetHealth < currHealth)
             {
-                capsuleAnimator.SetBool("isDamageShake", true);
+                capsuleAnimator.SetBool(AnimationStrings.isDamageShake, true);
                 StartCoroutine(FlashGUI(damageColor, 0.1f));
             }
 
@@ -160,7 +183,7 @@ namespace GASHAPWN.UI {
         {
             if (newValue < currStamina)
             {
-                staminaAnimator.SetBool("isIntervalEffect", true);
+                staminaAnimator.SetBool(AnimationStrings.isIntervalEffect, true);
             }
 
             SetStaminaGUI(newValue);
@@ -177,7 +200,7 @@ namespace GASHAPWN.UI {
         {
             if (newValue > currStamina)
             {
-                staminaAnimator.SetBool("isIntervalEffect", true);
+                staminaAnimator.SetBool(AnimationStrings.isIntervalEffect, true);
             }
             SetStaminaGUI(newValue);
 
@@ -189,10 +212,9 @@ namespace GASHAPWN.UI {
         }
 
         // LowStamina (GUI)
-
         public void LowStaminaGUI(float value)
         {
-            staminaAnimator.SetTrigger("isStaminaLowEffect");
+            staminaAnimator.SetTrigger(AnimationStrings.isStaminaLowEffect);
             UI_SFXManager.Instance.Play_StaminaLow();
             StartCoroutine(ResetStaminaLowEffect());
         }
@@ -200,7 +222,7 @@ namespace GASHAPWN.UI {
 
         ////// PRIVATE METHODS /////
 
-        private void Awake()
+        private void Start()
         {
             // Find the player object with the given tag
             GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
@@ -221,10 +243,6 @@ namespace GASHAPWN.UI {
             {
                 Debug.LogError($"BattleGUIController: No GameObject found with tag {playerTag}");
             }
-        }
-
-        private void Start()
-        {
             staminaInterval = maxStamina / staminaBarSections;
         }
 
@@ -234,34 +252,56 @@ namespace GASHAPWN.UI {
             if (playerData != null)
             {
                 // Unsubscribe from previous player's health-based events
-                playerData.OnDamage.RemoveListener(TakeDamageGUI);
-                playerData.SetMaxHealth.RemoveListener(SetMaxHealthGUI);
-                playerData.SetHealth.RemoveListener(SetHealthSuddenDeathGUI);
+                playerData.healthEvents.OnDamage.RemoveListener(TakeDamageGUI);
+                playerData.healthEvents.SetMaxHealth.RemoveListener(SetMaxHealthGUI);
+                playerData.healthEvents.SetHealth.RemoveListener(SetHealthSuddenDeathGUI);
 
                 // Stamina-based Listeners
-                playerData.OnStaminaChanged.RemoveListener(SetStaminaGUI_Wrapper);
-                playerData.SetMaxStamina.RemoveListener(SetMaxStaminaGUI);
-                playerData.OnStaminaHardDecrease.RemoveListener(LoseStaminaGUI);
-                playerData.OnStaminaHardIncrease.RemoveListener(RecoverStaminaGUI);
-                playerData.OnLowStamina.RemoveListener(LowStaminaGUI);
+                playerData.staminaEvents.OnStaminaChanged.RemoveListener(SetStaminaGUI_Wrapper);
+                playerData.staminaEvents.SetMaxStamina.RemoveListener(SetMaxStaminaGUI);
+                playerData.staminaEvents.OnStaminaHardDecrease.RemoveListener(LoseStaminaGUI);
+                playerData.staminaEvents.OnStaminaHardIncrease.RemoveListener(RecoverStaminaGUI);
+                playerData.staminaEvents.OnLowStamina.RemoveListener(LowStaminaGUI);
             }
 
             playerData = player;
 
+            if (IsDisplayDebugInfo)
+            {
+                playerInfoDebug.Initialize(player.GetComponent<PlayerController>(),
+                player,
+                player.GetComponent<SpecialMoveHandler>(),
+                player.GetComponent<PlayerCollisionHandler>()
+                );
+                playerInfoDebug.gameObject.SetActive(true);
+            }
+            else playerInfoDebug.gameObject.SetActive(false);
+
             if (playerData != null)
             {
                 // Subscribe to the new player's health-based events
-                playerData.OnDamage.AddListener(TakeDamageGUI);
-                playerData.SetMaxHealth.AddListener(SetMaxHealthGUI);
-                playerData.SetHealth.AddListener(SetHealthSuddenDeathGUI);
+                playerData.healthEvents.OnDamage.AddListener(TakeDamageGUI);
+                playerData.healthEvents.SetMaxHealth.AddListener(SetMaxHealthGUI);
+                playerData.healthEvents.SetHealth.AddListener(SetHealthSuddenDeathGUI);
 
                 // Stamina-based Listeners
-                playerData.OnStaminaChanged.AddListener(SetStaminaGUI_Wrapper);
-                playerData.SetMaxStamina.AddListener(SetMaxStaminaGUI);
-                playerData.OnStaminaHardDecrease.AddListener(LoseStaminaGUI);
-                playerData.OnStaminaHardIncrease.AddListener(RecoverStaminaGUI);
-                playerData.OnLowStamina.AddListener(LowStaminaGUI);
+                playerData.staminaEvents.OnStaminaChanged.AddListener(SetStaminaGUI_Wrapper);
+                playerData.staminaEvents.SetMaxStamina.AddListener(SetMaxStaminaGUI);
+                playerData.staminaEvents.OnStaminaHardDecrease.AddListener(LoseStaminaGUI);
+                playerData.staminaEvents.OnStaminaHardIncrease.AddListener(RecoverStaminaGUI);
+                playerData.staminaEvents.OnLowStamina.AddListener(LowStaminaGUI);
+
+                RefreshAllGUI();
             }
+        }
+
+        // Refresh All GUI with current values
+        private void RefreshAllGUI()
+        {
+            SetMaxHealthGUI(playerData.maxHealth);
+            SetHealthGUI(playerData.currentHealth);
+            SetMaxStaminaGUI(playerData.maxStamina);
+            SetStaminaGUI(playerData.currentStamina);
         }
 
         // Set Current Health (GUI)
@@ -272,6 +312,7 @@ namespace GASHAPWN.UI {
             healthFill.color = healthGradient.Evaluate(healthSlider.normalizedValue);
         }
 
+        // Set BG of health slider with given value
         private void SetHealthBG_GUI(float value)
         {
             healthSliderBG.value = value;
@@ -298,7 +339,7 @@ namespace GASHAPWN.UI {
             SetHealthBG_GUI(currHealth);
             UpdateGUIColor(currHealth);
 
-            capsuleAnimator.SetBool("isDamageShake", false);
+            capsuleAnimator.SetBool(AnimationStrings.isDamageShake, false);
             healthChangeCoroutine = null;
         }
 
@@ -322,7 +363,7 @@ namespace GASHAPWN.UI {
             currStamina = targetValue;
             SetStaminaGUI(currStamina);
 
-            staminaAnimator.SetBool("isIntervalEffect", false);
+            staminaAnimator.SetBool(AnimationStrings.isIntervalEffect, false);
             staminaChangeCoroutine = null;
         }
 
@@ -366,35 +407,39 @@ namespace GASHAPWN.UI {
             }
         }
 
+        // Set stamina to specific value
         private void SetStaminaGUI(float value)
         {
             staminaSlider.value = value;
             staminaFill.color = staminaGradient.Evaluate(staminaSlider.normalizedValue);
         }
 
+        // Wrapper to handle feedback for stamina change
         private void SetStaminaGUI_Wrapper(float value)
         {
             SetStaminaGUI(value);
             int currentIntervalIndex = Mathf.FloorToInt(value / staminaInterval);
             if (currentIntervalIndex != lastIntervalIndex)
             {
-                staminaAnimator.SetBool("isIntervalEffect", true);
+                staminaAnimator.SetBool(AnimationStrings.isIntervalEffect, true);
                 lastIntervalIndex = currentIntervalIndex;
 
                 StartCoroutine(ResetIntervalEffect());
             }
         }
 
+        // Reset "Stamina Interval" Effect
         private IEnumerator ResetIntervalEffect()
         {
             yield return new WaitForSeconds(0.3f);
-            staminaAnimator.SetBool("isIntervalEffect", false);
+            staminaAnimator.SetBool(AnimationStrings.isIntervalEffect, false);
         }
 
+        // Reset "Stamina Low" Effect
         private IEnumerator ResetStaminaLowEffect()
         {
             yield return new WaitForNextFrameUnit();
-            staminaAnimator.ResetTrigger("isStaminaLowEffect");
+            staminaAnimator.ResetTrigger(AnimationStrings.isStaminaLowEffect);
         }
 
         private void OnDisable()
@@ -403,18 +448,17 @@ namespace GASHAPWN.UI {
             if (playerData != null)
             {
                 // Health-based listeners
-                playerData.OnDamage.RemoveListener(TakeDamageGUI);
-                playerData.SetMaxHealth.RemoveListener(SetMaxHealthGUI);
-                playerData.SetHealth.RemoveListener(SetHealthSuddenDeathGUI);
+                playerData.healthEvents.OnDamage.RemoveListener(TakeDamageGUI);
+                playerData.healthEvents.SetMaxHealth.RemoveListener(SetMaxHealthGUI);
+                playerData.healthEvents.SetHealth.RemoveListener(SetHealthSuddenDeathGUI);
 
                 // Stamina-based Listeners
-                playerData.OnStaminaChanged.RemoveListener(SetStaminaGUI_Wrapper);
-                playerData.SetMaxStamina.RemoveListener(SetMaxStaminaGUI);
-                playerData.OnStaminaHardDecrease.RemoveListener(LoseStaminaGUI);
-                playerData.OnStaminaHardIncrease.RemoveListener(RecoverStaminaGUI);
-                playerData.OnLowStamina.RemoveListener(LowStaminaGUI);
+                playerData.staminaEvents.OnStaminaChanged.RemoveListener(SetStaminaGUI_Wrapper);
+                playerData.staminaEvents.SetMaxStamina.RemoveListener(SetMaxStaminaGUI);
+                playerData.staminaEvents.OnStaminaHardDecrease.RemoveListener(LoseStaminaGUI);
+                playerData.staminaEvents.OnStaminaHardIncrease.RemoveListener(RecoverStaminaGUI);
+                playerData.staminaEvents.OnLowStamina.RemoveListener(LowStaminaGUI);
             }
         }
-
     }
 }

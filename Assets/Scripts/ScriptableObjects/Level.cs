@@ -1,7 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
-
-// TODO: Switch levelSceneName for ID for level prefab, separate from outer environment
 
 namespace GASHAPWN
 {
@@ -10,8 +7,11 @@ namespace GASHAPWN
     {
         [Header("Atrributes")]
         public string levelName = null;
-        public string levelSceneName = null;
+        //public string levelSceneName = null;
         public Sprite levelPreviewIconA = null;
         public Sprite levelPreviewIconB = null;
+
+        [Header("Level Content")]
+        public GameObject levelPrefab;
     }
 }

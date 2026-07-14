@@ -1,13 +1,10 @@
-﻿// Adapted and modified from Unity-Object-Fade scripts by jhutchines via GitHub
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using GASHAPWN;
 using UnityEngine;
 
+// Adapted and modified from Unity-Object-Fade scripts by jhutchines via GitHub
 public class ObjectFade : MonoBehaviour
 {
-
     [SerializeField] public enum FadeType
     {
         Single,

@@ -77,6 +77,11 @@ namespace GASHAPWN.UI {
             if (!cancelAction.enabled) { cancelAction.Enable(); }
         }
 
+        private void Start()
+        {
+            optionsScreen.GetComponent<OptionsScreenAudio>().LoadAllVolume();
+        }
+
         private void HandleCancel(InputAction.CallbackContext context)
         {
             if (optionsScreen.activeSelf)

@@ -1,11 +1,9 @@
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using System.Collections;
-using UnityEngine.EventSystems;
-using System;
 using GASHAPWN.Utility;
-using Febucci.UI;
+using System;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace GASHAPWN.UI
 {
@@ -18,24 +16,29 @@ namespace GASHAPWN.UI
         [NonSerialized] public bool IsControllerDetected = false;
         // ControlScheme corresponding to this ControlsBindBox
         [NonSerialized] public ControlScheme controlScheme;
-        // Player index corresponding to this object
+
+        [Tooltip("Player index corresponding to this object")]
         public int playerIndex;
 
         [Header("Feedback GUI Elements")]
-        // Image for XInput control scheme
-        public Image xInputImage;
-        // Image for keyboard control scheme
-        public Image keyboardImage;
-        // Reference to feedback text
-        public TextAnimator_TMP feedbackText;
-        // Graphical Elements
-        [SerializeField] private Image background;
-        [SerializeField] private Image border;
-        [SerializeField] private Image gradientDots;
-        [SerializeField] private Image belowBox;
-        // Selection Colors
-        [SerializeField] private Color selectedColorBG;
-        [SerializeField] private Color selectedColorFG;
+            [Tooltip("Image for XInput control scheme")]
+            public Image xInputImage;
+
+            [Tooltip("Image for Keyboard control scheme")]
+            public Image keyboardImage;
+
+        [Tooltip("Reference to feedback text controls help element")]
+        [SerializeField] private ControlsBindFeedbackText feedbackText;
+
+            // Graphical Elements
+            [SerializeField] private Image background;
+            [SerializeField] private Image border;
+            [SerializeField] private Image gradientDots;
+            [SerializeField] private Image belowBox;
+
+            // Selection Colors
+            [SerializeField] private Color selectedColorBG;
+            [SerializeField] private Color selectedColorFG;
 
         private Color backgroundColor;
         private Color borderColor;
@@ -57,7 +60,6 @@ namespace GASHAPWN.UI
         {
             xInputImage.gameObject.SetActive(false);
             keyboardImage.gameObject.SetActive(false);
-            feedbackText.SetBehaviorsActive(true);
         }
 
         private IEnumerator LerpColor(Image targetImage, Color startColor, Color endColor, float duration)
@@ -101,14 +103,13 @@ namespace GASHAPWN.UI
 
             if (!IsControllerDetected)
             {
-                feedbackText.SetText("Deactivated");
+                feedbackText.SetState(ControlsBindFeedbackText.FeedbackState.Waiting, playerIndex);
                 xInputImage.gameObject.SetActive(false);
                 keyboardImage.gameObject.SetActive(false);
             }
             else 
             {
-                feedbackText.SetText($"Player {playerIndex+1} Ready!");
-                feedbackText.SetBehaviorsActive(false);
+                feedbackText.SetState(ControlsBindFeedbackText.FeedbackState.Connected, playerIndex);
                 // Device name could be fetched from ControllerManager if needed
             }
         }
@@ -147,21 +148,21 @@ namespace GASHAPWN.UI
             // If the box is already assigned, don't do anything
             if (IsControllerDetected)
             {
-                Debug.Log($"ControlsBindBox: Player {playerIndex+1} already has a controller assigned");
+                Debug.Log($"{nameof(ControlsBindBox)}: Player {playerIndex+1} already has a controller assigned");
                 return;
             }
 
             // Make sure LevelSelect exists
             if (LevelSelect.Instance == null)
             {
-                Debug.LogError("ControlsBindBox: LevelSelect.Instance is null!");
+                Debug.LogError($"{nameof(ControlsBindBox)}: LevelSelect.Instance is null!");
                 return;
             }
 
-            Debug.Log($"ControlsBindBox: Starting controller detection for Player {playerIndex+1}");
+            Debug.Log($"{nameof(ControlsBindBox)}: Starting controller detection for Player {playerIndex+1}");
 
             // TODO: This feedback should be more specific
-            feedbackText.SetText("Press [Join] button...");
+            feedbackText.SetState(ControlsBindFeedbackText.FeedbackState.Prompting, playerIndex);
         }
     }
 }

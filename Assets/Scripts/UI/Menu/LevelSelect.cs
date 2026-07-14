@@ -29,8 +29,7 @@ namespace GASHAPWN.UI {
             // Current ControlsBindBox index where input is being listened for
             private int currentListeningIndex = 0;
 
-
-        [Tooltip("Button to switch to LevelSelect")]
+            [Tooltip("Button to switch to LevelSelect")]
             [SerializeField] private Button toLevelSelectButton;
 
             // If true, ControlsBindScreen is active
@@ -40,8 +39,8 @@ namespace GASHAPWN.UI {
             [Tooltip("List of all selectable levels (should match number of stageButtons)")]
             public List<Level> levels;
 
-        [Tooltip("Currently selected level (defaults to levels[0]")]
-        public Level selectedLevel;
+            [Tooltip("Currently selected level (defaults to levels[0]")]
+            public Level selectedLevel;
 
         [Header("Battle Time")]
             [Tooltip("Label to display battleTime")]
@@ -214,7 +213,7 @@ namespace GASHAPWN.UI {
         {
             if (currentListeningIndex >= controlsBindBoxes.Count)
             {
-                Debug.LogWarning("LevelSelect: All player slots filled.");
+                Debug.LogWarning($"{nameof(LevelSelect)}: All player slots filled.");
                 return;
             }
 
@@ -244,6 +243,8 @@ namespace GASHAPWN.UI {
             {
                 PlayerInputManager.instance.DisableJoining();
             }
+
+            UI_SFXManager.Instance.Play_ControllerDetected();
         }
 
         /// <summary>
@@ -318,8 +319,8 @@ namespace GASHAPWN.UI {
             // Only set PlayerInputs persistent before transitioning to battle scene
             PlayerInputAssigner.Instance.SetPlayerInputsPersistent();
 
-            // Transition to level scene
-            TransitionManager.Instance().Transition(selectedLevel, 0);
+            // Transition to battle scene
+            TransitionManager.Instance().Transition("Battle", 0);
 
             // Update GameManager global variables
             GameManager.Instance.currentBattleTime = selectedTime;

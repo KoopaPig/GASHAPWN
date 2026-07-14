@@ -33,12 +33,15 @@ namespace GASHAPWN
             private CollectionData testCollectionData = new();
 
         // Debug mode for GameManager
-        [Tooltip("Toggle whether GameManager is in debug mode")]
-        public bool DebugMode = false;
+        [Tooltip("Toggle whether Test Collection Data is being used")]
+        public bool IsUsingTestData = false;
 
         // Tracks the current game state
         [SerializeField] public GameState State { get; private set; }
         public static event Action<GameState> OnGameStateChanged;
+
+        // Triggers when save data is loaded
+        public event Action OnSaveDataLoaded;
 
         #region Game State Events
         [Header("Events to Trigger")]
@@ -81,7 +84,7 @@ namespace GASHAPWN
             }
 
             OnGameStateChanged?.Invoke(newState);
-            Debug.Log($"GameManager: GameState: {State.ToString()}");
+            Debug.Log($"{nameof(GameManager)}: GameState: {State.ToString()}");
         }
 
         // Save the collection given a filename
@@ -89,7 +92,7 @@ namespace GASHAPWN
         {
             if (data.IsEmpty())
             {
-                Debug.Log($"No data to save, will not overwrite {filename}.");
+                Debug.Log($"{nameof(GameManager)}: No data to save, will not overwrite {filename}.");
                 return;
             }
             FileManager.Save(filename, data);
@@ -99,12 +102,13 @@ namespace GASHAPWN
         public void Load(string filename) 
         {
             currPlayerCollectionData = FileManager.Load<CollectionData>(filename);
+            OnSaveDataLoaded?.Invoke();
         }
 
         // Debug function: Removes all save data
         public void DeleteSaveData()
         {
-            if (!DebugMode)
+            if (!IsUsingTestData)
             {
                 currPlayerCollectionData.Clear();
                 Save("data", currPlayerCollectionData);
@@ -114,7 +118,6 @@ namespace GASHAPWN
                 testCollectionData.Clear();
                 Save("test", testCollectionData);
             }
-
         }
         
 
@@ -131,12 +134,11 @@ namespace GASHAPWN
 
             DontDestroyOnLoad(this);
 
-            if (DebugMode)
+            if (IsUsingTestData)
             {
                 LoadRandomSaveData(10);
                 Save("test", currPlayerCollectionData);
             }
-            
         }
 
         private void Start()
@@ -145,18 +147,18 @@ namespace GASHAPWN
             UpdateGameState(GameState.Title);
 
             // Testing section: Loads in the testing data
-            if (!DebugMode)
+            if (!IsUsingTestData)
             {
                 // Load data file or create a new one
                 if (File.Exists(Path.Combine(Application.persistentDataPath, "data.json")))
                 {
-                    Debug.Log("Found player data");
+                    Debug.Log($"{nameof(GameManager)}: Found player data");
                     if (currPlayerCollectionData != null && currPlayerCollectionData.Count() > 0) currPlayerCollectionData.Clear();
                     Load("data");
                 }
                 else
                 {
-                    Debug.Log("Did not find player data; Creating new save data");
+                    Debug.Log($"{nameof(GameManager)}: Did not find player data; Creating new save data");
                     Save("data", currPlayerCollectionData);
                 }
             }
@@ -166,22 +168,19 @@ namespace GASHAPWN
                 // Load Test Data
                 if (File.Exists(Path.Combine(Application.persistentDataPath, "test.json")))
                 {
-                    Debug.Log("Found test data, loading...");
+                    Debug.Log($"{nameof(GameManager)}: Found test data, loading...");
                     if (currPlayerCollectionData != null && currPlayerCollectionData.Count() > 0) currPlayerCollectionData.Clear();
                     Load("test");
-                    Debug.Log("Data loaded");
+                    Debug.Log($"{nameof(GameManager)}: Data loaded");
                 }
-                else Debug.LogError("Test data could not be found");
+                else Debug.LogError($"{nameof(GameManager)}: Test data could not be found");
             }
         }
 
         private void OnApplicationQuit()
         {
-            if (!DebugMode)
-            {
-                // Save the data
-                Save("data", currPlayerCollectionData);
-            }
+            // Save the data
+            if (!IsUsingTestData) Save("data", currPlayerCollectionData);
         }
 
         private void LoadRandomSaveData(int amountOfFigures)

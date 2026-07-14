@@ -46,40 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aaa7a28051804da28e72b54080619c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
-  mainCameraAnimator: {fileID: 0}
-  cameraMoveDuration: 0.8
-  cameraMoveCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  nodeCam: {fileID: 0}
+  introCam: {fileID: 0}
+  isIntroAnimation: 1
   doorAnimator: {fileID: 0}
-  isCamIntro: 1
   nodesParent: {fileID: 0}
-  collectionTransition: {fileID: 11400000, guid: d96fcc160d565e54ea03d1334c21eb99, type: 2}
-  mainMenuSceneName: MainMenu
   collectionGUI: {fileID: 0}
-  rotationSpeed: 100
+  rotationSpeed: 250
 --- !u!114 &3661299877556583437
 MonoBehaviour:
   m_ObjectHideFlags: 0

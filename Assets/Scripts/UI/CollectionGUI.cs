@@ -1,25 +1,33 @@
-using System.Collections;
 using UnityEngine;
-using System.Linq;
-using UnityEngine.UI;
-using EasyTransition;
-using UnityEngine.InputSystem;
 using GASHAPWN.Audio;
 
 namespace GASHAPWN.UI
 {
+    /// <summary>
+    /// Controller for Collection Scene GUI
+    /// </summary>
     [RequireComponent(typeof(GraphicsFaderCanvas))]
     public class CollectionGUI : MonoBehaviour
     {
         [Header("CollectionGUI Elements")]
-        [SerializeField] private GameObject infoCard;
-        private InfoCardGUI infoCardGUI;
-        [SerializeField] private GameObject navigationArrows;
-        [SerializeField] private GameObject footer;
+            [Tooltip("InfoCard Object")]
+            [SerializeField] private GameObject infoCard;
+
+            // Reference to infoCardGUI from infoCard
+            private InfoCardGUI infoCardGUI;
+
+            [Tooltip("Navigation Arrows Object")]
+            [SerializeField] private GameObject navigationArrows;
+
+            [Tooltip("Footer Object")]
+            [SerializeField] private GameObject footer;
+
 
         /// PUBLIC METHODS ///
 
-        // CollectionGUISetActive(): If true, fade in CollectionGUI. If false, fade out.
+        /// <summary>
+        /// If value == true, fade in CollectionGUI. If false, fade out.
+        /// </summary> 
         public void CollectionGUISetActive(bool value)
         {
             if (!value) { 
@@ -31,19 +39,22 @@ namespace GASHAPWN.UI
             }
         }
 
-        // SwitchFigureGUI: Sets the figure on InfoCard and slides in
+        /// <summary>
+        /// Given Figure, boolean isCollected, and amount, set data on InfoCard and slide it in
+        /// </summary>
         public void SwitchFigureGUI(Figure figure, bool isCollected, int amount)
         {
             if (isCollected)
             {
-                StartCoroutine(infoCardGUI.SlideCardIn());
+                infoCardGUI.SlideIn();
                 infoCardGUI.SetFigureInfoCard(figure, amount);
                 UI_SFXManager.Instance.Play_InfoCardGroup();
             } else if (infoCardGUI.isVisible)
             {
-                StartCoroutine(infoCardGUI.SlideCardOut());
+                infoCardGUI.SlideOut();
             }
         }
+
 
         /// PRIVATE METHODS ///
 
@@ -53,4 +64,3 @@ namespace GASHAPWN.UI
         }
     }
 }
-

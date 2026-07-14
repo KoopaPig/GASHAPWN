@@ -14,7 +14,132 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: AudioAssets
   m_GUID: 37fc074d652e67a47ab33d945fb9f5f4
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 0d063a681772dba4cb67426882d61ca4
+    m_Address: SFX_Explosion_9
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 176e5d725a6bd604e98f8d4489c91993
+    m_Address: SFX_Firework_Explosion_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1957fa4cec6e3554bb7eee29ac60a8b5
+    m_Address: SFX_UI_Fillup_Gem_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1c2598858844f8143b29289a9049bbb4
+    m_Address: SFX_Remove_9
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2aca33da4b974c1459c73f247310f36d
+    m_Address: SFX_Firework_Sparkle_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 381e060af62ccc549a80aaafb069a8ed
+    m_Address: SFX_Guard_6
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3a6c3d488dc3d2e4f8070506e0ea2545
+    m_Address: SFX_Bomb_Explosion_Small_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3c77b59f385629c458f2f62a64ebaa46
+    m_Address: SFX_Pot_Smash_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4437424394d15be4b9c735bafe8c7424
+    m_Address: SFX_Swoosh_Movement_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ac7cb06438e7294a922fbcaac8e6d74
+    m_Address: SFX_Bomb_Explosion_Small_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 567793ab7a89b284e8f14d266f9d8b6c
+    m_Address: SFX_Bomb_Explosion_Big
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6478fc783c1daae4a894aea01f506615
+    m_Address: SFX_Pull_Lever_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7360ab24142a51b48a5951c3008871a7
+    m_Address: SFX_Firework_Sparkle_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8b24c2f847d793e408e4f0c4f7fbce6c
+    m_Address: SFX_Firework_Shoot_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8b3eb85152e09d44eab2de5e41806bd0
+    m_Address: SFX_Firework_Sparkle_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 90e06862370cdab4b87962504faf1dd2
+    m_Address: SFX_Swoosh_Movement_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9e1bfc79dfd8c514aa9378a55b02651c
+    m_Address: SFX_Swoosh_Movement_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ad8719254eeed2849987117b9db220e8
+    m_Address: SFX_Firework_Shoot_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b64e16f95325c764e92faaab75ced224
+    m_Address: SFX_Bomb_Explosion_Small_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d989959e808b0304aa03e56cd43308ba
+    m_Address: SFX_Guard_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df9457bc3b471c742b9d5397f2f44cd5
+    m_Address: SFX_UI_Fillup_Gem_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e78a5e83f5e9f8341abcb7158974f4ff
+    m_Address: SFX_Firework_Shoot_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ee0e9403800e6bd41b3c1babf818025e
+    m_Address: SFX_UI_Fillup_Gem_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f0a753cd5e8f8ce48a8c878ffab05f9b
+    m_Address: SFX_UI_Click_Close
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f864d8af1b996f34c9630680b65156d7
+    m_Address: SFX_Guard_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e9835048b3a0d3d43b2c01420d8afcc4, type: 2}
   m_SchemaSet:

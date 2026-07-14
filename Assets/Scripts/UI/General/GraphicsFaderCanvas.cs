@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
@@ -44,7 +43,7 @@ namespace GASHAPWN.UI
         {
             if (canvasGroup == null)
             {
-                Debug.LogWarning("UIFader: CanvasGroup is missing!");
+                Debug.LogWarning($"{nameof(GraphicsFaderCanvas)}: CanvasGroup is missing!");
                 yield break;
             }
 
@@ -91,7 +90,7 @@ namespace GASHAPWN.UI
         {
             if (canvasGroup == null)
             {
-                Debug.LogWarning("UIFader: CanvasGroup is missing!");
+                Debug.LogWarning($"{nameof(GraphicsFaderCanvas)}: CanvasGroup is missing!");
                 yield break;
             }
 

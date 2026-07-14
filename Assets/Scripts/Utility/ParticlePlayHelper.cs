@@ -18,7 +18,7 @@ namespace GASHAPWN.Utility
             {
                 particleEffects[index].Play();
             }
-            else Debug.LogError("ParticlePlayHelper: Particle Effects list is empty or index is out of range");
+            else Debug.LogError($"{nameof(ParticlePlayHelper)}: Particle Effects list is empty or index is out of range");
         }
     }
 }

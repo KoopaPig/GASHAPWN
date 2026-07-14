@@ -48,8 +48,7 @@ MonoBehaviour:
   chargeRollGroup:
     groupTag: ChargeRollGroup
     addressableKeys:
-    - SFX_Charge_Roll_Begin
-    - SFX_Charge_Roll_Rep_Long
+    - SFX_Charge_Roll_Up
     - SFX_Charge_Roll_End
   orcHitDamageGroup:
     groupTag: OrcHitDamageGroup

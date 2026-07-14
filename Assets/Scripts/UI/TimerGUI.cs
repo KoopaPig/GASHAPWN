@@ -1,38 +1,50 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
 namespace GASHAPWN.UI {
+    /// <summary>
+    /// Controller for Timer Display
+    /// </summary>
     public class TimerGUI : MonoBehaviour
     {
         [Header("Timer GUI Elements")]
-        [SerializeField] private TextMeshProUGUI timerText;
-        [SerializeField] private Image timerCircle;
+            [Tooltip("Text for timer")]
+            [SerializeField] private TextMeshProUGUI timerText;
+            
+            [Tooltip("Circle element of timer to radially un-fill")]
+            [SerializeField] private Image timerCircle;
 
         [Header("Color Control")]
-        [SerializeField] private Color baseColor;
-        [SerializeField] private Color redColor;
-        [SerializeField] private float redThreshold = 30f;
+            [Tooltip("Base color of Timer Circle")]
+            [SerializeField] private Color baseColor;
 
-        private float remainingTime;
-        private float totalTime;
+            [Tooltip("Red tone for Timer Circle when time is below red threshold")]
+            [SerializeField] private Color redColor;
+
+            [Tooltip("Seconds remaining at which Timer Circle turns red")]
+            [SerializeField] private float redThreshold = 30f;
 
         [Header("Timer Animator")]
-        [SerializeField] private Animator timerAnimator;
+            [SerializeField] private Animator timerAnimator;
 
+        // Keep track of remaining time
+        private float remainingTime;
+        // Store total time locally
+        private float totalTime;
+        // Reference to BattleManager
         private BattleManager battleManager;
+
+        private void Awake()
+        {
+            battleManager = FindFirstObjectByType<BattleManager>();
+        }
+
         private void Start()
         {
             remainingTime = battleManager.battleTime;
             totalTime = remainingTime;
             timerCircle.fillAmount = 1f;
-        }
-
-        private void Awake()
-        {
-            battleManager = FindFirstObjectByType<BattleManager>();
         }
 
         private void Update()
@@ -56,11 +68,11 @@ namespace GASHAPWN.UI {
 
             if (remainingTime < redThreshold && remainingTime > 0)
             {
-                timerAnimator.SetBool("isWarningEffect", true); // Start the warning effect
+                timerAnimator.SetBool(AnimationStrings.isWarningEffect, true); // Start the warning effect
             }
             else
             {
-                timerAnimator.SetBool("isWarningEffect", false); // Stop the warning effect
+                timerAnimator.SetBool(AnimationStrings.isWarningEffect, false); // Stop the warning effect
             }
 
             // proportionally fill the timer circle

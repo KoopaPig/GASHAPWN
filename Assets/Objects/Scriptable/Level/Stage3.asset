@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Stage3
   m_EditorClassIdentifier: 
   levelName: Pin Art
-  levelSceneName: Stage3_Pillars
   levelPreviewIconA: {fileID: 21300000, guid: e8a7d9e4311e8f541b23f648b02bac61, type: 3}
   levelPreviewIconB: {fileID: 21300000, guid: e909f6709df160d4c99cab5d0353a5b6, type: 3}
+  levelPrefab: {fileID: 5006202636716020243, guid: 534bf4f1908074d4a9c215d72dac0cf3, type: 3}

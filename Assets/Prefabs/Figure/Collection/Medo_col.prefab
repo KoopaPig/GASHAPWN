@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5394378616268924459}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Medo_col
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,6 +93,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6522695966643703301, guid: b909a2874274f0a4ba3768046d0b9757, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: -5070826356524259327, guid: b909a2874274f0a4ba3768046d0b9757, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -100,6 +104,38 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b909a2874274f0a4ba3768046d0b9757, type: 3}
       propertyPath: m_Name
       value: medo
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b909a2874274f0a4ba3768046d0b9757, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1790183945725220954, guid: b909a2874274f0a4ba3768046d0b9757, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3629368697507165239, guid: b909a2874274f0a4ba3768046d0b9757, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4819001077394492298, guid: b909a2874274f0a4ba3768046d0b9757, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6180640845926911598, guid: b909a2874274f0a4ba3768046d0b9757, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6480623767174774313, guid: b909a2874274f0a4ba3768046d0b9757, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6905609870639353253, guid: b909a2874274f0a4ba3768046d0b9757, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7036213049465896255, guid: b909a2874274f0a4ba3768046d0b9757, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3595381324165437384}
-  m_Layer: 0
+  - component: {fileID: 2835137880465116410}
+  m_Layer: 7
   m_Name: Acornicus_cap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,11 +28,33 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6469055120768038332}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &2835137880465116410
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4104905387830301790}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &4358750368273320436
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,7 +66,7 @@ GameObject:
   - component: {fileID: 5847297792877764471}
   - component: {fileID: 1724690273921661130}
   - component: {fileID: 7765291134873730317}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BrowL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +152,7 @@ GameObject:
   - component: {fileID: 6469055120768038332}
   - component: {fileID: 2969958964092511872}
   - component: {fileID: 5803053283607574671}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Acornicus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,8 +168,8 @@ Transform:
   m_GameObject: {fileID: 7415955447969675287}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071069, y: 0, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: -1.05, z: 0.33}
-  m_LocalScale: {x: 185.00002, y: 185, z: 185}
+  m_LocalPosition: {x: 0, y: -0.008, z: 0.004}
+  m_LocalScale: {x: 1.55, y: 1.55, z: 1.55}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5847297792877764471}
@@ -220,7 +243,7 @@ GameObject:
   - component: {fileID: 7516003809861065530}
   - component: {fileID: 2610693834526421230}
   - component: {fileID: 8774448415244228561}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Dagger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,7 +333,7 @@ GameObject:
   - component: {fileID: 4957623812608381462}
   - component: {fileID: 1432106034138248212}
   - component: {fileID: 1821063451351800915}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BrowR
   m_TagString: Untagged
   m_Icon: {fileID: 0}

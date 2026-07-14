@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections;
 using EasyTransition;
-using UnityEngine.InputSystem.Composites;
 
 namespace GASHAPWN
 {
@@ -67,6 +65,7 @@ namespace GASHAPWN
             cancelAction.Disable();
         }
 
+
         /// PUBLIC METHODS ///
 
         public void OnNavigate(InputAction.CallbackContext context)
@@ -102,8 +101,7 @@ namespace GASHAPWN
         
         public void OnSubmit(InputAction.CallbackContext context)
         {
-            DebugLog("Selection performed");
-            Audio.UI_SFXManager.Instance.Play_GeneralButtonSelection();
+            DebugLog("Selection performed - Not implemented");
         }
 
 

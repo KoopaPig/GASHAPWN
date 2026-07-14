@@ -22,11 +22,11 @@ TagManager:
   - UI
   - Ground
   - Player
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Debris
+  - NPC
+  - Object
+  - Environment
+  - Effect
   - 
   - 
   - 
@@ -53,6 +53,9 @@ TagManager:
   - name: VictoryScreen
     uniqueID: 4236490695
     locked: 0
+  - name: RenderTexture
+    uniqueID: 3177172031
+    locked: 0
   m_RenderingLayers:
   - Default
   - Light Layer 1
@@ -62,3 +65,4 @@ TagManager:
   - Light Layer 5
   - Light Layer 6
   - Light Layer 7
+  - Recieve Decals

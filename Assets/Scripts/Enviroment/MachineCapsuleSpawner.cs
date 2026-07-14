@@ -1,4 +1,5 @@
 using GASHAPWN;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -50,11 +51,13 @@ public class MachineCapsuleSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Spawns capsule with winning figure behind machine door
+    /// After a second, spawns capsule with winning figure behind machine door
     /// </summary>
     /// <param name="state"></param>
     // Called with BattleManager.ChangeToNewFigure
-    public void SpawnMachineCapsule(BattleState state)
+    public void SpawnMachineCapsule(BattleState state) => StartCoroutine(WaitToSpawnCapsule(1.15f));
+
+    private IEnumerator WaitToSpawnCapsule(float waitDuration)
     {
         GameObject PlayerCapsule = null;
 
@@ -62,8 +65,11 @@ public class MachineCapsuleSpawner : MonoBehaviour
         else if (WinningFigureTag == "Player2") PlayerCapsule = Player2MachineCapsule;
         else Debug.Log("Unknown Tag");
 
+        // Wait
+        yield return new WaitForSeconds(waitDuration);
+
         // Spawn in capsule and figure
         GameObject SpawnedCapsule = Instantiate(PlayerCapsule, machineCapsuleSpawnPos);
-        SpawnedCapsule.GetComponent<PlayerAttachedFigure>().SetFigureInCapsule(WinningFigure, 2.5f);
+        SpawnedCapsule.GetComponent<PlayerAttachedFigure>().SetFigureInCapsule(WinningFigure);
     }
 }

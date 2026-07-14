@@ -2,48 +2,54 @@ using UnityEngine;
 
 namespace GASHAPWN
 {
+    // TODO: Make node management much more dynamic
+
     /// <summary>
     /// Represents a node in the collection - a position for a figure to be displayed
     /// </summary>
     public class CollectionNode : MonoBehaviour
     {
         [Header("Node Connections")]
-        [Tooltip("The previous node in the collection (null if this is the first node)")]
-        public CollectionNode previousNode;
+            [Tooltip("The previous node in the collection (null if this is the first node)")]
+            public CollectionNode previousNode;
         
-        [Tooltip("The next node in the collection (null if this is the last node)")]
-        public CollectionNode nextNode;
+            [Tooltip("The next node in the collection (null if this is the last node)")]
+            public CollectionNode nextNode;
 
-        [Header("Figure Information")]
-        [Tooltip("The transform where the figure model will be placed")]
-        public Transform figureDisplayPoint;
+            [Header("Figure Information")]
+            [Tooltip("The transform where the figure model will be placed")]
+            public Transform figureDisplayPoint;
         
-        [Tooltip("The figure associated with this node (null if not collected yet)")]
-        public Figure associatedFigure;
+            [Tooltip("The figure associated with this node (null if not collected yet)")]
+            public Figure associatedFigure;
         
-        [Tooltip("If true, this figure has been collected by the player")]
-        public bool isCollected = false;
+            [Tooltip("If true, this figure has been collected by the player")]
+            public bool isCollected = false;
 
-        [Tooltip("The amount of the figure associated with this note")]
-        public int amount;
+            [Tooltip("The amount of the figure associated with this note")]
+            public int amount;
 
         [Header("Visual Elements")]
-        [Tooltip("GameObject to show when this figure is selected")]
-        public GameObject highlightEffect;
+            [Tooltip("GameObject to show when this figure is selected")]
+            public GameObject highlightEffect;
         
-        [Tooltip("GameObject to show when this figure has not been collected")]
-        public GameObject lockedVisual;
-        
+            [Tooltip("GameObject to show when this figure has not been collected")]
+            public GameObject lockedVisual;
+
+            [Tooltip("Transform where camera is placed when node is selected")]
+            public Transform cameraPosition;
+
         // The model instance that's currently displayed
         private GameObject currentModel;
-
-        public Transform cameraPosition;
 
 
         /// PRIVATE METHODS ///
 
         private void Awake()
         {
+            highlightEffect.SetActive(false);
+            lockedVisual.SetActive(false);
+
             // Initialize to correct visual state
             UpdateVisualState(false);
             

@@ -1,19 +1,17 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
-using UnityEngine.UI;
 
 namespace GASHAPWN.UI {
     public class IconPicker : MonoBehaviour
     {
         [Tooltip("XInput ControlsHelp Object")]
         [SerializeField] private GameObject xInputHelp;
+
         [Tooltip("Keyboard ControlsHelp Object")]
         [SerializeField] private GameObject KeyboardHelp;
+
         [Tooltip("Current ControlScheme of IconPicker")]
         [SerializeField] private ControlScheme controlScheme;
+
         [Tooltip("Toggle whether IconPicker should automatically update its visual state")]
         public bool IsAutomaticUpdate = true;
 

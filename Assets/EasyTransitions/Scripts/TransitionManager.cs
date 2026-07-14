@@ -105,21 +105,6 @@ namespace EasyTransition
         }
 
         /// <summary>
-        /// Loads the new Scene given Level
-        /// </summary>
-        /// <param name="level"></param>
-        /// <param name="startDelay"></param>
-        public void Transition(Level level, float startDelay)
-        {
-            TransitionPair matchingTransition = transitionPairs.Find(t => t.sceneName == level.levelSceneName);
-            if (matchingTransition != null)
-            {
-                Transition(matchingTransition, startDelay);
-            }
-            else Debug.LogError($"TransitionManager: Invalid level scene name: {level.levelSceneName}");
-        }
-
-        /// <summary>
         /// Loads the new Scene given just sceneName
         /// </summary>
         /// <param name="sceneName"></param>

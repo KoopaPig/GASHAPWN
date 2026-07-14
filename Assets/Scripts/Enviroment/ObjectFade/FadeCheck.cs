@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FadeCheck : MonoBehaviour
 {
@@ -9,7 +7,6 @@ public class FadeCheck : MonoBehaviour
     [Range(0.0f, 1.0f)]
     public float fadeTo;
 
-    // Update is called once per frame
     void Update()
     {
         RaycastHit hit;
